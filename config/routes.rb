@@ -1,4 +1,14 @@
 Cs169::Application.routes.draw do
+  get "users/add"
+
+  get "users/login"
+
+  get "users/delete"
+
+  get "users/update"
+
+  get "users/profile"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
