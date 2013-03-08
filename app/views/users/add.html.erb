@@ -1,2 +1,33 @@
-<h1>Users#add</h1>
-<p>Find me in app/views/users/add.html.erb</p>
+<h1>Welcome</h1>
+
+<div id="Content">
+	<%= form_for :user do |f| %>
+
+			First Name <br />
+			<%= f.text_field :first, :size => 24 %><br />
+
+			Last Name <br />
+			<%= f.text_field :last, :size => 24 %><br />
+
+			Email <br />
+			<%= f.text_field :email, :size => 24 %><br />
+
+			Date of Birth <br />
+			<%= f.text_field :dob, :size => 24 %><br />
+
+			Zipcode <br />
+			<%= f.text_field :zip, :size => 24 %><br />
+
+			Password <br />
+			<%= f.password_field :password, :size => 24 %><br />
+
+			Confirm Password <br />
+			<%= f.password_field :password_confirmation, :size => 24 %><br />
+
+			<%= f.hidden_field :admin, :size => 24 %><br />
+			
+			<%= f.submit %>
+
+	<% end %>
+</ div>
+
