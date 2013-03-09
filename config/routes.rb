@@ -9,8 +9,6 @@ Cs169::Application.routes.draw do
 
   get "users/profile"
 
-  #match the Get registrations/schedule to registration_controller
-  match '/registrations/schedule', to: 'registrations#getSchedule', :via => :get, :default => {format: "json"}
 
   # Routes for User controller
   match '/Users/add', to: 'users#add'
@@ -18,6 +16,10 @@ Cs169::Application.routes.draw do
   match '/Users/delete', to: 'users#delete'
   match '/Users/update', to: 'users#update'
   match '/Users/profile', to: 'users#profile'
+  
+  # Routes for Registration controller
+  match '/registrations/schedule', to: 'registrations#getSchedule', :via => :get, :default => {format: "json"}
+  
   
   # The priority is based upon order of creation:
   # first created -> highest priority.
