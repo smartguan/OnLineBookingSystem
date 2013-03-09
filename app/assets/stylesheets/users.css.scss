@@ -1,3 +1,60 @@
 // Place all the styles related to the Users controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+$light-blue: #B9D3EE;
+$dark-blue:  #0A4189;
+
+@mixin rounded-corners($radius) {
+  border-radius: $radius;
+  -moz-border-radius: $radius;
+  -webkit-border-radius: $radius;
+}
+
+h1 {
+	font-size: 4.000em;
+}
+
+body {
+	margin:50px 0px; padding:0px;
+	text-align:center;
+	font-family: LucidaConsole;
+	color: $dark-blue;
+}
+
+
+.box {
+	width: 24.000em;
+	margin:0px auto;
+	text-align: center;
+	background-color: $light-blue;
+	@include rounded-corners(10px);
+	border: thin black solid;
+}
+
+
+.box #login {
+	height: 20.000em auto;
+}
+
+form {
+	padding-top: 2.500em;
+	vertical-align: middle;
+	text-align: left;
+	margin: 5px auto;
+	width: 18.000em;
+	height: 24.000em;
+	
+	input {
+		text-align: left;
+	}
+
+
+}
+.error_messages {
+	height: auto;
+	h3 { height: 8.00em;}
+}
+
+ul li {
+	font-size: 0.5em;
+}

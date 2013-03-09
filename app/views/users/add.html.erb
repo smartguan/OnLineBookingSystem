@@ -1,8 +1,7 @@
-<h1>Welcome</h1>
+<h1>Sign Up</h1>
 
-<div id="Content">
+<div class="box" id="login">
 	<%= form_for :user do |f| %>
-
 			First Name <br />
 			<%= f.text_field :first, :size => 24 %><br />
 
@@ -29,5 +28,20 @@
 			<%= f.submit %>
 
 	<% end %>
+	<%= form_for :user do |f| %>
+		<% if @user.errors.any? %>
+	    <div class="error_messages">
+	      <h3>Form is invalid</h3>
+	      <ul>
+	        <% for message in @user.errors.full_messages %>
+	          <li><%= message %></li>
+	        <% end %>
+	      </ul>
+	    </div>
+	  	<% end %>
+	<% end %>
+
+
 </ div>
 
+	
