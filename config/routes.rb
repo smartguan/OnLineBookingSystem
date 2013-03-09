@@ -9,6 +9,13 @@ Cs169::Application.routes.draw do
 
   get "users/profile"
 
+  # Routes for User controller
+  match '/Users/add', to: 'users#add'
+  match '/Users/login', to: 'users#login'
+  match '/Users/delete', to: 'users#delete'
+  match '/Users/update', to: 'users#update'
+  match '/Users/profile', to: 'users#profile'
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
