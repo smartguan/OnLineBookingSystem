@@ -13,7 +13,7 @@ class RegistrationsController < ApplicationController
 
   #creat
   def newSection
-    return Registration.new(name:params[:name], day:params[:day], 
+   return Registration.new(name:params[:name], day:params[:day], 
                             description:param[:description], end_date:params[:end_date],
                             end_time:params[:end_time], enroll_cur:0,
                             enroll_max:params[:enroll_max], start_date:params[:start_date],

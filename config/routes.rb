@@ -19,7 +19,7 @@ Cs169::Application.routes.draw do
   
   # Routes for Registration controller
   match '/registrations/schedule', to: 'registrations#getSchedule', :via => :get, :default => {format: "json"}
-  
+  match '/admin/createSection', to:'registrations#createSection', :via => :post, :default => {format: "json"}
   
   # The priority is based upon order of creation:
   # first created -> highest priority.
