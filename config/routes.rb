@@ -9,6 +9,8 @@ Cs169::Application.routes.draw do
 
   get "users/profile"
 
+  #modified line !!!!!
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
