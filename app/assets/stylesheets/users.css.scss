@@ -10,51 +10,90 @@ $dark-blue:  #0A4189;
   -webkit-border-radius: $radius;
 }
 
+
 h1 {
-	font-size: 4.000em;
+	font-size: 3.000em;
+	text-align: center;
+	color: black;
 }
 
-body {
-	margin:50px 0px; padding:0px;
-	text-align:center;
-	font-family: LucidaConsole;
-	color: $dark-blue;
-}
 
 
 .box {
+	color: $dark-blue;
+	margin:50px 0px; padding:0px;
+	text-align:center;
+	font-family: LucidaConsole;
+	
 	width: 24.000em;
 	margin:0px auto;
-	text-align: center;
 	background-color: $light-blue;
 	@include rounded-corners(10px);
 	border: thin black solid;
-}
-
-
-.box #login {
-	height: 20.000em auto;
-}
-
-form {
-	padding-top: 2.500em;
+	height: 45.000em;
 	vertical-align: middle;
-	text-align: left;
-	margin: 5px auto;
-	width: 18.000em;
-	height: 24.000em;
-	
-	input {
+
+	form {
+		padding-top: 1.00em;
+		vertical-align: middle;
 		text-align: left;
+		font-size: 1em;
+		margin: 5px auto;
+		width: 18.000em;
+		height: 30.000em;
+		// height: 100%;
+		input {
+			position: inherit;
+			text-align: left;
+		}
 	}
-
-
 }
+
+
+.field_with_errors * {
+	font-size: 0.5em;
+	font-size: 1em;
+}
+
 .error_messages {
-	height: auto;
-	h3 { height: 8.00em;}
+	float: left;
 }
 
 ul li {
-	font-size: 0.5em;
+	text-align: left;
+	float: center;
+	list-style-type: none;
+
+	font-size: 0.666em;
+	font-family: strong;
+	color: white; 
+	text-shadow: black 0.1em 0.1em 0.2em;
+}
+#user_nav {
+	top: 0;
+	position:absolute;
+	width: 100%;
+
+	border: 1px solid;
+	background-color: lighten($dark-blue, 12%);
+	text-align: right;
+	text-decoration: none;
+	padding-right: 10px;
+	padding-top: 0.250em;
+	padding-bottom: 0.250em;
+}
+
+a {
+	text-decoration: none;
+	color: #FFF;
+	&:hover { color: darken(white, 15%);}
+}
+
+#footer {
+	position: absolute;
+	bottom: 100px;
+	text-align: center;
+	padding-bottom: 1.00em;
+	font-size: 80%;
+   	width:100%;
 }

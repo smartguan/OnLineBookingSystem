@@ -1,4 +1,6 @@
 Cs169::Application.routes.draw do
+  get "users/new"
+
   get "users/add"
 
   get "users/login"
@@ -10,30 +12,13 @@ Cs169::Application.routes.draw do
   get "users/profile"
   
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  # # Routes for User controller
+  # match '/Users/add', to: 'users#add'
+  # match '/Users/login', to: 'users#login'
+  # match '/Users/delete', to: 'users#delete'
+  # match '/Users/update', to: 'users#update'
+  # match '/Users/profile', to: 'users#profile'
   
-  # get "add" => "users#new", :as => "add"
-  # get 'users/add'
-  post 'users/add/' => "users#create"
-  root :to => "users#login"
-  resources :users
+  post "users/new", to: "users#create"
+  root :to => "users#login"  #login should be on the home page
 end

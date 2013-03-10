@@ -7,8 +7,27 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+	<div id="user_nav">
+		<% if false %>
+		<!-- Logged in as <%= current_user.email %> -->
+		<%= link_to "Log out", "#" %>
+		<% else %>
+		| <%= link_to "Sign up", "#" %> 
+		| <%= link_to "Log in","#" %>
+		<% end %>
+	</div>
+	<div id="footer">
+		<ul>
+		<li>Created By: the_DUDSS </li>
+		<li>Copyright: March 2013</li>
+		<li>Contact: bookingsystemdevteam@gmail.com</li>
+		</ul>
+	</div>
 
-<%= yield %>
+	<%= yield %>
+
+
+
 
 </body>
 </html>
