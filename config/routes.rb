@@ -1,4 +1,7 @@
 Cs169::Application.routes.draw do
+
+  get "users/show"
+
   get "users/new"
 
   get "users/add"
