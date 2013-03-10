@@ -2,6 +2,7 @@ class RegistrationsController < ApplicationController
 
   #--------------------------------
   #Error message => errCode
+  SUCCESS = 1
   SEC_NAME_INVALID = 200
   DAY_INVALID = 201
   DESCR_INVALID = 202
@@ -14,7 +15,7 @@ class RegistrationsController < ApplicationController
   #creat
   def newSection
    return Registration.new(name:params[:name], day:params[:day], 
-                            description:param[:description], end_date:params[:end_date],
+                            description:params[:description], end_date:params[:end_date],
                             end_time:params[:end_time], enroll_cur:0,
                             enroll_max:params[:enroll_max], start_date:params[:start_date],
                             start_time:params[:start_time], teacher:params[:teacher], 
@@ -26,21 +27,23 @@ class RegistrationsController < ApplicationController
     
     respond_to do |format|
       if @reg.save
-        if @reg.errors[:name]
+        format.json { render json: {errCode: 1} }
+      else
+        if not @reg.errors[:name].empty?
           format.json { render json: { errCode: 200 } }
-        elsif @reg.errors[:day]
+        elsif not @reg.errors[:day].empty?
           format.json { render json: { errCode: 201 } }
-        elsif @reg.errors[:description]
+        elsif not @reg.errors[:description].empty?
           format.json { render json: { errCode: 202 } }
-        elsif @reg.errors[:teacher]
+        elsif not @reg.errors[:teacher].empty?
           if @reg.errors[:teacher][0] == 'section_overlapped'
             format.json { render json: { errCode: 204 } }
           elsif 
             format.json { render json: { errCode: 203 } }
           end
-        elsif @reg.errors[:start_time] or @reg.errors[:end_time]
+        elsif not @reg.errors[:start_time].empty? or not @reg.errors[:end_time].empty?
           format.json { render json: { errCode: 205 } }
-        elsif @reg.errors[:start_date] or @reg.errors[:end_date]
+        elsif not @reg.errors[:start_date].empty? or not @reg.errors[:end_date].empty?
           format.json { render json: { errCode: 206 } }
         end
       end

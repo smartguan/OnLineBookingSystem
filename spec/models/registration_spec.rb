@@ -26,9 +26,19 @@ describe Registration do
 
   it { should be_valid }
 
-  ##unit 2: test for name presence
+  ##unit 1-1: test for name presence
   describe "when name is not presence or empty string" do
     before { @reg.name = " " }
+    it {should_not be_valid}
+  end
+  
+  ##unit 1-1: test for name duplicate
+  describe "when name is duplicated" do
+    before do
+      reg1 = @reg.dup
+      reg1.save
+      @reg.day = 'Tuesday'
+    end
     it {should_not be_valid}
   end
   
@@ -39,9 +49,9 @@ describe Registration do
   end
 
   #unit 2-2: test for day format
-  describe "when day is not presence or empty string" do
+  describe "when day is lower case" do
     before { @reg.day = "Monday" }
-    it {should_not be_valid}
+    it {should be_valid}
   end
 
   #unit 3: test for day validation
@@ -95,7 +105,8 @@ describe Registration do
   #unit 9-1: test for section overlapped_start_time for a teacher
   describe "when sections overlapped_start_time for a teacher" do
     before do 
-      @reg.save
+      reg1 = @reg.dup
+      reg1.save
       @reg.name = "overlapped_section"
       @reg.start_time = '15:00:00'
       @reg.end_time = '21:00:00'
@@ -106,7 +117,8 @@ describe Registration do
   #unit 9-2: test for section overlapped_end_time for a teacher
   describe "when sections overlapped_end_time for a teacher" do
     before do 
-      @reg.save
+      reg1 = @reg.dup
+      reg1.save
       @reg.name = "overlapped_section"
       @reg.start_time = '05:00:00'
       @reg.end_time = '11:00:00'
@@ -117,7 +129,8 @@ describe Registration do
   #unit 9-3: test for section overlapped_start_end_time for a teacher
   describe "when sections overlapped_start_end_time for a teacher" do
     before do 
-      @reg.save
+      reg1 = @reg.dup
+      reg1.save
       @reg.name = "overlapped_section"
       @reg.start_time = '05:00:00'
       @reg.end_time = '21:00:00'
@@ -128,7 +141,8 @@ describe Registration do
   #unit 9-4: test for section overlapped with ovevlapped date for a teacher
   describe "when sections overlapped_date_time for a teacher" do
     before do 
-      @reg.save
+      reg1 = @reg.dup
+      reg1.save
       @reg.name = "overlapped_section"
       @reg.start_time = '05:00:00'
       @reg.end_time = '21:00:00'
@@ -141,7 +155,8 @@ describe Registration do
   #unit 9-5: test for section overlapped with same day for a teacher
   describe "when sections overlapped_date_time_different_day for a teacher" do
     before do 
-      @reg.save
+      reg1 = @reg.dup
+      reg1.save
       @reg.name = "overlapped_section"
       @reg.day = 'SUNDAY'
       @reg.start_time = '05:00:00'
@@ -155,7 +170,8 @@ describe Registration do
   #unit 9-6: test for section overlapped with different teachers
   describe "when sections overlapped for different teachers" do
     before do 
-      @reg.save
+      reg1 = @reg.dup
+      reg1.save
       @reg.name = "overlapped_section"
       @reg.teacher = 'SUCKER'
       @reg.start_time = '05:00:00'
