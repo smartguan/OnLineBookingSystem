@@ -1,7 +1,7 @@
 Feature: Sign up new User - all of the steps necessary for adding a new user
 
 Background:
-	Given I am on the add page
+	Given I am on the /users/new page
 
 Scenario: Viewing the Sign up Form
 	Then I should see an input field for "first"
@@ -14,6 +14,6 @@ Scenario: Viewing the Sign up Form
 
 Scenario: Leaving fields blank
 	And  I have filled in a valid form
-	But  I leave the input field for "firstname" blank
-	When I hit the "Create User" button
+	But  I leave the input field for "first" blank
+	When I hit the "Save User" button
 	Then I should see an error displaying keyword "blank"

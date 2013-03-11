@@ -25,7 +25,8 @@ end
 
 ####################  Thens (validity checeks) ########################
 Then(/^I should see an input field for "(.*?)"$/) do |field_name|
-  	page.should have_field field_name
+  	field_name = "user_first"
+    page.should have_field (field_name)
 end
 
 Then(/^I should see an error displaying keyword "(.*?)"$/) do |err|
