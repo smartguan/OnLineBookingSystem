@@ -9,7 +9,6 @@ Cs169::Application.routes.draw do
 
   get "users/profile"
 
-
   # Routes for User controller
   match '/Users/add', to: 'users#add'
   match '/Users/login', to: 'users#login'
