@@ -3,7 +3,10 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 $light-blue: #B9D3EE;
 $dark-blue:  #0A4189;
-
+td {
+	padding-right: 6em;
+	padding-left: 6em;
+}
 @mixin rounded-corners($radius) {
   border-radius: $radius;
   -moz-border-radius: $radius;
@@ -14,23 +17,24 @@ $dark-blue:  #0A4189;
 h1 {
 	font-size: 3.000em;
 	text-align: center;
-	color: black;
+	color: $dark-blue;
 }
-
 
 
 .box {
 	color: $dark-blue;
+	background-color: $light-blue;
+
 	margin:50px 0px; padding:0px;
 	text-align:center;
 	font-family: LucidaConsole;
 	
 	width: 24.000em;
 	margin:0px auto;
-	background-color: $light-blue;
+	
 	@include rounded-corners(10px);
 	border: thin black solid;
-	height: 45.000em;
+	height: 36.000em;
 	vertical-align: middle;
 
 	form {
@@ -41,14 +45,13 @@ h1 {
 		margin: 5px auto;
 		width: 18.000em;
 		height: 30.000em;
-		// height: 100%;
+
 		input {
 			position: inherit;
 			text-align: left;
 		}
 	}
 }
-
 
 .field_with_errors * {
 	font-size: 0.5em;
@@ -91,7 +94,7 @@ a {
 
 #footer {
 	position: absolute;
-	bottom: 100px;
+	bottom: 0em;
 	text-align: center;
 	padding-bottom: 1.00em;
 	font-size: 80%;

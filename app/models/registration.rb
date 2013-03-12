@@ -1,6 +1,8 @@
 class Registration < ActiveRecord::Base
   attr_accessible :name, :day, :description, :end_date, :end_time, :enroll_cur, :enroll_max, :start_date, :start_time, :teacher, :waitlist_cur, :waitlist_max
 
+  has_and_belongs_to_many :users
+
   before_validation do |registration| 
     registration.name = name.upcase
     registration.day = day.upcase

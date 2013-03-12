@@ -2,6 +2,8 @@ class User < ActiveRecord::Base
   attr_accessible :admin, :dob, :email, :first, :last, :zip, :password, :password_confirmation
   has_secure_password 
 
+  has_and_belongs_to_many :registrations
+
   before_save { |user| user.email = email.downcase }
 
   validates :first, presence: true, length: { maximum: 32 }

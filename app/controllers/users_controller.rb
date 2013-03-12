@@ -47,18 +47,18 @@ class UsersController < ApplicationController
     end
   end
 
-  def login
-    user = User.find_by_email(params[:email].downcase)
-    respond_to do |format|  
-      if not user
-        format.json { render json: { errCode: BAD_CREDENTIALS } }
-      elsif user.authenticate(params[:password])
-        format.json { render json: { errCode: SUCCESS } }
-      else
-        format.json { render json: { errCode: BAD_CREDENTIALS } }
-      end
-    end 
-  end
+  # def login
+  #   user = User.find_by_email(params[:email].downcase)
+  #   respond_to do |format|  
+  #     if not user
+  #       format.json { render json: { errCode: BAD_CREDENTIALS } }
+  #     elsif user.authenticate(params[:password])
+  #       format.json { render json: { errCode: SUCCESS } }
+  #     else
+  #       format.json { render json: { errCode: BAD_CREDENTIALS } }
+  #     end
+  #   end 
+  # end
 
   def delete
     user = User.find_by_email(params[:email].downcase)
@@ -145,6 +145,7 @@ class UsersController < ApplicationController
     end
   end
   
+
   def new 
     @user = User.new(params[:user])
   end
@@ -157,7 +158,6 @@ class UsersController < ApplicationController
     else
       render :action => "new" #keep the same
     end
-
   end
 
 

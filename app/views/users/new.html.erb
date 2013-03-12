@@ -7,37 +7,26 @@
 			First Name <br />
 			<%= f.text_field :first, :size => 24 %><br />
 
-			Last Name <br />
+			Last Name<br />
 			<%= f.text_field :last, :size => 24 %><br />
 
-			Email <br />
+			Email<br />
 			<%= f.text_field :email, :size => 24 %><br />
 
-			Date of Birth <br />
+ 			Date of Birth <br />
 			<%= f.text_field :dob, :size => 24 %><br />
-
-			Zipcode <br />
+ 
+			Zipcode<br />
 			<%= f.text_field :zip, :size => 24 %><br />
 
 			Password <br />
 			<%= f.password_field :password, :size => 24 %><br />
 
-			Confirm Password <br />
+			Confirm Password<br />
 			<%= f.password_field :password_confirmation, :size => 24 %><br />
-
-			<%= f.hidden_field :admin, :size => 24 %><br />
 			
 			<%= f.submit %>
 
-			<% if @user.errors.any? %>
-			<div class="error_messages">
-				<ul>
-					<% for message in @user.errors.full_messages %>
-					<li><%= message %></li>
-					<% end %>
-				</ul>
-			</div>
-			<% end %>
+ 	<%= render "shared/error_messages", :target => @user %>
 	<% end %>
 </div>
-

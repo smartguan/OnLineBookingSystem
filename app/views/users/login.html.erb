@@ -1,16 +1,15 @@
 
 <h1>Login</h1>
-
 <div class="box" id="login">
-	<%= form_for :user do |f| %>
-			Email <br />
-			<%= f.text_field :email, :size => 24 %><br />
+<%= form_for :user do |f| %>
+	Email <br />
+	<%= f.text_field :email, :size => 24 %><br />
 
-			Password <br />
-			<%= f.password_field :password, :size => 24 %><br />
+	Password <br />
+	<%= f.password_field :password, :size => 24 %><br />
 
-			<%= f.hidden_field :admin, :size => 24 %><br />
-			
-			<%= f.submit %>
-	<% end %>
-</ div>
+	<%= f.hidden_field :admin, :size => 24 %><br />
+	
+	<%= f.submit %>
+<% end %>
+</div>

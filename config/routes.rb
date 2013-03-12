@@ -22,9 +22,16 @@ Cs169::Application.routes.draw do
   match '/users/profile', to: 'users#profile'
   
   # Routes for Registration controller
+
   match '/registrations/schedule', to: 'registrations#getSchedule', :via => :get, :default => {format: "json"}
   match '/admin/createSection', to:'registrations#createSection', :via => :post, :default => {format: "json"}
-  
-  post "users/new", to: "users#create"
+
+  match '/Registrations/getSchedule', to: 'registrations#getSchedule', :via => :get, :default => {format: "json"}
+  match '/Admin/createSection', to:'registrations#createSection', :via => :post, :default => {format: "json"}
+  match '/Admin/editSection', to:'registrations#editSection', :via => :post, :default => {format: "json"}
+  match '/Admin/deleteSection', to:'registrations#deleteSection', :via => :post, :default => {format: "json"}
+
+    post "users/new", to: "users#create"
   root :to => "users#login"  #login should be on the home page
+
 end
