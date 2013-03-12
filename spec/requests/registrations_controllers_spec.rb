@@ -18,6 +18,13 @@ describe "RegistrationsControllers" do
 
   #Error codes can be used by all users
   NO_SECTION_TO_SHOW = 300
+  FAILED_TO_MAKE_REG = 301
+    #statusCodes
+    USER_ALREADY_IN_SEC = 2
+    ADD_TO_WAIT_LIST = 3
+    WAIT_LIST_FULL = 4
+    PASS_ADD_DEADLINE = 5
+  USER_NOT_REG = 303
 
   #--------------------------------
   
@@ -29,6 +36,10 @@ describe "RegistrationsControllers" do
               teacher:"SUCKER", 
               waitlist_cur:0, waitlist_max:40,
               format: :json}
+  
+  user_json = {first: "first", last: "last", email: "abc@def.com", dob: "01/02/0003", 
+               zip: "12345", admin: 0, password: "password", 
+               password_confirmation: "password", format: :json}
   
   describe RegistrationsController do
     #test for createSection
@@ -232,7 +243,7 @@ describe "RegistrationsControllers" do
       #    expected = {:sections=>[reg_json, reg1_json], errCode: SUCCESS}.to_json
       #    post '/Admin/createSection', reg_json
       #    post '/Admin/createSection', reg1_json
-      #    get '/Registrations/getSchedule', reg1_json
+      #    get '/Registrations/getSchedule', {format: :json}
       #    response.body.should == expected
       #  end
       #end
@@ -240,7 +251,155 @@ describe "RegistrationsControllers" do
       context "when there is no section" do
         it "should render json: { errCode: 300}" do
           expected = { errCode: 300 }.to_json
-          get '/Registrations/getSchedule', reg_json
+          post '/Registrations/getSchedule', {format: :json}
+          response.body.should == expected
+        end
+      end
+
+    end
+
+
+    #test for view one section
+    describe "#viewOneSection" do
+      #context "when the section exists" do
+      #  it "should render json: {:sections=>section, errCode: 1}" do
+      #    reg1_json = reg_json.dup
+      #    reg1_json[:name] = 'SEC_B'
+      #    reg1_json[:day] = 'FRIDAY'
+      #    test_json = {name:reg1_json[:name], format: :json}
+      #    expected = {:sections=>[reg1_json], errCode: SUCCESS}.to_json
+      #    post '/Admin/createSection', reg_json
+      #    post '/Admin/createSection', reg1_json
+      #    get '/Registrations/viewOneSection', test_json
+      #    response.body.should == expected
+      #  end
+      #end
+
+      context "when there is no section" do
+        it "should render json: { errCode: 300}" do
+          test_json = {name:reg_json[:name], format: :json}
+          expected = { sections:[], errCode: 300 }.to_json
+          get '/Registrations/viewOneSection', test_json
+          response.body.should == expected
+        end
+      end
+
+    end
+
+
+    #test for user registeration 
+    describe "#register" do
+      before (:each) do
+        test_json = {user_email:user_json[:email], 
+                     section_name:reg_json[:name], format: :json}
+        post '/Users/add', user_json
+        post '/Admin/createSection', reg_json
+        post '/Registrations/register', test_json
+      end
+      
+      context "when everything the user registers with is valid" do
+        it "should render json: { sections:[{name:A_SEC, statusCode:1}], errCode: 1}" do
+          expected = { sections:[{name:reg_json[:name], statusCode:1}], 
+                       errCode: 1 }.to_json
+          response.body.should == expected
+        end
+
+        it "should increments enroll_cur by 1" do
+          post '/Registrations/getSchedule', {format: :json}
+          JSON.parse(response.body)['sections'][0]['enroll_cur'].should == 1
+        end
+      end
+
+      context "when user already in the section" do
+        it "should render json: { sections:[{name:A_SEC, statusCode:2}], errCode: 1}" do
+          expected = { sections:[{name:reg_json[:name], statusCode:2}], 
+                       errCode: 301 }.to_json
+          test_json = {user_email:user_json[:email], 
+                       section_name:reg_json[:name], format: :json}
+          post '/Registrations/register', test_json
+          response.body.should == expected
+        end
+      end
+
+      context "when section enrollment is full" do
+        it "should place use to waitlist and thus 
+            render json: { sections:[{name:A_SEC, statusCode:3}], errCode: 301}" do
+          expected = { sections:[{name:reg_json[:name], statusCode:3}], 
+                       errCode: 301 }.to_json
+          40.times do 
+            user_json[:email] = "a" + user_json[:email]
+            test_json = {user_email:user_json[:email], 
+                         section_name:reg_json[:name], format: :json}
+            post '/Users/add', user_json
+            post '/Registrations/register', test_json
+          end
+          response.body.should == expected
+        end
+      end
+
+      #entry left for testing the waitlist, which might required 
+      #a seperate model  WaitList
+    end
+
+
+
+    #test for user dropping a section
+    describe "#drop" do
+      before (:each) do
+        test_json = {user_email:user_json[:email], 
+                     section_name:reg_json[:name], format: :json}
+        post '/Users/add', user_json
+        post '/Admin/createSection', reg_json
+        post '/Registrations/register', test_json
+      end
+      
+      context "when successfully dropped a section with waitlist_cur==0" do
+        before (:each) do
+          test_json = {user_email:user_json[:email], 
+                       section_name:reg_json[:name], format: :json}
+          post '/Registrations/drop', test_json
+
+        end
+        
+        it "should render json: { section_name:A_SEC, errCode: 1}" do
+          expected = { section_name: 'A_SEC', errCode: 1 }.to_json
+          response.body.should == expected
+        end
+
+        it "should decrement enroll_cur" do
+          expected = 0
+          post "/Registrations/getSchedule", {format: :json}
+          JSON.parse(response.body)['sections'][0]['enroll_cur'].should == 0
+        end
+      end
+      
+      #tests for waitlist != 0 and @user & @reg actually get disconnected
+      #left for later
+    end
+
+
+    #test for a user to view his/her enrolled sections
+    describe "#viewEnrolledSections" do
+      #context "when user has enrolled at least 1 sections" do
+      #  it "should render json: { sections:[{}, {}], errCode: 1}" do
+      #    test_json = {user_email:user_json[:email], 
+      #                 section_name:reg_json[:name], format: :json}
+      #    post '/Users/add', user_json
+      #    post '/Admin/createSection', reg_json
+      #    post '/Registrations/register', test_json
+      #    input_json = {user_email:user_json[:email], format: :json}
+      #    expected = { sections:[reg_json] ,errCode: 1 }.to_json
+      #    get '/Registrations/viewEnrolledSections', input_json
+      #    response.body.should == expected
+      #  end
+      #end
+
+      context "when user has no section" do
+        it "should render json: { sections:[], errCode: 303}" do
+          post '/Users/add', user_json
+          input_json = {user_email:user_json[:email], format: :json}
+          expected = { sections:[] ,errCode: 303 }.to_json
+          get '/Registrations/viewEnrolledSections', input_json
           response.body.should == expected
         end
       end

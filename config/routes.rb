@@ -31,7 +31,13 @@ Cs169::Application.routes.draw do
   match '/Admin/editSection', to:'registrations#editSection', :via => :post, :default => {format: "json"}
   match '/Admin/deleteSection', to:'registrations#deleteSection', :via => :post, :default => {format: "json"}
 
-    post "users/new", to: "users#create"
+  match '/Registrations/viewOneSection', to: 'registrations#viewOneSection', :via => :get, :default => {format: "json"}
+  # match '/Registrations/viewEnrolledSections', to: 'registrations#viewEnrolledSections', :via => :get, :default => {format: "json"}
+  # match '/Registrations/register', to: 'registrations#register', :via => :post, :default => {format: "json"}
+  # match '/Registrations/drop', to: 'registrations#drop', :via => :post, :default => {format: "json"}
+  
+  match '/admin' => 'application#admin'
+  post "users/new", to: "users#create"
   root :to => "users#login"  #login should be on the home page
 
 end
