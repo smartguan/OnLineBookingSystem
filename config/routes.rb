@@ -25,6 +25,7 @@ Cs169::Application.routes.draw do
   match '/Admin/editSection', to:'registrations#editSection', :via => :post, :default => {format: "json"}
   match '/Admin/deleteSection', to:'registrations#deleteSection', :via => :post, :default => {format: "json"}
   
+  match '/admin' => 'application#admin'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
