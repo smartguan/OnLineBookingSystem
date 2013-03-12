@@ -14,7 +14,6 @@ Cs169::Application.routes.draw do
 
   get "users/profile"
 
-
   # Routes for User controller
   match '/Users/add', to: 'users#add'
   match '/Users/login', to: 'users#login'
@@ -23,9 +22,16 @@ Cs169::Application.routes.draw do
   match '/Users/profile', to: 'users#profile'
     
   # Routes for Registration controller
-  match '/registrations/schedule', to: 'registrations#getSchedule', :via => :get, :default => {format: "json"}
-  match '/admin/createSection', to:'registrations#createSection', :via => :post, :default => {format: "json"}
+  match '/Registrations/getSchedule', to: 'registrations#getSchedule', :via => :post, :default => {format: "json"}
+  match '/Registrations/viewOneSection', to: 'registrations#viewOneSection', :via => :get, :default => {format: "json"}
+  match '/Registrations/viewEnrolledSections', to: 'registrations#viewEnrolledSections', :via => :get, :default => {format: "json"}
+  match '/Registrations/register', to: 'registrations#register', :via => :post, :default => {format: "json"}
+  match '/Registrations/drop', to: 'registrations#drop', :via => :post, :default => {format: "json"}
+  match '/Admin/createSection', to:'registrations#createSection', :via => :post, :default => {format: "json"}
+  match '/Admin/editSection', to:'registrations#editSection', :via => :post, :default => {format: "json"}
+  match '/Admin/deleteSection', to:'registrations#deleteSection', :via => :post, :default => {format: "json"}
   
+  match '/admin' => 'application#admin'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

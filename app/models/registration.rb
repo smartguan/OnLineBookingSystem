@@ -1,8 +1,10 @@
 class Registration < ActiveRecord::Base
   attr_accessible :name, :day, :description, :end_date, :end_time, :enroll_cur, :enroll_max, :start_date, :start_time, :teacher, :waitlist_cur, :waitlist_max
 
-  before_save do |registration| 
-    registration.name = name.downcase
+  has_and_belongs_to_many :users
+
+  before_validation do |registration| 
+    registration.name = name.upcase
     registration.day = day.upcase
     registration.teacher = teacher.upcase
   end
@@ -10,6 +12,7 @@ class Registration < ActiveRecord::Base
   validates :name, presence:true, length: {maximum: 20},
                    uniqueness: {case_sensitive: false}
   validates :day, presence:true
+  validates :teacher, presence:true
   validates :description, presence:true
   validates :end_date, presence:true
   validates :end_time, presence:true
@@ -17,18 +20,14 @@ class Registration < ActiveRecord::Base
   validates :enroll_max, presence:true
   validates :start_date, presence:true
   validates :start_time, presence:true
-  validates :teacher, presence:true
   validates :waitlist_cur, presence:true
   validates :waitlist_max, presence:true
-
-  #validate for uniqueness of pairs
-  validates_uniqueness_of :teacher, :scope => [:start_time, :end_time, :day]
 
   #validate for inclusion for day
   validates_inclusion_of :day, :in => ['SUNDAY', 'MONDAY', 'TUESDAY', 
                                       'WEDNESDAY', 'THURSDAY', 'FRIDAY',
                                       'SATURDAY']
-
+  
   validate :start_time_must_be_before_end_time
   validate :start_date_must_be_before_end_date
   validate :enroll_cur_must_be_less_or_equal_enroll_max
