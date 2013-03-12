@@ -251,7 +251,7 @@ describe "RegistrationsControllers" do
       context "when there is no section" do
         it "should render json: { errCode: 300}" do
           expected = { errCode: 300 }.to_json
-          get '/Registrations/getSchedule', {format: :json}
+          post '/Registrations/getSchedule', {format: :json}
           response.body.should == expected
         end
       end
@@ -277,7 +277,7 @@ describe "RegistrationsControllers" do
         end
 
         it "should increments enroll_cur by 1" do
-          get '/Registrations/getSchedule', {format: :json}
+          post '/Registrations/getSchedule', {format: :json}
           JSON.parse(response.body)['sections'][0]['enroll_cur'].should == 1
         end
       end
@@ -340,7 +340,7 @@ describe "RegistrationsControllers" do
 
         it "should decrement enroll_cur" do
           expected = 0
-          get "/Registrations/getSchedule", {format: :json}
+          post "/Registrations/getSchedule", {format: :json}
           JSON.parse(response.body)['sections'][0]['enroll_cur'].should == 0
         end
       end
