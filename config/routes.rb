@@ -37,7 +37,7 @@ Cs169::Application.routes.draw do
   # match '/Registrations/drop', to: 'registrations#drop', :via => :post, :default => {format: "json"}
   
   match '/admin' => 'application#admin'
-  post "users/new", to: "users#create"
+  post 'users/new', to: "users#create"
   root :to => "users#login"  #login should be on the home page
 
 end
