@@ -1,8 +1,15 @@
 Cs169::Application.routes.draw do
 
-  get "users/show"
 
-  get "users/new"
+get "users/show"
+
+get "users/new"
+
+  
+root :to => "homepage#homepage"
+
+get "homepage/homepage"
+
 
   get "users/add"
 
@@ -21,6 +28,7 @@ Cs169::Application.routes.draw do
   match '/users/update', to: 'users#update'
   match '/users/profile', to: 'users#profile'
   
+
   # Routes for Registration controller
 
   match '/registrations/schedule', to: 'registrations#getSchedule', :via => :get, :default => {format: "json"}
@@ -38,6 +46,6 @@ Cs169::Application.routes.draw do
   
   match '/admin' => 'application#admin'
   post 'users/new', to: "users#create"
-  root :to => "users#login"  #login should be on the home page
+  # root :to => "users#login"  #login should be on the home page
 
 end
