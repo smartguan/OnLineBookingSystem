@@ -259,6 +259,34 @@ describe "RegistrationsControllers" do
     end
 
 
+    #test for view one section
+    describe "#viewOneSection" do
+      #context "when the section exists" do
+      #  it "should render json: {:sections=>section, errCode: 1}" do
+      #    reg1_json = reg_json.dup
+      #    reg1_json[:name] = 'SEC_B'
+      #    reg1_json[:day] = 'FRIDAY'
+      #    test_json = {name:reg1_json[:name], format: :json}
+      #    expected = {:sections=>[reg1_json], errCode: SUCCESS}.to_json
+      #    post '/Admin/createSection', reg_json
+      #    post '/Admin/createSection', reg1_json
+      #    get '/Registrations/viewOneSection', test_json
+      #    response.body.should == expected
+      #  end
+      #end
+
+      context "when there is no section" do
+        it "should render json: { errCode: 300}" do
+          test_json = {name:reg_json[:name], format: :json}
+          expected = { sections:[], errCode: 300 }.to_json
+          get '/Registrations/viewOneSection', test_json
+          response.body.should == expected
+        end
+      end
+
+    end
+
+
     #test for user registeration 
     describe "#register" do
       before (:each) do

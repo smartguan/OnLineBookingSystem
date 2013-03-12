@@ -18,6 +18,7 @@ Cs169::Application.routes.draw do
   
   # Routes for Registration controller
   match '/Registrations/getSchedule', to: 'registrations#getSchedule', :via => :post, :default => {format: "json"}
+  match '/Registrations/viewOneSection', to: 'registrations#viewOneSection', :via => :get, :default => {format: "json"}
   match '/Registrations/viewEnrolledSections', to: 'registrations#viewEnrolledSections', :via => :get, :default => {format: "json"}
   match '/Registrations/register', to: 'registrations#register', :via => :post, :default => {format: "json"}
   match '/Registrations/drop', to: 'registrations#drop', :via => :post, :default => {format: "json"}

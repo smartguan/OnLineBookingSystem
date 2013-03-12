@@ -95,6 +95,21 @@ class RegistrationsController < ApplicationController
   end
 
 
+  #view one section
+  #later may be divided to return schedule according to different sort. e.g. time, date
+  def viewOneSection
+    reg = Registration.where(name:params[:name]).first
+
+    respond_to do |format|
+      if reg != nil
+        format.json { render json: { :sections => [reg], errCode: 1} }
+      else
+        format.json { render json: { :sections => [], errCode: 300 } }
+      end
+    end
+  end
+
+
   #for users to register for sections
   def register
     @user = User.find_by_email(params[:user_email].downcase)
