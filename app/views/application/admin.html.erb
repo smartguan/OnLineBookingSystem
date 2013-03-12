@@ -1,0 +1,320 @@
+<html>
+<head>
+<script type='text/javascript' src='http://code.jquery.com/jquery-1.4.2.js'></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/assets/admin.js"></script>
+<!-- required plugins -->
+        <script type="text/javascript" src="/assets/date.js"></script>
+        <!--[if lt IE 7]><script type="text/javascript" src="scripts/jquery.bgiframe.min.js"></script><![endif]-->
+        
+        <!-- jquery.datePicker.js -->
+        <script type="text/javascript" src="/assets/jquery.datePicker.js"></script>
+        
+        <!-- datePicker required styles -->
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/datePicker.css">
+<link rel="stylesheet" type="text/css" href="/assets/admin.css">
+</head>
+
+<center>
+<h1>Page for stupid Admins</h1>
+</center>
+
+</div id="main-page">
+<center>
+
+    <div id="new-button">
+        <button>Add</button>
+    </div>
+</div>
+
+<div id="mytable" class='imagetable'>
+</div>
+
+
+
+<div id="new-form" class="new-box">
+    <h1>Stupid fucking form</h1>
+    <div class="text">
+        <label for="addname">Name</label>
+        <input type="text" name="add-name" id="add-name">
+    </div>
+    <br>
+    <label for="addstartdate">Start Date</label>
+    <input type="text" name="add-start-date" id="add-start-date" class="date-pick">
+    <br>
+    <label for="addenddate">End Date</label>
+    <input type="text" name="add-end-date" id="add-end-date" class="date-pick">
+    <br>
+    <label for="addday">Day</label>
+    <select type="text" name="add-day" id="add-day">
+        <option value="Sunday">Sunday</option>
+        <option value="Monday">Monday</option>
+        <option value="Tuesday">Tuesday</option>
+        <option value="Wednesday">Wednesday</option>
+        <option value="Thursday">Thursday</option>
+        <option value="Friday">Friday</option>
+        <option value="Saturday">Saturday</option>
+    </select>
+    <br>
+    <label for="addstarttime">Start Time</label>
+    <select type="time" name="add-start-time" id="add-start-time">
+        <option value="8:00AM">8:00AM</option>
+    </select>
+    <br>
+    <label for="addendtime">End Time</label>
+    <input type="time" name="add-end-time" id="add-end-time">
+    <br>
+    <label for="addteacher">Teacher</label>
+    <input type="text" name="add-teacher" id="add-teacher">
+    <br>
+    <label for="addmaxenroll">Class capacity</label>
+    <input type="integer" name="add-max-enroll" id="add-max-enroll">
+    <br>
+    <label for="addmaxwaitlist">Waitlist capacity</label>
+    <input type="integer" name="add-max-waitlist" id="add-max-waitlist">
+    <br>
+    <label for="adddescription">Description</label>
+    <input type="text" name="add-description" id="add-description">
+    <br>
+    <div id="submit-button" class="submit_button" type="submit">
+        <button>Submit</button>
+    </div>
+</div>
+
+</center>
+<br />
+
+<script type="text/javascript">
+
+$('#main-page').hide();
+$('#new-form').hide();
+
+/* setup the page so that only one of the forms is shown */
+$(document).ready(function() {
+    init_data();
+   show_login_page();
+ });
+
+function show_login_page() {
+  $('#main-page').show();
+  $('#new-form').hide();
+}
+
+function refresh_after_create() {
+    $('#main-page').show();
+    $('#new-form').hide();
+}
+
+function toggle_new_form() {
+  $('#new-form').toggle(); 
+}
+
+$('#new-button').click(function() {
+    toggle_new_form();
+})
+
+$('#submit-button').click(function() {
+    name = $('#add-name').val()
+    start_date = $('#add-start-date').val()
+    end_date = $('#add-end-date').val()
+    day = $('#add-day').val()
+    start_time = $('#add-start-time').val()
+    end_time = $('#add-end-time').val()
+    teacher = $('#add-teacher').val()
+    enroll_max = $('#add-max-enroll').val()
+    waitlist_max = $('#add-max-waitlist').val()
+    description = $('#add-description').val()
+
+    post_json_request("/Admin/createSection", { name: name, start_date: start_date, end_date: end_date, day: day, start_time: start_time, end_time: end_time, teacher: teacher, enroll_cur: 0, enroll_max: enroll_max, waitlist_cur: 0, waitlist_max: waitlist_max, description: description }, function(data) { return handle_add_response(data); });
+});
+
+
+
+/* Takes a dictionary to be JSON encoded, calls the success
+   function with the diction decoded from the JSON response.*/
+function post_json_request(page, dict, success) {
+  $.ajax({
+    type: 'POST',
+    url: page,
+    data: JSON.stringify(dict),
+    contentType: "application/json",
+    dataType: "json",
+    success: success
+  });
+}
+
+function get_json_request(page, dict, success) {
+  $.ajax({
+    type: 'GET',
+    url: page,
+    data: JSON.stringify(dict),
+    contentType: "application/json",
+    dataType: "json",
+    success: success
+  });
+}
+
+function handle_add_response(data) {
+  if (data.errCode == 1) {
+    post_json_request("/Registrations/getSchedule", {}, function(data) {loadingBody(data)});
+    $('#new-form').hide();
+  } else if (data.errCode == 200) {
+    alert('Invalid name, try again.');
+  }
+}
+
+function init_data() {
+    post_json_request("/Registrations/getSchedule", {}, function(data) {loadingBody(data)})
+}
+
+function loadingBody(data){
+    if (data.errCode == 300) {
+        document.getElementById('mytable').innerHTML='No records found!';
+    } else {
+        var json = data.sections
+        //alert(data.sessions[1].name)
+        
+        //document.getElementById('myjson').innerHTML=json;
+        
+        //var jsondoc = eval('(' + json + ')');
+
+        if(json.length > 0){
+            displayData(json);
+        } else {
+            document.getElementById('mytable').innerHTML='No records found!';
+        }
+    }
+}
+
+function createTableRowContent(rowObject, data, cellType){
+    var rowContent = document.createElement(cellType);
+    var cell = document.createTextNode(data);
+    rowContent.appendChild(cell);
+    rowObject.appendChild(rowContent);
+}
+
+function createTableData(rowObject, data){
+    createTableRowContent(rowObject, data, 'td');
+}
+
+function createTableHeader(rowObject, data){
+    createTableRowContent(rowObject, data, 'th');
+}
+
+function displayData(jsonString){
+    
+    var table = document.createElement('table');
+    //table.border = "1";
+    //set table style
+   
+    table.style.fontFamily = "verdana", "arial", "sans-serif";
+    table.style.fontSize = "11px";
+    table.style.textAlign = "center";
+    table.style.color = "#333333";
+    table.style.borderWidth = "1px";
+    table.style.borderColor = "#222222";
+    table.style.cellSpacing = "0";
+
+    var thead = document.createElement('thead');
+    thead.style.background = "#b5cfd2";
+    thead.style.borderWidth = "1px";
+    thead.style.padding = "8px"
+    thead.style.borderStyle = "solid";
+    thead.style.borderColor = "#222222";
+    thead.style.textAlign = "center";
+
+    table.appendChild(thead);
+
+    var row = document.createElement('tr');
+        row.style.background = "#dcddc0";
+        row.style.borderWidth = "1px";
+        row.style.padding = "8px";
+        row.style.borderStyle = "solid";
+        row.style.borderColor = "#222222";
+        row.style.textAlign = "center";
+
+    createTableHeader(thead, 'Name');
+    createTableHeader(thead, 'Start Date');
+    createTableHeader(thead, 'End Date');
+    createTableHeader(thead, 'Day');
+    createTableHeader(thead, 'Start Time');
+    createTableHeader(thead, 'End Time');
+    createTableHeader(thead, 'Teacher');
+    createTableHeader(thead, 'Current Enrollment');
+    createTableHeader(thead, 'Max Enrollment');
+    createTableHeader(thead, 'Current Waitlist');
+    createTableHeader(thead, 'Max Waitlist');
+    createTableHeader(thead, 'Description');
+    
+    thead.appendChild(row);
+    
+    var tbody = document.createElement('tbody');
+    table.appendChild(tbody);
+    
+    for(i=0; i<jsonString.length; i++){
+        var row = document.createElement('tr');
+        row.style.background = "#dcddc0";
+        row.style.borderWidth = "1px";
+        row.style.padding = "8px";
+        row.style.borderStyle = "solid";
+        row.style.borderColor = "#222222";
+        row.style.textAlign = "center";
+
+        createTableData(row, jsonString[i].name);
+        createTableData(row, parseDate(jsonString[i].start_date));
+        createTableData(row, parseDate(jsonString[i].end_date));
+        createTableData(row, jsonString[i].day);
+        createTableData(row, parseTime(jsonString[i].start_time));
+        createTableData(row, parseTime(jsonString[i].end_time));
+        createTableData(row, jsonString[i].teacher);
+        createTableData(row, jsonString[i].enroll_cur);
+        createTableData(row, jsonString[i].enroll_max);
+        createTableData(row, jsonString[i].waitlist_cur);
+        createTableData(row, jsonString[i].waitlist_max);
+        createTableData(row, jsonString[i].description);
+
+                
+        tbody.appendChild(row);
+    }
+
+    document.getElementById('mytable').innerHTML = '';
+    document.getElementById('mytable').appendChild(table);
+}
+
+function parseTime(timeIn) {
+    time = timeIn.split('T')[1].split('Z')[0].split(':')
+    var timeEnd = 'AM';
+    var hour = 0;
+    var min = 0;
+    if (time[0] > 12 && time[0] > 22) {
+        timeEnd = 'PM';
+        hour = time[0] - 12;
+    } else if (time[0] > 12) {
+        timeEnd = 'PM';
+        hour = '0' + time[0] - 12;
+    } else if (time[0] == '00') {
+        hour = 12;
+    } else {
+        hour = time[0] % 12;
+    }
+    min = time[1];
+
+    return (hour + ':' + min + timeEnd);  
+}
+
+function parseDate(dateIn) {
+    date = dateIn.split('-');
+    return (date[1] + '-' + date[2] + '-' + date[0]);
+}
+
+
+//Date.firstDayOfWeek = 0;
+//Date.format = 'mm/dd/yyyy';
+$(function()
+{
+    $('.date-pick').datePicker();
+});
+
+</script>
+</html>
