@@ -1,14 +1,11 @@
 Cs169::Application.routes.draw do
 
+  get "users/show"
 
-get "users/show"
-
-get "users/new"
-
+  get "users/new"
   
-root :to => "homepage#homepage"
-
-get "homepage/homepage"
+  root :to => "homepage#homepage"
+  get "homepage/homepage"
 
 
   get "users/add"
@@ -45,7 +42,9 @@ get "homepage/homepage"
   # match '/Registrations/drop', to: 'registrations#drop', :via => :post, :default => {format: "json"}
   
   match '/admin' => 'application#admin'
+  
   post 'users/new', to: "users#create"
-  # root :to => "users#login"  #login should be on the home page
+  resources :users
+  # match '/signup',  to: 'users#new'
 
 end

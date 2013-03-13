@@ -1,18 +1,10 @@
-<h1>Users#show</h1>
-<table>
-	<tr>
-		<td>Name: </td><td> user.name </td>
-	</tr>
-	<tr>
-		<td>Email: </td><td> user.email </td>
-	</tr>
-	<tr>
-		<td>Zipcode: </td><td> user.zip </td>
-	</tr>
-	<tr>
-		<td>Birthday: </td><td> user.birthday.toString </td>
-	</tr>
-</table>
+<h1>users#show</h1>
+<ul>
+	<li>Name:          <%= @user.name %></li>
+	<li>Email:         <%= @user.email %></li>
+	<li>Zipcode:       <%= @user.zip %></li>
+	<li>Date of Birth: <%= @user.dob %></li>
+</ul>
 
 <div class="sessions">
 	<h4> user.terms.each do |term| </h4>

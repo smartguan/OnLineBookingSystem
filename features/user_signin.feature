@@ -17,3 +17,4 @@ Scenario: Leaving fields blank
 	But  I leave the input field for "first" blank
 	When I hit the "Save User" button
 	Then I should see an error displaying keyword "blank"
+	And I should be redirected user's profile
