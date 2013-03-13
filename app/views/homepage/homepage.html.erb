@@ -12,17 +12,19 @@
 
 		<div id= "top">
 			<h1><br>
-				<form>
-					<titleStyle>
-						Rancho Rinconada Online Booking
 
-						<newUserStyle>
-							New to rinconada?
-							<input id="login-button" type="submit" value=" CREATE AN ACCOUNT " > 
-						</newUserStyle>
+				<titleStyle>
+					Rancho Rinconada Online Booking
 
-					</titleStyle>
-				</form>
+					<newUserStyle>
+						New to Rinconada?
+						<a href="app/application/admin.html.erb"> 
+							<input id="signup-button" type="submit" value="  CREATE AN ACCOUNT  ">
+						</a>
+					</newUserStyle>
+
+				</titleStyle>
+				
 			</h1>
 		</div>
 		
@@ -30,32 +32,31 @@
 		<div id= "rightColumn">
 			<floatRight>
 				<p><br>
-					<form>
-						<signupBox>
-								Sign in
-						</signupBox>
+					<signupBox>
+							Sign in
+					</signupBox>
 
-						<br><br>
-						<font15px>
-							Username
-						</font15px>
-						<br>
-						<font15px>
-							<input id="login-username" type="text" name="username" style="width:280px; height:25px; font-size:17px"><br>
-						</font15px>
-						<br>
-						<font15px>
-							Password
-						</font15px>
-						<br>
-						<font15px>
-		      				<input id="login-password" type="password" name="pwd" style="width:280px; height:25px; font-size:20px"><br>
-		      			</font15px>
-		      			<br>
-		      			<font15px>
-		      				<input id="login-account" type="submit" value=" Sign in " style="width:100px; height:30px;font-size:20px; background-color:rgb(67,81,104); border-color: rgb(67,81,104); color:white"> 
-		      			</font15px>
-					</form>
+					<br><br>
+					<font15px>
+						Username
+					</font15px>
+					<br>
+
+					<font15px>
+						<input id="login-username" type="text" name="username" style="width:280px; height:25px; font-size:17px"><br>
+					</font15px>
+					<br>
+					<font15px>
+						Password
+					</font15px>
+					<br>
+					<font15px>
+		     			<input id="login-password" type="password" name="pwd" style="width:280px; height:25px; font-size:20px"><br>
+		      		</font15px>
+		      		<br>
+		      		<font15px>
+		      			<input id="login-button" type="submit" value=" Sign in " style="width:100px; height:30px;font-size:20px; background-color:rgb(67,81,104); border-color: rgb(67,81,104); color:white"> 
+		      		</font15px>
 				</p>
 			<floatRight>
 		</div>
@@ -65,7 +66,6 @@
 				<p><br>
 					<leftBox>
 						Future Pictures Go Here
-						
 					</leftBox>
 				</p>
 			</floatLeft>
@@ -77,14 +77,18 @@
 				<br><br><br><br><br><br><br>
 				<br><br><br><br><br><br><br>
 				<br><br><br><br><br><br><br>
-				<form>
-					<footerStyle>
-						© 2012 Copyright Rancho Rinconada Rec Center
-
-					</footerStyle>
-				</form>
+				<footerStyle>
+					© 2012 Copyright Rancho Rinconada Rec Center
+				</footerStyle>
 			</f1>
 		</div>
+
+		<script type="text/javascript">
+			$('#login-button').click(function(){
+				window.location.replace("http://gmail.com");
+				return false;
+			});
+		</script>
 
 
 	</body>
