@@ -15,9 +15,9 @@ Cs169::Application.routes.draw do
   get "users/profile"
 
   # Routes for User controller
-  match '/Users/add', to: 'users#add'
-  match '/Users/login', to: 'users#login'
-  match '/Users/delete', to: 'users#delete'
+  match '/Users/add', to: 'users#add', :via => :post, :defaults => { :format => "json" }
+  match '/Users/login', to: 'users#login', :via => :post, :defaults => { :format => "json" }
+  match '/Users/delete', to: 'users#delete' 
   match '/Users/update', to: 'users#update'
   match '/Users/profile', to: 'users#profile'
     

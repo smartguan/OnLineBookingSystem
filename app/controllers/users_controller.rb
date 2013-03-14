@@ -53,7 +53,7 @@ class UsersController < ApplicationController
       if not user
         format.json { render json: { errCode: BAD_CREDENTIALS } }
       elsif user.authenticate(params[:password])
-        format.json { render json: { errCode: SUCCESS } }
+        format.json { render json: { errCode: SUCCESS, admin: user.admin } }
       else
         format.json { render json: { errCode: BAD_CREDENTIALS } }
       end
