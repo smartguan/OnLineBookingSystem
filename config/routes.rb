@@ -1,5 +1,7 @@
 Cs169::Application.routes.draw do
 
+  get "registrations/new"
+
   get "users/show"
 
   get "users/new"
@@ -31,6 +33,7 @@ Cs169::Application.routes.draw do
   match '/registrations/schedule', to: 'registrations#getSchedule', :via => :get, :default => {format: "json"}
   match '/admin/createSection', to:'registrations#createSection', :via => :post, :default => {format: "json"}
   
+  match '/Registrations/getSchedule', to: 'registrations#getSchedule', :via => :get, :default => {format: "json"}
   match '/Registrations/getSchedule', to: 'registrations#getSchedule', :via => :post, :default => {format: "json"}
   match '/Registrations/viewOneSection', to: 'registrations#viewOneSection', :via => :post, :default => {format: "json"}
   match '/Registrations/viewEnrolledSections', to: 'registrations#viewEnrolledSections', :via => :get, :default => {format: "json"}
@@ -42,9 +45,9 @@ Cs169::Application.routes.draw do
   match '/Admin/deleteSection', to:'registrations#deleteSection', :via => :post, :default => {format: "json"}
 
   match '/Registrations/viewOneSection', to: 'registrations#viewOneSection', :via => :get, :default => {format: "json"}
-  # match '/Registrations/viewEnrolledSections', to: 'registrations#viewEnrolledSections', :via => :get, :default => {format: "json"}
-  # match '/Registrations/register', to: 'registrations#register', :via => :post, :default => {format: "json"}
-  # match '/Registrations/drop', to: 'registrations#drop', :via => :post, :default => {format: "json"}
+  match '/Registrations/viewEnrolledSections', to: 'registrations#viewEnrolledSections', :via => :get, :default => {format: "json"}
+  match '/Registrations/register', to: 'registrations#register', :via => :post, :default => {format: "json"}
+  match '/Registrations/drop', to: 'registrations#drop', :via => :post, :default => {format: "json"}
   
   match '/admin' => 'application#admin'
   
