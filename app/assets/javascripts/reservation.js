@@ -1,4 +1,4 @@
-function show_login_page() {
+function show_login_page_reservation() {
   $('#main-page').show();
 }
 /* Takes a dictionary to be JSON encoded, calls the success
@@ -31,13 +31,13 @@ function init_data() {
 
 function loadingBody(data){
     if (data.errCode == 300) {
-        document.getElementById('mytable').innerHTML='No records found!';
+        document.getElementById('mytable_reservation').innerHTML='No records found!';
     } else {
         var json = data.sections
         if(json.length > 0){
             displayData(json);
         } else {
-            document.getElementById('mytable').innerHTML='No records found!';
+            document.getElementById('mytable_reservation').innerHTML='No records found!';
         }
     }
 }
@@ -144,8 +144,8 @@ function displayData(jsonString){
         tbody.appendChild(row);
     }
 
-    document.getElementById('mytable').innerHTML = '';
-    document.getElementById('mytable').appendChild(table);
+    document.getElementById('mytable_reservation').innerHTML = '';
+    document.getElementById('mytable_reservation').appendChild(table);
 }
 
 function parseTime(timeIn) {

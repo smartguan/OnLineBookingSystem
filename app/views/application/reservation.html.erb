@@ -11,15 +11,15 @@
 <h1>Bootleg Reservation Page</h1>
 </center>
 
-</div id="main-page">
+</div id="reservation-main-page">
 <center>
-    <div id="logout-button">
+    <div id="logout-button-reservation">
         <button>Logout</button>
     </div>
 </div>
 
 <!-- <div id="mytable" class='imagetable'> -->
-<div id="mytable2" class='imagetable'>
+<div id="mytable_reservation" class='imagetable_reservation'>
 </div>
 
 </center>
@@ -27,15 +27,15 @@
 
 <script type="text/javascript">
 
-$('#main-page').hide();
+$('#reservation-main-page').hide();
 
 /* setup the page so that only one of the forms is shown */
 $(document).ready(function() {
     init_data();
-   show_login_page();
+   show_login_page_reservation();
  });
 
-$('#logout-button').click(function() {
+$('#logout-button-reservation').click(function() {
     window.location.href = '/';
 })
 
