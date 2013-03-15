@@ -11,37 +11,3 @@
  *= require_self
  *= require_tree .
 */
-/*$light-blue: #B9D3EE;
-$honeydew: #E0EEE0;
-
-.box{
-	background-color: $light-blue;
-	padding-top: 0.50em;
-	padding-right: 0.50em;
-	padding-left: 0.50em;
-    width: 10.00em;
-    height: 20.00em;
-    font-size: 110%;
-    border: thin black solid;
-    color: #00F;
-    float: right;
-    text-align: right;
-    float: center;
-}
-form {
-	width: 24em;
-	height: 10em;
-	background-color: $light-blue;
-	float: center;
-	text-align: center;
-	border: thin black solid
-	input {
-		font-size: 1em;
-		
-	}
-}
-form input {
-	font-size: 1em;
-}
-
-*/
