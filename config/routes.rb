@@ -43,6 +43,7 @@ Cs169::Application.routes.draw do
   # match '/Registrations/drop', to: 'registrations#drop', :via => :post, :default => {format: "json"}
   
   match '/admin' => 'application#admin'
+  match '/reservation' => 'application#reservation'
 
   post '/users/new', to: 'users#create'
   resources :users
