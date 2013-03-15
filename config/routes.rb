@@ -46,7 +46,7 @@ Cs169::Application.routes.draw do
   match '/reservation' => 'application#reservation'
 
   post '/users/new', to: 'users#create'
-  resources :users
+  #resources :users
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
