@@ -90,7 +90,7 @@
 						<ufont15px>
 			     			<input id="create-zipcode" type="text" name="zip" style="width:80px; height:23px; font-size:17px">
 			     			<space>123</space>
-			     			<input id="create-dob" type="text" name="dob" style="width:80px; height:23px; font-size:17px">
+			     			<input id="create-dob" type="text" name="dob" style="width:90px; height:23px; font-size:17px">
 			     			<br>
 			      		</ufont15px>
 			      		<br>
@@ -225,8 +225,8 @@
 			   email = $('#create-email').val()
 			   password = $('#create-password').val()
 			   repassword = $('#create-repassword').val()
-			   zip = $('#create-password').val()
-			   dob = "12/04/1990";
+			   zip = $('#create-zipcode').val()
+			   dob = $('#create-dob').val()
 			   admin = 0;
 
 			   json_request("/Users/add", { last: lastname, first: firstname, admin: admin,
