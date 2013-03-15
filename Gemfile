@@ -20,8 +20,8 @@ end
 group :development do
 	gem 'sqlite3', '1.3.5'
 	gem 'rspec-rails', '2.11.0'
-	gem 'libnotify'
-	gem 'rb-inotify', '~> 0.9'
+#	gem 'libnotify'
+#	gem 'rb-inotify', '~> 0.9'
 end
 
 group :test do
