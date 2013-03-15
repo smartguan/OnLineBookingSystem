@@ -3,7 +3,7 @@ function show_login_page_reservation() {
 }
 /* Takes a dictionary to be JSON encoded, calls the success
    function with the diction decoded from the JSON response.*/
-function post_json_request(page, dict, success) {
+function post_json_request_reservation(page, dict, success) {
   $.ajax({
     type: 'POST',
     url: page,
@@ -25,17 +25,17 @@ function get_json_request(page, dict, success) {
   });
 }
 
-function init_data() {
-    post_json_request("/Registrations/getSchedule", {}, function(data) {loadingBody(data)})
+function init_data_reservation() {
+    post_json_request_reservation("/Registrations/getSchedule", {}, function(data) {loadingBody_reservation(data)})
 }
 
-function loadingBody(data){
+function loadingBody_reservation(data){
     if (data.errCode == 300) {
         document.getElementById('mytable_reservation').innerHTML='No records found!';
     } else {
         var json = data.sections
         if(json.length > 0){
-            displayData(json);
+            displayData_reservation(json);
         } else {
             document.getElementById('mytable_reservation').innerHTML='No records found!';
         }
@@ -57,7 +57,7 @@ function createTableHeader(rowObject, data){
     createTableRowContent(rowObject, data, 'th');
 }
 
-function displayData(jsonString){
+function displayData_reservation(jsonString){
     
     var table = document.createElement('table');
     //table.border = "1";
@@ -118,11 +118,11 @@ function displayData(jsonString){
         row.style.textAlign = "center";
 
         createTableData(row, jsonString[i].name);
-        createTableData(row, parseDate(jsonString[i].start_date));
-        createTableData(row, parseDate(jsonString[i].end_date));
+        createTableData(row, parseDate_reservation(jsonString[i].start_date));
+        createTableData(row, parseDate_reservation(jsonString[i].end_date));
         createTableData(row, jsonString[i].day);
-        createTableData(row, parseTime(jsonString[i].start_time));
-        createTableData(row, parseTime(jsonString[i].end_time));
+        createTableData(row, parseTime_reservation(jsonString[i].start_time));
+        createTableData(row, parseTime_reservation(jsonString[i].end_time));
         createTableData(row, jsonString[i].teacher);
         createTableData(row, jsonString[i].enroll_cur);
         createTableData(row, jsonString[i].enroll_max);
@@ -148,7 +148,7 @@ function displayData(jsonString){
     document.getElementById('mytable_reservation').appendChild(table);
 }
 
-function parseTime(timeIn) {
+function parseTime_reservation(timeIn) {
     time = timeIn.split('T')[1].split('Z')[0].split(':')
     var timeEnd = 'AM';
     var hour = 0;
@@ -169,7 +169,7 @@ function parseTime(timeIn) {
     return (hour + ':' + min + timeEnd);  
 }
 
-function parseDate(dateIn) {
+function parseDate_reservation(dateIn) {
     date = dateIn.split('-');
     return (date[1] + '-' + date[2] + '-' + date[0]);
 }
