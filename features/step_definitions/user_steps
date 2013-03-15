@@ -1,0 +1,23 @@
+Given /^(?:|I )am on (.+)$/ do |page_name|
+  visit page_name
+end
+
+Then(/^I should see an input field for "(.*?)"$/) do |arg1|
+  pending # express the regexp above with the code you wish you had
+end
+
+Given(/^I have filled in a valid form$/) do
+  pending # express the regexp above with the code you wish you had
+end
+
+Given(/^I leave the input field for "(.*?)" blank$/) do |arg1|
+  pending # express the regexp above with the code you wish you had
+end
+
+When(/^I hit the "(.*?)" button$/) do |arg1|
+  pending # express the regexp above with the code you wish you had
+end
+
+Then(/^I should see an error displaying keyword "(.*?)"$/) do |arg1|
+  pending # express the regexp above with the code you wish you had
+end

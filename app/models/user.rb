@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :registrations
 
   before_save { |user| user.email = email.downcase }
-
+  
   validates :first, presence: true, length: { maximum: 32 }
   validates :last, presence: true, length: { maximum: 32 }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
@@ -17,4 +17,9 @@ class User < ActiveRecord::Base
   validates :zip, format: { with: VALID_ZIP_REGEX }
   validates :password, presence: true, length: { minimum: 6, maximum: 32 }
   validates :password_confirmation, presence: true
+
+  def name
+    "#{first} #{last}"
+  end
+
 end
