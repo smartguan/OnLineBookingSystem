@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130313175351) do
+ActiveRecord::Schema.define(:version => 20130311190607) do
 
   create_table "registrations", :force => true do |t|
     t.date     "start_date"
@@ -45,10 +45,8 @@ ActiveRecord::Schema.define(:version => 20130313175351) do
     t.datetime "updated_at",      :null => false
     t.boolean  "admin"
     t.string   "password_digest"
-    t.string   "remember_token"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
-  add_index "users", ["remember_token"], :name => "index_users_on_remember_token"
 
 end

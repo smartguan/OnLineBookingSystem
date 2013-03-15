@@ -11,7 +11,7 @@
  *= require_self
  *= require_tree .
 */
-$light-blue: #B9D3EE;
+/*$light-blue: #B9D3EE;
 $honeydew: #E0EEE0;
 
 .box{
@@ -44,3 +44,4 @@ form input {
 	font-size: 1em;
 }
 
+*/
