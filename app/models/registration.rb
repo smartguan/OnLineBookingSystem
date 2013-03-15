@@ -66,7 +66,7 @@ class Registration < ActiveRecord::Base
                             ((:start_date BETWEEN start_date AND end_date) OR 
                             (:end_date BETWEEN start_date AND end_date) OR 
                             (:start_date <= start_date AND :end_date >= end_date)) AND
-                              (:day == day AND :name != name AND :teacher == teacher)",
+                              (:day = day AND :name != name AND :teacher = teacher)",
                           :start_time => start_time, :end_time => end_time, 
                           :start_date => start_date, :end_date => end_date,
                           :day => day, :name => name, :teacher => teacher).first != nil
