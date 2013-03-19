@@ -11,20 +11,20 @@ group :assets do
 end
 
 group :test, :development do
-	gem 'rspec-rails', '2.11.0'
+  gem 'rspec-rails', '2.13.0'
 end
 
 group :development do
   gem 'sqlite3', '1.3.5'
-  gem 'rspec-rails', '2.11.0'
+  gem 'rspec-rails', '2.13.0'
 end
 
 group :test do
-	gem "cucumber-rails", '1.3.0', require: false
-	gem 'capybara', '1.1.2'
-	gem 'guard-cucumber', '1.3.2'
-	gem 'spork', '0.9.2'
-	gem 'guard-spork', '1.5.0'
+  gem "cucumber-rails", '1.3.0', require: false
+  gem 'capybara', '1.1.2'
+  gem 'guard-cucumber', '1.3.2'
+  gem 'spork', '0.9.2'
+  gem 'guard-spork', '1.5.0'
 end
 
 

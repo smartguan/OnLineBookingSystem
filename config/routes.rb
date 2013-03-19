@@ -9,13 +9,17 @@ Cs169::Application.routes.draw do
 
   get "users/profile"
 
+  # For User tests
+  match 'Users/test', to: 'users#testView'
+
   # Routes for User controller
   match '/Users/add', to: 'users#add'
   match '/Users/login', to: 'users#login'
   match '/Users/delete', to: 'users#delete'
   match '/Users/update', to: 'users#update'
   match '/Users/profile', to: 'users#profile'
-  
+  match '/Users/logout', to: 'user#logout'
+
   # Routes for Registration controller
   match '/Registrations/schedule', to: 'registrations#getSchedule', :via => :get, :default => {format: "json"}
   match '/Admin/createSection', to:'registrations#createSection', :via => :post, :default => {format: "json"}

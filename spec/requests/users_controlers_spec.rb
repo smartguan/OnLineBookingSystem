@@ -155,7 +155,7 @@ describe "UsersControlers" do
         response.body.should == expected
       end
     end
- 
+    
 #   Login functionality
     describe "when logging in with invalid email" do
       it "should return BAD_CREDENTIALS" do
@@ -195,7 +195,7 @@ describe "UsersControlers" do
       it "should return BAD_CREDENTIALS" do
         expected = { errCode: BAD_CREDENTIALS }.to_json
         post '/Users/delete', { email: "new@email.com", password: "dogbreath", 
-                             format: :json }
+                                format: :json }
         response.body.should == expected
       end
     end
@@ -215,11 +215,11 @@ describe "UsersControlers" do
     describe "when deleting account with correct email and password" do
       it "should return SUCCESS" do
         expected = { errCode: SUCCESS }.to_json
-        User.create(first: "first", last: "last", email: "new@user.net",
+        user = User.create(first: "first", last: "last", email: "new@user.net",
                     password: "password", password_confirmation: "password",
                     dob: "01/02/1234", zip: "12345", admin: 0)
-        post '/Users/delete', { email: "new@user.net", password: "password", 
-                             format: :json }
+        get '/Users/delete', { email: "new@user.net", password: "password", 
+                                format: :json }
         response.body.should == expected
       end
     end
@@ -232,7 +232,7 @@ describe "UsersControlers" do
                                 first: "first", last: "last", email: "abc@123.com", 
                                 password: "password", password_confirmation: "password",
                                 dob: "01/02/1234", zip: "12345",
-                                format: :json }
+                                format: :json }, { user_id: 1 }
         response.body.should == expected
       end
     end
@@ -457,5 +457,6 @@ describe "UsersControlers" do
 #        response.body.should == expected
 #      end
 #    end
+
   end
 end
