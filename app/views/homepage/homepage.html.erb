@@ -12,7 +12,7 @@
 
 	</head>
 
-	<body>
+	<div id="wrapper"><body>
 		<div id="top">
 			<br><h1>
 				<titleStyle>
@@ -20,8 +20,7 @@
 					<newUserStyle>
 						New to Rinconada?
 						<a href="users/new"> 
-							<input id="signup-button" type="submit" value="  CREATE AN ACCOUNT  ">
-							<!--<%= link_to "CREATE AN ACCOUNT", users_new_path %>-->
+							<input id="signup-button" type="submit" value=" CREATE AN ACCOUNT " style="width:190px; height:30px;font-size:15px; background-color:WHITE; border-color:rgb(129,150,206); color:rgb(129,150,206)"> 
 						</a>
 					</newUserStyle>
 
@@ -57,7 +56,7 @@
 			      		</font15px>
 			      		<br>
 			      		<font15px>
-			      			<input id="login-button" type="submit" value=" Sign in " style="width:100px; height:30px;font-size:20px; background-color:rgb(67,81,104); border-color: rgb(67,81,104); color:white"> 
+			      			<input id="login-button" type="submit" value=" Sign in " style="width:100px; height:35px;font-size:20px; background-color:rgb(67,81,104); border-color: rgb(67,81,104); color:white"> 
 			      		</font15px>
 					</p>
 				</form>
@@ -80,7 +79,7 @@
 			  <div id="credentials-message" class="errmessage"></div>
 			    <form>
 
-			      <input type="submit" id="ok-button" value="       OK       ">
+			      <input type="submit" id="ok-button" value="       OK       " onclick="close_error2();return false;">
 			    
 			    </form>
 			</center>
@@ -98,7 +97,7 @@
 				</footerStyle>
 			</f1>
 		</div>
-	</body>
+	</body></div>
 
 		
 		<script type="text/javascript">
@@ -127,6 +126,11 @@
 			function show_system_message(message) {
 			   	$('#system-message').show()
 			   	$('#credentials-message').html(message);
+			}
+
+			function close_error2(){
+				$('#system-message').hide()
+				$('#login-password').val("")
 			}
 
 			function handle_login_response(data) {
