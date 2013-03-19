@@ -30,7 +30,6 @@ class RegistrationsController < ApplicationController
   # create, for admin only
   def createSection
     @reg = newSection
-
     respond_to do |format|
       if @reg.save
         self.returnSuccess format
