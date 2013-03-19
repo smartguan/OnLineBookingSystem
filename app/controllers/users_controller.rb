@@ -50,6 +50,7 @@ class UsersController < ApplicationController
 
   def login
     user = User.find_by_email(params[:email].downcase)
+    
     respond_to do |format|  
       if not user
         format.json { render json: { errCode: BAD_CREDENTIALS } }
@@ -172,6 +173,28 @@ class UsersController < ApplicationController
       else
         format.json { render json: { errCode: BAD_CREDENTIALS } }
       end
+    end
+  end
+
+  def new 
+    @user = User.new(params[:user])
+  end
+
+  def create
+    @user = User.new(params[:user])
+    if(@user.save)
+      redirect_to :controller => :users, :action => 'show', :id => @user.id
+      # redirect_to @user
+    else
+      render :action => "new" #keep the same
+    end
+  end
+
+  def show
+    @user = User.find(params[:id])
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @user }
     end
   end
 end

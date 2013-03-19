@@ -1,6 +1,8 @@
 class Registration < ActiveRecord::Base
   attr_accessible :name, :day, :description, :end_date, :end_time, :enroll_cur, :enroll_max, :start_date, :start_time, :teacher, :waitlist_cur, :waitlist_max
 
+  has_and_belongs_to_many :users
+
   before_validation do |registration| 
     registration.name = name.upcase
     registration.day = day.upcase
@@ -64,7 +66,7 @@ class Registration < ActiveRecord::Base
                             ((:start_date BETWEEN start_date AND end_date) OR 
                             (:end_date BETWEEN start_date AND end_date) OR 
                             (:start_date <= start_date AND :end_date >= end_date)) AND
-                              (:day == day AND :name != name AND :teacher == teacher)",
+                              (:day = day AND :name != name AND :teacher = teacher)",
                           :start_time => start_time, :end_time => end_time, 
                           :start_date => start_date, :end_date => end_date,
                           :day => day, :name => name, :teacher => teacher).first != nil

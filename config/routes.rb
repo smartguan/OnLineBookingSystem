@@ -1,4 +1,12 @@
 Cs169::Application.routes.draw do
+
+  get "users/show"
+
+  get "users/new"
+  
+  root :to => "homepage#homepage"
+  get "homepage/homepage"
+
   get "users/add"
 
   get "users/login"
@@ -15,15 +23,33 @@ Cs169::Application.routes.draw do
   # Routes for User controller
   match '/Users/add', to: 'users#add'
   match '/Users/login', to: 'users#login'
-  match '/Users/delete', to: 'users#delete'
+  match '/Users/delete', to: 'users#delete' 
   match '/Users/update', to: 'users#update'
   match '/Users/profile', to: 'users#profile'
   match '/Users/logout', to: 'user#logout'
 
   # Routes for Registration controller
-  match '/Registrations/schedule', to: 'registrations#getSchedule', :via => :get, :default => {format: "json"}
-  match '/Admin/createSection', to:'registrations#createSection', :via => :post, :default => {format: "json"}
+
+  match '/Registrations/getSchedule', to: 'registrations#getSchedule'
+  match '/Registrations/viewOneSection', to: 'registrations#viewOneSection'
+  match '/Registrations/viewEnrolledSections', to: 'registrations#viewEnrolledSections'
+  match '/Registrations/register', to: 'registrations#register'
+  match '/Registrations/drop', to: 'registrations#drop'
+
+  match '/Admin/createSection', to:'registrations#createSection'
+  match '/Admin/editSection', to:'registrations#editSection'
+  match '/Admin/deleteSection', to:'registrations#deleteSection'
+
+  match '/Registrations/viewOneSection', to: 'registrations#viewOneSection'
+  # match '/Registrations/viewEnrolledSections', to: 'registrations#viewEnrolledSections', :via => :get, :default => {format: "json"}
+  # match '/Registrations/register', to: 'registrations#register', :via => :post, :default => {format: "json"}
+  # match '/Registrations/drop', to: 'registrations#drop', :via => :post, :default => {format: "json"}
   
+  match '/admin' => 'application#admin'
+  match '/reservation' => 'application#reservation'
+
+  post '/users/new', to: 'users#create'
+  #resources :users
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -76,8 +102,4 @@ Cs169::Application.routes.draw do
   # root :to => 'welcome#index'
 
   # See how all your routes lay out with "rake routes"
-
-  # This is a legacy wild controller route that's not recommended for RESTful applications.
-  # Note: This route will make all actions in every controller accessible via GET requests.
-  # match ':controller(/:action(/:id))(.:format)'
 end

@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 gem 'rails', '3.2.12'
 gem 'jquery-rails', '2.0.2'
 gem 'bcrypt-ruby', '3.0.1'
+gem 'rb-readline'
 
 group :assets do
   gem 'sass-rails',   '3.2.5'
@@ -12,6 +13,8 @@ end
 
 group :test, :development do
   gem 'rspec-rails', '2.13.0'
+  gem 'guard-spork', '1.5.0'
+  gem 'spork', '0.9.2'
 end
 
 group :development do
@@ -22,11 +25,16 @@ end
 group :test do
   gem "cucumber-rails", '1.3.0', require: false
   gem 'capybara', '1.1.2'
+  gem 'database_cleaner', '0.9.1'
+  gem "factory_girl_rails", "~> 4.0"
+  gem 'factory_girl', '4.2.0'
   gem 'guard-cucumber', '1.3.2'
-  gem 'spork', '0.9.2'
-  gem 'guard-spork', '1.5.0'
+  gem 'guard-rspec'
 end
 
+group :production do
+  gem "pg", '0.12.2'
+end
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

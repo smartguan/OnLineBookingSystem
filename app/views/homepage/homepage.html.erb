@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+	
+	<head>
+		<meta charset="utf-8">
+		<title>Rancho Rinconada Online Booking </title>
+		<link type="text/css" rel="stylesheet" href="assets/homepage.css.scss">
+
+		<script type='text/javascript' src='http://code.jquery.com/jquery-1.4.2.js'></script>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+
+	</head>
+
+	<div id="wrapper"><body>
+		<div id="top">
+			<br><h1>
+				<titleStyle>
+					Rancho Rinconada Online Booking
+					<newUserStyle>
+						New to Rinconada?
+						<a href="users/new"> 
+							<input id="signup-button" type="submit" value=" CREATE AN ACCOUNT " style="width:190px; height:30px;font-size:15px; background-color:WHITE; border-color:rgb(129,150,206); color:rgb(129,150,206)"> 
+						</a>
+					</newUserStyle>
+
+				</titleStyle>
+			</h1>
+		</div>
+
+		<div id="rightColumn">
+			<br><floatRight>
+				<form>
+					<p><br>
+						<signupBox>
+								Sign in
+						</signupBox>
+
+						<br><br>
+						<font15px>
+							E-mail
+						</font15px>
+						<br>
+
+						<font15px>
+							<input id="login-email" type="text" name="email" style="width:280px; height:25px; font-size:17px">
+							<br>
+						</font15px>
+						<br>
+						<font15px>
+							Password
+						</font15px>
+						<br>
+						<font15px>
+			     			<input id="login-password" type="password" name="pwd" style="width:280px; height:25px; font-size:20px"><br>
+			      		</font15px>
+			      		<br>
+			      		<font15px>
+			      			<input id="login-button" type="submit" value=" Sign in " style="width:100px; height:35px;font-size:20px; background-color:rgb(67,81,104); border-color: rgb(67,81,104); color:white"> 
+			      		</font15px>
+					</p>
+				</form>
+			<floatRight>
+		</div>
+
+
+		<div id="leftColumn">
+			<floatLeft>
+				<p><br>
+					<leftBox>
+						Future Pictures Go Here
+					</leftBox>
+				</p>
+			</floatLeft>
+		</div>
+
+		<div id="system-message" class="errbox">
+		  <center>
+			  <div id="credentials-message" class="errmessage"></div>
+			    <form>
+
+			      <input type="submit" id="ok-button" value="       OK       " onclick="close_error2();return false;">
+			    
+			    </form>
+			</center>
+		</div>
+
+		<div id="bottom">
+			<f1>
+				<br><br><br><br><br><br><br>
+				<br><br><br><br><br><br><br>
+				<br><br><br><br><br><br><br>
+				<br><br><br><br><br><br><br>
+				
+				<footerStyle>
+					© 2012 Copyright Rancho Rinconada Rec Center
+				</footerStyle>
+			</f1>
+		</div>
+	</body></div>
+
+		
+		<script type="text/javascript">
+
+			$('#top').hide()
+   			$('#rightColumn').hide()
+   			$('#leftColumn').hide()
+   			$('#system-message').hide()
+   			$('#bottom').hide()
+   			$('#login-email').val("")
+			$('#login-password').val("")
+   
+   			/* setup the page so that only one of the forms is shown */
+			
+			$(document).ready(function() {
+			 	show_login_page()
+			 });
+
+			function show_login_page() {
+				$('#top').show()
+	   			$('#rightColumn').show()
+	   			$('#leftColumn').show()
+	   			$('#bottom').show()
+			}
+
+			function show_system_message(message) {
+			   	$('#system-message').show()
+			   	$('#credentials-message').html(message);
+			}
+
+			function close_error2(){
+				$('#system-message').hide()
+				$('#login-password').val("")
+			}
+
+			function handle_login_response(data) {
+
+			  switch (data.errCode){
+			    case 108:
+			      show_system_message("Cannot find the Username/Password<br> pair. Click OK to try again."); 
+			      break
+			    default:
+			    	if (data.admin == 0) {
+			    		window.location.href = "admin";
+			    	} 
+			    	else {
+			    		window.location.href = "admin";
+			    	}   
+			  }
+
+			  return
+
+			}
+
+
+			$('#login-button').click(function() {
+			   email = $('#login-email').val()
+			   password = $('#login-password').val()
+			   json_request("/Users/login", { email: email, password: password }, function(data) 
+			   	{ return handle_login_response(data); }, function(err) { alert('error occurred on request'); });
+
+			   return false;
+			});
+
+			function json_request(page, dict, success, failure) {
+		    $.ajax({
+		        type: 'POST',
+		        url: page,
+		        data: JSON.stringify(dict),
+		        contentType: "application/json",
+		        dataType: "json",
+		        success: success,
+		        failure: failure
+		    });
+}
+
+		</script>
+
+		
+</html>

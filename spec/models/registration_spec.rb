@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Registration do
   
   #unit 1: test for correct inputs
-  before { @reg = Registration.new(name: "A", day: "MONDAY", 
+  before { @reg = Registration.new(name: "A_SEC", day: "MONDAY", 
           description: "this class is aiming to lower down your intellegence", 
           start_date: "2011-11-29", end_date:"2012-12-30", start_time: "10:00:00", 
           end_time: "20:00:00", teacher: "Obamma", enroll_cur:1, enroll_max:2,
