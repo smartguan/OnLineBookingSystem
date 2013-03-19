@@ -19,25 +19,25 @@ Cs169::Application.routes.draw do
   get "users/profile"
 
   # Routes for User controller
-  match '/Users/add', to: 'users#add', :via => :post, :defaults => { :format => "json" }
-  match '/Users/login', to: 'users#login', :via => :post, :defaults => { :format => "json" }
+  match '/Users/add', to: 'users#add'
+  match '/Users/login', to: 'users#login'
   match '/Users/delete', to: 'users#delete' 
   match '/Users/update', to: 'users#update'
   match '/Users/profile', to: 'users#profile'
     
   # Routes for Registration controller
 
-  match '/Registrations/getSchedule', to: 'registrations#getSchedule', :via => :post, :default => {format: "json"}
-  match '/Registrations/viewOneSection', to: 'registrations#viewOneSection', :via => :post, :default => {format: "json"}
-  match '/Registrations/viewEnrolledSections', to: 'registrations#viewEnrolledSections', :via => :get, :default => {format: "json"}
-  match '/Registrations/register', to: 'registrations#register', :via => :post, :default => {format: "json"}
-  match '/Registrations/drop', to: 'registrations#drop', :via => :post, :default => {format: "json"}
+  match '/Registrations/getSchedule', to: 'registrations#getSchedule'
+  match '/Registrations/viewOneSection', to: 'registrations#viewOneSection'
+  match '/Registrations/viewEnrolledSections', to: 'registrations#viewEnrolledSections'
+  match '/Registrations/register', to: 'registrations#register'
+  match '/Registrations/drop', to: 'registrations#drop'
 
-  match '/Admin/createSection', to:'registrations#createSection', :via => :post, :default => {format: "json"}
-  match '/Admin/editSection', to:'registrations#editSection', :via => :post, :default => {format: "json"}
-  match '/Admin/deleteSection', to:'registrations#deleteSection', :via => :post, :default => {format: "json"}
+  match '/Admin/createSection', to:'registrations#createSection'
+  match '/Admin/editSection', to:'registrations#editSection'
+  match '/Admin/deleteSection', to:'registrations#deleteSection'
 
-  match '/Registrations/viewOneSection', to: 'registrations#viewOneSection', :via => :get, :default => {format: "json"}
+  match '/Registrations/viewOneSection', to: 'registrations#viewOneSection'
   # match '/Registrations/viewEnrolledSections', to: 'registrations#viewEnrolledSections', :via => :get, :default => {format: "json"}
   # match '/Registrations/register', to: 'registrations#register', :via => :post, :default => {format: "json"}
   # match '/Registrations/drop', to: 'registrations#drop', :via => :post, :default => {format: "json"}
