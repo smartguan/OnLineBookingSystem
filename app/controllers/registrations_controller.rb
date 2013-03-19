@@ -85,9 +85,6 @@ class RegistrationsController < ApplicationController
     regs_list = Registration.all
 
     respond_to do |format|
-      print "/n***************************/n"
-      print session
-      print "/n***************************/n"
       if not regs_list.empty?
         format.json { render json: { :sections => regs_list, errCode: 1} }
       else
