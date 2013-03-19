@@ -49,6 +49,7 @@ class UsersController < ApplicationController
 
   def login
     user = User.find_by_email(params[:email].downcase)
+    
     respond_to do |format|  
       if not user
         format.json { render json: { errCode: BAD_CREDENTIALS } }

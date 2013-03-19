@@ -180,7 +180,7 @@ describe "UsersControlers" do
     
     describe "when logging in with correct email and password" do
       it "should return SUCCESS" do
-        expected = { errCode: SUCCESS }.to_json
+        expected = { errCode: SUCCESS, admin: false }.to_json
         User.create(first: "first", last: "last", email: "new@user.net",
                       password: "password", password_confirmation: "password",
                       dob: "01/02/1234", zip: "12345", admin: 0)
