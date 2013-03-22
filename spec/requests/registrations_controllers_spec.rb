@@ -31,10 +31,10 @@ describe "RegistrationsControllers" do
   reg_json = {name:"A_SEC", day:"MONDAY", 
               description:"This section won't teach you swimming", 
               start_time:"10:00:00", end_time:"20:00:00", 
-              enroll_cur:0,enroll_max:40, 
+              enroll_cur:0,enroll_max:5, 
               start_date:"2011-10-10", end_date:"2012-10-10",
               teacher:"SUCKER", 
-              waitlist_cur:0, waitlist_max:40,
+              waitlist_cur:0, waitlist_max:5,
               format: :json}
   
   user_json = {first: "first", last: "last", email: "abc@def.com", dob: "01/02/0003", 
@@ -298,8 +298,10 @@ describe "RegistrationsControllers" do
       end
       
       context "when everything the user registers with is valid" do
-        it "should render json: { sections:[{name:A_SEC, statusCode:1}], errCode: 1}" do
-          expected = { sections:[{name:reg_json[:name], statusCode:1}], 
+        it "should render json: { sections:[{section_id:1, section_name:A_SEC, statusCode:1}], errCode: 1}" do
+          expected = { sections:[{section_id: 1, 
+                                  section_name:reg_json[:name], 
+                                  statusCode:1}], 
                        errCode: 1 }.to_json
           response.body.should == expected
         end
@@ -311,8 +313,10 @@ describe "RegistrationsControllers" do
       end
 
       context "when user already in the section" do
-        it "should render json: { sections:[{name:A_SEC, statusCode:2}], errCode: 1}" do
-          expected = { sections:[{name:reg_json[:name], statusCode:2}], 
+        it "should render json: { sections:[{section_id:1, section_name:A_SEC, statusCode:2}], errCode: 1}" do
+          expected = { sections:[{section_id:1, 
+                                  section_name:reg_json[:name], 
+                                  statusCode:2}], 
                        errCode: 301 }.to_json
           test_json = {user_email:user_json[:email], 
                        section_name:reg_json[:name], format: :json}
@@ -322,11 +326,12 @@ describe "RegistrationsControllers" do
       end
 
       context "when section enrollment is full" do
-        it "should place use to waitlist and thus 
-            render json: { sections:[{name:A_SEC, statusCode:3}], errCode: 301}" do
-          expected = { sections:[{name:reg_json[:name], statusCode:3}], 
+        it "should place use to waitlist and thus render json: { sections:[{section_id:1, section_name:A_SEC, statusCode:3}], errCode: 301}" do
+          expected = { sections:[{section_id:1,
+                                  section_name:reg_json[:name], 
+                                  statusCode:3}], 
                        errCode: 301 }.to_json
-          40.times do 
+          5.times do 
             user_json[:email] = "a" + user_json[:email]
             test_json = {user_email:user_json[:email], 
                          section_name:reg_json[:name], format: :json}
@@ -362,7 +367,7 @@ describe "RegistrationsControllers" do
         end
         
         it "should render json: { section_name:A_SEC, errCode: 1}" do
-          expected = { section_name: 'A_SEC', errCode: 1 }.to_json
+          expected = { section_id:1, section_name: 'A_SEC', errCode: 1 }.to_json
           response.body.should == expected
         end
 

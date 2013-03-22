@@ -111,19 +111,30 @@ class RegistrationsController < ApplicationController
 
   #for users to register for sections
   def register
-    @user = User.find_by_email(params[:user_email].downcase)
+    if session[:user_id] != nil
+      @user = User.find_by_id(session[:user_id])
+    #deprecated in the future
+    else  
+      @user = User.find_by_email(params[:user_email].downcase)
+    end
     @reg = Registration.find_by_name(params[:section_name].upcase)
     
     respond_to do |format|
       if @user.registrations.exists?(:name => @reg.name) or
          @reg.users.exists?(:id=>@user.id)
-        format.json { render json: { sections:[{name:@reg.name, statusCode:2}], 
+        format.json { render json: { sections:[{section_id:@reg.id, 
+                                                section_name:@reg.name, 
+                                                statusCode:2}], 
                                      errCode:301 } }
       elsif @reg.enroll_cur == @reg.enroll_max
-        format.json { render json: { sections:[{name:@reg.name, statusCode:3}],
+        format.json { render json: { sections:[{section_id:@reg.id, 
+                                                section_name:@reg.name, 
+                                                statusCode:3}],
                                      errCode:301} }        
       elsif @reg.waitlist_cur == @reg.waitlist_max
-        format.json { render json: { sections:[{name:@reg.name, statusCode:4}],
+        format.json { render json: { sections:[{section_id:@reg.id, 
+                                                section_name:@reg.name, 
+                                                statusCode:4}],
                                      errCode:301} }        
       else
         #since it's a join table, the entry added by one key can be 
@@ -131,7 +142,9 @@ class RegistrationsController < ApplicationController
         @user.registrations << @reg
         #@reg.users << @user
         @reg.update_attributes(enroll_cur:(@reg.enroll_cur + 1))
-        format.json { render json: { sections:[{name:@reg.name, statusCode:1}],
+        format.json { render json: { sections:[{section_id:@reg.id, 
+                                                section_name:@reg.name, 
+                                                statusCode:1}],
                                      errCode:1} }        
       end
     end
@@ -141,7 +154,12 @@ class RegistrationsController < ApplicationController
   #for users to drop a registered section
   def drop
     #assuming user already has at least 1 section
-    @user = User.find_by_email(params[:user_email].downcase)
+    if session[:user_id] != nil
+      @user = User.find_by_id(session[:user_id])
+    #deprecated in the future
+    else  
+      @user = User.find_by_email(params[:user_email].downcase)
+    end
     @reg = Registration.find_by_name(params[:section_name].upcase)
     
     respond_to do |format|
@@ -154,14 +172,21 @@ class RegistrationsController < ApplicationController
       end
       @reg.update_attributes(enroll_cur:@reg.enroll_cur, 
                              waitlist_cur:@reg.waitlist_cur)
-      format.json { render json: { section_name:@reg.name, errCode:1 } }
+      format.json { render json: { section_id:@reg.id, 
+                                   section_name:@reg.name, 
+                                   errCode:1 } }
     end
   end
 
 
   #for users to view his/her enrolled sections
   def viewEnrolledSections
-    @user = User.find_by_email(params[:user_email].downcase)
+    if session[:user_id] != nil
+      @user = User.find_by_id(session[:user_id])
+    #deprecated in the future
+    else  
+      @user = User.find_by_email(params[:user_email].downcase)
+    end
     
     respond_to do |format|
       if @user.registrations.empty?
