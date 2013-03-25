@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "RegistrationsControllers" do
+describe "SectionsControllers" do
 
   #--------------------------------
   #Error message => errCode
@@ -28,7 +28,7 @@ describe "RegistrationsControllers" do
 
   #--------------------------------
   
-  reg_json = {name:"A_SEC", day:"MONDAY", 
+  sec_json = {name:"A_SEC", day:"MONDAY", 
               description:"This section won't teach you swimming", 
               start_time:"10:00:00", end_time:"20:00:00", 
               enroll_cur:0,enroll_max:5, 
@@ -41,86 +41,86 @@ describe "RegistrationsControllers" do
                zip: "12345", admin: 0, password: "password", 
                password_confirmation: "password", format: :json}
   
-  describe RegistrationsController do
+  describe SectionsController do
     #test for createSection
     describe "#createSection" do
       
       context "when all valid" do
         it "should render json {name:name, errCode: 1}" do
-          expected = {name:reg_json[:name], errCode: SUCCESS}.to_json
-          reg1_json = reg_json.dup
-          post '/Admin/createSection', reg1_json
+          expected = {name:sec_json[:name], errCode: SUCCESS}.to_json
+          sec1_json = sec_json.dup
+          post '/Admin/createSection', sec1_json
           response.body.should == expected
         end
       end
     
       context "when name not valid" do
         it "should render json {name:name, errCode: 200}" do
-          reg1_json = reg_json.dup
-          reg1_json[:name] = "" 
-          expected = {name:reg1_json[:name], errCode: SEC_NAME_INVALID}.to_json
-          post '/Admin/createSection', reg1_json
+          sec1_json = sec_json.dup
+          sec1_json[:name] = "" 
+          expected = {name:sec1_json[:name], errCode: SEC_NAME_INVALID}.to_json
+          post '/Admin/createSection', sec1_json
           response.body.should == expected
         end
       end
     
       context "when day not valid" do
         it "should render json {name:name, errCode: 201}" do
-          expected = {name:reg_json[:name], errCode: DAY_INVALID}.to_json
-          reg1_json = reg_json.dup
-          reg1_json[:day] = "" 
-          post '/Admin/createSection', reg1_json
+          expected = {name:sec_json[:name], errCode: DAY_INVALID}.to_json
+          sec1_json = sec_json.dup
+          sec1_json[:day] = "" 
+          post '/Admin/createSection', sec1_json
           response.body.should == expected
         end
       end
     
       context "when description not valid" do
         it "should render json {name:name, errCode: 202}" do
-          expected = {name:reg_json[:name], errCode: DESCR_INVALID}.to_json
-          reg1_json = reg_json.dup
-          reg1_json[:description] = "" 
-          post '/Admin/createSection', reg1_json
+          expected = {name:sec_json[:name], errCode: DESCR_INVALID}.to_json
+          sec1_json = sec_json.dup
+          sec1_json[:description] = "" 
+          post '/Admin/createSection', sec1_json
           response.body.should == expected
         end
       end
     
       context "when teacher not valid" do
         it "should render json {name:name, errCode: 203}" do
-          expected = {name:reg_json[:name], errCode: TEACHER_INVALID}.to_json
-          reg1_json = reg_json.dup
-          reg1_json[:teacher] = "   " 
-          post '/Admin/createSection', reg1_json
+          expected = {name:sec_json[:name], errCode: TEACHER_INVALID}.to_json
+          sec1_json = sec_json.dup
+          sec1_json[:teacher] = "   " 
+          post '/Admin/createSection', sec1_json
           response.body.should == expected
         end
       end
     
       context "when section overlap with the same teacher" do
         it "should render json {name:name, errCode: 204}" do
-          reg1_json = reg_json.dup
-          reg1_json[:name] = "ANOTHER_SEC"
-          expected = {name:reg1_json[:name], errCode: SEC_OVERLAP_FOR_TEACHER}.to_json
-          post '/Admin/createSection', reg_json
-          post '/Admin/createSection', reg1_json
+          sec1_json = sec_json.dup
+          sec1_json[:name] = "ANOTHER_SEC"
+          expected = {name:sec1_json[:name], errCode: SEC_OVERLAP_FOR_TEACHER}.to_json
+          post '/Admin/createSection', sec_json
+          post '/Admin/createSection', sec1_json
           response.body.should == expected
         end
       end
     
       context "when time not valid" do
         it "should render json {name:name, errCode: 205}" do
-          expected = {name:reg_json[:name], errCode: TIME_INVALID}.to_json
-          reg1_json = reg_json.dup
-          reg1_json[:start_time] = "21:00:00"
-          post '/Admin/createSection', reg1_json
+          expected = {name:sec_json[:name], errCode: TIME_INVALID}.to_json
+          sec1_json = sec_json.dup
+          sec1_json[:start_time] = "21:00:00"
+          post '/Admin/createSection', sec1_json
           response.body.should == expected
         end
       end
     
       context "when time not valid" do
         it "should render json {name:name, errCode: 206}" do
-          expected = {name:reg_json[:name], errCode: DATE_INVALID}.to_json
-          reg1_json = reg_json.dup
-          reg1_json[:start_date] = "2020-12-12"
-          post '/Admin/createSection', reg1_json
+          expected = {name:sec_json[:name], errCode: DATE_INVALID}.to_json
+          sec1_json = sec_json.dup
+          sec1_json[:start_date] = "2020-12-12"
+          post '/Admin/createSection', sec1_json
           response.body.should == expected
         end
       end 
@@ -131,7 +131,7 @@ describe "RegistrationsControllers" do
       
       context "when all valid" do
         it "should render json {name:secName, errCode: 1}" do
-          reg1_json = {name:"A_SEC", day:"SUNDAY", 
+          sec1_json = {name:"A_SEC", day:"SUNDAY", 
                       description:"This section is good", 
                       start_time:"00:00:00", end_time:"10:00:00", 
                       enroll_cur:0,enroll_max:30, 
@@ -139,79 +139,79 @@ describe "RegistrationsControllers" do
                       teacher:"A_TEACHER", 
                       waitlist_cur:0, waitlist_max:30,
                       format: :json}
-          expected = {name:reg1_json[:name], errCode: SUCCESS}.to_json
-          post '/Admin/createSection', reg_json
-          post '/Admin/editSection', reg1_json
+          expected = {name:sec1_json[:name], errCode: SUCCESS}.to_json
+          post '/Admin/createSection', sec_json
+          post '/Admin/editSection', sec1_json
           response.body.should == expected
         end
       end
     
       context "when day not valid" do
         it "should render json {name:name, errCode: 201}" do
-          reg1_json = reg_json.dup
-          reg1_json[:day] = " " 
-          expected = {name:reg1_json[:name], errCode: DAY_INVALID}.to_json
-          post '/Admin/createSection', reg_json
-          post '/Admin/editSection', reg1_json
+          sec1_json = sec_json.dup
+          sec1_json[:day] = " " 
+          expected = {name:sec1_json[:name], errCode: DAY_INVALID}.to_json
+          post '/Admin/createSection', sec_json
+          post '/Admin/editSection', sec1_json
           response.body.should == expected
         end
       end
     
       context "when description not valid" do
         it "should render json {name:name, errCode: 202}" do
-          expected = {name:reg_json[:name], errCode: DESCR_INVALID}.to_json
-          reg1_json = reg_json.dup
-          reg1_json[:description] = "" 
-          post '/Admin/createSection', reg_json
-          post '/Admin/editSection', reg1_json
+          expected = {name:sec_json[:name], errCode: DESCR_INVALID}.to_json
+          sec1_json = sec_json.dup
+          sec1_json[:description] = "" 
+          post '/Admin/createSection', sec_json
+          post '/Admin/editSection', sec1_json
           response.body.should == expected
         end
       end
     
       context "when teacher not valid" do
         it "should render json {name:name, errCode: 203}" do
-          expected = {name:reg_json[:name], errCode: TEACHER_INVALID}.to_json
-          reg1_json = reg_json.dup
-          reg1_json[:teacher] = "   " 
-          post '/Admin/createSection', reg_json
-          post '/Admin/editSection', reg1_json
+          expected = {name:sec_json[:name], errCode: TEACHER_INVALID}.to_json
+          sec1_json = sec_json.dup
+          sec1_json[:teacher] = "   " 
+          post '/Admin/createSection', sec_json
+          post '/Admin/editSection', sec1_json
           response.body.should == expected
         end
       end
     
       context "when section overlap with the same teacher" do
         it "should render json {name:name, errCode: 204}" do
-          reg1_json = reg_json.dup
-          reg1_json[:name] = "ANOTHER_SEC"
-          reg1_json[:day] = "FRIDAY"
-          reg2_json = reg1_json.dup
-          reg2_json[:day] = reg_json[:day]
-          expected = {name:reg1_json[:name], errCode: SEC_OVERLAP_FOR_TEACHER}.to_json
-          post '/Admin/createSection', reg_json
-          post '/Admin/createSection', reg1_json
-          post '/Admin/editSection', reg2_json
+          sec1_json = sec_json.dup
+          sec1_json[:name] = "ANOTHER_SEC"
+          sec1_json[:day] = "FRIDAY"
+          sec2_json = sec1_json.dup
+          sec2_json[:day] = sec_json[:day]
+          expected = {name:sec1_json[:name], errCode: SEC_OVERLAP_FOR_TEACHER}.to_json
+          post '/Admin/createSection', sec_json
+          post '/Admin/createSection', sec1_json
+          post '/Admin/editSection', sec2_json
           response.body.should == expected
         end
       end
     
       context "when time not valid" do
         it "should render json {name:name, errCode: 205}" do
-          expected = {name:reg_json[:name], errCode: TIME_INVALID}.to_json
-          reg1_json = reg_json.dup
-          reg1_json[:start_time] = "21:00:00"
-          post '/Admin/createSection', reg_json
-          post '/Admin/editSection', reg1_json
+          expected = {name:sec_json[:name], errCode: TIME_INVALID}.to_json
+          sec1_json = sec_json.dup
+          sec1_json[:start_time] = "21:00:00"
+          post '/Admin/createSection', sec_json
+          post '/Admin/editSection', sec1_json
           response.body.should == expected
         end
       end
     
       context "when time not valid" do
         it "should render json {name:name, errCode: 206}" do
-          expected = {name:reg_json[:name], errCode: DATE_INVALID}.to_json
-          reg1_json = reg_json.dup
-          reg1_json[:start_date] = "2020-12-12"
-          post '/Admin/createSection', reg_json
-          post '/Admin/editSection', reg1_json
+          expected = {name:sec_json[:name], errCode: DATE_INVALID}.to_json
+          sec1_json = sec_json.dup
+          sec1_json[:start_date] = "2020-12-12"
+          post '/Admin/createSection', sec_json
+          post '/Admin/editSection', sec1_json
           response.body.should == expected
         end
       end 
@@ -222,9 +222,9 @@ describe "RegistrationsControllers" do
     describe "#deleteSection" do
       context "when delete completed" do
         it "should render json: {name:name, errCode: 1}" do
-          expected = {name:reg_json[:name], errCode: SUCCESS}.to_json
-          post '/Admin/createSection', reg_json
-          post '/Admin/deleteSection', reg_json
+          expected = {name:sec_json[:name], errCode: SUCCESS}.to_json
+          post '/Admin/createSection', sec_json
+          post '/Admin/deleteSection', sec_json
           response.body.should == expected
         end
       end
@@ -237,12 +237,12 @@ describe "RegistrationsControllers" do
     describe "#getSchedule" do
       #context "when there is at least 1 sections" do
       #  it "should render json: {:sections=>list, errCode: 1}" do
-      #    reg1_json = reg_json.dup
-      #    reg1_json[:name] = 'SEC_B'
-      #    reg1_json[:day] = 'FRIDAY'
-      #    expected = {:sections=>[reg_json, reg1_json], errCode: SUCCESS}.to_json
-      #    post '/Admin/createSection', reg_json
-      #    post '/Admin/createSection', reg1_json
+      #    sec1_json = sec_json.dup
+      #    sec1_json[:name] = 'SEC_B'
+      #    sec1_json[:day] = 'FRIDAY'
+      #    expected = {:sections=>[sec_json, sec1_json], errCode: SUCCESS}.to_json
+      #    post '/Admin/createSection', sec_json
+      #    post '/Admin/createSection', sec1_json
       #    get '/Registrations/getSchedule', {format: :json}
       #    response.body.should == expected
       #  end
@@ -263,13 +263,13 @@ describe "RegistrationsControllers" do
     describe "#viewOneSection" do
       #context "when the section exists" do
       #  it "should render json: {:sections=>section, errCode: 1}" do
-      #    reg1_json = reg_json.dup
-      #    reg1_json[:name] = 'SEC_B'
-      #    reg1_json[:day] = 'FRIDAY'
-      #    test_json = {name:reg1_json[:name], format: :json}
-      #    expected = {:sections=>[reg1_json], errCode: SUCCESS}.to_json
-      #    post '/Admin/createSection', reg_json
-      #    post '/Admin/createSection', reg1_json
+      #    sec1_json = sec_json.dup
+      #    sec1_json[:name] = 'SEC_B'
+      #    sec1_json[:day] = 'FRIDAY'
+      #    test_json = {name:sec1_json[:name], format: :json}
+      #    expected = {:sections=>[sec1_json], errCode: SUCCESS}.to_json
+      #    post '/Admin/createSection', sec_json
+      #    post '/Admin/createSection', sec1_json
       #    get '/Registrations/viewOneSection', test_json
       #    response.body.should == expected
       #  end
@@ -277,7 +277,7 @@ describe "RegistrationsControllers" do
 
       context "when there is no section" do
         it "should render json: { errCode: 300}" do
-          test_json = {name:reg_json[:name], format: :json}
+          test_json = {name:sec_json[:name], format: :json}
           expected = { sections:[], errCode: 300 }.to_json
           get '/Registrations/viewOneSection', test_json
           response.body.should == expected
@@ -287,20 +287,20 @@ describe "RegistrationsControllers" do
     end
 
 
-    #test for user registeration 
+    #test for user section
     describe "#register" do
       before (:each) do
         test_json = {user_email:user_json[:email], 
-                     section_name:reg_json[:name], format: :json}
+                     section_name:sec_json[:name], format: :json}
         post '/Users/add', user_json
-        post '/Admin/createSection', reg_json
+        post '/Admin/createSection', sec_json
         post '/Registrations/register', test_json
       end
       
       context "when everything the user registers with is valid" do
         it "should render json: { sections:[{section_id:1, section_name:A_SEC, statusCode:1}], errCode: 1}" do
           expected = { sections:[{section_id: 1, 
-                                  section_name:reg_json[:name], 
+                                  section_name:sec_json[:name], 
                                   statusCode:1}], 
                        errCode: 1 }.to_json
           response.body.should == expected
@@ -315,11 +315,11 @@ describe "RegistrationsControllers" do
       context "when user already in the section" do
         it "should render json: { sections:[{section_id:1, section_name:A_SEC, statusCode:2}], errCode: 1}" do
           expected = { sections:[{section_id:1, 
-                                  section_name:reg_json[:name], 
+                                  section_name:sec_json[:name], 
                                   statusCode:2}], 
                        errCode: 301 }.to_json
           test_json = {user_email:user_json[:email], 
-                       section_name:reg_json[:name], format: :json}
+                       section_name:sec_json[:name], format: :json}
           post '/Registrations/register', test_json
           response.body.should == expected
         end
@@ -328,13 +328,13 @@ describe "RegistrationsControllers" do
       context "when section enrollment is full" do
         it "should place use to waitlist and thus render json: { sections:[{section_id:1, section_name:A_SEC, statusCode:3}], errCode: 301}" do
           expected = { sections:[{section_id:1,
-                                  section_name:reg_json[:name], 
+                                  section_name:sec_json[:name], 
                                   statusCode:3}], 
                        errCode: 301 }.to_json
           5.times do 
             user_json[:email] = "a" + user_json[:email]
             test_json = {user_email:user_json[:email], 
-                         section_name:reg_json[:name], format: :json}
+                         section_name:sec_json[:name], format: :json}
             post '/Users/add', user_json
             post '/Registrations/register', test_json
           end
@@ -352,16 +352,16 @@ describe "RegistrationsControllers" do
     describe "#drop" do
       before (:each) do
         test_json = {user_email:user_json[:email], 
-                     section_name:reg_json[:name], format: :json}
+                     section_name:sec_json[:name], format: :json}
         post '/Users/add', user_json
-        post '/Admin/createSection', reg_json
+        post '/Admin/createSection', sec_json
         post '/Registrations/register', test_json
       end
       
       context "when successfully dropped a section with waitlist_cur==0" do
         before (:each) do
           test_json = {user_email:user_json[:email], 
-                       section_name:reg_json[:name], format: :json}
+                       section_name:sec_json[:name], format: :json}
           post '/Registrations/drop', test_json
 
         end
@@ -378,7 +378,7 @@ describe "RegistrationsControllers" do
         end
       end
       
-      #tests for waitlist != 0 and @user & @reg actually get disconnected
+      #tests for waitlist != 0 and @user & @sec actually get disconnected
       #left for later
     end
 
@@ -388,12 +388,12 @@ describe "RegistrationsControllers" do
       #context "when user has enrolled at least 1 sections" do
       #  it "should render json: { sections:[{}, {}], errCode: 1}" do
       #    test_json = {user_email:user_json[:email], 
-      #                 section_name:reg_json[:name], format: :json}
+      #                 section_name:sec_json[:name], format: :json}
       #    post '/Users/add', user_json
-      #    post '/Admin/createSection', reg_json
+      #    post '/Admin/createSection', sec_json
       #    post '/Registrations/register', test_json
       #    input_json = {user_email:user_json[:email], format: :json}
-      #    expected = { sections:[reg_json] ,errCode: 1 }.to_json
+      #    expected = { sections:[sec_json] ,errCode: 1 }.to_json
       #    get '/Registrations/viewEnrolledSections', input_json
       #    response.body.should == expected
       #  end

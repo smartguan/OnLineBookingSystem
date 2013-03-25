@@ -1,12 +1,12 @@
-class Registration < ActiveRecord::Base
+class Section < ActiveRecord::Base
   attr_accessible :name, :day, :description, :end_date, :end_time, :enroll_cur, :enroll_max, :start_date, :start_time, :teacher, :waitlist_cur, :waitlist_max
 
   has_and_belongs_to_many :users
 
-  before_validation do |registration| 
-    registration.name = name.upcase
-    registration.day = day.upcase
-    registration.teacher = teacher.upcase
+  before_validation do |section| 
+    section.name = name.upcase
+    section.day = day.upcase
+    section.teacher = teacher.upcase
   end
 
   validates :name, presence:true, length: {maximum: 20},
@@ -60,7 +60,7 @@ class Registration < ActiveRecord::Base
 
   #validate no section overlop for a teacher
   def section_not_overlapped_for_a_teacher
-    if Registration.where("((:start_time BETWEEN start_time AND end_time) OR 
+    if Section.where("((:start_time BETWEEN start_time AND end_time) OR 
                            (:end_time BETWEEN start_time AND end_time) OR 
                            (:start_time <= start_time AND :end_time >= end_time)) AND
                             ((:start_date BETWEEN start_date AND end_date) OR 

@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
 
   before_save { |user| user.email = email.downcase }
   before_save :create_remember_token
-  has_and_belongs_to_many :registrations
+  has_and_belongs_to_many :sections
 
   before_save { |user| user.email = email.downcase }
   

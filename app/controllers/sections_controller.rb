@@ -1,4 +1,4 @@
-class RegistrationsController < ApplicationController
+class SectionsController < ApplicationController
 
   #--------------------------------
   #Error message => errCode
@@ -29,9 +29,9 @@ class RegistrationsController < ApplicationController
 
   # create, for admin only
   def createSection
-    @reg = newSection
+    @sec = newSection
     respond_to do |format|
-      if @reg.save
+      if @sec.save
         self.returnSuccess format
       else
         self.returnAdminError format
@@ -42,10 +42,10 @@ class RegistrationsController < ApplicationController
 
   #edit for admin only  
   def editSection
-    @reg = Registration.find_by_name(params[:name].upcase)
+    @sec = Section.find_by_name(params[:name].upcase)
 
     respond_to do |format|
-      if @reg.update_attributes(day:params[:day], 
+      if @sec.update_attributes(day:params[:day], 
                                 description:params[:description], 
                                 end_date:params[:end_date],
                                 end_time:params[:end_time],
@@ -64,10 +64,10 @@ class RegistrationsController < ApplicationController
 
   #delete a section
   def deleteSection
-    @reg = Registration.find_by_name(params[:name].upcase)
+    @sec = Section.find_by_name(params[:name].upcase)
 
     respond_to do |format|
-      if @reg.destroy
+      if @sec.destroy
         returnSuccess format
       #might be implemented later. e.g. can't destroy user with booking payment
       else
@@ -82,11 +82,11 @@ class RegistrationsController < ApplicationController
   #note: for now just return all the sections.
   #later may be divided to return schedule according to different sort. e.g. time, date
   def getSchedule
-    regs_list = Registration.all
+    secs_list = Section.all
 
     respond_to do |format|
-      if not regs_list.empty?
-        format.json { render json: { :sections => regs_list, errCode: 1} }
+      if not secs_list.empty?
+        format.json { render json: { :sections => secs_list, errCode: 1} }
       else
         format.json { render json: { errCode: 300 } }
       end
@@ -97,11 +97,11 @@ class RegistrationsController < ApplicationController
   #view one section
   #later may be divided to return schedule according to different sort. e.g. time, date
   def viewOneSection
-    reg = Registration.where(name:params[:name]).first
+    sec = Section.where(name:params[:name]).first
 
     respond_to do |format|
-      if reg != nil
-        format.json { render json: { :sections => [reg], errCode: 1} }
+      if sec != nil
+        format.json { render json: { :sections => [sec], errCode: 1} }
       else
         format.json { render json: { :sections => [], errCode: 300 } }
       end
@@ -117,33 +117,33 @@ class RegistrationsController < ApplicationController
     else  
       @user = User.find_by_email(params[:user_email].downcase)
     end
-    @reg = Registration.find_by_name(params[:section_name].upcase)
+    @sec = Section.find_by_name(params[:section_name].upcase)
     
     respond_to do |format|
-      if @user.registrations.exists?(:name => @reg.name) or
-         @reg.users.exists?(:id=>@user.id)
-        format.json { render json: { sections:[{section_id:@reg.id, 
-                                                section_name:@reg.name, 
+      if @user.sections.exists?(:name => @sec.name) or
+         @sec.users.exists?(:id=>@user.id)
+        format.json { render json: { sections:[{section_id:@sec.id, 
+                                                section_name:@sec.name, 
                                                 statusCode:2}], 
                                      errCode:301 } }
-      elsif @reg.enroll_cur == @reg.enroll_max
-        format.json { render json: { sections:[{section_id:@reg.id, 
-                                                section_name:@reg.name, 
+      elsif @sec.enroll_cur == @sec.enroll_max
+        format.json { render json: { sections:[{section_id:@sec.id, 
+                                                section_name:@sec.name, 
                                                 statusCode:3}],
                                      errCode:301} }        
-      elsif @reg.waitlist_cur == @reg.waitlist_max
-        format.json { render json: { sections:[{section_id:@reg.id, 
-                                                section_name:@reg.name, 
+      elsif @sec.waitlist_cur == @sec.waitlist_max
+        format.json { render json: { sections:[{section_id:@sec.id, 
+                                                section_name:@sec.name, 
                                                 statusCode:4}],
                                      errCode:301} }        
       else
         #since it's a join table, the entry added by one key can be 
         #view or accessed by the other key
-        @user.registrations << @reg
-        #@reg.users << @user
-        @reg.update_attributes(enroll_cur:(@reg.enroll_cur + 1))
-        format.json { render json: { sections:[{section_id:@reg.id, 
-                                                section_name:@reg.name, 
+        @user.sections << @sec
+        #@sec.users << @user
+        @sec.update_attributes(enroll_cur:(@sec.enroll_cur + 1))
+        format.json { render json: { sections:[{section_id:@sec.id, 
+                                                section_name:@sec.name, 
                                                 statusCode:1}],
                                      errCode:1} }        
       end
@@ -160,20 +160,20 @@ class RegistrationsController < ApplicationController
     else  
       @user = User.find_by_email(params[:user_email].downcase)
     end
-    @reg = Registration.find_by_name(params[:section_name].upcase)
+    @sec = Section.find_by_name(params[:section_name].upcase)
     
     respond_to do |format|
-      @user.registrations.delete(@reg)
-      @reg.users.delete(@user)
-      if @reg.waitlist_cur == 0
-        @reg.enroll_cur -= 1
+      @user.sections.delete(@sec)
+      @sec.users.delete(@user)
+      if @sec.waitlist_cur == 0
+        @sec.enroll_cur -= 1
       else
-        @reg.waitlist_cur -= 1
+        @sec.waitlist_cur -= 1
       end
-      @reg.update_attributes(enroll_cur:@reg.enroll_cur, 
-                             waitlist_cur:@reg.waitlist_cur)
-      format.json { render json: { section_id:@reg.id, 
-                                   section_name:@reg.name, 
+      @sec.update_attributes(enroll_cur:@sec.enroll_cur, 
+                             waitlist_cur:@sec.waitlist_cur)
+      format.json { render json: { section_id:@sec.id, 
+                                   section_name:@sec.name, 
                                    errCode:1 } }
     end
   end
@@ -189,10 +189,10 @@ class RegistrationsController < ApplicationController
     end
     
     respond_to do |format|
-      if @user.registrations.empty?
+      if @user.sections.empty?
         format.json { render json: { sections:[], errCode:303 } }
       else
-        format.json { render json: { sections:@user.registrations.all, errCode:1 } }
+        format.json { render json: { sections:@user.sections.all, errCode:1 } }
       end
     end
   end
@@ -200,7 +200,7 @@ class RegistrationsController < ApplicationController
 
   #creat
   def newSection
-   return Registration.new(name:params[:name], day:params[:day], 
+   return Section.new(name:params[:name], day:params[:day], 
                             description:params[:description], end_date:params[:end_date],
                             end_time:params[:end_time], enroll_cur:0,
                             enroll_max:params[:enroll_max], start_date:params[:start_date],
@@ -211,27 +211,27 @@ class RegistrationsController < ApplicationController
   
   #return success code
   def returnSuccess format
-    format.json { render json: { name:@reg.name, errCode: 1 } }
+    format.json { render json: { name:@sec.name, errCode: 1 } }
   end
   
   #return error code
   def returnAdminError format
-    if not @reg.errors[:name].empty?
-      format.json { render json: { name:@reg.name, errCode: 200 } }
-    elsif not @reg.errors[:day].empty?
-      format.json { render json: { name:@reg.name, errCode: 201 } }
-    elsif not @reg.errors[:description].empty?
-      format.json { render json: { name:@reg.name, errCode: 202 } }
-    elsif not @reg.errors[:teacher].empty?
-      if @reg.errors[:teacher][0] == 'section_overlapped'
-        format.json { render json: { name:@reg.name, errCode: 204 } }
+    if not @sec.errors[:name].empty?
+      format.json { render json: { name:@sec.name, errCode: 200 } }
+    elsif not @sec.errors[:day].empty?
+      format.json { render json: { name:@sec.name, errCode: 201 } }
+    elsif not @sec.errors[:description].empty?
+      format.json { render json: { name:@sec.name, errCode: 202 } }
+    elsif not @sec.errors[:teacher].empty?
+      if @sec.errors[:teacher][0] == 'section_overlapped'
+        format.json { render json: { name:@sec.name, errCode: 204 } }
       else 
-        format.json { render json: { name:@reg.name, errCode: 203 } }
+        format.json { render json: { name:@sec.name, errCode: 203 } }
       end
-    elsif not @reg.errors[:start_time].empty? or not @reg.errors[:end_time].empty?
-      format.json { render json: { name:@reg.name, errCode: 205 } }
-    elsif not @reg.errors[:start_date].empty? or not @reg.errors[:end_date].empty?
-      format.json { render json: { name:@reg.name, errCode: 206 } }
+    elsif not @sec.errors[:start_time].empty? or not @sec.errors[:end_time].empty?
+      format.json { render json: { name:@sec.name, errCode: 205 } }
+    elsif not @sec.errors[:start_date].empty? or not @sec.errors[:end_date].empty?
+      format.json { render json: { name:@sec.name, errCode: 206 } }
     end
   end
 

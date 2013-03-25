@@ -30,20 +30,20 @@ Cs169::Application.routes.draw do
 
   # Routes for Registration controller
 
-  match '/Registrations/getSchedule', to: 'registrations#getSchedule'
-  match '/Registrations/viewOneSection', to: 'registrations#viewOneSection'
-  match '/Registrations/viewEnrolledSections', to: 'registrations#viewEnrolledSections'
-  match '/Registrations/register', to: 'registrations#register'
-  match '/Registrations/drop', to: 'registrations#drop'
+  match '/Registrations/getSchedule', to: 'sections#getSchedule'
+  match '/Registrations/viewOneSection', to: 'sections#viewOneSection'
+  match '/Registrations/viewEnrolledSections', to: 'sections#viewEnrolledSections'
+  match '/Registrations/register', to: 'sections#register'
+  match '/Registrations/drop', to: 'sections#drop'
 
-  match '/Admin/createSection', to:'registrations#createSection'
-  match '/Admin/editSection', to:'registrations#editSection'
-  match '/Admin/deleteSection', to:'registrations#deleteSection'
+  match '/Admin/createSection', to:'sections#createSection'
+  match '/Admin/editSection', to:'sections#editSection'
+  match '/Admin/deleteSection', to:'sections#deleteSection'
 
-  match '/Registrations/viewOneSection', to: 'registrations#viewOneSection'
-  # match '/Registrations/viewEnrolledSections', to: 'registrations#viewEnrolledSections', :via => :get, :default => {format: "json"}
-  # match '/Registrations/register', to: 'registrations#register', :via => :post, :default => {format: "json"}
-  # match '/Registrations/drop', to: 'registrations#drop', :via => :post, :default => {format: "json"}
+  match '/Registrations/viewOneSection', to: 'sections#viewOneSection'
+  # match '/Registrations/viewEnrolledSections', to: 'sections#viewEnrolledSections', :via => :get, :default => {format: "json"}
+  # match '/Registrations/register', to: 'sections#register', :via => :post, :default => {format: "json"}
+  # match '/Registrations/drop', to: 'sections#drop', :via => :post, :default => {format: "json"}
   
   match '/admin' => 'application#admin'
   match '/reservation' => 'application#reservation'

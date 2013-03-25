@@ -11,9 +11,9 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130311190607) do
+ActiveRecord::Schema.define(:version => 20130325003137) do
 
-  create_table "registrations", :force => true do |t|
+  create_table "sections", :force => true do |t|
     t.date     "start_date"
     t.date     "end_date"
     t.string   "day"
@@ -30,8 +30,8 @@ ActiveRecord::Schema.define(:version => 20130311190607) do
     t.string   "name"
   end
 
-  create_table "registrations_users", :id => false, :force => true do |t|
-    t.integer "registration_id"
+  create_table "sections_users", :id => false, :force => true do |t|
+    t.integer "section_id"
     t.integer "user_id"
   end
 
