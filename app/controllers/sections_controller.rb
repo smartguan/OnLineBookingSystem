@@ -126,7 +126,12 @@ class SectionsController < ApplicationController
                                                 section_name:@sec.name, 
                                                 statusCode:2}], 
                                      errCode:301 } }
-      elsif @sec.enroll_cur == @sec.enroll_max
+      elsif @sec.enroll_cur == @sec.enroll_max and 
+            @sec.waitlist_cur < @sec.waitlist_max
+        @user.sections << @sec
+        @reg = Registration.where(:user_id => @user.id, :section_id => @sec.id).first
+        @reg.update_attributes(waitlist_place:(@sec.waitlist_cur + 1))
+        @sec.update_attributes(waitlist_cur:(@sec.waitlist_cur + 1))
         format.json { render json: { sections:[{section_id:@sec.id, 
                                                 section_name:@sec.name, 
                                                 statusCode:3}],
@@ -141,6 +146,8 @@ class SectionsController < ApplicationController
         #view or accessed by the other key
         @user.sections << @sec
         #@sec.users << @user
+        @reg = Registration.where(:user_id => @user.id, :section_id => @sec.id).first
+        @reg.update_attributes(waitlist_place:0)
         @sec.update_attributes(enroll_cur:(@sec.enroll_cur + 1))
         format.json { render json: { sections:[{section_id:@sec.id, 
                                                 section_name:@sec.name, 
@@ -168,7 +175,19 @@ class SectionsController < ApplicationController
       if @sec.waitlist_cur == 0
         @sec.enroll_cur -= 1
       else
+        #shift the person 1st in the waitlist to the enrolled list
         @sec.waitlist_cur -= 1
+        @update_reg = Registration.where(:waitlist_place => 1).first
+        @update_reg.update_attributes(waitlist_place:0)
+        
+        if @sec.waitlist_cur != 0
+          Registration.where("user_id = :user_id, section_id = :section_id, 
+                              waitlist_place >= :one",  
+                              :user_id => @user.id, :section_id => @sec.id, 
+                              :one => 1 ).each do |r|
+            r.update_attributes(waitlist_place:(r.waitlist_place - 1))
+          end
+        end
       end
       @sec.update_attributes(enroll_cur:@sec.enroll_cur, 
                              waitlist_cur:@sec.waitlist_cur)

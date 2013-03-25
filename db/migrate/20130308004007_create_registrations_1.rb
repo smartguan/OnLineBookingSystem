@@ -1,6 +1,6 @@
-class CreateRegistrations < ActiveRecord::Migration
+class CreateRegistrations_1 < ActiveRecord::Migration
   def change
-    create_table :registrations do |t|
+    create_table :registrations_1 do |t|
       t.date :start_date
       t.date :end_date
       t.string :day

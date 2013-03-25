@@ -1,7 +1,8 @@
 class Section < ActiveRecord::Base
   attr_accessible :name, :day, :description, :end_date, :end_time, :enroll_cur, :enroll_max, :start_date, :start_time, :teacher, :waitlist_cur, :waitlist_max
 
-  has_and_belongs_to_many :users
+  has_many :registrations
+  has_many :users, :through => :registrations, :order => "first ASC", :uniq => true
 
   before_validation do |section| 
     section.name = name.upcase
@@ -74,6 +75,6 @@ class Section < ActiveRecord::Base
     end
   end
 
-
+  
 
 end
