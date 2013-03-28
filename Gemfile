@@ -25,8 +25,9 @@ end
 group :test do
   gem "cucumber-rails", '1.3.0', require: false
   gem 'capybara', '1.1.2'
+  gem 'capybara-webkit', '0.13.0'
   gem 'database_cleaner', '0.9.1'
-  gem "factory_girl_rails", "~> 4.0"
+  gem "factory_girl_rails", '4.2.1'
   gem 'factory_girl', '4.2.0'
   gem 'guard-cucumber', '1.3.2'
   gem 'guard-rspec'

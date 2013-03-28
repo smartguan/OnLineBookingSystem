@@ -26,6 +26,9 @@
     <input id="test-add" type="submit" value="add">
     <input id="test-login" type="submit" value="login">
     <input id="test-delete" type="submit" value="delete">
+    <input id="test-update" type="submit" value="update">
+    <input id="test-logout" type="submit" value="logout">
+    <input id="test-profile" type="submit" value="profile">
   </form>
   <div id="test-message"</div>
 </body>
@@ -34,7 +37,11 @@
   $(document).ready(function() {
     display_message("Test form loaded") 
   })
- 
+
+  function reset_form() {
+    $('form')[0].reset() 
+  }
+
   function display_message(message) {
     $('#test-message').html(message)
   }
@@ -51,8 +58,9 @@
                password_confirmation: password_confirmation, dob: dob,
                zip: zip}
     json_request("/Users/add", request, 
-                 function(data) {return display_message(JSON.stringify(data))}, 
+                 function(data) {return display_message("Add" + JSON.stringify(data))}, 
                  function(error) {alert("Error")}) 
+    reset_form()
     return false
   })
 
@@ -68,8 +76,9 @@
                password_confirmation: password_confirmation, dob: dob,
                zip: zip}
     json_request("/Users/login", request, 
-                 function(data) {return display_message(JSON.stringify(data))}, 
+                 function(data) {return display_message("Login" + JSON.stringify(data))}, 
                  function(error) {alert("Error")}) 
+    reset_form()
     return false
   }) 
 
@@ -85,11 +94,47 @@
                password_confirmation: password_confirmation, dob: dob,
                zip: zip}
     json_request("/Users/delete", request, 
-                 function(data) {return display_message(JSON.stringify(data))}, 
+                 function(data) {return display_message("Delete" + JSON.stringify(data))}, 
                  function(error) {alert("Error")}) 
+    reset_form()
     return false
   })
- 
+
+  $('#test-update').click(function() {
+    email = $('#test-email').val()
+    first = $('#test-first').val()
+    last = $('#test-last').val()
+    password = $('#test-password').val()
+    dob = $('#test-dob').val()
+    zip = $('#test-zip').val()
+    request = {email: email, first: first, last: last, password: password,
+               dob: dob,
+               zip: zip}
+    json_request("/Users/update", request, 
+                 function(data) {return display_message("Update" + JSON.stringify(data))}, 
+                 function(error) {alert("Error")}) 
+    reset_form()
+    return false
+  })
+
+  $('#test-logout').click(function() {
+    request = {}
+    json_request("/Users/logout", request, 
+                 function(data) {return display_message("Logout" + JSON.stringify(data))}, 
+                 function(error) {alert("Error")}) 
+    reset_form()
+    return false
+  })
+
+  $('#test-profile').click(function() {
+    request = {}
+    json_request("/Users/profile", request, 
+                 function(data) {return display_message("Profile" + JSON.stringify(data))}, 
+                 function(error) {alert("Error")}) 
+    reset_form()
+    return false
+  })
+
   function json_request(page, dict, success, failure) {
     $.ajax({
       type: "POST",
