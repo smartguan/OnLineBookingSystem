@@ -1,102 +1,113 @@
-// Place all the styles related to the Users controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
-$light-blue: #B9D3EE;
-$dark-blue:  #0A4189;
-td {
-	padding-right: 6em;
-	padding-left: 6em;
-}
-@mixin rounded-corners($radius) {
-  border-radius: $radius;
-  -moz-border-radius: $radius;
-  -webkit-border-radius: $radius;
+utitleStyle {
+	background-color: rgb(67,81,104);
+	padding: 3% 1% 2% 2%;
+	font-family: sans-serif;
+	color: white;
 }
 
-
-h1 {
-	font-size: 3.000em;
-	text-align: center;
-	color: $dark-blue;
+ufooterStyle {
+	background-color: rgb(67,81,104);
+	padding: 1% 71% 1% 1%;
+	font-family: sans-serif;
+	color: white;
 }
 
+unewUserStyle {
+	font-size: 15px;
+	font-family: arial;
+	margin-left:26.5%;
+}
 
-.box {
-	color: $dark-blue;
-	background-color: $light-blue;
-
-	margin:50px 0px; padding:0px;
-	text-align:center;
-	font-family: LucidaConsole;
+usignupBox{
+	margin-left:-10%;
+	padding: 15px 200px 456px 24px;
+	border-color: #f5e110;
+	border-width: 1px;
+	border-style: solid;
+	background-color: #f5f5f5;
+	font-size: 19px;
+	font-family: verdana;
+	color: back;
 	
-	width: 24.000em;
-	margin:0px auto;
+}
+
+uleftBox{
+	padding: 15px 350px 410px 24px;
+	border-color: #f5e110;
+	border-width: 1px;
+	border-style: solid;
+	background-color: #f5f5f5;
+	font-size: 20px;
+	font-family: verdana;
+	color: back;
+	margin-left:13%;
 	
-	@include rounded-corners(10px);
-	border: thin black solid;
-	height: 36.000em;
-	vertical-align: middle;
-
-	form {
-		padding-top: 1.00em;
-		vertical-align: middle;
-		text-align: left;
-		font-size: 1em;
-		margin: 5px auto;
-		width: 18.000em;
-		height: 30.000em;
-
-		input {
-			position: inherit;
-			text-align: left;
-		}
-	}
 }
 
-.field_with_errors * {
-	font-size: 0.5em;
-	font-size: 1em;
+ufont20px{
+	font-size: 20px;
+	font-family: Georgia;
+	color: back;
 }
 
-.error_messages {
+ufont15px {
+	margin-left: 0%;
+	font-size: 15px;
+	font-family: sans-serif;
+	color: back;	
+}
+
+ufloatRight{
+	float: right;
+	width: 450px;
+	margin: 0px;
+}
+
+
+ufloatLeft{
 	float: left;
+	margin-top:0px;
+	width:400px;
+	margin:0px;
 }
 
-ul li {
-	text-align: left;
-	float: center;
-	list-style-type: none;
 
-	font-size: 0.666em;
-	font-family: strong;
-	color: white; 
-	text-shadow: black 0.1em 0.1em 0.2em;
-}
-#user_nav {
-	top: 0;
-	position:absolute;
-	width: 100%;
 
-	border: 1px solid;
-	background-color: lighten($dark-blue, 12%);
-	text-align: right;
-	text-decoration: none;
-	padding-right: 10px;
-	padding-top: 0.250em;
-	padding-bottom: 0.250em;
+ubody{
+	background-color: rgb(101,136,169);
 }
 
-a {
-	text-decoration: none;
-	color: #FFF;
-	&:hover { color: darken(white, 15%);}
+space{
+	color: #f5f5f5;
 }
 
-#footer {
-	position: absolute;
-	bottom: 0em;
-	text-align: center;
-	padding-bottom: 1.00em;
-	font-size: 80%;
-   	width:100%;
+#wrapper2 {
+    margin-left:auto;
+    margin-right:auto;
+    width:1270px;
 }
+
+.errbox {
+    width: 400px;
+    height: 165px;
+    border:  maroon solid;
+    background-color: rgb(243,210,213);
+    margin-top:100px;
+    font-size: 17px;
+    font-family: sans-serif;
+    float:right;
+}
+
+.errmessage{
+	padding:10px;
+	margin: 35px 30px 20px 35px;
+    border: thin white dotted;
+    color: red;
+}
+
+
+
+
+
+
+

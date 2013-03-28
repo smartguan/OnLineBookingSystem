@@ -1,32 +1,263 @@
-<h1>Sign Up</h1>
+<!DOCTYPE html>
+<html lang="en">
+	
+	<head>
+		<meta charset="utf-8">
+		<title>Rancho Rinconada Online Booking - User </title>
+		<link type="text/css" rel="stylesheet" href="assets/users.css.scss">
 
-<div class="box" id="login">
-	<%= form_for :user do |f| %>
+		<script type='text/javascript' src='http://code.jquery.com/jquery-1.4.2.js'></script>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
 
-			<br />
-			First Name <br />
-			<%= f.text_field :first, :size => 24 %><br />
+	</head>
 
-			Last Name<br />
-			<%= f.text_field :last, :size => 24 %><br />
+	<div id="wrapper2"><body>
+		<div id="top">
+			<br><h1>
+				<utitleStyle>
+					
+					Rancho Rinconada Online Booking  - Create Users
+					<unewUserStyle>
+						<a href="/"> 
+							<input id="homepage-button" type="submit" value=" HOMEPAGE " style="width:110px; height:30px;font-size:15px; background-color:WHITE; border-color:rgb(129,150,206); color:rgb(129,150,206)"> 
+						</a>
+					</unewUserStyle>
 
-			Email<br />
-			<%= f.text_field :email, :size => 24 %><br />
+				</utitleStyle>
+			</h1>
+		</div>
 
- 			Date of Birth <br />
-			<%= f.text_field :dob, :size => 24 %><br />
- 
-			Zipcode<br />
-			<%= f.text_field :zip, :size => 24 %><br />
+		<div id="rightColumn">
+			<br><ufloatRight>
+				<form>
+					<p>
+						<usignupBox>
+								New Account Form
+						</usignupBox>
 
-			Password <br />
-			<%= f.password_field :password, :size => 24 %><br />
+						<br><br>
+						<ufont15px>
+							Firstname
+						</ufont15px>
+						<br>
+						<ufont15px>
+			     			<input id="create-first" type="text" name="first" style="width:280px; height:23px; font-size:17px"><br>
+			      		</ufont15px>
+			      		<br>
 
-			Confirm Password<br />
-			<%= f.password_field :password_confirmation, :size => 24 %><br />
+			      		<ufont15px>
+							Lastname
+						</ufont15px>
+						<br>
+						<ufont15px>
+			     			<input id="create-last" type="text" name="last" style="width:280px; height:23px; font-size:17px;"><br>
+			      		</ufont15px>
+			      		<br>
+
+						<ufont15px>
+							E-mail
+						</ufont15px>
+						<br>
+						<ufont15px>
+							<input id="create-email" type="text" name="email" style="width:280px; height:23px; font-size:17px">
+							<br>
+						</ufont15px>
+						<br>
+
+						<ufont15px>
+							Password
+						</ufont15px>
+						<br>
+						<ufont15px>
+			     			<input id="create-password" type="password" name="pwd" style="width:280px; height:23px; font-size:17px"><br>
+			      		</ufont15px>
+			      		<br>
+
+						<ufont15px>
+							Re-Enter Password
+						</ufont15px>
+						<br>
+						<ufont15px>
+			     			<input id="create-repassword" type="password" name="pwdconf" style="width:280px; height:23px; font-size:17px"><br>
+			      		</ufont15px>
+			      		<br>
+
+			      		<ufont15px>
+							Zipcode <space>12345</space> Date of Birth
+						</ufont15px>
+						<br>
+						<ufont15px>
+			     			<input id="create-zipcode" type="text" name="zip" style="width:60px; height:23px; font-size:17px">
+			     			<space>123</space>
+			     			<input id="create-dob" type="text" name="dob" style="width:110px; height:23px; font-size:17px">
+			     			<br>
+			      		</ufont15px>
+			      		<br>
+
+			      		<ufont15px>
+			      			<input id="create-button" type="submit" value=" Create " style="width:120px; height:30px;font-size:20px; background-color:rgb(67,81,104); border-color: rgb(67,81,104); color:white; max=8"> 
+			      		</ufont15px>
+					</p>
+				</form>
+			<ufloatRight>
+		</div>
+
+
+		<div id="leftColumn">
+			<ufloatLeft>
+				<p><br>
+					<uleftBox>
+						Future Pictures Go Here
+					</uleftBox>
+				</p>
+			</ufloatLeft>
+		</div>
+
+		<div id="system-message" class="errbox">
+		  <center>
+			  <div id="credentials-message" class="errmessage"></div>
+			    <form>
+
+			      <input type="submit" id="ok-button" value="       OK       " onclick="close_error();return false;" >
+			    
+			    </form>
+			</center>
+		</div>
+
+
+		
+		<div id="bottom">
+			<f1>
+				<br><br><br><br><br><br><br>
+				<br><br><br><br><br><br><br>
+				<br><br><br><br><br><br><br>
+				<br><br><br><br><br><br><br>
+				<br>
+				
+				<ufooterStyle>
+					© 2012 Copyright Rancho Rinconada Rec Center
+				</ufooterStyle>
+			</f1>
+		</div>
+	</body></div>
+
 			
-			<%= f.submit %>
+		<script type="text/javascript">
 
- 	<%= render "shared/error_messages", :target => @user %>
-	<% end %>
-</div>
+
+			$('#top').hide()
+   			$('#rightColumn').hide()
+   			$('#leftColumn').hide()
+   			$('#system-message').hide()
+   			$('#bottom').hide()
+   
+   			/* setup the page so that only one of the forms is shown */
+			
+			$(document).ready(function() {
+			 	show_login_page()
+			 	if ($('#create-dob').val() == '')
+			 	{
+			 		$('#create-dob').val('mm/dd/yyyy')
+			 	}
+			 });
+
+			function show_login_page() {
+				$('#top').show()
+	   			$('#rightColumn').show()
+	   			$('#leftColumn').show()
+	   			$('#bottom').show()
+
+			}
+
+			function close_error(){
+				$('#system-message').hide()
+			}
+
+			function show_system_message2(message) {
+			   	$('#system-message').show()
+			   	$('#credentials-message').html(message);
+			}
+
+			
+
+			function handle_login_response2(data) {
+			  switch (data.errCode){
+			    case 101:
+			      show_system_message2("First Name Must Contain 1-32 Characters.<br> Click OK to try again."); 
+			      break;
+			    case 102:
+			      show_system_message2("Last Name Must Contain 1-32 Characters.<br> Click OK to try again."); 
+			      break;
+			    case 103:
+			      show_system_message2("Not a Valid E-mail Address.<br> Click OK to try again."); 
+			      break;
+			    case 104:
+			      show_system_message2("Password Must Contain 6-32 Characters.<br> Click OK to try again."); 
+			      break;
+			    case 105:
+			      show_system_message2("Date of Birth is Not Valid (mm/dd/yyyy).<br> Click OK to try again."); 
+			      break;
+			    case 106:
+			      show_system_message2("Zip Code Must be a Five Digit Number.<br>  Click OK to try again."); 
+			      break;
+
+			    case 107:
+			      show_system_message2("E-mail Already Registered.<br>  Click OK to try again."); 
+			      break;
+
+			    case 109:
+			      show_system_message2("Password and Password Confirmation DO NOT match.<br>  Click OK to try again."); 
+			      break;
+
+			    //This is the case for success
+			    default:
+			    	show_system_message2("Cannot find the Username/Password<br> pair. Click OK to try again."); 
+			    	if (data.admin == 0) {
+			    		window.location.href = "/admin";
+			    	} 
+			    	else {
+			    		window.location.href = "/admin";
+			    	}   
+			  }
+
+			  return
+
+			}
+
+			
+			$('#create-button').click(function() {
+			   lastname = $('#create-last').val()
+			   firstname = $('#create-first').val()
+			   email = $('#create-email').val()
+			   password = $('#create-password').val()
+			   repassword = $('#create-repassword').val()
+			   zip = $('#create-zipcode').val()
+			   dob = $('#create-dob').val()
+			   admin = 0;
+
+			   json_request("/Users/add", { last: lastname, first: firstname, admin: admin,
+			   	email: email,dob: dob, zip: zip, password_confirmation: repassword, password: password }, function(data) 
+			   	{ return /*alert(JSON.stringify(data))*/handle_login_response2(data); }, function(err) { alert('error occurred on request'); });
+
+			   return false;
+
+
+			});
+
+			function json_request(page, dict, success, failure) {
+		    $.ajax({
+		        type: 'POST',
+		        url: page,
+		        data: JSON.stringify(dict),
+		        contentType: "application/json",
+		        dataType: "json",
+		        success: success,
+		        failure: failure
+		    });
+}
+
+		</script>
+
+		
+</html>

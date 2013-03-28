@@ -12,28 +12,29 @@ group :assets do
 end
 
 group :test, :development do
-	gem 'rspec-rails', '2.11.0'
-	gem 'guard-spork', '1.5.0'
-	gem 'spork', '0.9.2'
+  gem 'rspec-rails', '2.13.0'
+  gem 'guard-spork', '1.5.0'
+  gem 'spork', '0.9.2'
 end
 
 group :development do
-	gem 'sqlite3', '1.3.5'
-	gem 'rspec-rails', '2.11.0'
-	gem 'libnotify'
-	gem 'rb-inotify', '~> 0.9'
+  gem 'sqlite3', '1.3.5'
+  gem 'rspec-rails', '2.13.0'
 end
 
 group :test do
-	gem "cucumber-rails", '1.3.0', require: false
-	gem 'capybara', '1.1.2'
-	gem 'database_cleaner', '0.9.1'
-	gem "factory_girl_rails", "~> 4.0"
-	gem 'factory_girl', '4.2.0'
-	gem 'guard-cucumber', '1.3.2'
-	gem 'guard-rspec'
+  gem "cucumber-rails", '1.3.0', require: false
+  gem 'capybara', '1.1.2'
+  gem 'database_cleaner', '0.9.1'
+  gem "factory_girl_rails", "~> 4.0"
+  gem 'factory_girl', '4.2.0'
+  gem 'guard-cucumber', '1.3.2'
+  gem 'guard-rspec'
 end
 
+group :production do
+  gem "pg", '0.12.2'
+end
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

@@ -1,0 +1,43 @@
+<html>
+<head>
+<script type='text/javascript' src='/assets/jquery-1.9.1.js'></script>
+<script type="text/javascript" src="/assets/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="/assets/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/assets/reservation.js"></script>
+<link rel="stylesheet" type="text/css" href="/assets/reservation.css">
+</head>
+
+<center>
+<h1>Bootleg Reservation Page</h1>
+</center>
+
+</div id="reservation-main-page">
+<center>
+    <div id="logout-button-reservation">
+        <button>Logout</button>
+    </div>
+</div>
+
+<!-- <div id="mytable" class='imagetable'> -->
+<div id="mytable_reservation" class='imagetable_reservation'>
+</div>
+
+</center>
+<br />
+
+<script type="text/javascript">
+
+$('#reservation-main-page').hide();
+
+/* setup the page so that only one of the forms is shown */
+$(document).ready(function() {
+    init_data_reservation();
+   show_login_page_reservation();
+ });
+
+$('#logout-button-reservation').click(function() {
+    window.location.href = '/';
+})
+
+</script>
+</html>

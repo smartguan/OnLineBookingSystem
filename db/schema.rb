@@ -11,9 +11,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130313175351) do
+ActiveRecord::Schema.define(:version => 20130325051300) do
 
   create_table "registrations", :force => true do |t|
+    t.integer  "waitlist_place"
+    t.boolean  "payment_received"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+    t.integer  "section_id"
+    t.integer  "user_id"
+  end
+
+  create_table "sections", :force => true do |t|
     t.date     "start_date"
     t.date     "end_date"
     t.string   "day"
@@ -28,11 +37,6 @@ ActiveRecord::Schema.define(:version => 20130313175351) do
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
     t.string   "name"
-  end
-
-  create_table "registrations_users", :id => false, :force => true do |t|
-    t.integer "registration_id"
-    t.integer "user_id"
   end
 
   create_table "users", :force => true do |t|
