@@ -1,21 +1,24 @@
+@import "bootstrap";
+
 titleStyle {
 	background-color: rgb(67,81,104);
-	padding: 3% 1% 3% 3%;
+	padding: 3% 2% 3% 3%;
+	font-size: 23.5px;
 	font-family: sans-serif;
 	color: white;
 }
 
 footerStyle {
 	background-color: rgb(67,81,104);
-	padding: 1% 71% 1% 1%;
+	padding: 1% 64% 1% 1%;
 	font-family: sans-serif;
 	color: white;
 }
 
 newUserStyle {
-	font-size: 15px;
+	font-size: 15.5px;
 	font-family: arial;
-	margin-left:26%;
+	margin-left:15%;
 }
 
 signupBox{
@@ -24,14 +27,22 @@ signupBox{
 	border-width: 1px;
 	border-style: solid;
 	background-color: #f5f5f5;
-	font-size: 20px;
+	-webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-box-shadow: 0 12px 13px rgba(0,0,0,.5);
+    -moz-box-shadow: 0 12px 13px rgba(0,0,0,.5);
+    box-shadow: 0 12px 13px rgba(0,0,0,.5);
+
+    marging-right: 5%;
+    font-size: 20px;
 	font-family: verdana;
-	color: back;
+	color: black;
 	
 }
 
 leftBox{
-	padding: 15px 350px 420px 24px;
+	padding: 15px 150px 400px 24px;
 	border-color: #f5e110;
 	border-width: 1px;
 	border-style: solid;
@@ -39,7 +50,14 @@ leftBox{
 	font-size: 20px;
 	font-family: verdana;
 	color: back;
-	margin-left:23%;
+	margin-left:15%;
+
+	-webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-box-shadow: 0 12px 13px rgba(0,0,0,.15);
+    -moz-box-shadow: 0 12px 13px rgba(0,0,0,.15);
+    box-shadow: 0 12px 13px rgba(0,0,0,.15);
 	
 }
 
@@ -49,7 +67,7 @@ font20px{
 	color: back;
 }
 
-font15px {
+font17px {
 	margin-left: 26px;
 	font-size: 17px;
 	font-family: sans-serif;
@@ -58,15 +76,15 @@ font15px {
 
 floatRight{
 	float: right;
-	width: 450px;
-	margin: 0px;
+	width: auto;
+	margin-right: 50px;
 }
 
 
 floatLeft{
 	float: left;
 	margin-top:0px;
-	width:400px;
+	width:auto;
 	margin:0px;
 }
 
@@ -76,18 +94,14 @@ body{
 	background-color: rgb(101,136,169);
 }
 
-#wrapper {
-    margin-left:auto;
-    margin-right:auto;
-    width:1270px;
-}
 
 .errbox {
     width: 400px;
     height: 165px;
     border:  maroon solid;
     background-color: rgb(243,210,213);
-    margin-top:100px;
+    margin-top: -200px;
+    margin-left: 140px;
     font-size: 17px;
     font-family: sans-serif;
     float:right;

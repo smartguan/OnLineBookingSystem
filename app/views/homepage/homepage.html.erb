@@ -12,52 +12,55 @@
 
 	</head>
 
-	<div id="wrapper"><body>
+	<div class="container"><body>
 		<div id="top">
 			<br><h1>
 				<titleStyle>
 					Rancho Rinconada Online Booking
 					<newUserStyle>
 						New to Rinconada?
-						<a href="users/new"> 
-							<input id="signup-button" type="submit" value=" CREATE AN ACCOUNT " style="width:190px; height:30px;font-size:15px; background-color:WHITE; border-color:rgb(129,150,206); color:rgb(129,150,206)"> 
-						</a>
+						
+			      			<a class="btn btn-warning" href="users/new"></i>CREATE AN ACCOUNT</a>
+						
 					</newUserStyle>
 
 				</titleStyle>
 			</h1>
 		</div>
 
+
+		<br><br>
+
 		<div id="rightColumn">
 			<br><floatRight>
 				<form>
 					<p><br>
 						<signupBox>
-								Sign in
+								<class="form-signin-heading">Sign in
 						</signupBox>
 
 						<br><br>
-						<font15px>
+						<font17px>
 							E-mail
-						</font15px>
+						</font17px>
 						<br>
 
-						<font15px>
-							<input id="login-email" type="text" name="email" style="width:280px; height:25px; font-size:17px">
+						<font17px>
+							<input id="login-email" type="text" placeholder="your@email.com" name="email" style="width:280px; height:25px; font-size:17px">
 							<br>
-						</font15px>
+						</font17px>
 						<br>
-						<font15px>
+						<font17px>
 							Password
-						</font15px>
+						</font17px>
 						<br>
-						<font15px>
+						<font17px>
 			     			<input id="login-password" type="password" name="pwd" style="width:280px; height:25px; font-size:20px"><br>
-			      		</font15px>
+			      		</font17px>
 			      		<br>
-			      		<font15px>
-			      			<input id="login-button" type="submit" value=" Sign in " style="width:100px; height:35px;font-size:20px; background-color:rgb(67,81,104); border-color: rgb(67,81,104); color:white"> 
-			      		</font15px>
+			      		<font17px>
+			      			<button id="login-button" class="btn btn-large btn-primary" type="button">Sign In</button>
+			      		</font17px>
 					</p>
 				</form>
 			<floatRight>
@@ -90,7 +93,7 @@
 				<br><br><br><br><br><br><br>
 				<br><br><br><br><br><br><br>
 				<br><br><br><br><br><br><br>
-				<br><br><br><br><br><br><br>
+				<br><br><br><br>
 				
 				<footerStyle>
 					© 2012 Copyright Rancho Rinconada Rec Center
@@ -141,7 +144,7 @@
 			      break
 			    default:
 			    	if (data.admin == 0) {
-			    		window.location.href = "admin";
+			    		window.location.href = "/Users/updateUsers";
 			    	} 
 			    	else {
 			    		window.location.href = "admin";

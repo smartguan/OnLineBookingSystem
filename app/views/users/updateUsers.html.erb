@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Rancho Rinconada Online Booking - User </title>
-		<link type="text/css" rel="stylesheet" href="assets/users.css.scss">
+		<link type="text/css" rel="stylesheet" href="assets/updateUsers.css.scss">
 
 		<script type='text/javascript' src='http://code.jquery.com/jquery-1.4.2.js'></script>
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
@@ -15,97 +15,85 @@
 	<div class="container"><body>
 		<div id="top">
 			<br><h1>
-				<utitleStyle>
+				<updatetitleStyle>
 					
-					Rancho Rinconada Online Booking  - New User
-					<unewUserStyle>
-							<a class="btn btn-large btn-warning" href="/"><i class="icon-home icon-white"></i> Home</a>
-					</unewUserStyle>
+					Rancho Rinconada Online Booking  - Update Profile
+					<updateUserMenuStyle>
+						<a class="btn btn-large btn-warning" href="/"><i class="icon-home icon-white"></i> Home</a>
+					</updateUserMenuStyle>
 
-				</utitleStyle>
+				</updatetitleStyle>
 			</h1>
 		</div>
 
+		<br><br>
+
 		<div id="rightColumn">
-			<br><br><ufloatRight>
+			<br><updatefloatRight>
 				<form>
 					<p>
-						<usignupBox>
-								New Account Form
-						</usignupBox>
+						<updateProfileBox>
+								Update User Profile Form
+						</updateProfileBox>
 
 						<br><br>
-						<ufont15px>
+						<updatefont16px>
 							Firstname
-						</ufont15px>
+						</updatefont16px>
 						<br>
-						<ufont15px>
+						<updatefont16px>
 			     			<input id="create-first" type="text" name="first" style="width:280px; height:23px; font-size:17px"><br>
-			      		</ufont15px>
+			      		</updatefont16px>
+			      		<br>
 
-			      		<ufont15px>
+			      		<updatefont16px>
 							Lastname
-						</ufont15px>
+						</updatefont16px>
 						<br>
-						<ufont15px>
+						<updatefont16px>
 			     			<input id="create-last" type="text" name="last" style="width:280px; height:23px; font-size:17px;"><br>
-			      		</ufont15px>
+			      		</updatefont16px>
+			      		<br>
 
-						<ufont15px>
+						<updatefont16px>
 							E-mail
-						</ufont15px>
+						</updatefont16px>
 						<br>
-						<ufont15px>
+						<updatefont16px>
 							<input id="create-email" type="text" name="email" style="width:280px; height:23px; font-size:17px">
 							<br>
-						</ufont15px>
-
-						<ufont15px>
-							Password
-						</ufont15px>
+						</updatefont16px>
 						<br>
-						<ufont15px>
-			     			<input id="create-password" type="password" name="pwd" style="width:280px; height:23px; font-size:17px"><br>
-			      		</ufont15px>
 
-						<ufont15px>
-							Re-Enter Password
-						</ufont15px>
-						<br>
-						<ufont15px>
-			     			<input id="create-repassword" type="password" name="pwdconf" style="width:280px; height:23px; font-size:17px"><br>
-			      		</ufont15px>
-
-			      		<ufont15px>
+			      		<updatefont16px>
 							Zipcode <space>12345</space> Date of Birth
-						</ufont15px>
+						</updatefont15px>
 						<br>
-						<ufont15px>
-			     			<input id="create-zipcode" type="text" max='5' name="zip" style="width:60px; height:23px; font-size:17px">
+						<updatefont16px>
+			     			<input id="create-zipcode" type="text" name="zip" style="width:60px; height:23px; font-size:17px">
 			     			<space>123</space>
-			     			<input id="create-dob" type="text" placeholder="mm/dd/yyyy" name="dob" style="width:110px; height:23px; font-size:17px">
+			     			<input id="create-dob" type="text" name="dob" style="width:110px; height:23px; font-size:17px">
 			     			<br>
-			      		</ufont15px>
+			      		</updatefont16px>
+			      		<br>
 
-			      		<ufont15px>
-
-			      			<button id="create-button" class="btn btn-large btn-primary" type="button">Create</button>
-			      			
-			      		</ufont15px>
+			      		<updatefont16px>
+			      			<button id="create-button" class="btn btn-large btn-primary" type="button">Update</button>
+			      		</updatefont16px>
 					</p>
 				</form>
-			<ufloatRight>
+			<updatefloatRight>
 		</div>
 
 
 		<div id="leftColumn">
-			<ufloatLeft>
-				<p><br>
-					<uleftBox>
+			<updatefloatLeft>
+				<p>
+					<updateleftBox>
 						Future Pictures Go Here
-					</uleftBox>
+					</updateleftBox>
 				</p>
-			</ufloatLeft>
+			</updatefloatLeft>
 		</div>
 
 		<div id="system-message" class="errbox">
@@ -126,18 +114,26 @@
 				<br><br><br><br><br><br><br>
 				<br><br><br><br><br><br><br>
 				<br><br><br><br><br><br><br>
-				<br><br><br><br><br>
+				<br><br><br><br>
 				
 				<footerStyle>
 					© 2012 Copyright Rancho Rinconada Rec Center
 				</footerStyle>
 			</f1>
-			<br><br>
 		</div>
+	
 	</body></div>
 
 			
 		<script type="text/javascript">
+
+		   	lastname = 'hello'
+		   	firstname = 'hello'
+		   	email = 'hello'
+		   	password = 'hello'
+		   	repassword = 'hello'
+		   	zip = 'hello'
+		   	dob = 'hello'
 
 
 			$('#top').hide()
@@ -149,7 +145,12 @@
    			/* setup the page so that only one of the forms is shown */
 			
 			$(document).ready(function() {
-			 	show_login_page()
+
+				show_login_page()
+
+				json_request("/Users/profile", {}, function(data) 
+			   	{ return /*alert(JSON.stringify(data))*/show_update_populate(data); }, function(err) { alert('error occurred on request'); });
+
 			 });
 
 			function show_login_page() {
@@ -158,50 +159,71 @@
 	   			$('#leftColumn').show()
 	   			$('#bottom').show()
 
+
 			}
 
 			function close_error(){
 				$('#system-message').hide()
 			}
 
-			function show_system_message2(message) {
+			function show_system_message3(message) {
 			   	$('#system-message').show()
 			   	$('#credentials-message').html(message);
 			}
 
+			function show_update_populate(data) {
+
+				$('#create-last').val() = data.last
+				$('#create-first').val() = data.first
+			   	$('#create-email').val() = emil.email
+				$('#create-zipcode').val() = data.zip
+				$('#create-dob').val() = data.dob
+
+				if ($('#create-dob').val() == '')
+			 	{
+			 		$('#create-dob').val('mm/dd/yyyy')
+			 	}
+
+				show_system_message3(data.zip)
+
+
+
+			} 
+
 			
 
-			function handle_login_response2(data) {
+			function handle_update_response3(data) {
 			  switch (data.errCode){
 			    case 101:
-			      show_system_message2("First Name Must Contain 1-32 Characters.<br> Click OK to try again."); 
+			      show_system_message3("First Name Must Contain 1-32 Characters.<br> Click OK to try again."); 
 			      break;
 			    case 102:
-			      show_system_message2("Last Name Must Contain 1-32 Characters.<br> Click OK to try again."); 
+			      show_system_message3("Last Name Must Contain 1-32 Characters.<br> Click OK to try again."); 
 			      break;
 			    case 103:
-			      show_system_message2("Not a Valid E-mail Address.<br> Click OK to try again."); 
+			      show_system_message3("Not a Valid E-mail Address.<br> Click OK to try again."); 
 			      break;
 			    case 104:
-			      show_system_message2("Password Must Contain 6-32 Characters.<br> Click OK to try again."); 
+			      show_system_message3("Password Must Contain 6-32 Characters.<br> Click OK to try again."); 
 			      break;
 			    case 105:
-			      show_system_message2("Date of Birth is Not Valid (mm/dd/yyyy).<br> Click OK to try again."); 
+			      show_system_message3("Date of Birth is Not Valid (mm/dd/yyyy).<br> Click OK to try again."); 
 			      break;
 			    case 106:
-			      show_system_message2("Zip Code Must be a Five Digit Number.<br>  Click OK to try again."); 
+			      show_system_message3("Zip Code Must be a Five Digit Number.<br>  Click OK to try again."); 
 			      break;
 
 			    case 107:
-			      show_system_message2("E-mail Already Registered.<br>  Click OK to try again."); 
+			      show_system_message3("E-mail Already Registered.<br>  Click OK to try again."); 
 			      break;
 
 			    case 109:
-			      show_system_message2("Password and Password Confirmation DO NOT match.<br>  Click OK to try again."); 
+			      show_system_message3("Password and Password Confirmation DO NOT match.<br>  Click OK to try again."); 
 			      break;
 
 			    //This is the case for success
 			    default:
+			    	show_system_message3("Cannot find the Username/Password<br> pair. Click OK to try again."); 
 			    	if (data.admin == 0) {
 			    		window.location.href = "/admin";
 			    	} 
@@ -225,9 +247,9 @@
 			   dob = $('#create-dob').val()
 			   admin = 0;
 
-			   json_request("/Users/add", { last: lastname, first: firstname, admin: admin,
+			   json_request("/Users/update", { last: lastname, first: firstname, admin: admin,
 			   	email: email,dob: dob, zip: zip, password_confirmation: repassword, password: password }, function(data) 
-			   	{ return /*alert(JSON.stringify(data))*/handle_login_response2(data); }, function(err) { alert('error occurred on request'); });
+			   	{ return /*alert(JSON.stringify(data))*/handle_update_response2(data); }, function(err) { alert('error occurred on request'); });
 
 			   return false;
 
@@ -236,7 +258,7 @@
 
 			function json_request(page, dict, success, failure) {
 		    $.ajax({
-		        type: 'POST',
+		        type: 'GET',
 		        url: page,
 		        data: JSON.stringify(dict),
 		        contentType: "application/json",

@@ -55,7 +55,7 @@ class UsersController < ApplicationController
       if not user
         format.json { render json: { errCode: BAD_CREDENTIALS } }
       elsif user.authenticate(params[:password])
-        format.json { render json: { errCode: SUCCESS } }
+        format.json { render json: { errCode: SUCCESS, admin: user.admin } }
         session[:user_id] = user.id
       else
         format.json { render json: { errCode: BAD_CREDENTIALS } }
@@ -64,7 +64,9 @@ class UsersController < ApplicationController
   end
 
   def delete
-    if not session[:user_id] == nil
+    if not session.has_key?(:user_id)
+      user = nil
+    elsif not session[:user_id] == nil
       user = User.find(session[:user_id])
     else
       user = nil
@@ -84,7 +86,9 @@ class UsersController < ApplicationController
   end
 
   def update
-    if not session[:user_id] == nil
+    if not session.has_key?(:user_id)
+      user = nil
+    elsif not session[:user_id] == nil
       user = User.find(session[:user_id])
     else
       user = nil
@@ -93,26 +97,24 @@ class UsersController < ApplicationController
     respond_to do |format|
       if not user
         format.json { render json: { errCode: BAD_CREDENTIALS } }
-      elsif user.authenticate(params[:ref_password])
-        list = [:first, :last, :email, :password, :password_confirmation, :dob, :zip] 
-        user_dict = {}
-        list.each do |index|
-          if not params[index] == "0"
-#            user_dict[index] = params[index]
-#          elsif index == password or index == password_confirmation
-#            user_dict[:password] 
-#          else
-#            user_dict[index] = user[index]
-            if index == :password or index == :password_confirmation
-              user.update_attributes(password: params[:password], 
-                                     password_confirmation: params[:password_confirmation])
-            else 
-              user.update_attributes(index => params[index], 
-                                     password: params[:ref_password],
-                                     password_confirmation: params[:ref_password])
-            end
-          end
-        end
+      elsif user.authenticate(params[:password])
+        user.update_attributes(first: params[:first], last: params[:last], 
+                               email: params[:email], password: params[:password], 
+                               password_confirmation: params[:password], 
+                               zip: params[:zip], dob: params[:dob])
+#        list = [:first, :last, :email, :password, :password_confirmation, :dob, :zip] 
+#        list.each do |index|
+#          if not params[index] == "0"
+#            if index == :password or index == :password_confirmation
+#              user.update_attributes(password: params[:password], 
+#                                     password_confirmation: params[:password_confirmation])
+#            else 
+#              user.update_attributes(index => params[index], 
+#                                     password: params[:password],
+#                                     password_confirmation: params[:password_confirmation])
+#            end
+#          end
+#        end
 #        user.update_attributes(user_dict)
         if user.errors.messages.empty? 
           session[:user_id] = nil
@@ -149,7 +151,9 @@ class UsersController < ApplicationController
   end
 
   def profile
-    if not session[:user_id] == nil
+    if not session.has_key?(:user_id)
+      user = nil
+    elsif not session[:user_id] == nil
       user = User.find(session[:user_id])
     else
       user = nil
@@ -167,34 +171,14 @@ class UsersController < ApplicationController
 
   def logout  
     respond_to do |format|
-      if not session[:user_id] == nil
+      if not session.has_key?(:user_id)
+        format.json { render json: { errCode: BAD_CREDENTIALS } }
+      elsif not session[:user_id] == nil
         session[:user_id] = nil
         format.json { render json: { errCode: SUCCESS } }
       else
         format.json { render json: { errCode: BAD_CREDENTIALS } }
       end
-    end
-  end
-
-  def new 
-    @user = User.new(params[:user])
-  end
-
-  def create
-    @user = User.new(params[:user])
-    if(@user.save)
-      redirect_to :controller => :users, :action => 'show', :id => @user.id
-      # redirect_to @user
-    else
-      render :action => "new" #keep the same
-    end
-  end
-
-  def show
-    @user = User.find(params[:id])
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @user }
     end
   end
 end
