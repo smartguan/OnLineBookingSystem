@@ -4,6 +4,7 @@ gem 'rails', '3.2.12'
 gem 'jquery-rails', '2.0.2'
 gem 'bcrypt-ruby', '3.0.1'
 gem 'rb-readline'
+gem 'libnotify'
 
 group :assets do
   gem 'sass-rails',   '3.2.5'
