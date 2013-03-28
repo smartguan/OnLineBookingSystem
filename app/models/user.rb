@@ -2,7 +2,11 @@ class User < ActiveRecord::Base
   attr_accessible :admin, :dob, :email, :first, :last, :zip, :password, :password_confirmation
   has_secure_password 
 
-  has_and_belongs_to_many :registrations
+  before_save { |user| user.email = email.downcase }
+  before_save :create_remember_token
+  
+  has_many :registrations
+  has_many :sections, :through => :registrations, :order => "day ASC", :uniq => true
 
   before_save { |user| user.email = email.downcase }
   
@@ -18,8 +22,9 @@ class User < ActiveRecord::Base
   validates :password, presence: true, length: { minimum: 6, maximum: 32 }
   validates :password_confirmation, presence: true
 
-  def name
-    "#{first} #{last}"
-  end
+  private
 
+    def create_remember_token
+      self.remember_token = SecureRandom.urlsafe_base64
+    end
 end
