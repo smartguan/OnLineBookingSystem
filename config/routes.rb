@@ -22,8 +22,9 @@ Cs169::Application.routes.draw do
   match '/Users/add', to: 'users#add', :via => :post, :defaults => { :format => "json" }
   match '/Users/login', to: 'users#login', :via => :post, :defaults => { :format => "json" }
   match '/Users/delete', to: 'users#delete' 
+  match '/Users/updateUsers', to: 'users#updateUsers'
   match '/Users/update', to: 'users#update'
-  match '/Users/profile', to: 'users#profile'
+  match '/Users/profile', to: 'users#profile', :via => :get, :defaults => { :format => "json" }
     
   # Routes for Registration controller
 
