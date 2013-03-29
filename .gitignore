@@ -20,5 +20,8 @@
 # Ignore rvm depedencies for Daniel's computer
 /.rvmrc
 
+# Ignore the coverage data as recommended by github readme
+/coverage
+
 # Ignore .DS_Store
 *.DS_Store
