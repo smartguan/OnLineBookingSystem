@@ -2,6 +2,9 @@ require 'rubygems'
 require 'spork'
 #uncomment the following line to use spork with the debugger
 #require 'spork/ext/ruby-debug'
+require 'simplecov'
+
+SimpleCov.start
 
 Spork.prefork do
   # Loading more in this block will cause your tests to run faster. However,
@@ -79,7 +82,7 @@ end
 
 Spork.each_run do
   # This code will be run each time you run your specs.
-
+  SimpleCov.start
 end
 
 

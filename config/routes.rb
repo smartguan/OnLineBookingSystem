@@ -1,5 +1,7 @@
 Cs169::Application.routes.draw do
 
+  get "registrations/new"
+
   get "users/show"
 
   get "users/new"
@@ -45,6 +47,7 @@ Cs169::Application.routes.draw do
   # match '/Registrations/viewEnrolledSections', to: 'sections#viewEnrolledSections', :via => :get, :default => {format: "json"}
   # match '/Registrations/register', to: 'sections#register', :via => :post, :default => {format: "json"}
   # match '/Registrations/drop', to: 'sections#drop', :via => :post, :default => {format: "json"}
+
   
   match '/admin' => 'application#admin'
   match '/reservation' => 'application#reservation'
