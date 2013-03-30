@@ -709,5 +709,23 @@ describe "UsersControlers" do
 #      end
 #    end
 
+    describe "when adding a user and then linking to a new page and loggin out", js: true do
+      it "should return SUCCESS" do
+        visit "/Users/test" 
+        fill_in "test-first", with: "first"
+        fill_in "test-last", with: "last"
+        fill_in "test-email", with: "new@user.net"
+        fill_in "test-password", with: "password"
+        fill_in "test-password_confirmation", with: "password"
+        fill_in "test-dob", with: "00/00/0000"
+        fill_in "test-zip", with: "12345"
+        click_button "test-add"
+        page.should have_content "Add{\"errCode\":1}"
+        click_link "test-link"
+        click_button "test-logout"
+        page.should have_content "Logout{\"errCode\":1}"
+      end
+    end
+
   end
 end

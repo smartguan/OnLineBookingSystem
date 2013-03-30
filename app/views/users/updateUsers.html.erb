@@ -11,6 +11,18 @@
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
 
+		<script type="text/javascript">
+		<!-->
+		var image1=new Image()
+		image1.src="/assets/rancho2.jpg"
+		var image2=new Image()
+		image2.src="/assets/rancho1.jpg"
+		var image3=new Image()
+		image3.src="/assets/rancho3.jpg"
+		var image4=new Image()
+		image4.src="/assets/rancho4.jpg"
+		//-->
+		</script>
 	</head>
 
 	<div class="container"><body>
@@ -93,10 +105,29 @@
 
 
 		<div id="leftColumn">
+			<br><br>
+			<floatLeft>
+				<leftBox>
+					<img src="/assets/rancho4.jpg" name="slide" class="img-rounded" width="510spx" height="600px">
 
-					<updateleftBox>
-						Future Pictures Go Here
-					</updateleftBox>
+					<script type="text/javascript">
+					<!-->
+					var step=1
+
+					function slideit(){
+						document.images.slide.src=eval("image" + step + ".src")
+						if (step<4)
+							step++
+						else 
+							step=1
+							setTimeout("slideit()",4500)
+
+					}
+					slideit()
+					//-->
+					</script>
+				</leftBox>
+			</floatLeft>
 			
 		</div>
 

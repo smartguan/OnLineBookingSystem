@@ -10,6 +10,18 @@
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
 
+		<script type="text/javascript">
+		<!-->
+		var image1=new Image()
+		image1.src="/assets/rancho2.jpg"
+		var image2=new Image()
+		image2.src="/assets/rancho1.jpg"
+		var image3=new Image()
+		image3.src="/assets/rancho3.jpg"
+		var image4=new Image()
+		image4.src="/assets/rancho4.jpg"
+		//-->
+		</script>
 	</head>
 
 	<div class="container"><body>
@@ -85,32 +97,54 @@
 			     			<input id="create-dob" type="text" placeholder="mm/dd/yyyy" name="dob" style="width:110px; height:23px; font-size:17px">
 			     			<br>
 			      		</ufont15px>
+			      		
+
+			      		<ufont15px id="err_message"></ufont15px><br />
 
 			      		<ufont15px>
-
 			      			<button id="create-button" class="btn btn-large btn-primary" type="button">Create</button>
-			      			
-			      		</ufont15px>
+
+			       		</ufont15px>
+
 				</form>
 			<ufloatRight>
 		</div>
 
 
 		<div id="leftColumn">
-			<br>
+			<br><br><br>
+			<floatLeft>
 			<uleftBox>
-				Future Pictures Go Here
+				<img src="/assets/rancho1.jpg" name="slide" class="img-rounded" width="530px" height="600px">
+
+				<script type="text/javascript">
+					<!-->
+					var step=1
+
+					function slideit(){
+						document.images.slide.src=eval("image" + step + ".src")
+						if (step<4)
+							step++
+						else 
+							step=1
+							setTimeout("slideit()",4500)
+
+					}
+					slideit()
+					//-->
+					</script>
 			</uleftBox>
+		</floatLeft>
 		</div>
 
 		<div id="system-message" class="errbox">
 		  <center>
 			  <div id="credentials-message" class="errmessage"></div>
-			    <form>
-
-			      <input type="submit" id="ok-button" value="       OK       " onclick="close_error();return false;" >
 			    
-			    </form>
+			    <form>
+			      <input type="submit" id="ok-button" value="       OK       " onclick="close_error();return false;" >
+				</form>
+
 			</center>
 		</div>
 
@@ -118,10 +152,10 @@
 		
 		<div id="bottom">
 			<f1>
-				<br><br><br><br><br><br><br>
-				<br><br><br><br><br><br><br>
-				<br><br><br><br><br><br><br>
-				<br><br>
+				<br><br><br><br><br><br>
+				<br><br><br><br><br><br>
+				<br><br><br><br><br><br>
+				<br><br><br><br><br>
 				
 				<footerStyle>
 					© 2012 Copyright Rancho Rinconada Rec Center
@@ -164,7 +198,55 @@
 			   	$('#credentials-message').html(message);
 			}
 
-			
+
+			function handle_login_response3(data) {
+				$('ufont15px#err_message').empty();
+				$('ufont15px#err_message').css('font-size','12px');
+				$('ufont15px#err_message').css('color','red');
+				$('ufont15px#err_message').append(getErrorMessage(data));
+			}
+
+			function getErrorMessage(data) {
+			  switch (data.errCode){
+			    case 101:
+			    	return "First Name Must Contain 1-32 Characters";
+			      break;
+			    case 102:
+			    	return "Last Name Must Contain 1-32 Characters";
+			      break;
+			    case 103:
+			    	return "Not a Valid E-mail Address";
+			      break;
+			    case 104:
+			    	return "Password Must Contain 6-32 Characters";
+			      break;
+			    case 105:
+			    	return "Date of Birth is Not Valid (mm/dd/yyyy)";
+			      break;
+			    case 106:
+			    	return "Zip Code Must be a Five Digit Number.";
+			      break;
+
+			    case 107:
+			    	return "E-mail Already Registered.";
+			      break;
+
+			    case 109:
+			    	return "Password and Password Confirmation DO NOT match.<br />";
+			      break;
+
+			    //This is the case for success
+			    default:
+			    	if (data.admin == 0) {
+			    		window.location.href = "/admin";
+			    	} 
+			    	else {
+			    		window.location.href = "/admin";
+			    	}   
+			  }
+			  return "Unknown Error"
+			}
+
 
 			function handle_login_response2(data) {
 			  switch (data.errCode){
@@ -221,8 +303,9 @@
 			   admin = 0;
 
 			   json_request("/Users/add", { last: lastname, first: firstname, admin: admin,
-			   	email: email,dob: dob, zip: zip, password_confirmation: repassword, password: password }, function(data) 
-			   	{ return /*alert(JSON.stringify(data))*/handle_login_response2(data); }, function(err) { alert('error occurred on request'); });
+			   	email: email,dob: dob, zip: zip, password_confirmation: repassword, password: password }, function(data)
+			   	{ return /*alert(JSON.stringify(data))*/handle_login_response3(data); }, function(err) { alert('error occurred on request'); });
+			   	// { return /*alert(JSON.stringify(data))*/handle_login_response2(data); }, function(err) { alert('error occurred on request'); });
 
 			   return false;
 
