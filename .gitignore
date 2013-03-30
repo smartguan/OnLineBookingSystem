@@ -16,9 +16,13 @@
 
 # Ignore Gemfile.lock and article explaing why
 # http://yehudakatz.com/2010/12/16/clarifying-the-roles-of-the-gemspec-and-gemfile/
+/Gemfile.lock
 
 # Ignore rvm depedencies for Daniel's computer
 /.rvmrc
+
+# Ignore the coverage data as recommended by github readme
+/coverage
 
 # Ignore .DS_Store
 *.DS_Store

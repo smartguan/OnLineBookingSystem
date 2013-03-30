@@ -22,7 +22,8 @@ newUserStyle {
 }
 
 signupBox{
-	padding: 15px 250px 270px 24px;
+	// padding: 15px 250px 270px 24px;
+	padding: 15px 250px 300px 24px;
 	border-color: #f5e110;
 	border-width: 1px;
 	border-style: solid;
@@ -42,22 +43,8 @@ signupBox{
 }
 
 leftBox{
-	padding: 15px 150px 400px 24px;
-	border-color: #f5e110;
-	border-width: 1px;
-	border-style: solid;
-	background-color: #f5f5f5;
-	font-size: 20px;
-	font-family: verdana;
-	color: back;
-	margin-left:15%;
-
-	-webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    -webkit-box-shadow: 0 12px 13px rgba(0,0,0,.15);
-    -moz-box-shadow: 0 12px 13px rgba(0,0,0,.15);
-    box-shadow: 0 12px 13px rgba(0,0,0,.15);
+	
+	margin-left:0%;
 	
 }
 
@@ -77,7 +64,7 @@ font17px {
 floatRight{
 	float: right;
 	width: auto;
-	margin-right: 50px;
+	margin-right: 2%;
 }
 
 
