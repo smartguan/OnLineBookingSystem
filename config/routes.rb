@@ -21,6 +21,7 @@ Cs169::Application.routes.draw do
 
   # For User tests
   match 'Users/test', to: 'users#testView'
+  match 'Users/test2', to: 'users#testView2'
 
   # Routes for User controller
   match '/Users/add', to: 'users#add'
@@ -30,6 +31,7 @@ Cs169::Application.routes.draw do
   match '/Users/update', to: 'users#update'
   match '/Users/profile', to: 'users#profile'
   match '/Users/logout', to: 'users#logout'
+  match '/Users/csv', to: 'users#exportCsv'
 
   # Routes for Registration controller
 

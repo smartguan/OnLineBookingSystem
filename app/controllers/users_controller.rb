@@ -162,7 +162,6 @@ class UsersController < ApplicationController
     respond_to do |format| 
       if user
         format.json { render json: { errCode: SUCCESS, user: user } }
-        session[:user_id] = nil
       else
         format.json { render json: { errCode: BAD_CREDENTIALS } } 
       end
@@ -180,5 +179,11 @@ class UsersController < ApplicationController
         format.json { render json: { errCode: BAD_CREDENTIALS } }
       end
     end
+  end
+
+  def exportCsv
+    users = User.order(:id)
+    database = users.to_csv
+    send_data database, filename: "database", type: "text/csv" 
   end
 end
