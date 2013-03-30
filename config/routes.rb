@@ -35,9 +35,9 @@ Cs169::Application.routes.draw do
 
   match '/Registrations/getSchedule', to: 'sections#getSchedule'
   match '/Registrations/viewOneSection', to: 'sections#viewOneSection'
-  match '/Registrations/viewEnrolledSections', to: 'sections#viewEnrolledSections'
-  match '/Registrations/register', to: 'sections#register'
-  match '/Registrations/drop', to: 'sections#drop'
+  match '/Registrations/viewEnrolledSections', to: 'registrations#viewEnrolledSections'
+  match '/Registrations/register', to: 'registrations#register'
+  match '/Registrations/drop', to: 'registrations#drop'
 
   match '/Admin/createSection', to:'sections#createSection'
   match '/Admin/editSection', to:'sections#editSection'
