@@ -1,6 +1,8 @@
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
+# Added to support exporting database to csv SM
+require 'csv'
 
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
