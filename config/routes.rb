@@ -20,6 +20,7 @@ Cs169::Application.routes.draw do
   get "users/profile"
 
   get "users/addSection"
+  get "users/update_password"
 
   # For User tests
   match 'Users/test', to: 'users#testView'

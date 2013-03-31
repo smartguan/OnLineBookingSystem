@@ -7,12 +7,11 @@
  	<style type="text/css">
  		body{color:white; text-shadow:1.2px 1.2px #000; }
  		.title{font-size: 2em;}
-		.section {width:500px; margin:10px; padding:30px;}
-		.description{padding:25px; width:200px;}
+		.section {width:400px; margin:10px; padding:30px; background-color: #84c3ff; border-width:2px; border-style:solid; border-color:#000;}
+		.description{padding:15px; width:200px;}
 		.section-left-column{padding:25px; float:left;}
 		.section-right-column{padding:25px; float:left;}
 		.all-registrations{width:900px;}
-
 	</style>
 </head>
 
@@ -55,7 +54,7 @@
 $(document).ready(function() {
 	$('#section-template').hide();		//hide template
 	getScheduleRequest();				//populate table
-	$('.section-info').hide();
+	$('.section-info').hide();			//default view is hidden
 });
 
 function getScheduleRequest() { 
