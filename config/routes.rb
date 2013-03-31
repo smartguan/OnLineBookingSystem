@@ -19,6 +19,8 @@ Cs169::Application.routes.draw do
 
   get "users/profile"
 
+  get "users/addSection"
+
   # For User tests
   match 'Users/test', to: 'users#testView'
 
@@ -32,11 +34,11 @@ Cs169::Application.routes.draw do
   match '/Users/logout', to: 'users#logout'
 
   # Routes for Registration controller
-
   match '/Registrations/getSchedule', to: 'sections#getSchedule'
   match '/Registrations/viewOneSection', to: 'sections#viewOneSection'
   match '/Registrations/viewEnrolledSections', to: 'sections#viewEnrolledSections'
-  match '/Registrations/register', to: 'sections#register'
+  # match '/Registrations/register', to: 'sections#register'
+  post '/sections/register', to: 'sections#register'
   match '/Registrations/drop', to: 'sections#drop'
 
   match '/Admin/createSection', to:'sections#createSection'

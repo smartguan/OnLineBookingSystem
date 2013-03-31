@@ -117,7 +117,7 @@ class SectionsController < ApplicationController
     else  
       @user = User.find_by_email(params[:user_email].downcase)
     end
-    @sec = Section.find_by_name(params[:section_name].upcase)
+      @sec = Section.find_by_name(params[:section_name].upcase)
     
     respond_to do |format|
       if @user.sections.exists?(:name => @sec.name) or

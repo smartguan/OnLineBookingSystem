@@ -1,0 +1,204 @@
+<html>
+
+<head>
+	<title>View Registrations</title>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+ 	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
+ 	<style type="text/css">
+ 		body{color:white; text-shadow:1.2px 1.2px #000; }
+ 		.title{font-size: 2em;}
+		.section {width:500px; margin:10px; padding:30px;}
+		.description{padding:25px; width:200px;}
+		.section-left-column{padding:25px; float:left;}
+		.section-right-column{padding:25px; float:left;}
+		.all-registrations{width:900px;}
+
+	</style>
+</head>
+
+<body>
+
+<h1>All Registrations</h1>
+
+	<div id="all-registrations"></div>
+
+	<div id="err-message"></div>
+
+	<div id="section-template" >
+		<h4 class="title"></h4>
+		<div class="section-info">
+			<div class="section-left-column">
+				Instructor: <br />
+				Time: <br />
+				Dates: <br />
+				Enrollment: <br />
+				Waitlist: <br />
+			</div>
+			<div class="section-right-column">
+				<span class='instructor'></span><br />
+				<span class='time'></span><br />
+				<span class='date'></span><br />
+				<span class='enrolled'></span><br />
+				<span class='waitlisted'></span><br />
+			</div>
+			<div class='description'>
+				<strong>Description:</strong><br />
+			</div>
+			<button class="btn btn-large btn-primary" type="button">Register</button>
+		</div>
+	</div>
+
+</body>
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+	$('#section-template').hide();		//hide template
+	getScheduleRequest();				//populate table
+	$('.section-info').hide();
+});
+
+function getScheduleRequest() { 
+	post_json_request("/Registrations/getSchedule", {}, function(data){handleGetScheduleResponse(data)})
+}
+
+function handleGetScheduleResponse(data) {
+	var error_code = data.errCode;
+	var sections = data.sections;
+	var error_msg = getErrorMessage(error_code);
+
+	function validSectionsExist(errCode, sections) { return (errCode ==1 && sections.length > 0 ); }
+
+	$('#err-message').empty();
+	$('#err-message').append(error_msg);
+
+	if( validSectionsExist(error_code, sections) ) {
+		for(i=0; i<sections.length; i++) { 
+			var inputSection = new Section(sections[i]);
+			$('#all-registrations').append( inputSection.renderHTML().show() );
+		}
+		return true;
+	}
+ 	return false;
+}
+
+function handleRegisterSectionResponse(data) {
+	var status_code = data.errCode;
+	var status_msg = getStatusMessage(status_code);
+	$('#err-message').empty();
+	$('#err-message').append(status_msg);
+	if(status_code == 1) {alert("Success");}
+	return false;
+}
+
+var Section = function(sectionJSON) {
+	this.title = sectionJSON.name;
+	this.instructor = sectionJSON.teacher;
+	this.description = sectionJSON.description;
+	this.date_start = parseDate_reservation(sectionJSON.start_date);
+	this.date_end = parseDate_reservation(sectionJSON.end_date);
+	this.date_range = new Range(this.date_start, this.date_end);
+	this.time_start = parseTime_reservation(sectionJSON.start_time);
+	this.time_end = parseTime_reservation(sectionJSON.end_time);
+	this.time_range = new Range(this.time_start, this.time_end);	
+	this.waitlist_frac = new Frac(sectionJSON.waitlist_cur, sectionJSON.waitlist_max);
+	this.enroll_frac = new Frac(sectionJSON.enroll_cur, sectionJSON.enroll_max);
+
+	this.renderHTML = function() {
+		var $section_clone = $('#section-template').clone();
+		$section_clone.removeAttr('id').addClass('section');
+		
+
+		$section_clone.find('.instructor').append(this.instructor);
+		$section_clone.find('.description').append(this.description);
+		$section_clone.find('.time').append(this.time_range.string);
+		$section_clone.find('.date').append(this.date_range.string);
+		$section_clone.find('.waitlisted').append(this.waitlist_frac.string);
+		$section_clone.find('.enrolled').append(this.enroll_frac.string);
+		
+		$section_clone.find('h4.title').append(this.title).click(function() {$(this).siblings().slideToggle();});
+
+		function registerButtonClick(title) {
+			return 	post_json_request("/sections/register", { section_name:title }, function(data) { return handleRegisterSectionResponse(data); });
+		}
+
+		$section_clone.find('button').on("click", {title:this.title}, function(event) { registerButtonClick(event.data.title) });
+		return $section_clone;
+	}
+}
+
+function getErrorMessage(errCode) {
+	switch (errCode) 
+	{
+		case 300: 	return "No sections are currently available";	//NO SECTIONS EXISTS
+		case 303: 	return "You must be registered to enroll";		//USER NOT REGISTERED
+		case 1: 	return "";										//SUCCESS
+		default:	return "Unknown Error Has Occurred";
+	}
+}
+
+function getStatusMessage(statusCode) {
+	switch (errCode) 
+	{
+		case 2: 	return "Already enrolled in section";						//USER EXISTS IN SESSION
+		case 3: 	return "You have been added to the waitlist";				//ADDED TO WAITLIST
+		case 4: 	return "Section is currently full";							//WAITLIST FULL
+		case 5: 	return "The deadline to signup for this section has past";	//PAST SIGN UP DEADLINE
+		case 1: 	return "You have been successfully enrolled";				//SUCCESS
+		default:	return "Unknown Error Has Occurred";
+	}
+}
+
+function post_json_request(page, dict, success) {
+	$.ajax({
+		type: 'POST',
+		url: page,
+		data: JSON.stringify(dict),
+		contentType: "application/json",
+		dataType: "json",
+		success: success
+	});
+}
+
+var Range = function(start, end) 
+{
+	this.start = start;
+	this.end = end;
+	this.string = (this.start + " - " + this.end);
+}
+
+var Frac = function(numerator, demoninator) 
+{
+	this.numerator = numerator;
+	this.demoninator = demoninator;
+	this.string = (this.numerator + " / " + this.demoninator);
+}
+
+function parseTime_reservation(timeIn) {
+    time = timeIn.split('T')[1].split('Z')[0].split(':')
+    var timeEnd = 'AM';
+    var hour = 0;
+    var min = 0;
+    if (time[0] > 12 && time[0] > 22) {
+        timeEnd = 'PM';
+        hour = time[0] - 12;
+    } else if (time[0] > 12) {
+        timeEnd = 'PM';
+        hour = '0' + time[0] - 12;
+    } else if (time[0] == '00') {
+        hour = 12;
+    } else {
+        hour = time[0] % 12;
+    }
+    min = time[1];
+
+    return (hour + ':' + min + timeEnd);  
+}
+
+function parseDate_reservation(dateIn) {
+    date = dateIn.split('-');
+    return (date[1] + '-' + date[2] + '-' + date[0]);
+}
+
+</script>
+</html>
