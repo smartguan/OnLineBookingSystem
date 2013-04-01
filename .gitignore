@@ -22,7 +22,8 @@
 /.rvmrc
 
 # Ignore the coverage data as recommended by github readme
-/coverage
+/coverage/.*
+/coverage/*
 
 # Ignore .DS_Store
 *.DS_Store
