@@ -85,6 +85,11 @@ class UsersController < ApplicationController
     end 
   end
 
+
+  def changePassword
+  end
+
+
   def update
     if not session.has_key?(:user_id)
       user = nil

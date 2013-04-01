@@ -1,4 +1,5 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <script type='text/javascript' src='/assets/jquery-1.9.1.js'></script>
 <script type="text/javascript" src="/assets/jquery-1.9.1.min.js"></script>
@@ -7,6 +8,7 @@
 <script type="text/javascript" src="/assets/jquery.loadJSON.js"></script>
 <script type="text/javascript" src="/assets/date.js"></script>
 <script type="text/javascript" src="/assets/jquery.datePicker.js"></script>
+<script type="text/javascript" src="/assets/messages.js"></script>
         
 <link rel="stylesheet" type="text/css" media="screen" href="/assets/datePicker.css">
 <link rel="stylesheet" type="text/css" href="/assets/admin.css">
@@ -16,92 +18,140 @@
 <h1>Administrator's Page</h1>
 </center>
 
-</div id="main-page">
 <center>
+<div id="main-page">
+    <div id="message-box">
+    </div>
 
     <div id="new-button">
         <button>Add Section</button>
     </div>
+
     <div id="logout-button">
         <button>Logout</button>
     </div>
-</div>
 
-<div id="mytable" class='imagetable'>
 </div>
+</center>
 
+<center>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span1">
+        </div>
+        <div class="span10">
+            <table id="mytable" class='table'>
+            </table>
+        </div>
+        <div class="span1">
+        </div>
+    </div>
+</div>
+</center>
+
+<center>
 <div id="new-form" class="new-box">
     <h1>Create Section</h1>
-    <form>
-        <label for="addname">Name</label>
-        <input type="text" name="add-name" id="add-name">
-        <br>
-        <label for="addstartdate">Start Date</label>
-        <input type="text" name="add-start-date" id="add-start-date" class="date-pick">
-        <br>
-        <label for="addenddate">End Date</label>
-        <input type="text" name="add-end-date" id="add-end-date" class="date-pick">
-        <br>
-        <label for="addday">Day</label>
-        <select type="text" name="add-day" id="add-day">
-            <option value="Sunday">Sunday</option>
-            <option value="Monday">Monday</option>
-            <option value="Tuesday">Tuesday</option>
-            <option value="Wednesday">Wednesday</option>
-            <option value="Thursday">Thursday</option>
-            <option value="Friday">Friday</option>
-            <option value="Saturday">Saturday</option>
-        </select>
-        <br>
-        <label for="addstarttime">Start Time</label>
-        <select type="time" name="add-start-time" id="add-start-time">
-            <option value="8:00AM">8:00AM</option>
-            <option value="9:00AM">9:00AM</option>
-            <option value="10:00AM">10:00AM</option>
-            <option value="11:00AM">11:00AM</option>
-            <option value="12:00PM">12:00PM</option>
-            <option value="1:00PM">1:00PM</option>
-            <option value="2:00PM">2:00PM</option>
-            <option value="3:00PM">3:00PM</option>
-            <option value="4:00PM">4:00PM</option>
-            <option value="5:00PM">5:00PM</option>
-            <option value="6:00PM">6:00PM</option>
-            <option value="7:00PM">7:00PM</option>
-            <option value="8:00PM">8:00PM</option>
-            <option value="9:00PM">9:00PM</option>
-        </select>
-        <br>
-        <label for="addendtime">End Time</label>
-        <select type="time" name="add-end-time" id="add-end-time">
-            <option value="8:00AM">8:00AM</option>
-            <option value="9:00AM">9:00AM</option>
-            <option value="10:00AM">10:00AM</option>
-            <option value="11:00AM">11:00AM</option>
-            <option value="12:00PM">12:00PM</option>
-            <option value="1:00PM">1:00PM</option>
-            <option value="2:00PM">2:00PM</option>
-            <option value="3:00PM">3:00PM</option>
-            <option value="4:00PM">4:00PM</option>
-            <option value="5:00PM">5:00PM</option>
-            <option value="6:00PM">6:00PM</option>
-            <option value="7:00PM">7:00PM</option>
-            <option value="8:00PM">8:00PM</option>
-            <option value="9:00PM">9:00PM</option>
-        </select>
-        <br>
-        <label for="addteacher">Teacher</label>
-        <input type="text" name="add-teacher" id="add-teacher">
-        <br>
-        <label for="addmaxenroll">Class capacity</label>
-        <input type="integer" name="add-max-enroll" id="add-max-enroll">
-        <br>
-        <label for="addmaxwaitlist">Waitlist capacity</label>
-        <input type="integer" name="add-max-waitlist" id="add-max-waitlist">
-        <br>
-        <label for="adddescription">Description</label>
-        <input type="text" name="add-description" id="add-description">
+    <form class="form-horizontal">
+        <div class="control-group">
+            <label class="control-label" for="addname">Name</label>
+            <div class="controls">
+                <input type="text" name="add-name" id="add-name" placeholder="Name">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="addstartdate">Start Date</label>
+            <div class="controls">
+                <input type="text" name="add-start-date" id="add-start-date" class="date-pick">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="addenddate">End Date</label>
+            <div class="controls">
+                <input type="text" name="add-end-date" id="add-end-date" class="date-pick">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="addday">Day</label>
+            <div class="controls">
+                <select type="text" name="add-day" id="add-day">
+                    <option value="Sunday">Sunday</option>
+                    <option value="Monday">Monday</option>
+                    <option value="Tuesday">Tuesday</option>
+                    <option value="WEDNESDAY">Wednesday</option>
+                    <option value="Thursday">Thursday</option>
+                    <option value="Friday">Friday</option>
+                    <option value="Saturday">Saturday</option>
+                </select>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="addstarttime">Start Time</label>
+            <div class="controls">
+                <select type="time" name="add-start-time" id="add-start-time">
+                    <option value="8:00AM">8:00AM</option>
+                    <option value="9:00AM">9:00AM</option>
+                    <option value="10:00AM">10:00AM</option>
+                    <option value="11:00AM">11:00AM</option>
+                    <option value="12:00PM">12:00PM</option>
+                    <option value="1:00PM">1:00PM</option>
+                    <option value="2:00PM">2:00PM</option>
+                    <option value="3:00PM">3:00PM</option>
+                    <option value="4:00PM">4:00PM</option>
+                    <option value="5:00PM">5:00PM</option>
+                    <option value="6:00PM">6:00PM</option>
+                    <option value="7:00PM">7:00PM</option>
+                    <option value="8:00PM">8:00PM</option>
+                    <option value="9:00PM">9:00PM</option>
+                </select>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="addendtime">End Time</label>
+            <div class="controls">
+                <select type="time" name="add-end-time" id="add-end-time">
+                    <option value="8:00AM">8:00AM</option>
+                    <option value="9:00AM">9:00AM</option>
+                    <option value="10:00AM">10:00AM</option>
+                    <option value="11:00AM">11:00AM</option>
+                    <option value="12:00PM">12:00PM</option>
+                    <option value="1:00PM">1:00PM</option>
+                    <option value="2:00PM">2:00PM</option>
+                    <option value="3:00PM">3:00PM</option>
+                    <option value="4:00PM">4:00PM</option>
+                    <option value="5:00PM">5:00PM</option>
+                    <option value="6:00PM">6:00PM</option>
+                    <option value="7:00PM">7:00PM</option>
+                    <option value="8:00PM">8:00PM</option>
+                    <option value="9:00PM">9:00PM</option>
+                </select>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="addteacher">Teacher</label>
+            <div class="controls">
+                <input type="text" name="add-teacher" id="add-teacher" placeholder="Teacher">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="addmaxenroll">Class capacity</label>
+            <div class="controls">
+                <input type="integer" name="add-max-enroll" id="add-max-enroll">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="addmaxwaitlist">Waitlist capacity</label>
+            <div class="controls">
+                <input type="integer" name="add-max-waitlist" id="add-max-waitlist">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="adddescription">Description</label>
+            <div class="controls">
+                <textarea rows="3" name="add-description" id="add-description"></textarea>
+            </div>
+        </div>
     </form>
-    <br><br><br><br><br><br>
     <div id="add_submit-button" class="submit_button" type="submit">
         <button>Submit</button>
     </div>
@@ -109,81 +159,110 @@
 
 <div id="edit-form" class="new-box">
     <h1>Edit Section</h1>
-    <form>
-        <label for="editname">Name</label>
-        <input type="text" name="name" id="name">
-        <br>
-        <label for="editstartdate">Start Date</label>
-        <input type="text" name="start_date" id="start_date" class="date-pick">
-        <br>
-        <label for="editenddate">End Date</label>
-        <input type="text" name="end_date" id="end_date" class="date-pick">
-        <br>
-        <label for="editday">Day</label>
-        <select type="text" name="day" id="day">
-            <option value="Sunday">Sunday</option>
-            <option value="Monday">Monday</option>
-            <option value="Tuesday">Tuesday</option>
-            <option value="Wednesday">Wednesday</option>
-            <option value="Thursday">Thursday</option>
-            <option value="Friday">Friday</option>
-            <option value="Saturday">Saturday</option>
-        </select>
-        <br>
-        <label for="editstarttime">Start Time</label>
-        <select type="time" name="start_time" id="start_time">
-            <option value="8:00AM">8:00AM</option>
-            <option value="9:00AM">9:00AM</option>
-            <option value="10:00AM">10:00AM</option>
-            <option value="11:00AM">11:00AM</option>
-            <option value="12:00PM">12:00PM</option>
-            <option value="1:00PM">1:00PM</option>
-            <option value="2:00PM">2:00PM</option>
-            <option value="3:00PM">3:00PM</option>
-            <option value="4:00PM">4:00PM</option>
-            <option value="5:00PM">5:00PM</option>
-            <option value="6:00PM">6:00PM</option>
-            <option value="7:00PM">7:00PM</option>
-            <option value="8:00PM">8:00PM</option>
-            <option value="9:00PM">9:00PM</option>
-        </select>
-        <br>
-        <label for="editendtime">End Time</label>
-        <select type="time" name="end_time" id="end_time">
-            <option value="8:00AM">8:00AM</option>
-            <option value="9:00AM">9:00AM</option>
-            <option value="10:00AM">10:00AM</option>
-            <option value="11:00AM">11:00AM</option>
-            <option value="12:00PM">12:00PM</option>
-            <option value="1:00PM">1:00PM</option>
-            <option value="2:00PM">2:00PM</option>
-            <option value="3:00PM">3:00PM</option>
-            <option value="4:00PM">4:00PM</option>
-            <option value="5:00PM">5:00PM</option>
-            <option value="6:00PM">6:00PM</option>
-            <option value="7:00PM">7:00PM</option>
-            <option value="8:00PM">8:00PM</option>
-            <option value="9:00PM">9:00PM</option>
-        </select>
-        <br>
-        <label for="editteacher">Teacher</label>
-        <input type="text" name="teacher" id="teacher">
-        <br>
-        <label for="editmaxenroll">Class capacity</label>
-        <input type="integer" name="enroll-max" id="enroll_max">
-        <br>
-        <label for="editmaxwaitlist">Waitlist capacity</label>
-        <input type="integer" name="waitlist-max" id="waitlist_max">
-        <br>
-        <label for="editdescription">Description</label>
-        <input type="text" name="description" id="description">
+    <form class="form-horizontal">
+        <div class="control-group">
+            <label class="control-label" for="addname">Name</label>
+            <div class="controls">
+                <input type="text" name="name" id="name" placeholder="Name">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="addstartdate">Start Date</label>
+            <div class="controls">
+                <input type="text" name="start_date" id="start_date" class="date-pick">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="addenddate">End Date</label>
+            <div class="controls">
+                <input type="text" name="end_date" id="end_date" class="date-pick">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="addday">Day</label>
+            <div class="controls">
+                <select type="text" name="day" id="day">
+                    <option value="Sunday">Sunday</option>
+                    <option value="Monday">Monday</option>
+                    <option value="Tuesday">Tuesday</option>
+                    <option value="Wednesday">Wednesday</option>
+                    <option value="Thursday">Thursday</option>
+                    <option value="Friday">Friday</option>
+                    <option value="Saturday">Saturday</option>
+                </select>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="addstarttime">Start Time</label>
+            <div class="controls">
+                <select type="time" name="start_time" id="start_time">
+                    <option value="8:00AM">8:00AM</option>
+                    <option value="9:00AM">9:00AM</option>
+                    <option value="10:00AM">10:00AM</option>
+                    <option value="11:00AM">11:00AM</option>
+                    <option value="12:00PM">12:00PM</option>
+                    <option value="1:00PM">1:00PM</option>
+                    <option value="2:00PM">2:00PM</option>
+                    <option value="3:00PM">3:00PM</option>
+                    <option value="4:00PM">4:00PM</option>
+                    <option value="5:00PM">5:00PM</option>
+                    <option value="6:00PM">6:00PM</option>
+                    <option value="7:00PM">7:00PM</option>
+                    <option value="8:00PM">8:00PM</option>
+                    <option value="9:00PM">9:00PM</option>
+                </select>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="addendtime">End Time</label>
+            <div class="controls">
+                <select type="time" name="end_time" id="end_time">
+                    <option value="8:00AM">8:00AM</option>
+                    <option value="9:00AM">9:00AM</option>
+                    <option value="10:00AM">10:00AM</option>
+                    <option value="11:00AM">11:00AM</option>
+                    <option value="12:00PM">12:00PM</option>
+                    <option value="1:00PM">1:00PM</option>
+                    <option value="2:00PM">2:00PM</option>
+                    <option value="3:00PM">3:00PM</option>
+                    <option value="4:00PM">4:00PM</option>
+                    <option value="5:00PM">5:00PM</option>
+                    <option value="6:00PM">6:00PM</option>
+                    <option value="7:00PM">7:00PM</option>
+                    <option value="8:00PM">8:00PM</option>
+                    <option value="9:00PM">9:00PM</option>
+                </select>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="addteacher">Teacher</label>
+            <div class="controls">
+                <input type="text" name="teacher" id="teacher" placeholder="Teacher">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="addmaxenroll">Class capacity</label>
+            <div class="controls">
+                <input type="integer" name="enroll_max" id="enroll_max">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="addmaxwaitlist">Waitlist capacity</label>
+            <div class="controls">
+                <input type="integer" name="waitlist_max" id="waitlist_max">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="adddescription">Description</label>
+            <div class="controls">
+                <textarea rows="3" name="description" id="description"></textarea>
+            </div>
+        </div>
     </form>
-    <br><br><br><br><br><br>
     <div id="edit_submit-button" class="submit_button" type="submit">
         <button>Submit</button>
     </div>
 </div>
-
 </center>
 <br />
 
