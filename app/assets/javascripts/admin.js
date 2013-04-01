@@ -40,14 +40,15 @@ function get_json_request(page, dict, success) {
 function handle_add_response(data) {
   if (data.errCode == 1) {
     $('#new-form').hide();
+    $('#edit-form').hide();
     $('#mytable').fadeOut('slow', function() {
         post_json_request("/Registrations/getSchedule", {}, function(data) {loadingBody(data)});
         $('#mytable').fadeIn('fast');
     })
     //post_json_request("/Registrations/getSchedule", {}, function(data) {loadingBody(data)});
     $('form').clearForm();
-  } else if (data.errCode == 200) {
-    alert('Invalid name, try again.');
+  } else {
+    alert(translateErrCode(data.errCode));
   }
 }
 
@@ -56,8 +57,8 @@ function handle_edit_response(data) {
     $('#edit-form').loadJSON(data.sections);
     //post_json_request("/Registrations/getSchedule", {}, function(data) {loadingBody(data)});
     $('#edit-form').toggle();
-  } else if (data.errCode == 200) {
-    alert('Invalid name, try again.');
+  } else {
+    alert(translateErrCode(data.errCode));
   }
 }
 
@@ -103,26 +104,26 @@ function displayData(jsonString){
     table.style.fontSize = "11px";
     table.style.textAlign = "center";
     table.style.color = "#333333";
-    table.style.borderWidth = "1px";
-    table.style.borderColor = "#222222";
+    // table.style.borderWidth = "1px";
+    // table.style.borderColor = "#222222";
     table.style.cellSpacing = "0";
 
     var thead = document.createElement('thead');
     thead.style.background = "#b5cfd2";
-    thead.style.borderWidth = "1px";
+    // thead.style.borderWidth = "1px";
     thead.style.padding = "8px"
-    thead.style.borderStyle = "solid";
-    thead.style.borderColor = "#222222";
+    // thead.style.borderStyle = "solid";
+    // thead.style.borderColor = "#222222";
     thead.style.textAlign = "center";
 
     table.appendChild(thead);
 
     var row = document.createElement('tr');
         row.style.background = "#dcddc0";
-        row.style.borderWidth = "1px";
+        // row.style.borderWidth = "1px";
         row.style.padding = "8px";
-        row.style.borderStyle = "solid";
-        row.style.borderColor = "#222222";
+        // row.style.borderStyle = "solid";
+        // row.style.borderColor = "#222222";
         row.style.textAlign = "center";
 
     createTableHeader(thead, 'Name');
@@ -147,10 +148,10 @@ function displayData(jsonString){
     for(i=0; i<jsonString.length; i++){
         var row = document.createElement('tr');
         row.style.background = "#dcddc0";
-        row.style.borderWidth = "1px";
+        // row.style.borderWidth = "1px";
         row.style.padding = "8px";
-        row.style.borderStyle = "solid";
-        row.style.borderColor = "#222222";
+        // row.style.borderStyle = "solid";
+        // row.style.borderColor = "#222222";
         row.style.textAlign = "center";
 
         createTableData(row, jsonString[i].name);
@@ -171,7 +172,7 @@ function displayData(jsonString){
         bt.name = 'delete-section';
         bt.id = 'delete-section';
         bt.value = 'Delete';
-        bt.style.width = '50px';
+        bt.style.width = '60px';
         bt.onclick = function() {post_json_request("/Admin/deleteSection", { name: $(this).closest('tr').children('td:first').text() }, function(data) { return handle_add_response(data); });};
         //bt.onclick = function() {alert($(this).closest('tr').children('td:first').text())};
         
