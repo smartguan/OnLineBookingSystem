@@ -5,26 +5,31 @@
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
  	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
  	<style type="text/css">
- 		body{color:white; text-shadow:1.2px 1.2px #000; }
- 		.title{font-size: 2em;}
-		.section {width:400px; margin:10px; padding:30px; background-color: #84c3ff; border-width:2px; border-style:solid; border-color:#000;}
-		.description{padding:15px; width:200px;}
-		.section-left-column{padding:25px; float:left;}
-		.section-right-column{padding:25px; float:left;}
+ 		h1{color:Orange; text-shadow: 1.2px 1.2px black;}
+ 		.title{font-size: 1.5em; color:DarkSlateGray; text-align: center; text-shadow: 1.2px 1.2px white;}
+ 		#err-message{text-align: center; width:500px;}
+ 		#all-registrations{background-color:Orange; color:white; text-shadow:1.2px 1.2px #000; width:450px; margin:20px; padding-bottom:10px; padding-top: 8px; border-color: black; border-style:solid; border-width:1px;}
+		.section {text-align:center; width:400px; margin:10px; padding:5px; background-color:LightSteelBlue; border-width:2px; padding-top:5px; margin-bottom:5px; border-color:black; border-style:solid}
+  
+		.description{text-align:left; padding:10px; padding-top:5px; width:375px; margin-top:5px;}
+		.section-left-column{text-align:left; padding:10px; padding-left:50px;padding-right: 50px; float:left;}
+		.section-right-column{text-align:left; padding:10px; padding-right:50px; padding-right:50px;float:left;}
 		.all-registrations{width:900px;}
+		.button{padding-left: 100px;}
+		b{font-size: 1.2em; }
 	</style>
 </head>
 
 <body>
-
-<h1>All Registrations</h1>
+<center>
+<h1>Enroll in Section</h1>
 
 	<div id="all-registrations"></div>
 
 	<div id="err-message"></div>
 
 	<div id="section-template" >
-		<h4 class="title"></h4>
+		<a class="title" href="#"></a>
 		<div class="section-info">
 			<div class="section-left-column">
 				Instructor: <br />
@@ -40,13 +45,13 @@
 				<span class='enrolled'></span><br />
 				<span class='waitlisted'></span><br />
 			</div>
+			<br /><b>Description</b>
 			<div class='description'>
-				<strong>Description:</strong><br />
 			</div>
-			<button class="btn btn-large btn-primary" type="button">Register</button>
+			<center><button class="btn btn-medium btn-primary" type="button">Register</button></center>
 		</div>
 	</div>
-
+</center>
 </body>
 
 <script type="text/javascript">
@@ -115,7 +120,7 @@ var Section = function(sectionJSON) {
 		$section_clone.find('.waitlisted').append(this.waitlist_frac.string);
 		$section_clone.find('.enrolled').append(this.enroll_frac.string);
 		
-		$section_clone.find('h4.title').append(this.title).click(function() {$(this).siblings().slideToggle();});
+		$section_clone.find('a.title').append(this.title).click(function() {$(this).siblings().slideToggle();});
 
 		function registerButtonClick(title) {
 			return 	post_json_request("/sections/register", { section_name:title }, function(data) { return handleRegisterSectionResponse(data); });
