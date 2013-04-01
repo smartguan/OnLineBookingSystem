@@ -49,7 +49,7 @@ class RegistrationsController < ApplicationController
       elsif @sec.enroll_cur == @sec.enroll_max and 
             @sec.waitlist_cur < @sec.waitlist_max
         @user.sections << @sec
-        @reg = Registration.where(:user_id => @user.id, :section_id => @sec.id).first
+        @reg = @user.registrations.where(:section_id => @sec.id).first
         @reg.update_attributes(waitlist_place:(@sec.waitlist_cur + 1))
         @sec.update_attributes(waitlist_cur:(@sec.waitlist_cur + 1))
         format.json { render json: { sections:[{section_id:@sec.id, 
@@ -67,7 +67,7 @@ class RegistrationsController < ApplicationController
         #view or accessed by the other key
         @user.sections << @sec
         #@sec.users << @user
-        @reg = Registration.where(:user_id => @user.id, :section_id => @sec.id).first
+        @reg = @user.registrations.where(:section_id => @sec.id).first
         @reg.update_attributes(waitlist_place:0)
         @sec.update_attributes(enroll_cur:(@sec.enroll_cur + 1))
         format.json { render json: { sections:[{section_id:@sec.id, 
@@ -92,19 +92,17 @@ class RegistrationsController < ApplicationController
     
     respond_to do |format|
       @user.sections.delete(@sec)
-      @sec.users.delete(@user)
+      #@sec.users.delete(@user)
       if @sec.waitlist_cur == 0
         @sec.enroll_cur -= 1
       else
         #shift the person 1st in the waitlist to the enrolled list
         @sec.waitlist_cur -= 1
         
-        if @sec.waitlist_cur != 0
-          Registration.where("section_id = :section_id, 
-                              waitlist_place > 0", 
-                              :section_id => @sec.id).each do |r|
-            r.update_attributes(waitlist_place:(r.waitlist_place - 1))
-          end
+        Registration.where("section_id = :section_id and 
+                            waitlist_place > 0", 
+                            :section_id => @sec.id).each do |r|
+          r.update_attributes(waitlist_place:(r.waitlist_place - 1))
         end
       end
       @sec.update_attributes(enroll_cur:@sec.enroll_cur, 
@@ -113,6 +111,13 @@ class RegistrationsController < ApplicationController
                                    section_name:@sec.name, 
                                    errCode:1 } }
     end
+    #print "\n**************\n"
+    #print session
+    #print "\n"
+    #print @user.id
+    #print "\n"
+    #print Registration.all
+    #print "\n**************\n"
   end
 
 
@@ -132,8 +137,13 @@ class RegistrationsController < ApplicationController
         enrolled_sections = @user.sections.all
         sections_info = []
         for section in enrolled_sections do
-          @reg = Registration.where(:user_id => @user.id, 
-                                    :section_id => section.id).first
+          @reg = @user.registrations.where(:section_id => section.id).first
+          #print section.attributes
+          #print "\n******************\n"
+          #print @reg.attributes
+          #print "\n******************\n"
+          #print @user.attributes
+          #print "\n******************\n"
           temp_sec = section.attributes
           temp_sec[:waitlist_place] = @reg.waitlist_place
           sections_info << temp_sec
