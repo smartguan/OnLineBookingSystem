@@ -10,7 +10,7 @@ titleStyle {
 
 footerStyle {
 	background-color: rgb(67,81,104);
-	padding: 1% 64% 1% 1%;
+	padding: 1% 64.5% 1% 1%;
 	font-family: sans-serif;
 	color: white;
 }
@@ -22,8 +22,7 @@ newUserStyle {
 }
 
 signupBox{
-	// padding: 15px 250px 270px 24px;
-	padding: 15px 250px 300px 24px;
+	padding: 15px 250px 270px 24px;
 	border-color: #f5e110;
 	border-width: 1px;
 	border-style: solid;
@@ -34,7 +33,7 @@ signupBox{
     -webkit-box-shadow: 0 12px 13px rgba(0,0,0,.5);
     -moz-box-shadow: 0 12px 13px rgba(0,0,0,.5);
     box-shadow: 0 12px 13px rgba(0,0,0,.5);
-
+    
     marging-right: 5%;
     font-size: 20px;
 	font-family: verdana;

@@ -19,6 +19,9 @@ Cs169::Application.routes.draw do
 
   get "users/profile"
 
+  get "users/addSection"
+  get "users/update_password"
+
   # For User tests
   match 'Users/test', to: 'users#testView'
   match 'Users/test2', to: 'users#testView2'
@@ -35,19 +38,34 @@ Cs169::Application.routes.draw do
   match '/Users/allUsers', to: 'users#allUsers'
   match '/Users/csv', to: 'users#exportCsv'
 
+  # I don't know what these are, so I commented them out
+  # If I did something wrong, please let me know so that 
+  # somebody can correct me. I appologize ahead~~(By Seth)
+  # match '/Registrations/viewEnrolledSections', to: 'sections#viewEnrolledSections'
+  # match '/Registrations/register', to: 'sections#register'
+  post '/sections/register', to: 'sections#register'
+  # match '/Registrations/drop', to: 'sections#drop'
+
+  # vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv #
+  # Please Keep all routes below unchanged. 
+  # Otherwise the BE for registration will fail
+  # vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv #
   # Routes for Registration controller
+  match '/Registrations/viewEnrolledSections', to: 'registrations#viewEnrolledSections'
+  match '/Registrations/register', to: 'registrations#register'
+  match '/Registrations/drop', to: 'registrations#drop'
 
-  match '/Registrations/getSchedule', to: 'sections#getSchedule'
-  match '/Registrations/viewOneSection', to: 'sections#viewOneSection'
-  match '/Registrations/viewEnrolledSections', to: 'sections#viewEnrolledSections'
-  match '/Registrations/register', to: 'sections#register'
-  match '/Registrations/drop', to: 'sections#drop'
-
+  # Routes for Sections controller (previously Admin)
   match '/Admin/createSection', to:'sections#createSection'
   match '/Admin/editSection', to:'sections#editSection'
   match '/Admin/deleteSection', to:'sections#deleteSection'
-
+  match '/Registrations/getSchedule', to: 'sections#getSchedule'
   match '/Registrations/viewOneSection', to: 'sections#viewOneSection'
+  # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ #
+  # Please Keep all routes above unchanged. 
+  # Otherwise the BE for registration will fail
+  # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ #
+
   # match '/Registrations/viewEnrolledSections', to: 'sections#viewEnrolledSections', :via => :get, :default => {format: "json"}
   # match '/Registrations/register', to: 'sections#register', :via => :post, :default => {format: "json"}
   # match '/Registrations/drop', to: 'sections#drop', :via => :post, :default => {format: "json"}

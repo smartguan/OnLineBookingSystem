@@ -1,15 +1,62 @@
 
-<h1>Login</h1>
-<div class="box" id="login">
-<%= form_for :user do |f| %>
-	Email <br />
-	<%= f.text_field :email, :size => 24 %><br />
 
-	Password <br />
-	<%= f.password_field :password, :size => 24 %><br />
+<body>
+	<form>
+		<signupBox class="form-signin-heading">Sign in</signupBox><br>
 
-	<%= f.hidden_field :admin, :size => 24 %><br />
-	
-	<%= f.submit %>
-<% end %>
-</div>
+		<label for="addname">Name</label><br>
+	    <input type="text" name="email" id="login-email"> <br>
+
+	    <label for="addstartdate">Start Date</label><br>
+	    <input type="password" name="password" id="login-password" class="date-pick"> <br>
+
+		<button id="login-button" class="btn btn-large btn-primary" type="button">Sign In</button>
+	</form>
+</body>
+
+<script type="text/javascript">
+
+function getLoginErrMsg(errCode) {
+  	switch(errCode)
+  	{
+	    case 108: 	return "Invalid Name or Password"; 
+	    case 1:    	return "";
+		default: 	return  "Unknown error has occurred"; 
+	}
+}
+
+function sendLoginRequest() {
+	input_email = $('#test-email').val()
+	input_password = $('#test-password').val()
+    request = { email: input_email, password: input_password }
+    
+    json_request("/Users/login", request, 
+                 function(data) {return display_message("Login" + JSON.stringify(data))}, 
+                 function(error) {alert("Error")}) 
+}
+
+function handleLoginResponse(responseData) {
+	$('#err_msg').empty();
+	$('#err_msg').append(getLoginErrMsg(responseData.errCode));
+}
+
+
+$('#test-login').click( function() {
+    reset_form()
+    return false
+});
+
+function json_request(page, dict, success, failure) {
+    $.ajax({
+      type: "POST",
+      url: page,
+      data: JSON.stringify(dict),
+      contentType: "application/json",
+      dataType: "json",
+      success: success,
+      failure: failure
+    })
+  }
+
+
+</script>

@@ -173,3 +173,18 @@ function parseDate_reservation(dateIn) {
     date = dateIn.split('-');
     return (date[1] + '-' + date[2] + '-' + date[0]);
 }
+
+$('#edit_submit-button').click(function() {
+    name = $('#name').val()
+    start_date = $('#start_date').val()
+    end_date = $('#end_date').val()
+    day = $('#day').val()
+    start_time = $('#start_time').val()
+    end_time = $('#end_time').val()
+    teacher = $('#teacher').val()
+    enroll_max = $('#enroll_max').val()
+    waitlist_max = $('#waitlist_max').val()
+    description = $('#description').val()
+
+    post_json_request("/Admin/editSection", { name: name, start_date: start_date, end_date: end_date, day: day, start_time: start_time, end_time: end_time, teacher: teacher, enroll_cur: 0, enroll_max: enroll_max, waitlist_cur: 0, waitlist_max: waitlist_max, description: description }, function(data) { return handle_add_response(data); });
+});
