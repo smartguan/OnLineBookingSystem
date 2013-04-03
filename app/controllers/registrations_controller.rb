@@ -31,8 +31,8 @@ class RegistrationsController < ApplicationController
 
   #for users to register for sections
   def register
-    if session[:user_id] != nil
-      @user = User.find_by_id(session[:user_id])
+    if params[:user_id] != nil
+      @user = User.find_by_id(params[:user_id])
     #deprecated in the future
     else  
       @user = User.find_by_email(params[:user_email].downcase)

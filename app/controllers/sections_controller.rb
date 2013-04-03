@@ -107,53 +107,6 @@ class SectionsController < ApplicationController
     end
   end
 
-  def register
-    if session[:user_id] != nil
-      @user = User.find_by_id(session[:user_id])
-    #deprecated in the future
-    else  
-      @user = User.find_by_email(params[:user_email].downcase)
-    end
-      @sec = Section.find_by_name(params[:section_name].upcase)
-    
-    respond_to do |format|
-      if @user.sections.exists?(:name => @sec.name) or
-         @sec.users.exists?(:id=>@user.id)
-        format.json { render json: { sections:[{section_id:@sec.id, 
-                                                section_name:@sec.name, 
-                                                statusCode:2}], 
-                                     errCode:301 } }
-      elsif @sec.enroll_cur == @sec.enroll_max and 
-            @sec.waitlist_cur < @sec.waitlist_max
-        @user.sections << @sec
-        @reg = Registration.where(:user_id => @user.id, :section_id => @sec.id).first
-        @reg.update_attributes(waitlist_place:(@sec.waitlist_cur + 1))
-        @sec.update_attributes(waitlist_cur:(@sec.waitlist_cur + 1))
-        format.json { render json: { sections:[{section_id:@sec.id, 
-                                                section_name:@sec.name, 
-                                                statusCode:3}],
-                                     errCode:301} }        
-      elsif @sec.waitlist_cur == @sec.waitlist_max
-        format.json { render json: { sections:[{section_id:@sec.id, 
-                                                section_name:@sec.name, 
-                                                statusCode:4}],
-                                     errCode:301} }        
-      else
-        #since it's a join table, the entry added by one key can be 
-        #view or accessed by the other key
-        @user.sections << @sec
-        #@sec.users << @user
-        @reg = Registration.where(:user_id => @user.id, :section_id => @sec.id).first
-        @reg.update_attributes(waitlist_place:0)
-        @sec.update_attributes(enroll_cur:(@sec.enroll_cur + 1))
-        format.json { render json: { sections:[{section_id:@sec.id, 
-                                                section_name:@sec.name, 
-                                                statusCode:1}],
-                                     errCode:1} }        
-      end
-    end
-  end
-
   ##for users to register for sections
   #def register
   #  if session[:user_id] != nil

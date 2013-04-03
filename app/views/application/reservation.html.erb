@@ -4,20 +4,48 @@
 <script type="text/javascript" src="/assets/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="/assets/jquery-ui.min.js"></script>
 <script type="text/javascript" src="/assets/reservation.js"></script>
+<script type="text/javascript" src="/assets/jquery.cookie.js"></script>
+<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-dropdown.js"></script>
 <link rel="stylesheet" type="text/css" href="/assets/reservation.css">
+<script type="text/javascript"> 
+$(document).ready(function () { 
+$('.dropdown-toggle').dropdown(); 
+}); 
+</script>
 </head>
 
-<center>
-<h1>Bootleg Reservation Page</h1>
-</center>
-
-</div id="reservation-main-page">
-<center>
-    <div id="logout-button-reservation">
-        <button>Logout</button>
+<div class="navbar navbar-inverse nav">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="/">Rancho Riconada</a>
+			
+          	<!--div class="nav-collapse collapse"-->
+              <ul class="nav">
+                  <li class="divider-vertical"></li>
+                  <li><a href="/"><i class="icon-home icon-white"></i> Home</a></li>
+              </ul>
+              <div class="pull-right">
+                <ul class="nav pull-right">
+                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome, User <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li class="divider"></li>
+                            <li id="logout"><a href="#">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+              </div>
+            <!--/div-->
+        </div>
     </div>
 </div>
 
+</div id="reservation-main-page">
+<center>
 <!-- <div id="mytable" class='imagetable'> -->
 <div id="mytable_reservation" class='imagetable_reservation'>
 </div>
@@ -35,8 +63,8 @@ $(document).ready(function() {
    show_login_page_reservation();
  });
 
-$('#logout-button-reservation').click(function() {
-    window.location.href = '/';
+$('#logout').click(function() {
+		post_json_request_reservation("/Users/logout", {}, function() {window.location.href = '/'});
 })
 
 </script>
