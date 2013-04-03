@@ -38,7 +38,6 @@ signupBox{
     font-size: 20px;
 	font-family: verdana;
 	color: black;
-	
 }
 
 leftBox{
@@ -91,6 +90,10 @@ body{
     font-size: 17px;
     font-family: sans-serif;
     float:right;
+}
+
+form#signup-form {
+	height:500px;
 }
 
 .errmessage{
