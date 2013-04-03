@@ -43,7 +43,7 @@ Cs169::Application.routes.draw do
   # somebody can correct me. I appologize ahead~~(By Seth)
   # match '/Registrations/viewEnrolledSections', to: 'sections#viewEnrolledSections'
   # match '/Registrations/register', to: 'sections#register'
-  post '/sections/register', to: 'sections#register'
+  # post '/sections/register', to: 'sections#register'
   # match '/Registrations/drop', to: 'sections#drop'
 
   # vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv #
