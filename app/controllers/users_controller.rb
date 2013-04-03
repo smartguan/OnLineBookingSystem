@@ -10,7 +10,15 @@ class UsersController < ApplicationController
   USER_EXISTS = 107
   BAD_CREDENTIALS = 108
   DEFAULT = 999
-  
+  def testProfile
+
+    @user = User.new(first: 'hello', last: 'hello', email:'yoohoo@yoohoo.com', password:'yellow', password_confirmation:'yellow', dob:'05/05/05', zip:12345, admin:false);
+    
+    respond_to do |format|
+      format.json { render json: { errCode: SUCCESS, user: @user } }
+    end
+  end
+
   def add
     @user = User.new(first: params[:first], last: params[:last], email: params[:email],
                      password: params[:password], 
