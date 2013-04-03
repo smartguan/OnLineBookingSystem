@@ -285,7 +285,7 @@ $('#logout-button').click(function() {
 })
 
 $('#export-button').click(function() {
-    post_json_request("/Users/csv", {}, function(){});
+    window.location.href = "/Users/csv";
 });
 
 $('#add_submit-button').click(function() {

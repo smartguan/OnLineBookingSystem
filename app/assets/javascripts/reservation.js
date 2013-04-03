@@ -150,10 +150,19 @@ function displayData_reservation(jsonString){
         bt.id = 'reserve-section';
         bt.value = 'Reserve';
         bt.style.width = '75px';
-        //bt.onclick = function() {post_json_request("", { name: $(this).closest('tr').children('td:first').text() }, function(data) { return handle_add_response(data); });};
-        //bt.onclick = function() {alert($(this).closest('tr').children('td:first').text())};
-        bt.onclick = function() {post_json_request("/Registrations/register", { user_id: $.cookie('user_id'), section_name: $(this).closest('tr').children('td:first').text() }, function(data) { return handle_register_response(data); });};
+        bt.onclick = function() {post_json_request("/Registrations/register", { section_name: $(this).closest('tr').children('td:first').text() }, function(data) { return handle_register_response(data); });};
+        
+        var btd = document.createElement('input');
+        btd.type = 'button';
+        btd.name = 'drop-section';
+        btd.id = 'drop-section';
+        btd.value = 'Drop';
+        btd.style.width = '75px';
+        btd.onclick = function() {post_json_request("/Registrations/drop", { section_name: $(this).closest('tr').children('td:first').text() }, function(data) { return handle_register_response(data); });};
+        
+
         row.appendChild(bt);
+        row.appendChild(btd);
 
         tbody.appendChild(row);
     }
