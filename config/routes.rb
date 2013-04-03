@@ -29,8 +29,10 @@ Cs169::Application.routes.draw do
   match '/Users/delete', to: 'users#delete' 
   match '/Users/updateUsers', to: 'users#updateUsers'
   match '/Users/update', to: 'users#update'
+  match '/Users/updatePassword', to: 'users#updatePassword'
   match '/Users/profile', to: 'users#profile'
   match '/Users/logout', to: 'users#logout'
+  match '/Users/allUsers', to: 'users#allUsers'
   match '/Users/csv', to: 'users#exportCsv'
 
   # Routes for Registration controller

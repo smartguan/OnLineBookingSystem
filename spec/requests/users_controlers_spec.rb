@@ -688,7 +688,7 @@ describe "UsersControlers" do
         click_button "test-add"
         page.should have_content "Add{\"errCode\":1}"
         click_button "test-profile"
-        page.should have_content "Profile{\"errCode\":1"
+        page.should have_content "Profile{\"errCode\":1,"
 #        user = User.create(first: "first", last: "last", email: "new@user.net",
 #                    password: "password", password_confirmation: "password",
 #                    dob: "01/02/1234", zip: "12345", admin: 0)
@@ -709,7 +709,7 @@ describe "UsersControlers" do
 #      end
 #    end
 
-    describe "when adding a user and then linking to a new page and loggin out", js: true do
+    describe "when adding a user and then linking to a new page and logging out", js: true do
       it "should return SUCCESS" do
         visit "/Users/test" 
         fill_in "test-first", with: "first"
@@ -724,6 +724,41 @@ describe "UsersControlers" do
         click_link "test-link"
         click_button "test-logout"
         page.should have_content "Logout{\"errCode\":1}"
+      end
+    end
+
+  describe "when changing a user's password", js: true do
+      it "should return SUCCESS" do
+        visit "/Users/test" 
+        fill_in "test-first", with: "first"
+        fill_in "test-last", with: "last"
+        fill_in "test-email", with: "new@user.net"
+        fill_in "test-password", with: "password"
+        fill_in "test-password_confirmation", with: "password"
+        fill_in "test-dob", with: "00/00/0000"
+        fill_in "test-zip", with: "12345"
+        click_button "test-add"
+        page.should have_content "Add{\"errCode\":1}"
+        fill_in "test-password", with: "password"
+        fill_in "test-new_password", with: "passwerd"
+        fill_in "test-new_password_confirmation", with: "passwerd"
+        click_button "test-updatePassword"
+        page.should have_content "UpdatePassword{\"errCode\":1}"
+        fill_in "test-email", with: "new@user.net"
+        fill_in "test-password", with: "passwerd"
+        click_button "test-login"
+        page.should have_content "Login{\"errCode\":1,"
+      end
+    end
+
+  describe "when changing a non-existant user's password", js: true do
+      it "should return BAD_CREDENTIALS" do
+        visit "/Users/test" 
+        fill_in "test-password", with: "password"
+        fill_in "test-new_password", with: "passwerd"
+        fill_in "test-new_password_confirmation", with: "passwerd"
+        click_button "test-updatePassword"
+        page.should have_content "UpdatePassword{\"errCode\":108}"
       end
     end
 
