@@ -4,6 +4,7 @@
 <script type="text/javascript" src="/assets/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="/assets/jquery-ui.min.js"></script>
 <script type="text/javascript" src="/assets/reservation.js"></script>
+<script type="text/javascript" src="/assets/jquery.cookie.js"></script>
 <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-dropdown.js"></script>
 <link rel="stylesheet" type="text/css" href="/assets/reservation.css">
 <script type="text/javascript"> 
@@ -33,7 +34,7 @@ $('.dropdown-toggle').dropdown();
                     <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome, User <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li class="divider"></li>
-                            <li><a href="#">Logout</a></li>
+                            <li id="logout"><a href="#">Logout</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -62,8 +63,8 @@ $(document).ready(function() {
    show_login_page_reservation();
  });
 
-$('#logout-button-reservation').click(function() {
-    window.location.href = '/';
+$('#logout').click(function() {
+		post_json_request_reservation("/Users/logout", {}, function() {window.location.href = '/'});
 })
 
 </script>

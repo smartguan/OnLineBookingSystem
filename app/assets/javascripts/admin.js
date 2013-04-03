@@ -42,7 +42,7 @@ function handle_add_response(data) {
     $('#new-form').hide();
     $('#edit-form').hide();
     $('#section-table').fadeOut('slow', function() {
-        post_json_request("/Registrations/getSchedule", {}, function(data) {loadingBody(data)});
+        post_json_request("/Registrations/getSchedule", {}, function(data) {loadingSections(data)});
         $('#section-table').fadeIn('fast');
     })
     //post_json_request("/Registrations/getSchedule", {}, function(data) {loadingBody(data)});

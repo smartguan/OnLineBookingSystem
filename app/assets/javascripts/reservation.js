@@ -46,14 +46,11 @@ function loadingBody_reservation(data){
 
 function handle_register_response(data) {
   if (data.errCode == 1) {
-    $('#new-form').hide();
-    $('#edit-form').hide();
-    $('#mytable_registration').fadeOut('slow', function() {
-        post_json_request("/Registrations/getSchedule", {}, function(data) {loadingBody(data)});
-        $('#mytable_registration').fadeIn('fast');
+    $('#mytable_reservation').fadeOut('slow', function() {
+        post_json_request_reservation("/Registrations/getSchedule", {}, function(data) {loadingBody_reservation(data)});
+        $('#mytable_reservation').fadeIn('fast');
     })
     //post_json_request("/Registrations/getSchedule", {}, function(data) {loadingBody(data)});
-    $('form').clearForm();
   } else {
     alert(translateErrCode(data.errCode));
   }
@@ -155,7 +152,7 @@ function displayData_reservation(jsonString){
         bt.style.width = '75px';
         //bt.onclick = function() {post_json_request("", { name: $(this).closest('tr').children('td:first').text() }, function(data) { return handle_add_response(data); });};
         //bt.onclick = function() {alert($(this).closest('tr').children('td:first').text())};
-        bt.onclick = function() {post_json_request("/Registrations/register", { section_name: $(this).closest('tr').children('td:first').text() }, function(data) { return handle_register_response(data); });};
+        bt.onclick = function() {post_json_request("/Registrations/register", { user_id: $.cookie('user_id'), section_name: $(this).closest('tr').children('td:first').text() }, function(data) { return handle_register_response(data); });};
         row.appendChild(bt);
 
         tbody.appendChild(row);
