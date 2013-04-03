@@ -19,6 +19,10 @@
       <input id="test-password" type="password"><br>
     <label>password_confirmation:</label>
       <input id="test-password_confirmation" type="password"><br>
+    <label>new_password:</label>
+      <input id="test-new_password" type="password"><br>
+    <label>new_password_confirmation:</label>
+      <input id="test-new_password_confirmation" type="password"><br>
     <label>zip:</label>
       <input id="test-zip" type="text"><br>
     <label>dob:</label>
@@ -29,6 +33,8 @@
     <input id="test-update" type="submit" value="update">
     <input id="test-logout" type="submit" value="logout">
     <input id="test-profile" type="submit" value="profile">
+    <input id="test-updatePassword" type="submit" value="updatePassword">
+    <input id="test-allUsers" type="submit" value="allUsers">
     <a id = "test-link" href="/Users/test2">link</a>
   </form>
   <form action="/Users/csv">
@@ -139,9 +145,32 @@
     return false
   })
 
+  $('#test-updatePassword').click(function() {
+    password = $('#test-password').val()
+    new_password = $('#test-new_password').val()
+    new_password_confirmation = $('#test-new_password_confirmation').val()
+    request = {password: password, new_password: new_password,
+               new_password_confirmation: new_password_confirmation}
+    json_request("/Users/updatePassword", request, 
+                 function(data) {return display_message("UpdatePassword" + JSON.stringify(data))}, 
+                 function(error) {alert("Error")}) 
+    reset_form()
+    return false
+  })
+
+  $('#test-allUsers').click(function() {
+    request = {}
+    json_request("/Users/allUsers", request, 
+                 function(data) {return display_message("AllUsers" + JSON.stringify(data))}, 
+                 function(error) {alert("Error")}) 
+    reset_form()
+    return false
+  })
+
   function json_request(page, dict, success, failure) {
     $.ajax({
       type: "POST",
+      //beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))}, 
       url: page,
       data: JSON.stringify(dict),
       contentType: "application/json",

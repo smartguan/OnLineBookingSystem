@@ -41,9 +41,9 @@ function handle_add_response(data) {
   if (data.errCode == 1) {
     $('#new-form').hide();
     $('#edit-form').hide();
-    $('#mytable').fadeOut('slow', function() {
-        post_json_request("/Registrations/getSchedule", {}, function(data) {loadingBody(data)});
-        $('#mytable').fadeIn('fast');
+    $('#section-table').fadeOut('slow', function() {
+        post_json_request("/Registrations/getSchedule", {}, function(data) {loadingSections(data)});
+        $('#section-table').fadeIn('fast');
     })
     //post_json_request("/Registrations/getSchedule", {}, function(data) {loadingBody(data)});
     $('form').clearForm();
@@ -63,19 +63,28 @@ function handle_edit_response(data) {
 }
 
 function init_data() {
-    post_json_request("/Registrations/getSchedule", {}, function(data) {loadingBody(data)})
+    post_json_request("/Registrations/getSchedule", {}, function(data) {loadingSections(data)})
 }
 
-function loadingBody(data){
+function loadingSections(data){
     if (data.errCode == 300) {
         document.getElementById('mytable').innerHTML='No records found!';
     } else {
         var json = data.sections
         if(json.length > 0){
-            displayData(json);
+            createSectionTable(json);
         } else {
             document.getElementById('mytable').innerHTML='No records found!';
         }
+    }
+}
+
+function loadingUsers(data){
+    var json = data.sections
+    if(json.length > 0){
+        createSectionTable(json);
+    } else {
+        document.getElementById('user-table').innerHTML='No records found!';
     }
 }
 
@@ -94,7 +103,7 @@ function createTableHeader(rowObject, data){
     createTableRowContent(rowObject, data, 'th');
 }
 
-function displayData(jsonString){
+function createSectionTable(jsonString){
     
     var table = document.createElement('table');
     //table.border = "1";
@@ -192,8 +201,90 @@ function displayData(jsonString){
         tbody.appendChild(row);   
     }
 
-    document.getElementById('mytable').innerHTML = '';
-    document.getElementById('mytable').appendChild(table);
+    document.getElementById('section-table').innerHTML = '';
+    document.getElementById('section-table').appendChild(table);
+}
+
+function createUserTable(jsonString){
+    
+    var table = document.createElement('table');
+    //table.border = "1";
+    //set table style
+   
+    table.style.fontFamily = "verdana", "arial", "sans-serif";
+    table.style.fontSize = "11px";
+    table.style.textAlign = "center";
+    table.style.color = "#333333";
+    // table.style.borderWidth = "1px";
+    // table.style.borderColor = "#222222";
+    table.style.cellSpacing = "0";
+
+    var thead = document.createElement('thead');
+    thead.style.background = "#b5cfd2";
+    // thead.style.borderWidth = "1px";
+    thead.style.padding = "8px"
+    // thead.style.borderStyle = "solid";
+    // thead.style.borderColor = "#222222";
+    thead.style.textAlign = "center";
+
+    table.appendChild(thead);
+
+    var row = document.createElement('tr');
+        row.style.background = "#dcddc0";
+        // row.style.borderWidth = "1px";
+        row.style.padding = "8px";
+        // row.style.borderStyle = "solid";
+        // row.style.borderColor = "#222222";
+        row.style.textAlign = "center";
+
+    createTableHeader(thead, 'Id');
+    createTableHeader(thead, 'First Name');
+    createTableHeader(thead, 'Last Name');
+    createTableHeader(thead, 'Email');
+    createTableHeader(thead, 'DOB');
+    createTableHeader(thead, 'Zip Code');
+    createTableHeader(thead, 'Password');
+    createTableHeader(thead, 'Admin');
+    
+    thead.appendChild(row);
+    
+    var tbody = document.createElement('tbody');
+    table.appendChild(tbody);
+    
+    for(i=0; i<jsonString.length; i++){
+        var row = document.createElement('tr');
+        row.style.background = "#dcddc0";
+        // row.style.borderWidth = "1px";
+        row.style.padding = "8px";
+        // row.style.borderStyle = "solid";
+        // row.style.borderColor = "#222222";
+        row.style.textAlign = "center";
+
+        createTableData(row, jsonString[i].id)
+        createTableData(row, jsonString[i].first);
+        createTableData(row, jsonString[i].last);
+        createTableData(row, jsonString[i].email);
+        createTableData(row, jsonString[i].dob);
+        createTableData(row, jsonString[i].zip);
+        createTableData(row, jsonString[i].password);
+        createTableData(row, jsonString[i].admin);
+
+        var bt = document.createElement('input');
+        bt.type = 'button';
+        bt.name = 'delete-section';
+        bt.id = 'delete-section';
+        bt.value = 'Delete';
+        bt.style.width = '60px';
+        bt.onclick = function() {post_json_request("/Users/delete", { name: $(this).closest('tr').children('td:first').text() }, function(data) { return handle_add_response(data); });};
+        //bt.onclick = function() {alert($(this).closest('tr').children('td:first').text())};
+
+        row.appendChild(bt);
+
+        tbody.appendChild(row);   
+    }
+
+    document.getElementById('user-table').innerHTML = '';
+    document.getElementById('user-table').appendChild(table);
 }
 
 function parseTime(timeIn) {

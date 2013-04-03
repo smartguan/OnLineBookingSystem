@@ -27,7 +27,7 @@ class UsersController < ApplicationController
     respond_to do |format| 
       if @user.save
         format.json { render json: { errCode: SUCCESS } } 
-        session[:user_id] = @user.id
+        cookies[:user_id] = @user.id
       else 
         if @user.errors.messages[:first] 
           format.json { render json: { errCode: FIRST_NOT_VALID } }
@@ -64,7 +64,7 @@ class UsersController < ApplicationController
         format.json { render json: { errCode: BAD_CREDENTIALS } }
       elsif user.authenticate(params[:password])
         format.json { render json: { errCode: SUCCESS, admin: user.admin } }
-        session[:user_id] = user.id
+        cookies[:user_id] = user.id
       else
         format.json { render json: { errCode: BAD_CREDENTIALS } }
       end
@@ -72,10 +72,10 @@ class UsersController < ApplicationController
   end
 
   def delete
-    if not session.has_key?(:user_id)
+    if not cookies.has_key?(:user_id)
       user = nil
-    elsif not session[:user_id] == nil
-      user = User.find(session[:user_id])
+    elsif not cookies[:user_id] == nil
+      user = User.find(cookies[:user_id])
     else
       user = nil
     end
@@ -85,7 +85,7 @@ class UsersController < ApplicationController
         format.json { render json: { errCode: BAD_CREDENTIALS } }
       elsif user.authenticate(params[:password])
         User.delete(user.id) 
-        session[:user_id] = nil
+        cookies[:user_id] = nil
         format.json { render json: { errCode: SUCCESS } }
       else
         format.json { render json: { errCode: BAD_CREDENTIALS } }
@@ -99,10 +99,10 @@ class UsersController < ApplicationController
 
 
   def update
-    if not session.has_key?(:user_id)
+    if not cookies.has_key?(:user_id)
       user = nil
-    elsif not session[:user_id] == nil
-      user = User.find(session[:user_id])
+    elsif not cookies[:user_id] == nil
+      user = User.find(cookies[:user_id])
     else
       user = nil
     end
@@ -130,7 +130,6 @@ class UsersController < ApplicationController
 #        end
 #        user.update_attributes(user_dict)
         if user.errors.messages.empty? 
-          session[:user_id] = nil
           format.json { render json: { errCode: SUCCESS } }
         elsif user.errors.messages[:first] 
           format.json { render json: { errCode: FIRST_NOT_VALID } }
@@ -163,11 +162,44 @@ class UsersController < ApplicationController
     end
   end
 
-  def profile
-    if not session.has_key?(:user_id)
+  def updatePassword
+    if not cookies.has_key?(:user_id)
       user = nil
-    elsif not session[:user_id] == nil
-      user = User.find(session[:user_id])
+    elsif not cookies[:user_id] == nil
+      user = User.find(cookies[:user_id])
+    else
+      user = nil
+    end
+#    user = User.find_by_email(params[:ref_email].downcase)
+    respond_to do |format|
+      if not user
+        format.json { render json: { errCode: BAD_CREDENTIALS } }
+      elsif user.authenticate(params[:password])
+        user.update_attributes(password: params[:new_password], 
+                               password_confirmation: 
+                                params[:new_password_confirmation])
+        if user.errors.messages.empty? 
+          format.json { render json: { errCode: SUCCESS } }
+        elsif user.errors.messages[:password]
+          if not user.errors.messages[:password].grep(/(blank)|(short)/).empty?
+            format.json { render json: { errCode: PASS_NOT_VALID } }
+          elsif not user.errors.messages[:password].grep(/match/).empty?
+            format.json { render json: { errCode: PASS_NOT_MATCH } }
+          else
+            format.json { render json: { errCode: "Error in password" } }
+          end
+        end
+      else
+        format.json { render json: { errCode: BAD_CREDENTIALS } }
+      end
+    end
+  end
+  
+  def profile
+    if not cookies.has_key?(:user_id)
+      user = nil
+    elsif not cookies[:user_id] == nil
+      user = User.find(cookies[:user_id])
     else
       user = nil
     end
@@ -183,14 +215,20 @@ class UsersController < ApplicationController
 
   def logout  
     respond_to do |format|
-      if not session.has_key?(:user_id)
+      if not cookies.has_key?(:user_id)
         format.json { render json: { errCode: BAD_CREDENTIALS } }
-      elsif not session[:user_id] == nil
-        session[:user_id] = nil
+      elsif not cookies[:user_id] == nil
+        cookies[:user_id] = nil
         format.json { render json: { errCode: SUCCESS } }
       else
         format.json { render json: { errCode: BAD_CREDENTIALS } }
       end
+    end
+  end
+
+  def allUsers
+    respond_to do |format|
+      format.json { render json: User.all }
     end
   end
 
