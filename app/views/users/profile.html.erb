@@ -1,2 +1,141 @@
-<h1>Users#profile</h1>
-<p>Find me in app/views/users/profile.html.erb</p>
+
+<head>
+	<title>View Registrations</title>
+	<script type="text/javascript" src="/assets/utilities.js"></script>
+</head>
+
+<body>
+
+<%=render 'shared/user_nav_bar'%>
+
+<div class="container-fluid">
+
+<%=render 'shared/user_options_links'%>
+
+<div class='span6 offset2' id='displayable-info'>
+
+<!-- user profile information -->
+<div id='user-details'>
+	
+	<ul id='user-info'>
+		<li id='user-name'>Name:   </li>
+		<li id='user-email'>Email: </li>
+		<li id='user-dob'>Date of Birth: </li>
+		<li id='user-zip'>Zipcode: </li>
+	</ul>
+	
+
+</div>
+<!-- View Enrolled Sections -->
+<div id='user-sections'></div>
+<!-- Changing password -->
+<form id='update-password-form' class='update-box'>  
+  	<label for="old-password">Current Password</label>
+	<input type="password" name="old-password" id="old-password"><br>
+
+	<label for="password-new">New Password</label>
+	<input type="password" name="password" id="password"><br>
+
+	<label for="password-new-confirm">Re-type Password</label>
+	<input type="password" name="password-confirmation" id="password-confirmation"><br><br>
+
+	<button class="btn btn-small btn-primary" type="button" id="submit-password-update">Save Changes</button>
+</form>
+
+<!-- update details box -->
+<div id='update-box' class='update-box'>
+
+<h4 id='update-title'>Update User Profile Form</h4>
+
+<form id='update-user-form'>
+
+Firstname<br>
+<input id="update-first" class="update-text-input" type="text" name="first" ><br />
+
+Lastname<br>
+<input id="update-last" type="text" name="last" class='update-text'><br />
+
+E-mail<br>
+<input id="update-email" type="text" name="email" class='update-text'><br />
+
+<div id='update-user-left'>
+Zipcode<br> 
+<input id="update-zipcode" type="text" name="zip" class='update-text' style="width:60px;"><br />
+</div>
+
+<div id='update-user-right'>
+Date of Birth<br>
+<input id="update-dob" type="text" name="dob" class='update-text' style="width:110px"><br />
+</div>
+
+<div id='update-err-messages'></div>
+
+<button id="update-button" class="btn btn-large btn-primary" type="button">Update</button>
+
+</form>
+</div>
+
+<!-- Enroll in Sections -->
+<div id="all-registrations"></div>
+
+<div id='err-message'></div>
+
+
+</div> <!-- span9 -->
+</div> <!-- container -->
+
+
+</body>
+
+
+<%= render 'shared/section' %>
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+	getUserInfo();				//populate table
+	init_view_user_sections();
+	init_view_sections();
+	clearForm();
+	$('#user-details').show();
+});
+
+$('#view-details-trigger').click(function() {
+	clearForm();
+	$('#user-details').show(); 
+});
+
+$('#update-password-trigger').click(function() {
+	clearForm();
+	$('#update-password-form').show();
+});
+
+$('#update-user-trigger').click(function() {
+	clearForm();
+	$('#update-box').show();
+});
+
+$('#section-enroll-trigger').click(function() {
+	clearForm();
+	$('#all-registrations').show();
+});
+
+$('#view-enrolled-sections').click(function() {
+	clearForm();
+	$('#user-sections').show();
+});
+
+$('#update-user-notifications').click(function() {
+	alert('NOT READY WAIT A SEC');
+});
+
+function clearForm() {
+	$('#update-box').hide();
+	$('#update-password-form').hide();
+	$('#user-details').hide();
+	$('#all-registrations').hide();
+	$('#user-sections').hide();
+}
+
+	
+</script>
