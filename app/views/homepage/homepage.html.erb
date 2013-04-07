@@ -29,22 +29,7 @@
 
 	<div class="container"><body>
 
-<!-- 		<div id="top">
-			<br><h1>
-				<titleStyle>
-					Rancho Rinconada Online Booking
-					<newUserStyle>
-						New to Rinconada?
-						
-			      			<a class="btn btn-warning" href="/users/new"></i>CREATE AN ACCOUNT</a>
-						
-					</newUserStyle>
-
-				</titleStyle>
-			</h1>
- -->
-		
-		<div class="navbar navbar-inverse nav">
+		<div class="navbar navbar-inverse nav" >
 		    <div class="navbar-inner">
 		        <div class="container">
 		            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -52,7 +37,7 @@
 		                <span class="icon-bar"></span>
 		                <span class="icon-bar"></span>
 		            </a>
-		            <a class="brand" href="/">Rancho Rinconada</a>
+		            <a class="brand"  href="/" >Rancho Rinconada</a>
 					
 		          
 		              <div class="pull-right">
@@ -66,42 +51,7 @@
 
 		</div>
 
-		<br><br>
-
-		<div id="rightColumn">
-			<br><floatRight>
-				<form>
-					<br><br>
-						<signupBox>
-								<class="form-signin-heading">Sign in
-						</signupBox>
-
-						<br><br>
-						<font17px>
-							E-mail
-						</font17px>
-						<br>
-
-						<font17px>
-							<input id="login-email" type="text" placeholder="your@email.com" name="email" style="width:280px; height:25px; font-size:17px">
-							<br>
-						</font17px>
-						<br>
-						<font17px>
-							Password
-						</font17px>
-						<br>
-						<font17px>
-			     			<input id="login-password" type="password" name="pwd" style="width:280px; height:25px; font-size:20px"><br>
-			      		</font17px>
-			      		<br>
-			      		<font17px>
-			      			<button id="login-button" class="btn btn-large btn-primary" type="button">Sign In</button>
-			      		</font17px>
-				</form>
-			<floatRight>
-		</div>
-
+		<br>
 
 		<div id="leftColumn">
 			<floatLeft>
@@ -128,15 +78,40 @@
 			</floatLeft>
 		</div>
 
-		<div id="system-message" class="errbox">
-		  <center>
-			  <div id="credentials-message" class="errmessage"></div>
-			    <form>
+		<div id="rightColumn">
+			<floatRight>
+				<form>
+					<br>
+						<signupBox>
+								<class="form-signin-heading">Sign in
+						</signupBox>
 
-			      <input type="submit" id="ok-button" value="       OK       " onclick="close_error2();return false;">
-			    
-			    </form>
-			</center>
+						<br><br>
+						<font17px>
+							E-mail
+						</font17px>
+						<br>
+
+						<font17px>
+							<input id="login-email" type="text" placeholder="your@email.com" name="email" style="width:280px; height:25px; font-size:17px">
+							<br>
+						</font17px>
+						<br>
+						<font17px>
+							Password
+						</font17px>
+						<br>
+						<font17px>
+			     			<input id="login-password" type="password" name="pwd" style="width:280px; height:25px; font-size:20px"><br>
+			      		</font17px>
+			      		<font17px id="err_message"></font17px><br>
+			      		
+
+			      		<font17px>
+			      			<button id="login-button" class="btn btn-large btn-primary" type="button">Sign In</button>
+			      		</font17px>
+				</form>
+			<floatRight>
 		</div>
 
 		<div id="bottom">
@@ -188,22 +163,28 @@
 			}
 
 			function handle_login_response(data) {
+				$('font17px#err_message').empty();
+				$('font17px#err_message').css('font-size','12px');
+				$('font17px#err_message').css('color','red');
+				$('font17px#err_message').append(getErrorMessage(data));
+			}
 
+			function getErrorMessage(data) {
 			  switch (data.errCode){
+
 			    case 108:
-			      show_system_message("Cannot find the Username/Password<br> pair. Click OK to try again."); 
-			      break
+			    	return "Cannot find the Username/Password pair.";
+			      break;
+
+			    //This is the case for success
 			    default:
 			    	if (data.admin == 0) {
-			    		window.location.href = "/Users/updateUsers";
+			    		window.location.href = "reservation";
 			    	} 
 			    	else {
-			    		window.location.href = "admin";
+			    		window.location.href = "/admin";
 			    	}   
 			  }
-
-			  return
-
 			}
 
 

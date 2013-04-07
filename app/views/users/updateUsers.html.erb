@@ -184,6 +184,7 @@
    			$('#leftColumn').hide()
    			$('#system-message').hide()
    			$('#bottom').hide()
+
    
    			/* setup the page so that only one of the forms is shown */
 			
@@ -215,11 +216,11 @@
 
 
 			function handle_populate_data(data){
-				lastname = $('#update-last').val() = data.last
-			   	firstname = $('#update-first').val() = data.first
-			   	email = $('#update-email').val() = data.email
-			   	zip = $('#update-zipcode').val() = data.zip
-			   	dob = $('#update-dob').val() = data.dob
+				$('#update-last').val() = data.last
+			   	$('#update-first').val() = data.first
+			   	$('#update-email').val() = data.email
+			   	$('#update-zipcode').val() = data.zip
+			   	$('#update-dob').val() = data.dob
 			}
 			
 
