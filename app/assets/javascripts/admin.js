@@ -26,6 +26,8 @@ function post_json_request(page, dict, success) {
   });
 }
 
+/* read this
+*/
 function get_json_request(page, dict, success) {
   $.ajax({
     type: 'GET',

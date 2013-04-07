@@ -8,22 +8,9 @@
 
 		<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-dropdown.js"></script>
 		<script type='text/javascript' src='/assets/jquery-1.9.1.js'></script>
-
-		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
-
-		<script type="text/javascript">
-		<!-->
-		var image1=new Image()
-		image1.src="/assets/rancho2.jpg"
-		var image2=new Image()
-		image2.src="/assets/rancho1.jpg"
-		var image3=new Image()
-		image3.src="/assets/rancho3.jpg"
-		var image4=new Image()
-		image4.src="/assets/rancho4.jpg"
-		//-->
-		</script>
+		<script type='text/javascript' src='/assets/jquery-1.9.1.js'></script>
+		<script type="text/javascript" src="/assets/jquery-1.9.1.min.js"></script>
+		<script type="text/javascript" src="/assets/jquery-ui.min.js"></script>
 
 	</head>
 
@@ -38,81 +25,58 @@
 		                <span class="icon-bar"></span>
 		            </a>
 		            <a class="brand"  href="/" >Rancho Rinconada</a>
-					
-		          
+		              <div class="pull-right">
+		                <ul class="nav pull-right">
+		                	<li class="divider-vertical"></li>
+		                    
+		                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Sign In <b class="caret"></b></a>
+		                        
+		                        <ul class="dropdown-menu">
+
+		                        	<form class="form-horizontal">
+		                        		
+		                        		<div class="span3">
+		                        		<br>
+
+		                        		<font17px>Username<font17px>
+
+  										<input class="span2" type="email" required id="login-email"  placeholder="your@email.com" style="width:188px">
+      								    <br><br>
+      									
+      									<font17px>Password<font17px>
+      									<input class="span2" type="password" id="login-password" placeholder="Password" style="width:188px">
+      									<br>
+
+      									<font17px id="err_message"></font17px><br>
+  
+								      	<button id="login-button" type="submit" class="btn btn-primary">Sign in</button> 
+								      	<br><br>
+								    		
+								  	</div>
+									</form>
+		                        </ul>
+		                    </li>
+		                </ul>
+		              </div>
+
 		              <div class="pull-right">
 		              	<ul class="nav">
 		                  <li class="divider-vertical"></li>
-		                  <li><a href="/users/new"><i class="icon-user icon-white"></i> Create an Account</a></li>
+		                  <li><a href="/users/new"> Create an Account</a></li>
 		              </ul>
 		              </div>
+
 		        </div>
 		    </div>
 
 		</div>
 
-		<br>
+		<font17px>
+			Team, you can still sing in using the menu in the nav bar. 
+		</font17px>
 
-		<div id="leftColumn">
-			<floatLeft>
-				<leftBox>
-					<img src="/assets/rancho2.jpg" name="slide" class="img-rounded" width="553px" height="600px">
-					
-					<script type="text/javascript">
-					<!-->
-					var step=1
 
-					function slideit(){
-						document.images.slide.src=eval("image" + step + ".src")
-						if (step<4)
-							step++
-						else 
-							step=1
-							setTimeout("slideit()",4500)
-
-					}
-					slideit()
-					//-->
-					</script>
-				</leftBox>
-			</floatLeft>
-		</div>
-
-		<div id="rightColumn">
-			<floatRight>
-				<form>
-					<br>
-						<signupBox>
-								<class="form-signin-heading">Sign in
-						</signupBox>
-
-						<br><br>
-						<font17px>
-							E-mail
-						</font17px>
-						<br>
-
-						<font17px>
-							<input id="login-email" type="text" placeholder="your@email.com" name="email" style="width:280px; height:25px; font-size:17px">
-							<br>
-						</font17px>
-						<br>
-						<font17px>
-							Password
-						</font17px>
-						<br>
-						<font17px>
-			     			<input id="login-password" type="password" name="pwd" style="width:280px; height:25px; font-size:20px"><br>
-			      		</font17px>
-			      		<font17px id="err_message"></font17px><br>
-			      		
-
-			      		<font17px>
-			      			<button id="login-button" class="btn btn-large btn-primary" type="button">Sign In</button>
-			      		</font17px>
-				</form>
-			<floatRight>
-		</div>
+		
 
 		<div id="bottom">
 			<f1>
@@ -152,16 +116,6 @@
 	   			$('#bottom').show()
 			}
 
-			function show_system_message(message) {
-			   	$('#system-message').show()
-			   	$('#credentials-message').html(message);
-			}
-
-			function close_error2(){
-				$('#system-message').hide()
-				$('#login-password').val("")
-			}
-
 			function handle_login_response(data) {
 				$('font17px#err_message').empty();
 				$('font17px#err_message').css('font-size','12px');
@@ -173,7 +127,7 @@
 			  switch (data.errCode){
 
 			    case 108:
-			    	return "Cannot find the Username/Password pair.";
+			    	return "Invalid Username and/or Password";
 			      break;
 
 			    //This is the case for success
