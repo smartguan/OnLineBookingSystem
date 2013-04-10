@@ -79,7 +79,7 @@
 				}
 
 			#calendar {
-				width: 900px;
+				width: 886px;
 				margin: 0 auto;
 				margin-top: -7px;
 				background-color: white;
@@ -91,148 +91,154 @@
 
 	</head>
 
-	<div class="container-fluid"><body2>
+	<body>
 
-		<div class="navbar navbar-inverse nav navbar-fixed-top">
-		    <div class="navbar-inner">
-		            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-		                <span class="icon-bar"></span>
-		                <span class="icon-bar"></span>
-		                <span class="icon-bar"></span>
-		            </a>
-		            <a class="brand"  href="/" style="color:white; font-size:27px"> &nbsp &nbspRancho Rinconada</a>
-		              <div class="pull-right">
-		                <ul class="nav pull-right">
-		                	<li class="divider-vertical"></li>
-		                    
-		                    <li id= "SignDropDown" class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Sign In <b class="caret"></b></a>
-		                        
-		                        <ul class="dropdown-menu">
+		<body2>
+			<div class="navbar navbar-inverse nav navbar-fixed-top">
+			    <div class="navbar-inner">
+			            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+			                <span class="icon-bar"></span>
+			                <span class="icon-bar"></span>
+			                <span class="icon-bar"></span>
+			            </a>
+			            <a class="brand"  href="/" style="color:white; font-size:27px"> &nbsp &nbspRancho Rinconada</a>
+			              <div class="pull-right">
+			                <ul class="nav pull-right">
+			                	<li class="divider-vertical"></li>
+			                    
+			                    <li id= "SignDropDown" class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Sign In <b class="caret"></b></a>
+			                        
+			                        <ul class="dropdown-menu">
 
-		                        	<form class="form-horizontal">
-		                        		
-		                        		<div class="span3">
-		                        		<br>
+			                        	<form class="form-horizontal">
+			                        		
+			                        		<div class="span3">
+			                        		<br>
 
-		                        		<font17px>Username<font17px>
+			                        		<font17px>Username<font17px>
 
-  										<input class="span2" type="email" required id="login-email"  placeholder="your@email.com" style="width:188px">
-      								    <br><br>
-      									
-      									<font17px>Password<font17px>
-      									<input class="span2" type="password" id="login-password" placeholder="Password" style="width:188px">
-      									<br>
+	  										<input class="span2" type="email" required id="login-email"  placeholder="your@email.com" style="width:188px">
+	      								    <br><br>
+	      									
+	      									<font17px>Password<font17px>
+	      									<input class="span2" type="password" id="login-password" placeholder="Password" style="width:188px">
+	      									<br>
 
-      									<font17px id="err_message"></font17px><br>
+	      									<font17px id="err_message"></font17px><br>
 
-								      	<button id="login-button" type="submit" class="btn btn-primary">Sign in
-								      	</button>
-								      	<br><br>
-								    		
-								  		</div>
-									</form>
-		                        </ul>
-		                    </li>
+									      	<button id="login-button" type="submit" class="btn btn-primary">Sign in
+									      	</button>
+									      	<br><br>
+									    		
+									  		</div>
+										</form>
+			                        </ul>
+			                    </li>
 
-		                    <li id="WelcomeDropDown" class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome, User <b class="caret"></b></a>
-		                        <ul class="dropdown-menu">
-		                            <li><a href="/Users/updateUsers"><i class="icon-pencil"></i> Update Profile</a></li>
-		                            <li><a href="/"><i class="icon-pencil"></i> Change Password</a></li>
-		                            <li><a href="/"><i class="icon-list"></i> My Sessions</a></li>
-		                            <li class="divider"></li>
-		                            <li><a href="/"><i class="icon-off"></i> Logout</a></li>
-		                        </ul>
-		                    </li>
-
-
-
-		                </ul>
-		              </div>
-
-		              <div id="CreateAccountButton" class="pull-right">
-		              	<ul class="nav">
-		                  <li class="divider-vertical"></li>
-		                  <li><a href="/users/new"> Create an Account</a></li>
-		              </ul>
-		              </div>
-		    </div>
-
-		</div>
+			                    <li id="WelcomeDropDown" class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome, User <b class="caret"></b></a>
+			                        <ul class="dropdown-menu">
+			                            <li><a href="/Users/updateUsers"><i class="icon-pencil"></i> Update Profile</a></li>
+			                            <li><a href="/"><i class="icon-pencil"></i> Change Password</a></li>
+			                            <li><a href="/"><i class="icon-list"></i> My Sessions</a></li>
+			                            <li class="divider"></li>
+			                            <li><a href="/"><i class="icon-off"></i> Logout</a></li>
+			                        </ul>
+			                    </li>
 
 
-		<position-fixed-top>
-			<div class="span3">
 
-				<div class="alert alert-info">
-				  <h5>To Make a Reservation:</h5>
-				  Best check yo self, you're not...
+			                </ul>
+			              </div>
+
+			              <div id="CreateAccountButton" class="pull-right">
+			              	<ul class="nav">
+			                  <li class="divider-vertical"></li>
+			                  <li><a href="/users/new"> Create an Account</a></li>
+			              </ul>
+			              </div>
+			    </div>
+			</div>
+
+		</body2>
+
+		<div class="container-fluid"><body2>
+
+			<div class="row-fluid">
+
+				<div class="span3">
+
+					<position-fixed-top>
+						<div class="span9">
+
+							<div class="alert alert-info">
+							  <h5>To Make a Reservation:</h5>
+							  Best check yo self, you're not...
+							</div>
+
+							<div id="ProgressBar" class="alert alert-info">
+					  			<button type="button" class="close" data-dismiss="alert">&times;</button>
+					  			<h5>Reservation Progress: </h5>
+					  			Step One of Three ...
+					  			<br><br><div class="progress progress-warning progress-striped active">
+					  				<div class="bar" style="width: 40%;"></div>
+								</div>
+							</div>
+							
+							<div id="FilterSelection" class="alert alert-info">
+						  		<h5>Show Only: </h5>
+						  		Select the session types you are interested in ...
+						  			
+						  		<br><br><form class="form">
+						  			
+									<label class="checkbox">
+									  	<input type="checkbox"> Type A
+									</label>
+
+									<label class="checkbox">
+										<input type="checkbox"> Type B
+									</label>
+
+									<label class="checkbox">
+										 <input type="checkbox"> Type C
+									</label>
+								</form>
+							</div>
+						</div>
+					</position-fix-top>
 				</div>
+			
 
-				<div id="ProgressBar" class="alert alert-info">
-		  			<button type="button" class="close" data-dismiss="alert">&times;</button>
-		  			<h5>Reservation Progress: </h5>
-		  			Step One of Three ...
-		  			<br><br><div class="progress progress-warning progress-striped active">
-		  				<div class="bar" style="width: 40%;"></div>
+				<div class="span9">
+
+					<div id="DateSelection" class="alert alert-info">
+
+			  			<h3>Select Date: </h3><br>
+			  			<div id="calendar"></div><br>
+			  			
 					</div>
-				</div>
-				
-				<div id="FilterSelection" class="alert alert-info">
-			  		<h5>Show Only: </h5>
-			  		Select the session types you are interested in ...
-			  			
-			  		<br><br><form class="form">
-			  			
-						<label class="checkbox">
-						  	<input type="checkbox"> Type A
-						</label>
 
-						<label class="checkbox">
-							<input type="checkbox"> Type B
-						</label>
-
-						<label class="checkbox">
-							 <input type="checkbox"> Type C
-						</label>
-					</form>
 				</div>
 
-				
 			</div>
-		</position-fixed-top>
-
-		<div class="span12 offset3">
-
-			<div id="DateSelection" class="alert alert-info">
-
-	  			<h3>Select Date: </h3><br>
-	  			<div id="calendar"></div><br>
-	  			
-			</div>
-
-		</div>
-
-	
+		</body2></div>
 
 		<div class="navbar navbar-fixed-bottom navbar-inverse">
-			<div class="navbar-inner">
+				<div class="navbar-inner">
 
-		        	<div id="copyRights" class="pull-left">
-		              	<ul class="nav">
-		                  <li><a style="color:gray; font-size:15px">© 2012 Copyright Rancho Rinconada Rec Center</a></li>
-		              	</ul>
-		        	</div>
+			        	<div id="copyRights" class="pull-left">
+			              	<ul class="nav">
+			                  <li><a style="color:gray; font-size:15px">© 2012 Copyright Rancho Rinconada Rec Center</a></li>
+			              	</ul>
+			        	</div>
 
-		        	<div id="bringToTop" class="pull-right">
-		              	<ul class="nav">
-		                  <li><a href="#">Bring To Top</a></li>
-		              	</ul>
-		             </div>
-		    </div>
-  		</div>
-
-
-	</body2></div>
+			        	<div id="bringToTop" class="pull-right">
+			              	<ul class="nav">
+			                  <li><a href="#">Bring To Top</a></li>
+			              	</ul>
+			             </div>
+			    </div>
+	  	</div>
+  	<body>
 
 		
 		<script type="text/javascript">
