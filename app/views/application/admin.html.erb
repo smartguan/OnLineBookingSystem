@@ -20,33 +20,32 @@
 
 <center>
 <div id="main-page">
-    <div id="message-box">
+    <div class="row-fluid">
+        <h1> Sections </h1>
     </div>
-
-    <div id="new-button">
-        <button>Add Section</button>
+    <div class="row-fluid">
+        <div class="btn-group">
+            <button class="btn" id="new-button">Add Section</button>
+            <button class="btn" id="export-button">Export to CSV</button>
+            <button class="btn" id="logout-button">Logout</button>
+        </div>
     </div>
-
-    <div id="logout-button">
-        <button>Logout</button>
-    </div>
-
 </div>
 </center>
 
 <center>
-<div class="container-fluid">
+<!--div class="container-fluid"           jfbjdbfjbdfjbvjhdfbvhbfhvb -->
     <div class="row-fluid">
         <div class="span1">
         </div>
         <div class="span10">
-            <table id="mytable" class='table'>
+            <table id="section-table" class='table'>
             </table>
         </div>
         <div class="span1">
         </div>
     </div>
-</div>
+<!--/div-->
 </center>
 
 <center>
@@ -284,6 +283,10 @@ $('#new-button').click(function() {
 $('#logout-button').click(function() {
     window.location.href = '/';
 })
+
+$('#export-button').click(function() {
+    window.location.href = "/Users/csv";
+});
 
 $('#add_submit-button').click(function() {
     name = $('#add-name').val()

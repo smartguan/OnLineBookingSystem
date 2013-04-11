@@ -31,8 +31,8 @@ class RegistrationsController < ApplicationController
 
   #for users to register for sections
   def register
-    if session[:user_id] != nil
-      @user = User.find_by_id(session[:user_id])
+    if cookies[:user_id] != nil
+      @user = User.find_by_id(cookies[:user_id])
     #deprecated in the future
     else  
       @user = User.find_by_email(params[:user_email].downcase)
@@ -82,8 +82,8 @@ class RegistrationsController < ApplicationController
   #for users to drop a registered section
   def drop
     #assuming user already has at least 1 section
-    if session[:user_id] != nil
-      @user = User.find_by_id(session[:user_id])
+    if cookies[:user_id] != nil
+      @user = User.find_by_id(cookies[:user_id])
     #deprecated in the future
     else  
       @user = User.find_by_email(params[:user_email].downcase)
@@ -112,7 +112,7 @@ class RegistrationsController < ApplicationController
                                    errCode:1 } }
     end
     #print "\n**************\n"
-    #print session
+    #print cookies
     #print "\n"
     #print @user.id
     #print "\n"
@@ -123,8 +123,8 @@ class RegistrationsController < ApplicationController
 
   #for users to view his/her enrolled sections
   def viewEnrolledSections
-    if session[:user_id] != nil
-      @user = User.find_by_id(session[:user_id])
+    if cookies[:user_id] != nil
+      @user = User.find_by_id(cookies[:user_id])
     #deprecated in the future
     else  
       @user = User.find_by_email(params[:user_email].downcase)

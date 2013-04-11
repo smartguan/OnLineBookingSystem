@@ -19,8 +19,15 @@ Cs169::Application.routes.draw do
 
   get "users/profile"
 
+  # match "/users/profile", to: 'users#profile'
+  post "/registrations/viewEnrolledSections" => "mocks#test_viewEnrolledSections"
+  match "/users/profile", to: "mocks#test_Profile"
+  post "/users/update_password" => "users#updatePassword"
+
   get "users/addSection"
   get "users/update_password"
+
+
 
   # For User tests
   match 'Users/test', to: 'users#testView'
@@ -33,7 +40,7 @@ Cs169::Application.routes.draw do
   match '/Users/updateUsers', to: 'users#updateUsers'
   match '/Users/update', to: 'users#update'
   match '/Users/updatePassword', to: 'users#updatePassword'
-  match '/Users/profile', to: 'users#profile'
+  # match '/Users/profile', to: 'users#profile'
   match '/Users/logout', to: 'users#logout'
   match '/Users/allUsers', to: 'users#allUsers'
   match '/Users/csv', to: 'users#exportCsv'
@@ -43,7 +50,7 @@ Cs169::Application.routes.draw do
   # somebody can correct me. I appologize ahead~~(By Seth)
   # match '/Registrations/viewEnrolledSections', to: 'sections#viewEnrolledSections'
   # match '/Registrations/register', to: 'sections#register'
-  post '/sections/register', to: 'sections#register'
+  # post '/sections/register', to: 'sections#register'
   # match '/Registrations/drop', to: 'sections#drop'
 
   # vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv #

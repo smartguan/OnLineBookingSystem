@@ -6,8 +6,11 @@
 		<title>Rancho Rinconada Online Booking - User </title>
 		<link rel="stylesheet" type="text/css" href="/assets/updateUser.css.scss">
 		
+		
+		<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-dropdown.js"></script>
+  
 
-		<script type='text/javascript' src='http://code.jquery.com/jquery-1.4.2.js'></script>
+		<script type='text/javascript' src='/assets/jquery-1.9.1.js'></script>
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
 
@@ -23,28 +26,40 @@
 		image4.src="/assets/rancho4.jpg"
 		//-->
 		</script>
+
+
+		
 	</head>
 
 	<div class="container"><body>
 
-
-		<div id="top">
-			<br><h1>
-				<updatetitleStyle>
+		<div class="navbar navbar-inverse nav">
+		    <div class="navbar-inner">
+		        <div class="container">
+		            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+		                <span class="icon-bar"></span>
+		                <span class="icon-bar"></span>
+		                <span class="icon-bar"></span>
+		            </a>
+		            <a class="brand" href="#">Rancho Rinconada</a>
 					
-					Rancho Rinconada Online Booking  - Update Profile
-
-					<updateBottonStyle>
-
-					<a class="btn dropdown-toggle btn-large btn-warning" data-toggle="dropdown" href="#">
-					<i class="icon-user icon-white"></i> User <span class="caret"></span></a>
-
-					</updateBottonStyle>
-
-				</updatetitleStyle>
-			</h1>
+		          
+		              <div class="pull-right">
+		                <ul class="nav pull-right">
+		                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome, User <b class="caret"></b></a>
+		                        <ul class="dropdown-menu">
+		                            <li><a href="/"><i class="icon-pencil"></i> Update Profile</a></li>
+		                            <li><a href="/"><i class="icon-pencil"></i> Change Password</a></li>
+		                            <li><a href="/"><i class="icon-list"></i> My Sessions</a></li>
+		                            <li class="divider"></li>
+		                            <li><a href="/"><i class="icon-off"></i> Logout</a></li>
+		                        </ul>
+		                    </li>
+		                </ul>
+		              </div>
+		        </div>
+		    </div>
 		</div>
-
 		<br><br>
 
 		<div id="rightColumn">
@@ -160,56 +175,58 @@
 	
 	</body></div>
 
-			
-		<script type="text/javascript">
+
+<script type="text/javascript">
 
 
-			$('#top').hide()
-   			$('#rightColumn').hide()
-   			$('#leftColumn').hide()
-   			$('#system-message').hide()
-   			$('#bottom').hide()
+	$('#top').hide()
+   	$('#rightColumn').hide()
+   	$('#leftColumn').hide()
+   	$('#system-message').hide()
+   	$('#bottom').hide()
+
    
-   			/* setup the page so that only one of the forms is shown */
+   	/* setup the page so that only one of the forms is shown */
 			
-			$(document).ready(function() {
-			 	show_login_page()
+	$(document).ready(function() {
+		show_login_page()
 
-			 	json_request("/Users/profile", {}, function(data) 
-			   	{ return /*alert(JSON.stringify(data))*/handle_populate_data(data); }, function(err) { alert('error occurred on request'); });
-
-
-			 });
-
-			function show_login_page() {
-				$('#top').show()
-	   			$('#rightColumn').show()
-	   			$('#leftColumn').show()
-	   			$('#bottom').show()
-
-			}
-
-			function close_error(){
-				$('#system-message').hide()
-			}
-
-			function show_system_message2(message) {
-			   	$('#system-message').show()
-			   	$('#credentials-message').html(message);
-			}
+		get_json_request("/profile", {}, function(data) 
+		{ return /*alert(JSON.stringify(data))*/handle_populate_data(data); }, function(err) { alert('error occurred on request'); });
 
 
-			function handle_populate_data(data){
-				lastname = $('#update-last').val() = data.last
-			   	firstname = $('#update-first').val() = data.first
-			   	email = $('#update-email').val() = data.email
-			   	zip = $('#update-zipcode').val() = data.zip
-			   	dob = $('#update-dob').val() = data.dob
-			}
+		});
+
+		function show_login_page() {
+			$('#top').show()
+			$('#rightColumn').show()
+	   		$('#leftColumn').show()
+	   		$('#bottom').show()
+
+		}
+
+		function close_error(){
+			$('#system-message').hide()
+		}
+
+		function show_system_message2(message) {
+		   	$('#system-message').show()
+		   	$('#credentials-message').html(message);
+		}
+
+
+		function handle_populate_data(data){
+			$('#update-last').val() = "data.last"
+		   	$('#update-first').val() = data.first
+		   	$('#update-email').val() = data.email
+		   	$('#update-zipcode').val() = data.zip
+		  	$('#update-dob').val() = data.dob
+
+		}
 			
 
-			function handle_login_response2(data) {
-			  switch (data.errCode){
+		function handle_login_response2(data) {
+	 		switch (data.errCode){
 			    case 101:
 			      show_system_message2("First Name Must Contain 1-32 Characters.<br> Click OK to try again."); 
 			      break;
@@ -245,11 +262,11 @@
 			    	else {
 			    		window.location.href = "/admin";
 			    	}   
-			  }
-
-			  return
-
 			}
+
+			return
+
+		}
 
 			
 			$('#update-button').click(function() {
@@ -272,16 +289,27 @@
 			});
 
 			function json_request(page, dict, success, failure) {
-		    $.ajax({
-		        type: 'POST',
-		        url: page,
-		        data: JSON.stringify(dict),
-		        contentType: "application/json",
-		        dataType: "json",
-		        success: success,
-		        failure: failure
-		    });
-}
+			    $.ajax({
+			        type: 'POST',
+			        url: page,
+			        data: JSON.stringify(dict),
+			        contentType: "application/json",
+			        dataType: "json",
+			        success: success,
+			        failure: failure
+			    });
+			}
+
+			function get_json_request(page, dict, success) {
+			  $.ajax({
+			    type: 'GET',
+			    url: page,
+			    data: JSON.stringify(dict),
+			    contentType: "application/json",
+			    dataType: "json",
+			    success: success
+			  });
+			}
 
 		</script>
 

@@ -6,128 +6,242 @@
 		<title>Rancho Rinconada Online Booking </title>
 		<link type="text/css" rel="stylesheet" href="assets/homepage.css.scss">
 
-		<script type='text/javascript' src='http://code.jquery.com/jquery-1.4.2.js'></script>
-		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+		<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-dropdown.js"></script>
+		<script type='text/javascript' src='/assets/jquery-1.9.1.js'></script>
+		<script type='text/javascript' src='/assets/jquery-1.9.1.js'></script>
+		<script type="text/javascript" src="/assets/jquery-1.9.1.min.js"></script>
+		<script type="text/javascript" src="/assets/jquery-ui.min.js"></script>
 
-		<script type="text/javascript">
-		<!-->
-		var image1=new Image()
-		image1.src="/assets/rancho2.jpg"
-		var image2=new Image()
-		image2.src="/assets/rancho1.jpg"
-		var image3=new Image()
-		image3.src="/assets/rancho3.jpg"
-		var image4=new Image()
-		image4.src="/assets/rancho4.jpg"
-		//-->
+		<link href='/assets/fullcalendar/fullcalendar.css' rel='stylesheet' />
+		<link href='/assets/fullcalendar/fullcalendar.print.css' rel='stylesheet' media='print' />
+		<script src='assets/jquery/jquery-1.9.1.min.js'></script>
+		<script src='assets/jquery/jquery-ui-1.10.2.custom.min.js'></script>
+		<script src='assets/fullcalendar/fullcalendar.min.js'></script>
+
+		<script>
+
+			$(document).ready(function() {
+			
+				var date = new Date();
+				var d = date.getDate();
+				var m = date.getMonth();
+				var y = date.getFullYear();
+				
+				$('#calendar').fullCalendar({
+					header: {
+						left: 'prev,next today',
+						center: 'title',
+						
+					},
+					editable: false,
+					events: [
+						{
+							title: 'Session Type: A',
+							start: new Date(y, m, 1),
+							end: new Date(y, m, 5),
+							url: 'http://google.com/'
+						},
+						{
+							title: 'Session Type: B',
+							start: new Date(y, m, d-5),
+							end: new Date(y, m, d-2),
+							url: 'http://google.com/'
+
+						},
+						{
+							title: 'Session Type: C',
+							start: new Date(y, m, d-5),
+							end: new Date(y, m, d-2),
+							url: 'http://google.com/'
+							
+						},
+						{
+							title: 'Session Type: A',
+							start: new Date(y, m, 25),
+							end: new Date(y, m, 29),
+							url: 'http://google.com/'
+						}
+					]
+				});
+				
+			});
+
 		</script>
+
+		<style>
+
+			body {
+				background-color: rgb(1,136,169);
+				margin-top: -10px;
+				text-align: center;
+				font-size: 14px;
+				font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+				}
+
+			#calendar {
+				width: 886px;
+				margin: 0 auto;
+				margin-top: -7px;
+				background-color: white;
+				border:  white thin solid;
+				}
+
+		</style>
+		
 
 	</head>
 
-	<div class="container"><body>
-		<div id="top">
-			<br><h1>
-				<titleStyle>
-					Rancho Rinconada Online Booking
-					<newUserStyle>
-						New to Rinconada?
-						
-			      			<a class="btn btn-warning" href="updateUsers"></i>CREATE AN ACCOUNT</a>
-						
-					</newUserStyle>
+	<body><div class="container" style="width:1265px">
 
-				</titleStyle>
-			</h1>
-		</div>
+		<body2>
+			<div class="navbar navbar-inverse nav navbar-fixed-top">
+			    <div class="navbar-inner">
+			    	<div class="container" style="width:1265px">
+			            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+			                <span class="icon-bar"></span>
+			                <span class="icon-bar"></span>
+			                <span class="icon-bar"></span>
+			            </a>
+			            <a class="brand"  href="/" style="color:white; font-size:27px"> &nbsp &nbspRancho Rinconada</a>
+			              <div class="pull-right">
+			                <ul class="nav pull-right">
+			                	<li class="divider-vertical"></li>
+			                    
+			                    <li id= "SignDropDown" class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Sign In <b class="caret"></b></a>
+			                        
+			                        <ul class="dropdown-menu">
+
+			                        	<form class="form-horizontal">
+			                        		
+			                        		<div class="span3">
+			                        		<br>
+
+			                        		<font17px>Username<font17px>
+
+	  										<input class="span2" type="email" required id="login-email"  placeholder="your@email.com" style="width:188px">
+	      								    <br><br>
+	      									
+	      									<font17px>Password<font17px>
+	      									<input class="span2" type="password" id="login-password" placeholder="Password" style="width:188px">
+	      									<br>
+
+	      									<font17px id="err_message"></font17px><br>
+
+									      	<button id="login-button" type="submit" class="btn btn-primary">Sign in
+									      	</button>
+									      	<br><br>
+									    		
+									  		</div>
+										</form>
+			                        </ul>
+			                    </li>
+
+			                    <li id="WelcomeDropDown" class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome, User <b class="caret"></b></a>
+			                        <ul class="dropdown-menu">
+			                            <li><a href="/Users/updateUsers"><i class="icon-pencil"></i> Update Profile</a></li>
+			                            <li><a href="/"><i class="icon-pencil"></i> Change Password</a></li>
+			                            <li><a href="/"><i class="icon-list"></i> My Sessions</a></li>
+			                            <li class="divider"></li>
+			                            <li><a href="/"><i class="icon-off"></i> Logout</a></li>
+			                        </ul>
+			                    </li>
 
 
-		<br><br><br>
 
-		<div id="rightColumn">
-			<br><floatRight>
-				<form>
-					<br><br>
-						<signupBox>
-								<class="form-signin-heading">Sign in
-						</signupBox>
+			                </ul>
+			              </div>
 
-						<br><br>
-						<font17px>
-							E-mail
-						</font17px>
-						<br>
+			              <div id="CreateAccountButton" class="pull-right">
+			              	<ul class="nav">
+			                  <li class="divider-vertical"></li>
+			                  <li><a href="/users/new"> Create an Account</a></li>
+			              </ul>
+			              </div>
+			        </div>
+			    </div>
+			</div>
 
-						<font17px>
-							<input id="login-email" type="text" placeholder="your@email.com" name="email" style="width:280px; height:25px; font-size:17px">
-							<br>
-						</font17px>
-						<br>
-						<font17px>
-							Password
-						</font17px>
-						<br>
-						<font17px>
-			     			<input id="login-password" type="password" name="pwd" style="width:280px; height:25px; font-size:20px"><br>
-			      		</font17px>
-			      		<br>
-			      		<font17px>
-			      			<button id="login-button" class="btn btn-large btn-primary" type="button">Sign In</button>
-			      		</font17px>
-				</form>
-			<floatRight>
-		</div>
+		</body2>
 
+		<div class="container-fluid"><body2>
 
-		<div id="leftColumn">
-			<floatLeft>
-				<leftBox>
-					<img src="/assets/rancho2.jpg" name="slide" class="img-rounded" width="553px" height="600px">
-					
-					<script type="text/javascript">
-					<!-->
-					var step=1
+			<div class="row-fluid">
 
-					function slideit(){
-						document.images.slide.src=eval("image" + step + ".src")
-						if (step<4)
-							step++
-						else 
-							step=1
-							setTimeout("slideit()",4500)
+				<div class="span3">
 
-					}
-					slideit()
-					//-->
-					</script>
-				</leftBox>
-			</floatLeft>
-		</div>
+					<position-fixed-top>
+						<div class="span9">
 
-		<div id="system-message" class="errbox">
-		  <center>
-			  <div id="credentials-message" class="errmessage"></div>
-			    <form>
+							<div class="alert alert-info">
+							  <h5>To Make a Reservation:</h5>
+							  Best check yo self, you're not...
+							</div>
 
-			      <input type="submit" id="ok-button" value="       OK       " onclick="close_error2();return false;">
-			    
-			    </form>
-			</center>
-		</div>
+							<div id="ProgressBar" class="alert alert-info">
+					  			<button type="button" class="close" data-dismiss="alert">&times;</button>
+					  			<h5>Reservation Progress: </h5>
+					  			Step One of Three ...
+					  			<br><br><div class="progress progress-warning progress-striped active">
+					  				<div class="bar" style="width: 40%;"></div>
+								</div>
+							</div>
+							
+							<div id="FilterSelection" class="alert alert-info">
+						  		<h5>Show Only: </h5>
+						  		Select the session types you are interested in ...
+						  			
+						  		<br><br><form class="form">
+						  			
+									<label class="checkbox">
+									  	<input type="checkbox"> Type A
+									</label>
 
-		<div id="bottom">
-			<f1>
-				<br><br><br><br><br><br><br>
-				<br><br><br><br><br><br><br>
-				<br><br><br><br><br><br><br>
-				<br><br>
-				
-				<footerStyle>
-					© 2012 Copyright Rancho Rinconada Rec Center
-				</footerStyle>
-			</f1>
-		</div>
-	</body></div>
+									<label class="checkbox">
+										<input type="checkbox"> Type B
+									</label>
+
+									<label class="checkbox">
+										 <input type="checkbox"> Type C
+									</label>
+								</form>
+							</div>
+						</div>
+					</position-fix-top>
+				</div>
+			
+
+				<div class="span9">
+
+					<div id="DateSelection" class="alert alert-info">
+
+			  			<h3>Select Date: </h3><br>
+			  			<div id="calendar"></div><br>
+			  			
+					</div>
+
+				</div>
+
+			</div>
+		</body2></div>
+
+		<div class="navbar navbar-fixed-bottom navbar-inverse">
+				<div class="navbar-inner">
+					<div class="container" style="width:1265px">
+			        	<div id="copyRights" class="pull-left">
+			              	<ul class="nav">
+			                  <li><a style="color:gray; font-size:15px">© 2012 Copyright Rancho Rinconada Rec Center</a></li>
+			              	</ul>
+			        	</div>
+
+			        	<div id="bringToTop" class="pull-right">
+			              	<ul class="nav">
+			                  <li><a href="#">Bring To Top</a></li>
+			              	</ul>
+			             </div>
+			    	</div>
+			    </div>
+	  	</div>
+  	</div><body>
 
 		
 		<script type="text/javascript">
@@ -139,6 +253,10 @@
    			$('#bottom').hide()
    			$('#login-email').val("")
 			$('#login-password').val("")
+			$('#SignDropDown').hide()
+			$('#CreateAccountButton').hide()
+			$('#WelcomeDropDown').hide()
+			$('ProgressBar').hide()
    
    			/* setup the page so that only one of the forms is shown */
 			
@@ -151,35 +269,36 @@
 	   			$('#rightColumn').show()
 	   			$('#leftColumn').show()
 	   			$('#bottom').show()
-			}
-
-			function show_system_message(message) {
-			   	$('#system-message').show()
-			   	$('#credentials-message').html(message);
-			}
-
-			function close_error2(){
-				$('#system-message').hide()
-				$('#login-password').val("")
-			}
+	   			$('#SignDropDown').show()
+				$('#CreateAccountButton').show()	
+	   		}
 
 			function handle_login_response(data) {
+				$('font17px#err_message').empty();
+				$('font17px#err_message').css('font-size','12px');
+				$('font17px#err_message').css('color','red');
+				$('font17px#err_message').append(getErrorMessage(data));
+			}
 
+			function getErrorMessage(data) {
 			  switch (data.errCode){
+
 			    case 108:
-			      show_system_message("Cannot find the Username/Password<br> pair. Click OK to try again."); 
-			      break
+			    	return "Invalid Username and/or Password";
+			      break;
+
+			    //This is the case for success
 			    default:
 			    	if (data.admin == 0) {
-			    		window.location.href = "/Users/updateUsers";
+			    		$('#SignDropDown').hide()
+						$('#CreateAccountButton').hide()
+						$('#WelcomeDropDown').show()
+						$('#ProgressBar').display()
 			    	} 
 			    	else {
-			    		window.location.href = "admin";
+			    		window.location.href = "/admin";
 			    	}   
 			  }
-
-			  return
-
 			}
 
 
@@ -205,6 +324,5 @@
 }
 
 		</script>
-
 		
 </html>

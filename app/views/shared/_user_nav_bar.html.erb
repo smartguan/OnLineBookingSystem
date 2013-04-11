@@ -1,0 +1,26 @@
+<div class="navbar navbar-inverse navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container-fluid" id='topbar'>
+      <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+      </button>
+      <a class="brand" href="#">Rancho Rinconanda</a>
+      <div class="nav-collapse collapse">
+        <p class="navbar-text pull-right">
+          Logged in as <a href="#" id='nav-user-name' class="navbar-link"> </a>
+        </p>
+        <ul class="nav">
+          <li><a href="/">Home</a></li>
+          <li><a id="logout" href="/">Logout</a></li>
+        </ul>
+      </div><!--/.nav-collapse -->
+    </div> <!-- container -->
+  </div> <!-- navbar inner -->
+</div> <!-- fixed top -->
+
+<script type="text/javascript">
+
+$('#logout').click(function() {
+  post_json_request("/users/logout", {}, function(data) { return false; });
+});
+
+</script>
