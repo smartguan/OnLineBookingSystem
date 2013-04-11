@@ -227,6 +227,6 @@ class UsersController < ApplicationController
   def exportCsv
     users = User.order(:id)
     database = users.to_csv
-    send_data database, filename: "database", type: "text/csv" 
+    send_data database, filename: "database", type: "text/csv"
   end
 end
