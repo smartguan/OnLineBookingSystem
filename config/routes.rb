@@ -80,6 +80,7 @@ Cs169::Application.routes.draw do
 
   
   match '/admin' => 'application#admin'
+  match '/newadmin' => 'application#newadmin'
   match '/reservation' => 'application#reservation'
 
   post '/users/new', to: 'users#create'
