@@ -49,3 +49,4 @@ function getErrorMessage(errCode) {
 		default: 	return "unknown error has occurred"
 	}
 }
+

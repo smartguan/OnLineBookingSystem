@@ -64,6 +64,9 @@ function translateErrCode(data) {
 	case 303:
 		message = "USER_NOT_REG";
 		break;
+	case 1:
+		message = "";
+		break;
 	default:
 		message = "UNKNOWN_ERROR";
 		break;
