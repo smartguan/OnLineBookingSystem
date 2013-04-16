@@ -58,16 +58,17 @@ Cs169::Application.routes.draw do
   # Otherwise the BE for registration will fail
   # vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv #
   # Routes for Registration controller
-  match '/Registrations/viewEnrolledSections', to: 'registrations#viewEnrolledSections'
+  match '/Registrations/getEnrolledSections', to: 'registrations#getEnrolledSections'
   match '/Registrations/register', to: 'registrations#register'
   match '/Registrations/drop', to: 'registrations#drop'
 
   # Routes for Sections controller (previously Admin)
-  match '/Admin/createSection', to:'sections#createSection'
-  match '/Admin/editSection', to:'sections#editSection'
-  match '/Admin/deleteSection', to:'sections#deleteSection'
-  match '/Registrations/getSchedule', to: 'sections#getSchedule'
-  match '/Registrations/viewOneSection', to: 'sections#viewOneSection'
+  match '/Sections/create', to:'sections#create'
+  match '/Sections/edit', to:'sections#edit'
+  match '/Sections/delete', to:'sections#delete'
+  match '/Sections/getAllSections', to: 'sections#getAllSections'
+  match '/Sections/getSectionByID', to: 'sections#getSectionByID'
+  match '/Sections/getSectionsDateAndTypes', to: 'sections#getSectionsByDateAndTypes'
   # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ #
   # Please Keep all routes above unchanged. 
   # Otherwise the BE for registration will fail
