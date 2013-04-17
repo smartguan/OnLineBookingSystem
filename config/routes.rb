@@ -20,18 +20,27 @@ Cs169::Application.routes.draw do
   get "users/profile"
 
   # match "/users/profile", to: 'users#profile'
-  post "/registrations/viewEnrolledSections" => "mocks#test_viewEnrolledSections"
-  match "/users/profile", to: "mocks#test_Profile"
-  post "/users/update_password" => "users#updatePassword"
+  # post "/registrations/viewEnrolledSections" => "mocks#test_viewEnrolledSections"
+  # match "/users/profile", to: "mocks#test_Profile"
+  match "/users/profile", to: "users#profile"
+  match "/Registrations/viewEnrolledSections", to: "registrations#viewEnrolledSections"
+  match '/Users/logout', to: 'users#logout'
+  post "/users/update_password" => "Registrations#updatePassword"
 
   get "users/addSection"
   get "users/update_password"
 
 
+  match 'Users/show', to: 'users#show'
+  match 'Users/testSection', to: 'users#testSection'
+
 
   # For User tests
   match 'Users/test', to: 'users#testView'
   match 'Users/test2', to: 'users#testView2'
+  match 'Users/test3', to: 'users#testView3'
+  match '/testUserInfo', to: 'users#userinfo'
+  match 'Users/tabs', to: 'users#userTabs'
 
   # Routes for User controller
   match '/Users/add', to: 'users#add'
@@ -41,7 +50,6 @@ Cs169::Application.routes.draw do
   match '/Users/update', to: 'users#update'
   match '/Users/updatePassword', to: 'users#updatePassword'
   # match '/Users/profile', to: 'users#profile'
-  match '/Users/logout', to: 'users#logout'
   match '/Users/allUsers', to: 'users#allUsers'
   match '/Users/csv', to: 'users#exportCsv'
 
@@ -58,7 +66,7 @@ Cs169::Application.routes.draw do
   # Otherwise the BE for registration will fail
   # vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv #
   # Routes for Registration controller
-  match '/Registrations/viewEnrolledSections', to: 'registrations#viewEnrolledSections'
+  # match '/Registrations/viewEnrolledSections', to: 'registrations#viewEnrolledSections'
   match '/Registrations/register', to: 'registrations#register'
   match '/Registrations/drop', to: 'registrations#drop'
 
