@@ -1,0 +1,2 @@
+class AnonymousStudent < User
+end

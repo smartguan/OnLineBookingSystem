@@ -11,7 +11,11 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
+#<<<<<<< HEAD
 ActiveRecord::Schema.define(:version => 20130417022435) do
+#=======
+#ActiveRecord::Schema.define(:version => 20130415224412) do
+#>>>>>>> b192f376e62f28411d0cd464f6699f4134789e32
 
   create_table "registrations", :force => true do |t|
     t.integer  "waitlist_place"
@@ -47,11 +51,23 @@ ActiveRecord::Schema.define(:version => 20130417022435) do
     t.string   "email"
     t.string   "dob"
     t.string   "zip"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
-    t.boolean  "admin"
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
     t.string   "password_digest"
     t.string   "remember_token"
+    t.string   "address"
+    t.string   "city"
+    t.string   "contact_one"
+    t.string   "contact_one_primary"
+    t.string   "contact_one_secondary"
+    t.string   "contact_two"
+    t.string   "contact_two_primary"
+    t.string   "contact_two_secondary"
+    t.string   "gender"
+    t.string   "skill"
+    t.string   "extra"
+    t.integer  "access_code"
+    t.string   "type"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
