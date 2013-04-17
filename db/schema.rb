@@ -11,11 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-#<<<<<<< HEAD
 ActiveRecord::Schema.define(:version => 20130417022435) do
-#=======
-#ActiveRecord::Schema.define(:version => 20130415224412) do
-#>>>>>>> b192f376e62f28411d0cd464f6699f4134789e32
 
   create_table "registrations", :force => true do |t|
     t.integer  "waitlist_place"
