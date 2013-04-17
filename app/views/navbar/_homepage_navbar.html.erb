@@ -1,0 +1,142 @@
+<style type="text/css">
+
+#login-user{
+	width:400px;
+	margin-left:-200px;
+}
+ul.dropdown-menu {
+    list-style: none outside none;
+}
+#login-user-errors {
+	height: 18px;
+	width: 70%;
+	font-size: 9px;
+	text-align: center;
+}
+#login-user-errors a.close{
+	font-size: 12px;
+}
+#login-user-success {
+	height: 18px;
+	width: 70%;
+	font-size: 9px;
+	text-align: center;
+}
+#login-user-success a.close{
+	font-size: 12px;
+}
+
+</style>
+
+
+
+
+
+<div class="navbar navbar-inverse nav navbar-fixed-top">
+  <div class="navbar-inner">
+	  <div class="container" style="width:1265px">
+	    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+	      <span class="icon-bar"></span>
+	      <span class="icon-bar"></span>
+	      <span class="icon-bar"></span>
+	    </a>
+
+	    <a class="brand"  href="/" > &nbsp &nbspRancho Rinconada</a>
+
+	    <div class="pull-right">
+	      <ul class="nav pull-right">
+	      	<li class="divider-vertical"></li>
+	        <li id= "SignDropDown" class="dropdown">
+	        	<a href="#" class="dropdown-toggle" data-toggle="dropdown">Sign In <b class="caret"></b></a>
+	         	<ul class="dropdown-menu">
+	            <div class="span3">
+								<form class="form-horizontal">
+									<br>
+									<font17px>Username<font17px> 
+									<input class="span2" type="email" required id="login-email"  placeholder="your@email.com" style="width:188px">
+									<br><br>
+
+									<font17px>Password<font17px> 
+									<input class="span2" type="password" id="login-password" placeholder="Password" style="width:188px"><br>
+
+							  	<button id="login-user-button" type="submit" class="btn btn-primary">Sign in</button>
+							    <br><br>
+							    <!-- Error And Sucess -->
+									<div class="alert hide alert-error" id="login-user-errors">
+										<a class="close" data-dismiss="alert">&times;</a>
+											<!-- <i class="icon-exclamation-sign"></i> -->
+											<span id="login-user-err-message"></span>
+									</div>
+									<div class="alert hide alert-success" id="login-user-success">
+										<a class="close" data-dismiss="alert">&times;</a>
+											<!-- <i class="icon-ok"></i> -->
+											Login Successful!
+									</div><!-- Error And Sucess -->
+								</form> <!-- loginform -->
+						  </div><!-- span3 -->
+	      		</ul> <!-- dropdownmenu -->
+					</li> <!-- signdropdown -->
+
+		      <li id="WelcomeDropDown" class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome, User <b class="caret"></b></a>
+		        <ul class="dropdown-menu">
+		        <li><a href="/Users/updateUsers"><i class="icon-pencil"></i> Update Profile</a></li>
+		        <li><a href="/"><i class="icon-pencil"></i> Change Password</a></li>
+		        <li><a href="/"><i class="icon-list"></i> My Sessions</a></li>
+		        <li class="divider"></li>
+		        <li><a href="/"><i class="icon-off"></i> Logout</a></li>
+		        </ul> <!-- dropdown -->
+		      </li> <!-- welcomedropdown -->
+				</ul> <!-- navpullright -->
+
+
+		    <div id="CreateAccountButton" class="pull-right" data-toggle="modal" role="dialog" href="#create-user">
+		      <ul class="nav">
+		      <li class="divider-vertical"></li>
+		      <li><a href="/users/new"> Create an Account</a></li>
+		      </ul>
+		    </div> <!-- create account -->
+		  </div> <!--  pull right -->
+		</div> <!-- container -->
+  </div> <!--  navbar-inner -->
+</div> <!--  navbar navbar-inverse nav navbar-fixed-top -->
+
+<%= render 'navbar/create_user_modal' %>
+
+<script type="text/javascript">
+////////////////////////////////////////////////////////////////////////////////
+/////////////////////////// Login User Functions ///////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+$(document).ready(function() {
+	$("#login-user-button").click(sendLoginUserRequest);
+});
+
+function sendLoginUserRequest() {
+	$("#login-user-errors").fadeOut(100);
+	var login_user = { email:getFormInput("login","email"),  password:getFormInput("login","password") };
+	post_json_request("/Users/login", login_user, handleLoginUserResponse);
+	return false;
+}
+
+function getFormInput(action, key) {
+	var identifier = "#" + action + "-" + key;
+	return $(identifier).val();
+}
+
+function handleLoginUserResponse(data)  {
+	var error_message = translateErrCode(data.errCode);
+	$("#login-user-err-message").empty();
+	$("#login-user-err-message").append(error_message);
+
+	if (data.errCode!=1) {
+		 $("#login-user-errors").fadeIn(200);
+		 return data.errCode;
+	}
+	else {
+		$("#login-user-success").fadeIn(300);
+		setTimeout( function(){window.location.replace("/users/update_password");}, 1600);
+		return 1;
+	}
+}
+
+
+</script>

@@ -39,12 +39,14 @@
 							title: 'Session Type: A',
 							start: new Date(y, m, 1),
 							end: new Date(y, m, 5),
+							className: 'Section-A',
 							url: 'http://google.com/'
 						},
 						{
 							title: 'Session Type: B',
 							start: new Date(y, m, d-5),
 							end: new Date(y, m, d-2),
+							className: 'Section-B',
 							url: 'http://google.com/'
 
 						},
@@ -52,6 +54,7 @@
 							title: 'Session Type: C',
 							start: new Date(y, m, d-5),
 							end: new Date(y, m, d-2),
+							className: 'Section-C',
 							url: 'http://google.com/'
 							
 						},
@@ -59,6 +62,7 @@
 							title: 'Session Type: A',
 							start: new Date(y, m, 25),
 							end: new Date(y, m, 29),
+							className: 'Section-A',
 							url: 'http://google.com/'
 						}
 					]
@@ -170,40 +174,42 @@
 				<div class="span3">
 
 					<position-fixed-top>
-						<div class="span9">
-
-							<div class="alert alert-info">
-							  <h5>To Make a Reservation:</h5>
-							  Best check yo self, you're not...
-							</div>
-
-							<div id="ProgressBar" class="alert alert-info">
-					  			<button type="button" class="close" data-dismiss="alert">&times;</button>
-					  			<h5>Reservation Progress: </h5>
-					  			Step One of Three ...
-					  			<br><br><div class="progress progress-warning progress-striped active">
-					  				<div class="bar" style="width: 40%;"></div>
-								</div>
-							</div>
+						<div class="span10">
 							
 							<div id="FilterSelection" class="alert alert-info">
-						  		<h5>Show Only: </h5>
-						  		Select the session types you are interested in ...
+						  		<h5>Hide Only: </h5>
+						  		Select the Section Types You Are<br> 
+						  		Not Interested In ...
 						  			
 						  		<br><br><form class="form">
 						  			
-									<label class="checkbox">
+									<label id="show-A" class="checkbox">
 									  	<input type="checkbox"> Type A
 									</label>
 
-									<label class="checkbox">
+									<label id="show-B" class="checkbox">
 										<input type="checkbox"> Type B
 									</label>
 
-									<label class="checkbox">
+									<label id="show-C" class="checkbox">
 										 <input type="checkbox"> Type C
 									</label>
 								</form>
+							</div>
+
+							<div class="alert alert-info">
+							  <h5>To Make a Reservation:</h5>
+							  Step One:<br> Select a Day and a Section Type<br>
+							  from the Calendar by Clicking<br> 
+							  Over the Rounded-edged Squares. <br><br>
+
+							  Step Two:<br> Select the Time and a Lesson<br> Type
+							  in the Pop-up Window by<br> Clicking
+							  over the Rounded-edge Squares.<br><br>
+
+							  Empty Days and Times Cannot<br> 
+							  be Reserved.<br> 
+
 							</div>
 						</div>
 					</position-fix-top>
@@ -214,7 +220,7 @@
 
 					<div id="DateSelection" class="alert alert-info">
 
-			  			<h3>Select Date: </h3><br>
+			  			<h3>Select a Day and Section Type: </h3><br>
 			  			<div id="calendar"></div><br>
 			  			
 					</div>
@@ -320,8 +326,19 @@
 		        dataType: "json",
 		        success: success,
 		        failure: failure
-		    });
-}
+		    });}
+
+		    $("#show-A").click( function() {
+				$('.Section-A').toggle();
+			});
+
+			$("#show-B").click( function() {
+				$('.Section-B').toggle();
+			});
+
+			$("#show-C").click( function() {
+				$('.Section-C').toggle();
+			});
 
 		</script>
 		

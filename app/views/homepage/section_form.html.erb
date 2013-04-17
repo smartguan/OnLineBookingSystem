@@ -1,0 +1,69 @@
+<body>
+
+<div class="container-fluid">
+
+
+<a href="#session-type" role="button" class="btn" data-toggle="modal">View Session Form</a>
+ 
+<!-- Which Session Form -->
+<div id="session-type" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="session-typeLabel" aria-hidden="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+		<h3 id="session-typeLabel">Choose Session Type</h3>
+	</div>
+	<div class="modal-body">
+		<p>
+			<input type="radio" name="session-type" value="session-A"> Session-A<br>
+			<input type="radio" name="session-type" value="session-B"> Session-B<br>
+			<input type="radio" name="session-type" value="session-C"> Session-C
+		</p>
+	</div>
+	<div class="modal-footer">
+		<a role="button" class="btn" data-toggle="modal" data-dismiss="modal">Back</a>
+		<a href="#group-type" role="button" class="btn" data-toggle="modal" data-dismiss="modal">Next</a>
+	</div>
+</div>
+
+<!-- Which Type Form -->
+<div id="group-type" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="group-typeLabel" aria-hidden="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+		<h3 id="group-typeLabel">Choose Session Type</h3>
+	</div>
+	<div class="modal-body">
+		<p>
+			<input type="radio" name="session-group" value="private"> Private Sessions<br>
+			<input type="radio" name="session-group" value="pre_comp"> Pre-Comp Sessions<br>
+			<input type="radio" name="session-group" value="group"> Group
+		</p>
+	</div>
+	<div class="modal-footer">
+		<a href="#session-type" role="button" class="btn" data-toggle="modal" data-dismiss="modal">Back</a>
+		<a id="test-send" role="button" class="btn" data-toggle="modal" data-dismiss="modal">Next</a>
+	</div>
+</div>
+
+</body>
+<script type="text/javascript">
+
+$(document).ready(function() {
+	$('#test-send').click( function() { sendSessionInfoRequest(); }  );
+});
+function getRadioValue(radioId) {
+	var radioSearchFor = "input[name=" + radioId + "]:radio:checked";
+	return ($(radioSearchFor).length > 0) ? $(radioSearchFor).val() : 0;
+}
+
+function sendSessionInfoRequest() {
+	var lesson_group = getRadioValue("session-group");
+	var lesson_type = getRadioValue("session-type");
+    var update_password_dict = {group:lesson_group, type:lesson_type};
+	post_json_request("/users/sendSessionInfo", update_password_dict, function(data) { return handleSessionTypeResponse(data); });
+	return false;
+}
+
+function handleSessionTypeResponse(data) {
+	alert('sent-reqeust');
+ 	return false;
+}
+</script>
