@@ -2,7 +2,9 @@ require 'spec_helper'
 
 describe User do
 
-  before { @user = User.new(first: "first", last: "last", email: "abc@def.com", dob: "01/02/0003", zip: "12345", admin: 0, password: "password", password_confirmation: "password") }
+  before do
+    @user = FactoryGirl.build(:user) 
+  end
 
   subject { @user }
 
@@ -10,8 +12,19 @@ describe User do
   it { should respond_to(:last) }
   it { should respond_to(:email) }
   it { should respond_to(:dob) }
+  it { should respond_to(:address) }
+  it { should respond_to(:city) }
   it { should respond_to(:zip) }
-  it { should respond_to(:admin) }
+  it { should respond_to(:contact_one) }
+  it { should respond_to(:contact_one_primary) }
+  it { should respond_to(:contact_one_secondary) }
+  it { should respond_to(:contact_two) }
+  it { should respond_to(:contact_two_primary) }
+  it { should respond_to(:contact_two_secondary) }
+  it { should respond_to(:gender) }
+  it { should respond_to(:skill) }
+  it { should respond_to(:extra) }
+  it { should respond_to(:access_code) }
   it { should respond_to(:password_digest) }
   it { should respond_to(:password) }
   it { should respond_to(:password_confirmation) }
@@ -40,8 +53,58 @@ describe User do
     it { should_not be_valid }
   end
 
+  describe "when address is blank" do
+    before { @user.address = " " }
+    it { should_not be_valid }
+  end
+  
+  describe "when city is blank" do
+    before { @user.city = " " }
+    it { should_not be_valid }
+  end
+
   describe "when zip is blank" do
     before { @user.zip = " " }
+    it { should_not be_valid }
+  end
+  
+  describe "when contact_one is blank" do
+    before { @user.contact_one = " " }
+    it { should_not be_valid }
+  end
+  
+  describe "when contact_one_primary is blank" do
+    before { @user.contact_one_primary = " " }
+    it { should_not be_valid }
+  end
+  
+  describe "when contact_one_secondary is blank" do
+    before { @user.contact_two_primary = " " }
+    it { should_not be_valid }
+  end
+  
+  describe "when contact_two is blank" do
+    before { @user.contact_two = " " }
+    it { should_not be_valid }
+  end
+  
+  describe "when contact_two_primary is blank" do
+    before { @user.contact_two_primary = " " }
+    it { should_not be_valid }
+  end
+  
+  describe "when contact_two_secondary is blank" do
+    before { @user.contact_two_secondary = " " }
+    it { should_not be_valid }
+  end
+  
+  describe "when gender is blank" do
+    before { @user.gender = " " }
+    it { should_not be_valid }
+  end
+  
+  describe "when skill is blank" do
+    before { @user.skill = " " }
     it { should_not be_valid }
   end
   
@@ -80,7 +143,7 @@ describe User do
       end      
     end
   end 
-  
+
   describe "when email address is already taken" do
     before do
       user_with_same_email = @user.dup
@@ -109,6 +172,20 @@ describe User do
     end
   end
 
+  describe "when address is too long" do
+    it "should be invalid" do
+      @user.address = "a" * 33 
+      @user.should_not be_valid
+    end
+  end
+  
+  describe "when city is too long" do
+    it "should be invalid" do
+      @user.city = "a" * 33 
+      @user.should_not be_valid
+    end
+  end
+
   describe "when zip is invalid" do
     it "should be invalid" do
       codes = %w[1234 123456 12345-7890]
@@ -119,35 +196,78 @@ describe User do
     end
   end
 
-  describe "when zip is valid" do
-    it "should be valid" do
-      valid_code = "12345"
-      @user.zip = valid_code
-      @user.should be_valid
+  describe "when gender is invalid" do
+    it "should be inalid" do
+      @user.gender = "dog"
+      @user.should_not be_valid
     end
   end
 
-  describe "when admin is 0" do
-    it "should be false" do
-      bool = 0 
-      @user.admin = bool
-      expect(@user.admin).to eq(false)
+  describe "when skill is invalid" do
+    it "should be inavlid" do
+      @user.skill = "bad"
+      @user.should_not be_valid
+    end
+  end
+
+  describe "when extra is too long" do
+    it "should be invalid" do
+      @user.extra = "a" * 257
+      @user.should_not be_valid
+    end
+  end
+
+  describe "when contact_one is too long" do
+    it "should be invalid" do
+      @user.contact_one = "a" * 33
+      @user.should_not be_valid
+    end
+  end
+
+  describe "when contact_one_primary is the wrong format" do
+    it "should be invalid" do
+      numbers = %w[(0123)456-7890 11234567890 invalidphonenumber]
+      numbers.each do |invalid_code|
+        @user.contact_one_primary = invalid_code
+        @user.should_not be_valid
+      end
+    end
+  end
+
+  describe "when contact_one_secondary is the wrong format" do
+    it "should be invalid" do
+      numbers = %w[(0123)456-7890 11234567890 invalidphonenumber]
+      numbers.each do |invalid_code|
+        @user.contact_one_secondary = invalid_code
+        @user.should_not be_valid
+      end
+    end
+  end
+
+  describe "when contact_two is too long" do
+    it "should be invalid" do
+      @user.contact_two = "a" * 33
+      @user.should_not be_valid
+    end
+  end
+
+  describe "when contact_two_primary is the wrong format" do
+    it "should be invalid" do
+      numbers = %w[(0123)456-7890 11234567890 invalidphonenumber]
+      numbers.each do |invalid_code|
+        @user.contact_two_primary = invalid_code
+        @user.should_not be_valid
+      end
     end
   end
   
-  describe "when admin is 1" do
-    it "should be true" do
-      bool = 1 
-      @user.admin = bool
-      expect(@user.admin).to eq(true)
-    end
-  end
-  
-  describe "when admin is anything besides 1 or 0" do
-    it "should be false" do
-      bool = "abc" 
-      @user.admin = bool
-      expect(@user.admin).to eq(false)
+  describe "when contact_two_secondary is the wrong format" do
+    it "should be invalid" do
+      numbers = %w[(0123)456-7890 11234567890 invalidphonenumber]
+      numbers.each do |invalid_code|
+        @user.contact_two_secondary = invalid_code
+        @user.should_not be_valid
+      end
     end
   end
 

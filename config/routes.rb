@@ -33,17 +33,23 @@ Cs169::Application.routes.draw do
   match 'Users/test', to: 'users#testView'
   match 'Users/test2', to: 'users#testView2'
 
-  # Routes for User controller
-  match '/Users/add', to: 'users#add'
+  # Routes for Users controller
   match '/Users/login', to: 'users#login'
-  match '/Users/delete', to: 'users#delete' 
-  match '/Users/updateUsers', to: 'users#updateUsers'
   match '/Users/update', to: 'users#update'
   match '/Users/updatePassword', to: 'users#updatePassword'
-  # match '/Users/profile', to: 'users#profile'
+  match '/Users/profile', to: 'users#profile'
   match '/Users/logout', to: 'users#logout'
-  match '/Users/allUsers', to: 'users#allUsers'
-  match '/Users/csv', to: 'users#exportCsv'
+
+  # Routes for MemberStudents Controller
+  match '/MemberStudents/add', to: 'member_students#add'
+  
+  # Routes for AnonymousStudents Controller
+  match '/AnonymousStudents/add', to: 'anonymous_students#add'
+  
+  # Routes for Admin Controller
+  match '/Admin/addInstructor', to: 'admin#addInstructor'
+  match '/Admin/delete', to: 'admin#delete'
+  match '/Admin/exportCsv', to: 'admin#exportCsv'
 
   # I don't know what these are, so I commented them out
   # If I did something wrong, please let me know so that 
