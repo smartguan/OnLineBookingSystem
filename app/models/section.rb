@@ -1,5 +1,5 @@
 class Section < ActiveRecord::Base
-  attr_accessible :name, :day, :description, :end_date, :end_time, :enroll_cur, :enroll_max, :start_date, :start_time, :teacher, :waitlist_cur, :waitlist_max
+  attr_accessible :name, :day, :description, :end_date, :end_time, :enroll_cur, :enroll_max, :start_date, :start_time, :teacher, :waitlist_cur, :waitlist_max, :section_type, :lesson_type
 
   has_many :registrations
   has_many :users, :through => :registrations, :order => "first ASC", :uniq => true
@@ -23,11 +23,17 @@ class Section < ActiveRecord::Base
   validates :start_time, presence:true
   validates :waitlist_cur, presence:true
   validates :waitlist_max, presence:true
+  validates :section_type, presence:true
+  validates :lesson_type, presence:true
 
   #validate for inclusion for day
   validates_inclusion_of :day, :in => ['SUNDAY', 'MONDAY', 'TUESDAY', 
                                       'WEDNESDAY', 'THURSDAY', 'FRIDAY',
                                       'SATURDAY']
+  #validate for inclusion for section_type
+  validates_inclusion_of :section_type, :in => ['A', 'B', 'C'] 
+  #validate for inclusion for lesson_type
+  validates_inclusion_of :lesson_type, :in => ['PRIVATE', 'PRE-COMP', 'GROUP']
   
   validate :start_time_must_be_before_end_time
   validate :start_date_must_be_before_end_date
@@ -44,7 +50,7 @@ class Section < ActiveRecord::Base
   #validate end_time > start_time
   def start_date_must_be_before_end_date
     self.errors.add :start_date, 'has to be before end date' unless 
-        start_date < end_date
+        start_date <= end_date
   end
 
   #validate end_time > start_time

@@ -35,17 +35,31 @@ describe "RegistrationpControllers" do
               start_date:"2011-10-10", end_date:"2012-10-10",
               teacher:"SUCKER", 
               waitlist_cur:0, waitlist_max:5,
+              section_type:"C", lesson_type:"PRIVATE",
               format: :json}
   
-  user_json = {first: "first", last: "last", email: "abc@def.com", dob: "01/02/0003", 
-               zip: "12345", admin: 0, password: "password", 
-               password_confirmation: "password", format: :json}
+  user_json = { first: "first", last: "last", dob: "00/11/2222", 
+                          residence: { address: "123 a st.", city: "b-town", 
+                                       zip: "12345" },
+                          contacts: { first: { name: "mom", 
+                                               primary: "(123) 456-7890",
+                                               secondary: "(098) 765-4321" },
+                                      second: { name: "dad", 
+                                                primary: "(123) 456-7890",
+                                                secondary: "(098) 765-4321" } },
+                          email: "abc@def.org",
+                          gender: "other", skill: "intermediate",
+                          extra: "This is extra info",
+                          password: "password",
+                          password_confirmation: "password",
+                          format: :json } 
+
   
   describe RegistrationsController do
     describe "#register" do
       before (:each) do
         test_json = {section_id:1, format: :json}
-        post '/Users/add', user_json
+        post '/MemberStudents/add', user_json
         post '/Sections/create', sec_json
         post '/Registrations/register', test_json
       end
@@ -83,7 +97,7 @@ describe "RegistrationpControllers" do
           6.times do 
             user_json1[:email] = "a" + user_json1[:email]
             test_json = {section_id:1, format: :json}
-            post '/Users/add', user_json1
+            post '/MemberStudents/add', user_json1
             post '/Registrations/register', test_json
           end
         end
@@ -135,7 +149,7 @@ describe "RegistrationpControllers" do
           10.times do 
             user_json1[:email] = "a" + user_json1[:email]
             test_json = {section_id:1, format: :json}
-            post '/Users/add', user_json1
+            post '/MemberStudents/add', user_json1
             post '/Registrations/register', test_json
           end
           response.body.should == expected
@@ -151,7 +165,7 @@ describe "RegistrationpControllers" do
     describe "#drop" do
       before (:each) do
         test_json = {section_id:1, format: :json}
-        post '/Users/add', user_json
+        post '/MemberStudents/add', user_json
         post '/Sections/create', sec_json
         post '/Registrations/register', test_json
       end
@@ -190,7 +204,7 @@ describe "RegistrationpControllers" do
           6.times do 
             user_json1[:email] = "a" + user_json1[:email]
             test_json = {section_id: 1, format: :json}
-            post '/Users/add', user_json1
+            post '/MemberStudents/add', user_json1
             post '/Registrations/register', test_json
           end
           test_json = {section_id:1, format: :json}
@@ -222,7 +236,8 @@ describe "RegistrationpControllers" do
           expected = 0
           post '/Users/login', {email:"aaaaaabc@def.com", password:"password", format: :json}
           get '/Registrations/getEnrolledSections', input_json
-          JSON.parse(response.body)['sections'][0]['waitlist_place'].should == expected
+          response.body.should == expected
+          #JSON.parse(response.body)['sections'][0]['waitlist_place'].should == expected
         end
         
         it "should rank second in the waitlist_place for aaaaaa+email" do
@@ -244,14 +259,14 @@ describe "RegistrationpControllers" do
       #context "when user has enrolled at least 1 sections" do
       #  it "should render json: { sections:[{}, {}], errCode: 1}" do
       #    test_json = {section_id:1, format: :json}
-      #    post '/Users/add', user_json
+      #    post '/MemberStudents/add', user_json
       #    post '/Sections/create', sec_json
       #    post '/Registrations/register', test_json
 
       #    7.times do 
       #      user_json[:email] = "a" + user_json[:email]
       #      test_json = {section_id:1, format: :json}
-      #      post '/Users/add', user_json
+      #      post '/MemberStudents/add', user_json
       #      post '/Registrations/register', test_json
       #    end
 
@@ -265,7 +280,7 @@ describe "RegistrationpControllers" do
 
       context "when user has no section" do
         it "should render json: { sections:[], errCode: 303}" do
-          post '/Users/add', user_json
+          post '/MemberStudents/add', user_json
           #input_json = {user_email:user_json[:email], format: :json}
           input_json = { format: :json }
           expected = { sections:[] ,errCode: 303 }.to_json

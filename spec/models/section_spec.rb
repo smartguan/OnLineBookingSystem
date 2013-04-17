@@ -7,7 +7,7 @@ describe Section do
           description: "this class is aiming to lower down your intellegence", 
           start_date: "2011-11-29", end_date:"2012-12-30", start_time: "10:00:00", 
           end_time: "20:00:00", teacher: "Obamma", enroll_cur:1, enroll_max:2,
-          waitlist_cur:30, waitlist_max:40) }
+          waitlist_cur:30, waitlist_max:40, section_type: "A", lesson_type:"PRIVATE") }
   
   subject { @sec }
 
@@ -23,6 +23,8 @@ describe Section do
   it {should respond_to(:enroll_max)}
   it {should respond_to(:waitlist_cur)}
   it {should respond_to(:waitlist_max)}
+  it {should respond_to(:section_type)}
+  it {should respond_to(:lesson_type)}
 
   it { should be_valid }
 

@@ -51,14 +51,6 @@ Cs169::Application.routes.draw do
   match '/Admin/delete', to: 'admin#delete'
   match '/Admin/exportCsv', to: 'admin#exportCsv'
 
-  # I don't know what these are, so I commented them out
-  # If I did something wrong, please let me know so that 
-  # somebody can correct me. I appologize ahead~~(By Seth)
-  # match '/Registrations/viewEnrolledSections', to: 'sections#viewEnrolledSections'
-  # match '/Registrations/register', to: 'sections#register'
-  # post '/sections/register', to: 'sections#register'
-  # match '/Registrations/drop', to: 'sections#drop'
-
   # vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv #
   # Please Keep all routes below unchanged. 
   # Otherwise the BE for registration will fail
@@ -74,17 +66,13 @@ Cs169::Application.routes.draw do
   match '/Sections/delete', to:'sections#delete'
   match '/Sections/getAllSections', to: 'sections#getAllSections'
   match '/Sections/getSectionByID', to: 'sections#getSectionByID'
-  match '/Sections/getSectionsDateAndTypes', to: 'sections#getSectionsByDateAndTypes'
+  match '/Sections/getAvailableSectionsFromNowOn', to: 'sections#getAvailableSectionsFromNowOn'
+  match '/Sections/getAvailableSectionsByDateAndTime', to: 'sections#getAvailableSectionsByDateAndTime'
   # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ #
   # Please Keep all routes above unchanged. 
   # Otherwise the BE for registration will fail
   # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ #
 
-  # match '/Registrations/viewEnrolledSections', to: 'sections#viewEnrolledSections', :via => :get, :default => {format: "json"}
-  # match '/Registrations/register', to: 'sections#register', :via => :post, :default => {format: "json"}
-  # match '/Registrations/drop', to: 'sections#drop', :via => :post, :default => {format: "json"}
-
-  
   match '/admin' => 'application#admin'
   match '/newadmin' => 'application#newadmin'
   match '/reservation' => 'application#reservation'
