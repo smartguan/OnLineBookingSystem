@@ -33,11 +33,8 @@ class RegistrationsController < ApplicationController
   def register
     if cookies[:user_id] != nil
       @user = User.find_by_id(cookies[:user_id])
-    #deprecated in the future
-    else  
-      @user = User.find_by_email(params[:user_email].downcase)
     end
-    @sec = Section.find_by_name(params[:section_name].upcase)
+    @sec = Section.find_by_id(params[:section_id])
     
     respond_to do |format|
       if @user.sections.exists?(:name => @sec.name) or
@@ -84,11 +81,8 @@ class RegistrationsController < ApplicationController
     #assuming user already has at least 1 section
     if cookies[:user_id] != nil
       @user = User.find_by_id(cookies[:user_id])
-    #deprecated in the future
-    else  
-      @user = User.find_by_email(params[:user_email].downcase)
     end
-    @sec = Section.find_by_name(params[:section_name].upcase)
+    @sec = Section.find_by_id(params[:section_id])
     
     respond_to do |format|
       @user.sections.delete(@sec)
@@ -122,12 +116,9 @@ class RegistrationsController < ApplicationController
 
 
   #for users to view his/her enrolled sections
-  def viewEnrolledSections
+  def getEnrolledSections
     if cookies[:user_id] != nil
       @user = User.find_by_id(cookies[:user_id])
-    #deprecated in the future
-    else  
-      @user = User.find_by_email(params[:user_email].downcase)
     end
     
     respond_to do |format|

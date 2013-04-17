@@ -27,7 +27,7 @@ class SectionsController < ApplicationController
   #--------------------------------
 
   # create, for admin only
-  def createSection
+  def create
     @sec = newSection
     respond_to do |format|
       if @sec.save
@@ -40,8 +40,8 @@ class SectionsController < ApplicationController
 
 
   #edit for admin only  
-  def editSection
-    @sec = Section.find_by_name(params[:name].upcase)
+  def edit
+    @sec = Section.find_by_id(params[:id])
 
     respond_to do |format|
       if @sec.update_attributes(day:params[:day], 
@@ -62,8 +62,8 @@ class SectionsController < ApplicationController
 
 
   #delete a section
-  def deleteSection
-    @sec = Section.find_by_name(params[:name].upcase)
+  def delete
+    @sec = Section.find_by_id(params[:id])
 
     respond_to do |format|
       if @sec.destroy
@@ -80,7 +80,7 @@ class SectionsController < ApplicationController
   #get schedule 
   #note: for now just return all the sections.
   #later may be divided to return schedule according to different sort. e.g. time, date
-  def getSchedule
+  def getAllSections
     secs_list = Section.all
 
     respond_to do |format|
@@ -95,8 +95,8 @@ class SectionsController < ApplicationController
 
   #view one section
   #later may be divided to return schedule according to different sort. e.g. time, date
-  def viewOneSection
-    sec = Section.where(name:params[:name]).first
+  def getSectionByID
+    sec = Section.where(id:params[:id]).first
 
     respond_to do |format|
       if sec != nil
@@ -107,116 +107,24 @@ class SectionsController < ApplicationController
     end
   end
 
-  ##for users to register for sections
-  #def register
-  #  if session[:user_id] != nil
-  #    @user = User.find_by_id(session[:user_id])
-  #  #deprecated in the future
-  #  else  
-  #    @user = User.find_by_email(params[:user_email].downcase)
-  #  end
-  #  @sec = Section.find_by_name(params[:section_name].upcase)
-  #  
-  #  respond_to do |format|
-  #    if @user.sections.exists?(:name => @sec.name) or
-  #       @sec.users.exists?(:id=>@user.id)
-  #      format.json { render json: { sections:[{section_id:@sec.id, 
-  #                                              section_name:@sec.name, 
-  #                                              statusCode:2}], 
-  #                                   errCode:301 } }
-  #    elsif @sec.enroll_cur == @sec.enroll_max and 
-  #          @sec.waitlist_cur < @sec.waitlist_max
-  #      @user.sections << @sec
-  #      @reg = Registration.where(:user_id => @user.id, :section_id => @sec.id).first
-  #      @reg.update_attributes(waitlist_place:(@sec.waitlist_cur + 1))
-  #      @sec.update_attributes(waitlist_cur:(@sec.waitlist_cur + 1))
-  #      format.json { render json: { sections:[{section_id:@sec.id, 
-  #                                              section_name:@sec.name, 
-  #                                              statusCode:3}],
-  #                                   errCode:301} }        
-  #    elsif @sec.waitlist_cur == @sec.waitlist_max
-  #      format.json { render json: { sections:[{section_id:@sec.id, 
-  #                                              section_name:@sec.name, 
-  #                                              statusCode:4}],
-  #                                   errCode:301} }        
-  #    else
-  #      #since it's a join table, the entry added by one key can be 
-  #      #view or accessed by the other key
-  #      @user.sections << @sec
-  #      #@sec.users << @user
-  #      @reg = Registration.where(:user_id => @user.id, :section_id => @sec.id).first
-  #      @reg.update_attributes(waitlist_place:0)
-  #      @sec.update_attributes(enroll_cur:(@sec.enroll_cur + 1))
-  #      format.json { render json: { sections:[{section_id:@sec.id, 
-  #                                              section_name:@sec.name, 
-  #                                              statusCode:1}],
-  #                                   errCode:1} }        
-  #    end
-  #  end
-  #end
+
+  #view sections by date and types
+  #later may be divided to return schedule according to different sort. e.g. time, date
+  def getSectionsByDateAndTypes
+    sec = Section.where(id:params[:id]).first
+
+    respond_to do |format|
+      if sec != nil
+        format.json { render json: { :sections => [sec], errCode: 1} }
+      else
+        format.json { render json: { :sections => [], errCode: 300 } }
+      end
+    end
+  end
 
 
 
-  ##for users to drop a registered section
-  #def drop
-  #  #assuming user already has at least 1 section
-  #  if session[:user_id] != nil
-  #    @user = User.find_by_id(session[:user_id])
-  #  #deprecated in the future
-  #  else  
-  #    @user = User.find_by_email(params[:user_email].downcase)
-  #  end
-  #  @sec = Section.find_by_name(params[:section_name].upcase)
-  #  
-  #  respond_to do |format|
-  #    @user.sections.delete(@sec)
-  #    @sec.users.delete(@user)
-  #    if @sec.waitlist_cur == 0
-  #      @sec.enroll_cur -= 1
-  #    else
-  #      #shift the person 1st in the waitlist to the enrolled list
-  #      @sec.waitlist_cur -= 1
-  #      @update_reg = Registration.where(:waitlist_place => 1).first
-  #      @update_reg.update_attributes(waitlist_place:0)
-  #      
-  #      if @sec.waitlist_cur != 0
-  #        Registration.where("user_id = :user_id, section_id = :section_id, 
-  #                            waitlist_place >= :one",  
-  #                            :user_id => @user.id, :section_id => @sec.id, 
-  #                            :one => 1 ).each do |r|
-  #          r.update_attributes(waitlist_place:(r.waitlist_place - 1))
-  #        end
-  #      end
-  #    end
-  #    @sec.update_attributes(enroll_cur:@sec.enroll_cur, 
-  #                           waitlist_cur:@sec.waitlist_cur)
-  #    format.json { render json: { section_id:@sec.id, 
-  #                                 section_name:@sec.name, 
-  #                                 errCode:1 } }
-  #  end
-  #end
-
-
-  ##for users to view his/her enrolled sections
-  #def viewEnrolledSections
-  #  if session[:user_id] != nil
-  #    @user = User.find_by_id(session[:user_id])
-  #  #deprecated in the future
-  #  else  
-  #    @user = User.find_by_email(params[:user_email].downcase)
-  #  end
-  #  
-  #  respond_to do |format|
-  #    if @user.sections.empty?
-  #      format.json { render json: { sections:[], errCode:303 } }
-  #    else
-  #      format.json { render json: { sections:@user.sections.all, errCode:1 } }
-  #    end
-  #  end
-  #end
-
-
-  #creat
+  #newSection
   def newSection
    return Section.new(name:params[:name], day:params[:day], 
                             description:params[:description], end_date:params[:end_date],
