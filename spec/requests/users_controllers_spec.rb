@@ -55,7 +55,18 @@ describe "UsersControlers" do
       response.body.should == expected
     end
   end
+  
+  describe "when logging in with an anonymous student" do
+    it "should return BAD_CREDENTIALS" do
+      FactoryGirl.create(:anonymous_student)
+      expected = { errCode: BAD_CREDENTIALS }.to_json
+      post '/Users/login', { email: "abc@def.org", password: "password", 
+                             format: :json }
+      response.body.should == expected
+    end
+  end
 
+  #Logout Functionality
   describe "when logging out with valid user" do
     it "should return SUCCESS" do
       FactoryGirl.create(:instructor)

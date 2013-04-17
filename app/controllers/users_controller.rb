@@ -27,6 +27,8 @@ class UsersController < ApplicationController
     respond_to do |format|  
       if not user
         format.json { render json: { errCode: BAD_CREDENTIALS } }
+      elsif user.type == "AnonymousStudent"
+        format.json { render json: { errCode: BAD_CREDENTIALS } }
       elsif user.authenticate(params[:password])
         format.json { render json: { errCode: SUCCESS, type: user.type } }
         cookies[:user_id] = user.id
