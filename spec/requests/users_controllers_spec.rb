@@ -87,6 +87,19 @@ describe "UsersControlers" do
       parsed_body["errCode"].should == expected
     end
   end
+  
+  describe "when requesting a profile with a valid user" do
+    it "should have correct format" do
+      FactoryGirl.create(:member_student)
+      expected = { "address" => "123 a st.", "city" => "b-town", 
+                   "zip" => "12345" }
+      post '/Users/login', { email: "abc@def.org", password: "password",
+                             format: :json }
+      post '/Users/profile', { format: :json }
+      parsed_body = JSON.parse(response.body)
+      parsed_body["user"]["residence"].should == expected
+    end
+  end
 
   describe "when requesting a proflie with an invalid user" do
     it "should return BAD_CREDENTIALS" do

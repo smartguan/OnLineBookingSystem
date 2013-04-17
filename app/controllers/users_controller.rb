@@ -202,7 +202,21 @@ class UsersController < ApplicationController
     end
     respond_to do |format| 
       if user
-        format.json { render json: { errCode: SUCCESS, user: user } }
+        user_hash = user.attributes.symbolize_keys!
+        user_hash[:residence] = {}
+        user_hash[:residence][:address] = user_hash[:address]
+        user_hash[:residence][:city] = user_hash[:city]
+        user_hash[:residence][:zip] = user_hash[:zip]
+        user_hash[:contacts] = {}
+        user_hash[:contacts][:first] = {}
+        user_hash[:contacts][:second] = {}
+        user_hash[:contacts][:first][:name] = user_hash[:contact_one]
+        user_hash[:contacts][:first][:primary] = user_hash[:contact_one_primary]
+        user_hash[:contacts][:first][:secondary] = user_hash[:contact_one_secondary]
+        user_hash[:contacts][:second][:name] = user_hash[:contact_two]
+        user_hash[:contacts][:second][:primary] = user_hash[:contact_two_primary]
+        user_hash[:contacts][:second][:secondary] = user_hash[:contact_two_secondary]
+        format.json { render json: { errCode: SUCCESS, user: user_hash } }
       else
         format.json { render json: { errCode: BAD_CREDENTIALS } } 
       end
