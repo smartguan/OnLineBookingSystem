@@ -15,7 +15,7 @@ class SectionsController < ApplicationController
   FAILED_TO_DELETE = 207
 
   #Error codes can be used by all users
-  NO_SECTION_TO_SHOW = 300
+  NO_SECTION_FOUND = 250
   FAILED_TO_MAKE_REG = 301
     #statusCodes
     USER_ALREADY_IN_SEC = 2
@@ -87,7 +87,7 @@ class SectionsController < ApplicationController
       if not secs_list.empty?
         format.json { render json: { :sections => secs_list, errCode: 1} }
       else
-        format.json { render json: { errCode: 300 } }
+        format.json { render json: { errCode: 250 } }
       end
     end
   end
@@ -102,22 +102,52 @@ class SectionsController < ApplicationController
       if sec != nil
         format.json { render json: { :sections => [sec], errCode: 1} }
       else
-        format.json { render json: { :sections => [], errCode: 300 } }
+        format.json { render json: { :sections => [], errCode: 250 } }
       end
     end
   end
 
 
-  #view sections by date and types
-  #later may be divided to return schedule according to different sort. e.g. time, date
-  def getSectionsByDateAndTypes
-    sec = Section.where(id:params[:id]).first
-
+  #get sections by date and types
+  def getAvailableSectionsFromNowOn
+    # search the DB for matching available sections
+    current = Time.now
+    time = current.strftime("%H:%M:%S")
+    # do utc for time zone match
+    new_time = Time.utc(2000,1,1,time)
+    
+    sections_list = Section.where("(:current_date = start_date AND
+                                    :current_time < start_time) OR
+                                   (start_date > :current_date)",
+                                   :current_date => current.to_date,
+                                   :current_time => new_time).all
+   
     respond_to do |format|
-      if sec != nil
-        format.json { render json: { :sections => [sec], errCode: 1} }
+      if sections_list != []
+        format.json { render json: { :sections => sections_list, errCode: 1} }
       else
-        format.json { render json: { :sections => [], errCode: 300 } }
+        format.json { render json: { :sections => [], errCode: 250 } }
+      end
+    end
+  end
+
+
+  #get sections by date and types
+  def getAvailableSectionsByDateAndTime
+    # do utc for time zone match
+    new_time = Time.utc(2000,1,1,params[:time])
+    # search the DB for matching available sections
+    sections_list = Section.where("(:current_date = start_date AND
+                                    :current_time < start_time) OR
+                                   (start_date > :current_date)",
+                                   :current_date => params[:date],
+                                   :current_time => new_time).all
+    
+    respond_to do |format|
+      if sections_list != []
+        format.json { render json: { :sections => sections_list, errCode: 1} }
+      else
+        format.json { render json: { :sections => [], errCode: 250 } }
       end
     end
   end
@@ -131,7 +161,9 @@ class SectionsController < ApplicationController
                             end_time:params[:end_time], enroll_cur:0,
                             enroll_max:params[:enroll_max], start_date:params[:start_date],
                             start_time:params[:start_time], teacher:params[:teacher], 
-                            waitlist_cur:0, waitlist_max:params[:waitlist_max])
+                            waitlist_cur:0, waitlist_max:params[:waitlist_max],
+                            section_type:params[:section_type],
+                            lesson_type:params[:lesson_type])
   end
 
   

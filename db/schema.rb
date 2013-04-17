@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130325051300) do
+ActiveRecord::Schema.define(:version => 20130417022435) do
 
   create_table "registrations", :force => true do |t|
     t.integer  "waitlist_place"
@@ -26,8 +26,6 @@ ActiveRecord::Schema.define(:version => 20130325051300) do
     t.date     "start_date"
     t.date     "end_date"
     t.string   "day"
-    t.time     "start_time"
-    t.time     "end_time"
     t.string   "teacher"
     t.integer  "enroll_cur"
     t.integer  "enroll_max"
@@ -37,6 +35,10 @@ ActiveRecord::Schema.define(:version => 20130325051300) do
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
     t.string   "name"
+    t.string   "section_type"
+    t.string   "lesson_type"
+    t.time     "start_time"
+    t.time     "end_time"
   end
 
   create_table "users", :force => true do |t|

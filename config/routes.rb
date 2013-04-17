@@ -68,7 +68,8 @@ Cs169::Application.routes.draw do
   match '/Sections/delete', to:'sections#delete'
   match '/Sections/getAllSections', to: 'sections#getAllSections'
   match '/Sections/getSectionByID', to: 'sections#getSectionByID'
-  match '/Sections/getSectionsDateAndTypes', to: 'sections#getSectionsByDateAndTypes'
+  match '/Sections/getAvailableSectionsFromNowOn', to: 'sections#getAvailableSectionsFromNowOn'
+  match '/Sections/getAvailableSectionsByDateAndTime', to: 'sections#getAvailableSectionsByDateAndTime'
   # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ #
   # Please Keep all routes above unchanged. 
   # Otherwise the BE for registration will fail
