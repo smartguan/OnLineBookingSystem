@@ -20,7 +20,7 @@ class AdminController < ApplicationController
   EXTRA_NOT_VALID = 119
   USER_EXISTS = 107
   BAD_CREDENTIALS = 108
-  NOT_ADMIN = 120
+  NOT_ADMIN = 121
   DEFAULT = 999
 
   def addInstructor
@@ -94,22 +94,63 @@ class AdminController < ApplicationController
   end
 
   def delete
-    #Add functionality to check whether an admin is logged in
-    user = User.find_by_email(params[:email])
     respond_to do |format| 
-      if user
-        format.json { render json: { errCode: SUCCESS } }
-        user.delete
+      if not cookies.has_key?(:user_id)
+        format.json { render json: { errCode: NOT_ADMIN } } 
+      elsif cookies[:user_id] == nil
+        format.json { render json: { errCode: NOT_ADMIN } } 
       else
-        format.json { render json: { errCode: BAD_CREDENTIALS } }
+        user = User.find(cookies[:user_id])
+      end
+      if user.type == "Admin" 
+        user_to_delete = User.find_by_email(params[:email])
+        if user
+          format.json { render json: { errCode: SUCCESS } }
+          user_to_delete.delete
+        else
+          format.json { render json: { errCode: BAD_CREDENTIALS } }
+        end
+      else
+        format.json { render json: { errCode: NOT_ADMIN } } 
       end
     end
   end
 
-  def exportCsv
-    #Add functionality to check whether and admin is logged in
-    users = User.order(:id)
-    database = users.to_csv
-    send_data database, filename: "database", type: "text/csv"
+  def exportUsers
+    respond_to do |format| 
+      if not cookies.has_key?(:user_id)
+        format.json { render json: { errCode: NOT_ADMIN } } 
+      elsif cookies[:user_id] == nil
+        format.json { render json: { errCode: NOT_ADMIN } } 
+      else
+        user = User.find(cookies[:user_id])
+      end
+      if user.type == "Admin" 
+        users = User.order(:type)
+        database = users.to_csv
+        send_data database, filename: "user_database", type: "text/csv"
+      else
+        format.json { render json: { errCode: NOT_ADMIN } } 
+      end
+    end
+  end
+  
+  def exportSections
+    respond_to do |format| 
+      if not cookies.has_key?(:user_id)
+        format.json { render json: { errCode: NOT_ADMIN } } 
+      elsif cookies[:user_id] == nil
+        format.json { render json: { errCode: NOT_ADMIN } } 
+      else
+        user = User.find(cookies[:user_id])
+      end
+      if user.type == "Admin" 
+        sections = Section.order(:start_date)
+        database = sections.to_csv
+        send_data database, filename: "section_database", type: "text/csv"
+      else
+        format.json { render json: { errCode: NOT_ADMIN } } 
+      end
+    end
   end
 end
