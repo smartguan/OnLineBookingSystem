@@ -44,7 +44,7 @@ function handle_add_response(data) {
     $('#new-form').hide();
     $('#edit-form').hide();
     $('#section-table').fadeOut('slow', function() {
-        post_json_request("/Registrations/getSchedule", {}, function(data) {loadingSections(data)});
+        post_json_request("/Sections/getAllSections", {}, function(data) {loadingSections(data)});
         $('#section-table').fadeIn('fast');
     })
     //post_json_request("/Registrations/getSchedule", {}, function(data) {loadingBody(data)});
@@ -56,7 +56,8 @@ function handle_add_response(data) {
 
 function handle_edit_response(data) {
     if (data.errCode == 1) {
-    $('#edit-form').loadJSON(data.sections);
+        alert(data.sections[0].teacher);
+    $('#edit-form').loadJSON(data.sections[0]);
     //post_json_request("/Registrations/getSchedule", {}, function(data) {loadingBody(data)});
     $('#edit-form').toggle();
   } else {
@@ -65,18 +66,19 @@ function handle_edit_response(data) {
 }
 
 function init_data() {
-    post_json_request("/Registrations/getSchedule", {}, function(data) {loadingSections(data)})
+    post_json_request("/Sections/getAllSections", {}, function(data) {loadingSections(data)})
 }
 
 function loadingSections(data){
-    if (data.errCode == 300) {
-        document.getElementById('mytable').innerHTML='No records found!';
+    //alert(data.errCode)
+    if (data.errCode == 250) {
+        document.getElementById('section-table').innerHTML='No records found!';
     } else {
         var json = data.sections
         if(json.length > 0){
             createSectionTable(json);
         } else {
-            document.getElementById('mytable').innerHTML='No records found!';
+            document.getElementById('section-table').innerHTML='No records found!';
         }
     }
 }
@@ -137,6 +139,7 @@ function createSectionTable(jsonString){
         // row.style.borderColor = "#222222";
         row.style.textAlign = "center";
 
+    createTableHeader(thead, 'Id');
     createTableHeader(thead, 'Name');
     createTableHeader(thead, 'Start Date');
     createTableHeader(thead, 'End Date');
@@ -148,6 +151,8 @@ function createSectionTable(jsonString){
     createTableHeader(thead, 'Max Enrollment');
     createTableHeader(thead, 'Current Waitlist');
     createTableHeader(thead, 'Max Waitlist');
+    createTableHeader(thead, 'Section Type');
+    createTableHeader(thead, 'Lesson Type');
     createTableHeader(thead, 'Description');
     createTableHeader(thead, 'Actions');
     
@@ -165,6 +170,7 @@ function createSectionTable(jsonString){
         // row.style.borderColor = "#222222";
         row.style.textAlign = "center";
 
+        createTableData(row, jsonString[i].id);
         createTableData(row, jsonString[i].name);
         createTableData(row, parseDate(jsonString[i].start_date));
         createTableData(row, parseDate(jsonString[i].end_date));
@@ -176,6 +182,8 @@ function createSectionTable(jsonString){
         createTableData(row, jsonString[i].enroll_max);
         createTableData(row, jsonString[i].waitlist_cur);
         createTableData(row, jsonString[i].waitlist_max);
+        createTableData(row, jsonString[i].section_type);
+        createTableData(row, jsonString[i].lesson_type);
         createTableData(row, jsonString[i].description);
 
         var bt = document.createElement('input');
@@ -184,7 +192,7 @@ function createSectionTable(jsonString){
         bt.id = 'delete-section';
         bt.value = 'Delete';
         bt.style.width = '60px';
-        bt.onclick = function() {post_json_request("/Admin/deleteSection", { name: $(this).closest('tr').children('td:first').text() }, function(data) { return handle_add_response(data); });};
+        bt.onclick = function() {post_json_request("/Sections/delete", { id: $(this).closest('tr').children('td:first').text() }, function(data) { return handle_add_response(data); });};
         //bt.onclick = function() {alert($(this).closest('tr').children('td:first').text())};
         
         var bte = document.createElement('input');
@@ -194,7 +202,7 @@ function createSectionTable(jsonString){
         bte.value = 'Edit';
         bte.style.width = '50px';
         bte.onclick = function() {
-            post_json_request("/Registrations/viewOneSection", { name: $(this).closest('tr').children('td:first').text() }, function(data) { return handle_edit_response(data); });
+            post_json_request("/Sections/getSectionByID", { id: $(this).closest('tr').children('td:first').text() }, function(data) { return handle_edit_response(data); });
         };
 
         row.appendChild(bt);
