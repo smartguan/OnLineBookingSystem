@@ -1,9 +1,7 @@
 class InstructorsController < ApplicationController
 
   # -------------------------------------------- #
-  SUCCESS = 1
-
-  NO_INSTRUCTOR_FOUND = 450
+  NO_INSTRUCTOR_FOUND = 122
   
   # -------------------------------------------- #
 
@@ -18,7 +16,13 @@ class InstructorsController < ApplicationController
     end
   end
 
+  
+  
 
 
+  def getAvailableInstructors
+
+    
+  end
 
 end

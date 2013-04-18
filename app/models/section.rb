@@ -1,20 +1,24 @@
 class Section < ActiveRecord::Base
-  attr_accessible :name, :day, :description, :end_date, :end_time, :enroll_cur, :enroll_max, :start_date, :start_time, :teacher, :waitlist_cur, :waitlist_max, :section_type, :lesson_type
+  attr_accessible :name, :day, :description, :end_date, :end_time, :enroll_cur, :enroll_max, :start_date, :start_time, :teacher, :waitlist_cur, :waitlist_max, :section_type, :lesson_type, :instructor_id, :student_id
 
   has_many :registrations
   has_many :students, :through => :registrations, :order => "first ASC", :uniq => true
+
+  belongs_to :instructor, :inverse_of => :sections
 
   before_validation do |section| 
   #  section.name = name.upcase
     section.day = day.upcase
     section.teacher = teacher.upcase
+    section.section_type = section_type.upcase
+    section.lesson_type = lesson_type.upcase
   end
 
   #validates :name, presence:true, length: {maximum: 20},
   #                 uniqueness: {case_sensitive: false}
   validates :day, presence:true
   validates :teacher, presence:true
-  validates :description, presence:true
+  #validates :description, presence:true
   validates :end_date, presence:true
   validates :end_time, presence:true
   validates :enroll_cur, presence:true
@@ -26,6 +30,7 @@ class Section < ActiveRecord::Base
   validates :section_type, presence:true
   validates :lesson_type, presence:true
 
+  
   #validate for inclusion for day
   validates_inclusion_of :day, :in => ['SUNDAY', 'MONDAY', 'TUESDAY', 
                                       'WEDNESDAY', 'THURSDAY', 'FRIDAY',
@@ -35,12 +40,19 @@ class Section < ActiveRecord::Base
   #validate for inclusion for lesson_type
   validates_inclusion_of :lesson_type, :in => ['PRIVATE', 'PRE-COMP', 'GROUP']
   
+  validate :teacher_has_first_and_last_name
   validate :start_time_must_be_before_end_time
   validate :start_date_must_be_before_end_date
   validate :enroll_cur_must_be_less_or_equal_enroll_max
   validate :waitlist_cur_must_be_less_or_equal_waitlist_max
   validate :section_not_overlapped_for_a_teacher
 
+  #validate teacher name has first and last
+  def teacher_has_first_and_last_name
+    self.errors.add :teacher, 'missing_first_or_last_name' unless
+      teacher.include?(" ")
+  end
+  
   #validate end_time > start_time
   def start_time_must_be_before_end_time
     self.errors.add :start_time, 'has to be before end time' unless 
