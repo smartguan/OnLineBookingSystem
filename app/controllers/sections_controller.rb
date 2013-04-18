@@ -1,28 +1,28 @@
 class SectionsController < ApplicationController
 
-#  #--------------------------------
-#  #Error message => errCode
-#  SUCCESS = 1
-#  
-#  #Error codes can only be used by Admin/section modifications
-#  SEC_NAME_INVALID = 200
-#  DAY_INVALID = 201
-#  DESCR_INVALID = 202
-#  TEACHER_INVALID = 203
-#  SEC_OVERLAP_FOR_TEACHER = 204
-#  TIME_INVALID = 205
-#  DATE_INVALID = 206
-#  FAILED_TO_DELETE = 207
-#
-#  #Error codes can be used by all users
-#  NO_SECTION_FOUND = 250
-#  FAILED_TO_MAKE_REG = 301
-#    #statusCodes
-#    USER_ALREADY_IN_SEC = 2
-#    ADD_TO_WAIT_LIST = 3
-#    WAIT_LIST_FULL = 4
-#    PASS_ADD_DEADLINE = 5
-#  USER_NOT_REG = 303
+  #--------------------------------
+  #Error message => errCode
+  SUCCESS = 1
+  
+  #Error codes can only be used by Admin/section modifications
+  SEC_NAME_INVALID = 200
+  DAY_INVALID = 201
+  DESCR_INVALID = 202
+  TEACHER_INVALID = 203
+  SEC_OVERLAP_FOR_TEACHER = 204
+  TIME_INVALID = 205
+  DATE_INVALID = 206
+  FAILED_TO_DELETE = 207
+
+  #Error codes can be used by all users
+  NO_SECTION_FOUND = 250
+  FAILED_TO_MAKE_REG = 301
+    #statusCodes
+    USER_ALREADY_IN_SEC = 2
+    ADD_TO_WAIT_LIST = 3
+    WAIT_LIST_FULL = 4
+    PASS_ADD_DEADLINE = 5
+  USER_NOT_REG = 303
 
   #--------------------------------
 
@@ -31,6 +31,12 @@ class SectionsController < ApplicationController
     @sec = newSection
     respond_to do |format|
       if @sec.save
+        teacher = params[:teacher].split(" ")
+        last_name = teacher[-1]
+        first_name = teacher[0, teacher.size-1].join(" ")
+
+        @instructor = Instructor.where(:first => first_name, :last => last_name).first
+        @instructor.sections << @sec
         self.returnSuccess format
       else
         self.returnAdminError format
@@ -108,6 +114,25 @@ class SectionsController < ApplicationController
   end
 
 
+  # get sections that belong to a given instructor
+  def getSectionsByInstructor
+    teacher = params[:teacher].split(" ")
+    last_name = teacher[-1]
+    first_name = teacher[0, teacher.size-1].join(" ")
+    
+    instructor = Instructor.where(:first => first_name, :last => last_name).first
+    sections_list = instructor.sections.all
+
+    respond_to do |format|
+      if sections_list != []
+        format.json { render json: { :sections => sections_list, errCode: 1 } }
+      else
+        format.json { render json: { :sections => [], errCode: 250 } }
+      end
+    end
+  end
+
+
   #get sections by date and types
   def getAvailableSectionsFromNowOn
     # search the DB for matching available sections
@@ -156,14 +181,14 @@ class SectionsController < ApplicationController
 
   #newSection
   def newSection
-   return Section.new(name:params[:name], day:params[:day], 
+   return Section.new(name:params[:name].upcase, day:params[:day], 
                             description:params[:description], end_date:params[:end_date],
                             end_time:params[:end_time], enroll_cur:0,
                             enroll_max:params[:enroll_max], start_date:params[:start_date],
                             start_time:params[:start_time], teacher:params[:teacher], 
                             waitlist_cur:0, waitlist_max:params[:waitlist_max],
-                            section_type:params[:section_type],
-                            lesson_type:params[:lesson_type])
+                            section_type:params[:section_type].upcase,
+                            lesson_type:params[:lesson_type].upcase)
   end
 
   

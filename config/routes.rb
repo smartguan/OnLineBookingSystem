@@ -69,6 +69,7 @@ Cs169::Application.routes.draw do
   match '/Sections/delete', to:'sections#delete'
   match '/Sections/getAllSections', to: 'sections#getAllSections'
   match '/Sections/getSectionByID', to: 'sections#getSectionByID'
+  match '/Sections/getSectionsByInstructor', to: 'sections#getSectionsByInstructor'
   match '/Sections/getAvailableSectionsFromNowOn', to: 'sections#getAvailableSectionsFromNowOn'
   match '/Sections/getAvailableSectionsByDateAndTime', to: 'sections#getAvailableSectionsByDateAndTime'
   # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ #
