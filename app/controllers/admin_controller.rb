@@ -117,39 +117,23 @@ class AdminController < ApplicationController
   end
 
   def exportUsers
-    respond_to do |format| 
-      if not cookies.has_key?(:user_id)
-        format.json { render json: { errCode: NOT_ADMIN } } 
-      elsif cookies[:user_id] == nil
-        format.json { render json: { errCode: NOT_ADMIN } } 
-      else
-        user = User.find(cookies[:user_id])
-      end
+    if cookies.has_key?(:user_id) and not cookies[:user_id] == nil
+      user = User.find(cookies[:user_id])
       if user.type == "Admin" 
         users = User.order(:type)
         database = users.to_csv
         send_data database, filename: "user_database", type: "text/csv"
-      else
-        format.json { render json: { errCode: NOT_ADMIN } } 
       end
     end
   end
   
   def exportSections
-    respond_to do |format| 
-      if not cookies.has_key?(:user_id)
-        format.json { render json: { errCode: NOT_ADMIN } } 
-      elsif cookies[:user_id] == nil
-        format.json { render json: { errCode: NOT_ADMIN } } 
-      else
-        user = User.find(cookies[:user_id])
-      end
+    if cookies.has_key?(:user_id) and not cookies[:user_id] == nil
+      user = User.find(cookies[:user_id])
       if user.type == "Admin" 
         sections = Section.order(:start_date)
         database = sections.to_csv
         send_data database, filename: "section_database", type: "text/csv"
-      else
-        format.json { render json: { errCode: NOT_ADMIN } } 
       end
     end
   end
