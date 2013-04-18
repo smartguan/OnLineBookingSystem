@@ -21,55 +21,89 @@
 		<script>
 
 			$(document).ready(function() {
-			
 				var date = new Date();
 				var d = date.getDate();
 				var m = date.getMonth();
 				var y = date.getFullYear();
-				
-				$('#calendar').fullCalendar({
-					header: {
-						left: 'prev,next today',
-						center: 'title',
-						
-					},
-					editable: false,
-					events: [
-						{
-							title: 'Session Type: A',
-							start: new Date(y, m, 1),
-							end: new Date(y, m, 5),
-							className: 'Section-A',
-							url: 'http://google.com/'
-						},
-						{
-							title: 'Session Type: B',
-							start: new Date(y, m, d-5),
-							end: new Date(y, m, d-2),
-							className: 'Section-B',
-							url: 'http://google.com/'
 
-						},
-						{
-							title: 'Session Type: C',
-							start: new Date(y, m, d-5),
-							end: new Date(y, m, d-2),
-							className: 'Section-C',
-							url: 'http://google.com/'
-							
-						},
-						{
-							title: 'Session Type: A',
-							start: new Date(y, m, 25),
-							end: new Date(y, m, 29),
-							className: 'Section-A',
-							url: 'http://google.com/'
-						}
-					]
-				});
-				
+				var mockevents = [
+					{
+						title: 'Session-A',
+						id:5,
+						start: new Date(2013,3,1),
+						end: new Date(2013,3,4),			
+						className:'session-a',
+						backgroundColor: 'Maroon'
+					}
+				];
+
+				var usercalendar = new UserCalendar(mockevents);
+				usercalendar.display();
+
 			});
 
+			function post_json_request2(page, dict, success) {
+			  $.ajax({
+				type: 'POST',
+				url: page,
+				data: JSON.stringify(dict),
+				contentType: "application/json",
+				dataType: "json",
+				success: success
+			  });
+			  $('#simulate-sent-jsons').append(JSON.stringify(dict)+"<br />");
+			}
+
+			var UserCalendar = function(input_events) {
+				//Instance Variable and Methods (ie input events dependant)
+				this.events = input_events;
+
+				this.calendarOptions = 	{
+					header: UserCalendar.headerOptions,
+					editable: true,
+					events: input_events,
+					eventClick: UserCalendar.clickEvent,
+					dayClick: UserCalendar.clickDay
+				};
+
+				this.display = function() {
+					$(UserCalendar.identifier).fullCalendar(this.calendarOptions);
+				}
+			}
+
+			// Singleton Class per Page Static Methods
+			UserCalendar.identifier = "#calendar";
+
+			UserCalendar.headerOptions = {
+				left: 'prev,next today',
+									center: 'title',
+			};
+
+			UserCalendar.clickEvent = function(calEvent, jsEvent, view) {
+				if(view.name=='agendaDay') {
+					var dict_to_send = 
+					{
+						title: calEvent.title, 
+						day:calEvent.day,
+						start: calEvent.start,
+						end: calEvent.end,
+						teacher: calEvent.teacher
+					};		
+					post_json_request2('/some_url', 
+						dict_to_send, function(){ alert('success'); });
+					$(this.identifier).fullCalendar('changeView', 'month');
+					return true;
+				}
+				UserCalendar.clickDay(calEvent.day, calEvent.allDay, jsEvent, view);
+				return false;
+			}
+
+			UserCalendar.clickDay = function(date, allDay, jsEvent, view) {
+				$(UserCalendar.identifier)
+					.fullCalendar('changeView', 'agendaDay')
+			       	.fullCalendar('gotoDate', date);
+			  	return true;
+			}
 		</script>
 
 		<style>
@@ -252,17 +286,12 @@
 		
 		<script type="text/javascript">
 
-			$('#top').hide()
-   			$('#rightColumn').hide()
-   			$('#leftColumn').hide()
-   			$('#system-message').hide()
-   			$('#bottom').hide()
+	
    			$('#login-email').val("")
 			$('#login-password').val("")
 			$('#SignDropDown').hide()
 			$('#CreateAccountButton').hide()
 			$('#WelcomeDropDown').hide()
-			$('ProgressBar').hide()
    
    			/* setup the page so that only one of the forms is shown */
 			
@@ -271,10 +300,6 @@
 			 });
 
 			function show_login_page() {
-				$('#top').show()
-	   			$('#rightColumn').show()
-	   			$('#leftColumn').show()
-	   			$('#bottom').show()
 	   			$('#SignDropDown').show()
 				$('#CreateAccountButton').show()	
 	   		}
@@ -295,7 +320,7 @@
 
 			    //This is the case for success
 			    default:
-			    	if (data.admin == 0) {
+			    	if (data.type != "Admin") {
 			    		$('#SignDropDown').hide()
 						$('#CreateAccountButton').hide()
 						$('#WelcomeDropDown').show()

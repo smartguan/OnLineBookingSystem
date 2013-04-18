@@ -55,15 +55,15 @@ describe "SectionsControllers" do
         end
       end
     
-      context "when name not valid" do
-        it "should render json {name:name, errCode: 200}" do
-          sec1_json = sec_json.dup
-          sec1_json[:name] = "" 
-          expected = {name:sec1_json[:name], errCode: SEC_NAME_INVALID}.to_json
-          post '/Sections/create', sec1_json
-          response.body.should == expected
-        end
-      end
+      #context "when name not valid" do
+      #  it "should render json {name:name, errCode: 200}" do
+      #    sec1_json = sec_json.dup
+      #    sec1_json[:name] = "" 
+      #    expected = {name:sec1_json[:name], errCode: SEC_NAME_INVALID}.to_json
+      #    post '/Sections/create', sec1_json
+      #    response.body.should == expected
+      #  end
+      #end
     
       context "when day not valid" do
         it "should render json {name:name, errCode: 201}" do

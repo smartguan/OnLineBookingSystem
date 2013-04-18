@@ -2,16 +2,16 @@ class Section < ActiveRecord::Base
   attr_accessible :name, :day, :description, :end_date, :end_time, :enroll_cur, :enroll_max, :start_date, :start_time, :teacher, :waitlist_cur, :waitlist_max, :section_type, :lesson_type
 
   has_many :registrations
-  has_many :users, :through => :registrations, :order => "first ASC", :uniq => true
+  has_many :students, :through => :registrations, :order => "first ASC", :uniq => true
 
   before_validation do |section| 
-    section.name = name.upcase
+  #  section.name = name.upcase
     section.day = day.upcase
     section.teacher = teacher.upcase
   end
 
-  validates :name, presence:true, length: {maximum: 20},
-                   uniqueness: {case_sensitive: false}
+  #validates :name, presence:true, length: {maximum: 20},
+  #                 uniqueness: {case_sensitive: false}
   validates :day, presence:true
   validates :teacher, presence:true
   validates :description, presence:true
