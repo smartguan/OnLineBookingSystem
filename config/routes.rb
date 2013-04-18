@@ -23,7 +23,7 @@ Cs169::Application.routes.draw do
   # post "/registrations/viewEnrolledSections" => "mocks#test_viewEnrolledSections"
   # match "/users/profile", to: "mocks#test_Profile"
   match "/users/profile", to: "users#profile"
-  match "/Registrations/viewEnrolledSections", to: "registrations#viewEnrolledSections"
+  # match "/Registrations/viewEnrolledSections", to: "registrations#viewEnrolledSections"
   match '/Users/logout', to: 'users#logout'
   post "/users/update_password" => "Registrations#updatePassword"
 
@@ -42,24 +42,24 @@ Cs169::Application.routes.draw do
   match '/testUserInfo', to: 'users#userinfo'
   match 'Users/tabs', to: 'users#userTabs'
 
-  # Routes for User controller
-  match '/Users/add', to: 'users#add'
+  # Routes for Users controller
   match '/Users/login', to: 'users#login'
-  match '/Users/delete', to: 'users#delete' 
-  match '/Users/updateUsers', to: 'users#updateUsers'
   match '/Users/update', to: 'users#update'
-  match '/Users/updatePassword', to: 'users#updatePassword'
-  # match '/Users/profile', to: 'users#profile'
-  match '/Users/allUsers', to: 'users#allUsers'
-  match '/Users/csv', to: 'users#exportCsv'
+  match '/Users/updatePassword', to: 'users#updatePassword' 
+  match '/Users/profile', to: 'users#profile'
+  match '/Users/logout', to: 'users#logout'
 
-  # I don't know what these are, so I commented them out
-  # If I did something wrong, please let me know so that 
-  # somebody can correct me. I appologize ahead~~(By Seth)
-  # match '/Registrations/viewEnrolledSections', to: 'sections#viewEnrolledSections'
-  # match '/Registrations/register', to: 'sections#register'
-  # post '/sections/register', to: 'sections#register'
-  # match '/Registrations/drop', to: 'sections#drop'
+
+  # Routes for MemberStudents Controller
+  match '/MemberStudents/add', to: 'member_students#add'
+  
+  # Routes for AnonymousStudents Controller
+  match '/AnonymousStudents/add', to: 'anonymous_students#add'
+  
+  # Routes for Admin Controller
+  match '/Admin/addInstructor', to: 'admin#addInstructor'
+  match '/Admin/delete', to: 'admin#delete'
+  match '/Admin/exportCsv', to: 'admin#exportCsv'
 
   # vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv #
   # Please Keep all routes below unchanged. 
@@ -80,17 +80,13 @@ Cs169::Application.routes.draw do
   match '/Sections/delete', to:'sections#delete'
   match '/Sections/getAllSections', to: 'sections#getAllSections'
   match '/Sections/getSectionByID', to: 'sections#getSectionByID'
-  match '/Sections/getSectionsDateAndTypes', to: 'sections#getSectionsByDateAndTypes'
+  match '/Sections/getAvailableSectionsFromNowOn', to: 'sections#getAvailableSectionsFromNowOn'
+  match '/Sections/getAvailableSectionsByDateAndTime', to: 'sections#getAvailableSectionsByDateAndTime'
   # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ #
   # Please Keep all routes above unchanged. 
   # Otherwise the BE for registration will fail
   # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ #
 
-  # match '/Registrations/viewEnrolledSections', to: 'sections#viewEnrolledSections', :via => :get, :default => {format: "json"}
-  # match '/Registrations/register', to: 'sections#register', :via => :post, :default => {format: "json"}
-  # match '/Registrations/drop', to: 'sections#drop', :via => :post, :default => {format: "json"}
-
-  
   match '/admin' => 'application#admin'
   match '/newadmin' => 'application#newadmin'
   match '/reservation' => 'application#reservation'
