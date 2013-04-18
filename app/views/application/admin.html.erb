@@ -150,6 +150,26 @@
                 <textarea rows="3" name="add-description" id="add-description"></textarea>
             </div>
         </div>
+        <div class="control-group">
+            <label class="control-label" for="addsectiontype">Section Type</label>
+            <div class="controls">
+                <select type="text" name="add-section-type" id="add-section-type">
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                </select>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="addlessontype">Lesson Type</label>
+            <div class="controls">
+                <select type="text" name="add-lesson-type" id="add-lesson-type">
+                    <option value="PRIVATE">Private</option>
+                    <option value="PRE-COMP">Pre-Comp</option>
+                    <option value="GROUP">Group</option>
+                </select>
+            </div>
+        </div>
     </form>
     <div id="add_submit-button" class="submit_button" type="submit">
         <button>Submit</button>
@@ -162,7 +182,7 @@
         <div class="control-group">
             <label class="control-label" for="addname">Name</label>
             <div class="controls">
-                <input type="text" name="name" id="name" placeholder="Name">
+                <input type="text" name="name" id="name">
             </div>
         </div>
         <div class="control-group">
@@ -257,6 +277,26 @@
                 <textarea rows="3" name="description" id="description"></textarea>
             </div>
         </div>
+        <div class="control-group">
+            <label class="control-label" for="addsectiontype">Section Type</label>
+            <div class="controls">
+                <select type="text" name="section_type" id="section_type">
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                </select>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="addlessontype">Lesson Type</label>
+            <div class="controls">
+                <select type="text" name="lesson_type" id="lesson_type">
+                    <option value="PRIVATE">Private</option>
+                    <option value="PRE-COMP">Pre-Comp</option>
+                    <option value="GROUP">Group</option>
+                </select>
+            </div>
+        </div>
     </form>
     <div id="edit_submit-button" class="submit_button" type="submit">
         <button>Submit</button>
@@ -269,6 +309,7 @@
 
 $('#main-page').hide();
 $('#new-form').hide();
+$('#edit-form').hide();
 
 /* setup the page so that only one of the forms is shown */
 $(document).ready(function() {
@@ -299,8 +340,10 @@ $('#add_submit-button').click(function() {
     enroll_max = $('#add-max-enroll').val()
     waitlist_max = $('#add-max-waitlist').val()
     description = $('#add-description').val()
+    section_type = $('#add-section-type').val()
+    lesson_type = $('#add-lesson-type').val()
 
-    post_json_request("/Admin/createSection", { name: name, start_date: start_date, end_date: end_date, day: day, start_time: start_time, end_time: end_time, teacher: teacher, enroll_cur: 0, enroll_max: enroll_max, waitlist_cur: 0, waitlist_max: waitlist_max, description: description }, function(data) { return handle_add_response(data); });
+    post_json_request("/Sections/create", { name: name, start_date: start_date, end_date: end_date, day: day, start_time: start_time, end_time: end_time, teacher: teacher, enroll_cur: 0, enroll_max: enroll_max, waitlist_cur: 0, waitlist_max: waitlist_max, description: description, section_type: section_type, lesson_type: lesson_type }, function(data) { return handle_add_response(data); });
 });
 
 $('#edit_submit-button').click(function() {
@@ -314,8 +357,10 @@ $('#edit_submit-button').click(function() {
     enroll_max = $('#enroll_max').val()
     waitlist_max = $('#waitlist_max').val()
     description = $('#description').val()
+    section_type = $('#add-section-type').val()
+    lesson_type = $('#add-lesson-type').val()
 
-    post_json_request("/Admin/editSection", { name: name, start_date: start_date, end_date: end_date, day: day, start_time: start_time, end_time: end_time, teacher: teacher, enroll_cur: 0, enroll_max: enroll_max, waitlist_cur: 0, waitlist_max: waitlist_max, description: description }, function(data) { return handle_add_response(data); });
+    post_json_request("/Sections/edit", { name: name, start_date: start_date, end_date: end_date, day: day, start_time: start_time, end_time: end_time, teacher: teacher, enroll_cur: 0, enroll_max: enroll_max, waitlist_cur: 0, waitlist_max: waitlist_max, description: description, section_type: section_type, lesson_type: lesson_type }, function(data) { return handle_add_response(data); });
 });
 
 //Date.firstDayOfWeek = 0;
