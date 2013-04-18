@@ -1,28 +1,28 @@
 class SectionsController < ApplicationController
 
-  #--------------------------------
-  #Error message => errCode
-  SUCCESS = 1
-  
-  #Error codes can only be used by Admin/section modifications
-  SEC_NAME_INVALID = 200
-  DAY_INVALID = 201
-  DESCR_INVALID = 202
-  TEACHER_INVALID = 203
-  SEC_OVERLAP_FOR_TEACHER = 204
-  TIME_INVALID = 205
-  DATE_INVALID = 206
-  FAILED_TO_DELETE = 207
-
-  #Error codes can be used by all users
-  NO_SECTION_FOUND = 250
-  FAILED_TO_MAKE_REG = 301
-    #statusCodes
-    USER_ALREADY_IN_SEC = 2
-    ADD_TO_WAIT_LIST = 3
-    WAIT_LIST_FULL = 4
-    PASS_ADD_DEADLINE = 5
-  USER_NOT_REG = 303
+#  #--------------------------------
+#  #Error message => errCode
+#  SUCCESS = 1
+#  
+#  #Error codes can only be used by Admin/section modifications
+#  SEC_NAME_INVALID = 200
+#  DAY_INVALID = 201
+#  DESCR_INVALID = 202
+#  TEACHER_INVALID = 203
+#  SEC_OVERLAP_FOR_TEACHER = 204
+#  TIME_INVALID = 205
+#  DATE_INVALID = 206
+#  FAILED_TO_DELETE = 207
+#
+#  #Error codes can be used by all users
+#  NO_SECTION_FOUND = 250
+#  FAILED_TO_MAKE_REG = 301
+#    #statusCodes
+#    USER_ALREADY_IN_SEC = 2
+#    ADD_TO_WAIT_LIST = 3
+#    WAIT_LIST_FULL = 4
+#    PASS_ADD_DEADLINE = 5
+#  USER_NOT_REG = 303
 
   #--------------------------------
 

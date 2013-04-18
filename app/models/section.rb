@@ -5,13 +5,13 @@ class Section < ActiveRecord::Base
   has_many :students, :through => :registrations, :order => "first ASC", :uniq => true
 
   before_validation do |section| 
-    section.name = name.upcase
+  #  section.name = name.upcase
     section.day = day.upcase
     section.teacher = teacher.upcase
   end
 
-  validates :name, presence:true, length: {maximum: 20},
-                   uniqueness: {case_sensitive: false}
+  #validates :name, presence:true, length: {maximum: 20},
+  #                 uniqueness: {case_sensitive: false}
   validates :day, presence:true
   validates :teacher, presence:true
   validates :description, presence:true
