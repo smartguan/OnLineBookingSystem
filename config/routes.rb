@@ -55,6 +55,9 @@ Cs169::Application.routes.draw do
   
   # Routes for AnonymousStudents Controller
   match '/AnonymousStudents/add', to: 'anonymous_students#add'
+
+  # Routes for Instructors Controller
+  match '/Instructors/getAllInstructors', to: 'instructors#getAllInstructors'
   
   # Routes for Admin Controller
   match '/Admin/addInstructor', to: 'admin#addInstructor'

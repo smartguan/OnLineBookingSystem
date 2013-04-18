@@ -28,21 +28,21 @@ describe Section do
 
   it { should be_valid }
 
-  ##unit 1-1: test for name presence
-  describe "when name is not presence or empty string" do
-    before { @sec.name = " " }
-    it {should_not be_valid}
-  end
-  
-  ##unit 1-1: test for name duplicate
-  describe "when name is duplicated" do
-    before do
-      sec1 = @sec.dup
-      sec1.save
-      @sec.day = 'Tuesday'
-    end
-    it {should_not be_valid}
-  end
+  ###unit 1-1: test for name presence
+  #describe "when name is not presence or empty string" do
+  #  before { @sec.name = " " }
+  #  it {should_not be_valid}
+  #end
+  #
+  ###unit 1-1: test for name duplicate
+  #describe "when name is duplicated" do
+  #  before do
+  #    sec1 = @sec.dup
+  #    sec1.save
+  #    @sec.day = 'Tuesday'
+  #  end
+  #  it {should_not be_valid}
+  #end
   
   #unit 2-1: test for day presence
   describe "when day is not presence or empty string" do

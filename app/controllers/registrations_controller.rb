@@ -16,7 +16,7 @@ class RegistrationsController < ApplicationController
   FAILED_TO_DELETE = 207
 
   #Error codes can be used by all students
-  NO_SECTION_TO_SHOW = 300
+  NO_SECTION_FOUND = 300
   FAILED_TO_MAKE_REG = 301
     #statusCodes
     USER_ALREADY_IN_SEC = 2
