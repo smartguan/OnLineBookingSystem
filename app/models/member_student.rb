@@ -1,2 +1,2 @@
-class MemberStudent < User
+class MemberStudent < Student
 end

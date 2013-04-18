@@ -56,7 +56,7 @@ FactoryGirl.define do
     contact_two           "dad"
     contact_two_primary   "(123) 456-7890"
     contact_two_secondary "(098) 765-4321"
-    email                 "abc@def.org"
+    email                 "admin@admin.org"
     gender                "other"
     skill                 "intermediate"
     extra                 "This is extra info"

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe "RegistrationpControllers" do
-
+=begin
   #--------------------------------
   #Error message => errCode
   SUCCESS = 1
@@ -27,7 +27,7 @@ describe "RegistrationpControllers" do
   USER_NOT_REG = 303
 
   #--------------------------------
-  
+=end  
   sec_json = {name:"A_SEC", day:"MONDAY", 
               description:"This section won't teach you swimming", 
               start_time:"10:00:00", end_time:"20:00:00", 
