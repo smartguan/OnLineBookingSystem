@@ -15,7 +15,7 @@ class RegistrationsController < ApplicationController
   DATE_INVALID = 206
   FAILED_TO_DELETE = 207
 
-  #Error codes can be used by all users
+  #Error codes can be used by all students
   NO_SECTION_TO_SHOW = 300
   FAILED_TO_MAKE_REG = 301
     #statusCodes
@@ -29,24 +29,24 @@ class RegistrationsController < ApplicationController
 
 
 
-  #for users to register for sections
+  #for students to register for sections
   def register
     if cookies[:user_id] != nil
-      @user = User.find_by_id(cookies[:user_id])
+      @student = Student.find_by_id(cookies[:user_id])
     end
     @sec = Section.find_by_id(params[:section_id])
     
     respond_to do |format|
-      if @user.sections.exists?(:name => @sec.name) or
-         @sec.users.exists?(:id=>@user.id)
+      if @student.sections.exists?(:name => @sec.name) or
+         @sec.students.exists?(:id=>@student.id)
         format.json { render json: { sections:[{section_id:@sec.id, 
                                                 section_name:@sec.name, 
                                                 statusCode:2}], 
                                      errCode:301 } }
       elsif @sec.enroll_cur == @sec.enroll_max and 
             @sec.waitlist_cur < @sec.waitlist_max
-        @user.sections << @sec
-        @reg = @user.registrations.where(:section_id => @sec.id).first
+        @student.sections << @sec
+        @reg = @student.registrations.where(:section_id => @sec.id).first
         @reg.update_attributes(waitlist_place:(@sec.waitlist_cur + 1))
         @sec.update_attributes(waitlist_cur:(@sec.waitlist_cur + 1))
         format.json { render json: { sections:[{section_id:@sec.id, 
@@ -62,9 +62,9 @@ class RegistrationsController < ApplicationController
       else
         #since it's a join table, the entry added by one key can be 
         #view or accessed by the other key
-        @user.sections << @sec
-        #@sec.users << @user
-        @reg = @user.registrations.where(:section_id => @sec.id).first
+        @student.sections << @sec
+        #@sec.students << @student
+        @reg = @student.registrations.where(:section_id => @sec.id).first
         @reg.update_attributes(waitlist_place:0)
         @sec.update_attributes(enroll_cur:(@sec.enroll_cur + 1))
         format.json { render json: { sections:[{section_id:@sec.id, 
@@ -76,17 +76,17 @@ class RegistrationsController < ApplicationController
   end
 
 
-  #for users to drop a registered section
+  #for students to drop a registered section
   def drop
-    #assuming user already has at least 1 section
+    #assuming student already has at least 1 section
     if cookies[:user_id] != nil
-      @user = User.find_by_id(cookies[:user_id])
+      @student = Student.find_by_id(cookies[:user_id])
     end
     @sec = Section.find_by_id(params[:section_id])
     
     respond_to do |format|
-      @user.sections.delete(@sec)
-      #@sec.users.delete(@user)
+      @student.sections.delete(@sec)
+      #@sec.students.delete(@student)
       if @sec.waitlist_cur == 0
         @sec.enroll_cur -= 1
       else
@@ -108,32 +108,32 @@ class RegistrationsController < ApplicationController
     #print "\n**************\n"
     #print cookies
     #print "\n"
-    #print @user.id
+    #print @student.id
     #print "\n"
     #print Registration.all
     #print "\n**************\n"
   end
 
 
-  #for users to view his/her enrolled sections
+  #for students to view his/her enrolled sections
   def getEnrolledSections
     if cookies[:user_id] != nil
-      @user = User.find_by_id(cookies[:user_id])
+      @student = Student.find_by_id(cookies[:user_id])
     end
     
     respond_to do |format|
-      if @user.sections.empty?
+      if @student.sections.empty?
         format.json { render json: { sections:[], errCode:303 } }
       else
-        enrolled_sections = @user.sections.all
+        enrolled_sections = @student.sections.all
         sections_info = []
         for section in enrolled_sections do
-          @reg = @user.registrations.where(:section_id => section.id).first
+          @reg = @student.registrations.where(:section_id => section.id).first
           #print section.attributes
           #print "\n******************\n"
           #print @reg.attributes
           #print "\n******************\n"
-          #print @user.attributes
+          #print @student.attributes
           #print "\n******************\n"
           temp_sec = section.attributes
           temp_sec[:waitlist_place] = @reg.waitlist_place
