@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe "RegistrationpControllers" do
-
+=begin
   #--------------------------------
   #Error message => errCode
   SUCCESS = 1
@@ -27,7 +27,7 @@ describe "RegistrationpControllers" do
   USER_NOT_REG = 303
 
   #--------------------------------
-  
+=end  
   sec_json = {name:"A_SEC", day:"MONDAY", 
               description:"This section won't teach you swimming", 
               start_time:"10:00:00", end_time:"20:00:00", 
@@ -121,8 +121,8 @@ describe "RegistrationpControllers" do
           #input_json = {user_email:email, format: :json}
           input_json = {format: :json}
           expected = 1
-          post '/Users/login', {email:"aaaaaabc@def.com", password:"password", format: :json}
-          get '/Registrations/getEnrolledSections', input_json
+          post '/Users/login', {email:email, password:"password", format: :json}
+          post'/Registrations/getEnrolledSections', input_json
           JSON.parse(response.body)['sections'][0]['waitlist_place'].should == expected
         end
         
@@ -131,8 +131,8 @@ describe "RegistrationpControllers" do
           #input_json = {user_email:email, format: :json}
           input_json = {format: :json}
           expected = 2
-          post '/Users/login', {email:"aaaasaabc@def.com", password:"password", format: :json}
-          get '/Registrations/getEnrolledSections', input_json
+          post '/Users/login', {email:email, password:"password", format: :json}
+          post'/Registrations/getEnrolledSections', input_json
           JSON.parse(response.body)['sections'][0]['waitlist_place'].should == expected
         end
         
@@ -191,13 +191,13 @@ describe "RegistrationpControllers" do
         it "should delete section from the user" do
           input_json = {format: :json}
           expected = []
-          get '/Registrations/getEnrolledSections', input_json
+          post'/Registrations/getEnrolledSections', input_json
           JSON.parse(response.body)['sections'].should == expected
         end
         
       end
       
-      #tests for waitlist != 0 and @user & @sec actually get disconnected
+      #tests for waitlist != 0 and @user & @sec actually postdisconnected
       context "when dropping a section with waitlist != 0" do
         before (:each) do
           user_json1 = user_json.dup
@@ -208,7 +208,7 @@ describe "RegistrationpControllers" do
             post '/Registrations/register', test_json
           end
           test_json = {section_id:1, format: :json}
-          post '/Users/login', {email:"abc@def.com", password:"password", format: :json}
+          post '/Users/login', {email:user_json[:email], password:"password", format: :json}
           post '/Registrations/drop', test_json 
         end
 
@@ -234,10 +234,9 @@ describe "RegistrationpControllers" do
           #input_json = {user_email:email, format: :json}
           input_json = {format: :json}
           expected = 0
-          post '/Users/login', {email:"aaaaaabc@def.com", password:"password", format: :json}
-          get '/Registrations/getEnrolledSections', input_json
-          response.body.should == expected
-          #JSON.parse(response.body)['sections'][0]['waitlist_place'].should == expected
+          post '/Users/login', {email:email, password:"password", format: :json}
+          post '/Registrations/getEnrolledSections', input_json
+          JSON.parse(response.body)['sections'][0]['waitlist_place'].should == expected
         end
         
         it "should rank second in the waitlist_place for aaaaaa+email" do
@@ -245,8 +244,8 @@ describe "RegistrationpControllers" do
           #input_json = {user_email:email, format: :json}
           input_json = {format: :json}
           expected = 1
-          post '/Users/login', {email:"aaaaaaabc@def.com", password:"password", format: :json}
-          get '/Registrations/getEnrolledSections', input_json
+          post '/Users/login', {email:email, password:"password", format: :json}
+          post'/Registrations/getEnrolledSections', input_json
           JSON.parse(response.body)['sections'][0]['waitlist_place'].should == expected
         end
         
@@ -273,7 +272,7 @@ describe "RegistrationpControllers" do
 
       #    input_json = {format: :json}
       #    expected = { sections:[sec_json, waitlist_place:3] ,errCode: 1 }.to_json
-      #    get '/Registrations/getEnrolledSections', input_json
+      #    post'/Registrations/getEnrolledSections', input_json
       #    response.body.should == expected
       #  end
       #end
@@ -284,8 +283,8 @@ describe "RegistrationpControllers" do
           #input_json = {user_email:user_json[:email], format: :json}
           input_json = { format: :json }
           expected = { sections:[] ,errCode: 303 }.to_json
-          post '/Users/login', {email:"abc@def.com", password:"password", format: :json}
-          get '/Registrations/getEnrolledSections', input_json
+          post '/Users/login', {email:user_json[:email], password:"password", format: :json}
+          post'/Registrations/getEnrolledSections', input_json
           response.body.should == expected
         end
       end

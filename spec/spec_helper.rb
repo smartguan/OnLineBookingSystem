@@ -3,6 +3,54 @@ require 'spork'
 #uncomment the following line to use spork with the debugger
 #require 'spork/ext/ruby-debug'
 require 'simplecov'
+  
+  SUCCESS = 1 
+  FIRST_NOT_VALID = 101
+  LAST_NOT_VALID = 102
+  EMAIL_NOT_VALID = 103
+  PASS_NOT_VALID = 104
+  PASS_NOT_MATCH = 109
+  DOB_NOT_VALID = 105
+  ADDRESS_NOT_VALID = 110
+  CITY_NOT_VALID = 111
+  ZIP_NOT_VALID = 106
+  CONTACT_ONE_NOT_VALID = 112
+  CONTACT_ONE_PRIMARY_NOT_VALID = 113
+  CONTACT_ONE_SECONDARY_NOT_VALID = 113
+  CONTACT_TWO_NOT_VALID = 114
+  CONTACT_TWO_PRIMARY_NOT_VALID = 115
+  CONTACT_TWO_SECONDARY_NOT_VALID = 116
+  GENDER_NOT_VALID = 120
+  SKILL_NOT_VALID = 118
+  EXTRA_NOT_VALID = 119
+  USER_EXISTS = 107
+  BAD_CREDENTIALS = 108
+  DEFAULT = 999
+
+  #--------------------------------
+  #Error message => errCode
+  
+  #Error codes can only be used by Sections
+  SEC_NAME_INVALID = 200
+  DAY_INVALID = 201
+  DESCR_INVALID = 202
+  TEACHER_INVALID = 203
+  SEC_OVERLAP_FOR_TEACHER = 204
+  TIME_INVALID = 205
+  DATE_INVALID = 206
+  FAILED_TO_DELETE = 207
+
+  #Error codes can be used by all users
+  NO_SECTION_FOUND = 250
+  FAILED_TO_MAKE_REG = 301
+    #statusCodes
+    USER_ALREADY_IN_SEC = 2
+    ADD_TO_WAIT_LIST = 3
+    WAIT_LIST_FULL = 4
+    PASS_ADD_DEADLINE = 5
+  USER_NOT_REG = 303
+
+  #--------------------------------
 
 SimpleCov.start
 

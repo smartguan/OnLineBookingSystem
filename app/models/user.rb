@@ -9,9 +9,6 @@ class User < ActiveRecord::Base
 
   before_save { |user| user.email = email.downcase }
   before_save :create_remember_token
-  
-  has_many :registrations
-  has_many :sections, :through => :registrations, :order => "day ASC", :uniq => true
 
   before_save { |user| user.email = email.downcase }
   
