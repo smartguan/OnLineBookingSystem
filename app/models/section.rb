@@ -40,7 +40,7 @@ class Section < ActiveRecord::Base
   #validate for inclusion for lesson_type
   validates_inclusion_of :lesson_type, :in => ['PRIVATE', 'PRE-COMP', 'GROUP']
   
-  validate :teacher_has_first_and_last_name
+  #validate :teacher_has_first_and_last_name
   validate :start_time_must_be_before_end_time
   validate :start_date_must_be_before_end_date
   validate :enroll_cur_must_be_less_or_equal_enroll_max

@@ -76,13 +76,13 @@ describe Section do
     it { should_not be_valid }
   end
   
-  # unit 4: test for invalid teacher name
-  describe "when teacher missing first or last name" do
-    before do
-      @sec.teacher = "SUCK"
-    end
-    it { should_not be_valid }
-  end
+  ## unit 4: test for invalid teacher name
+  #describe "when teacher missing first or last name" do
+  #  before do
+  #    @sec.teacher = "SUCK"
+  #  end
+  #  it { should_not be_valid }
+  #end
   
   #unit 5: test for end_time > start_time
   describe "when end_time is not greater than start_time" do

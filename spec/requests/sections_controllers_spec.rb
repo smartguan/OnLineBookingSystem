@@ -110,15 +110,15 @@ describe "SectionsControllers" do
         end
       end
     
-      context "when description not valid" do
-        it "should render json {name:name, errCode: 202}" do
-          expected = {name:sec_json[:name], errCode: DESCR_INVALID}.to_json
-          sec1_json = sec_json.dup
-          sec1_json[:description] = "" 
-          post '/Sections/create', sec1_json
-          response.body.should == expected
-        end
-      end
+      #context "when description not valid" do
+      #  it "should render json {name:name, errCode: 202}" do
+      #    expected = {name:sec_json[:name], errCode: DESCR_INVALID}.to_json
+      #    sec1_json = sec_json.dup
+      #    sec1_json[:description] = "" 
+      #    post '/Sections/create', sec1_json
+      #    response.body.should == expected
+      #  end
+      #end
     
       context "when teacher not valid" do
         it "should render json {name:name, errCode: 203}" do
@@ -194,17 +194,17 @@ describe "SectionsControllers" do
         end
       end
     
-      context "when description not valid" do
-        it "should render json {name:name, errCode: 202}" do
-          expected = {name:sec_json[:name], errCode: DESCR_INVALID}.to_json
-          sec1_json = sec_json.dup
-          sec1_json[:description] = "" 
-          sec1_json[:id] = 1
-          post '/Sections/create', sec_json
-          post '/Sections/edit', sec1_json
-          response.body.should == expected
-        end
-      end
+      #context "when description not valid" do
+      #  it "should render json {name:name, errCode: 202}" do
+      #    expected = {name:sec_json[:name], errCode: DESCR_INVALID}.to_json
+      #    sec1_json = sec_json.dup
+      #    sec1_json[:description] = "" 
+      #    sec1_json[:id] = 1
+      #    post '/Sections/create', sec_json
+      #    post '/Sections/edit', sec1_json
+      #    response.body.should == expected
+      #  end
+      #end
     
       context "when teacher not valid" do
         it "should render json {name:name, errCode: 203}" do
@@ -351,51 +351,51 @@ describe "SectionsControllers" do
     end
 
     #test for get sections by instructor
-    describe "#getSectionsByInstructor" do
-      before(:each) do
-        sec1_json = sec_json.dup
-        sec1_json[:name] = 'SEC_B'
-        sec1_json[:day] = 'FRIDAY'
-        post '/Sections/create', sec_json
-        post '/Sections/create', sec1_json
+    #describe "#getSectionsByInstructor" do
+    #  before(:each) do
+    #    sec1_json = sec_json.dup
+    #    sec1_json[:name] = 'SEC_B'
+    #    sec1_json[:day] = 'FRIDAY'
+    #    post '/Sections/create', sec_json
+    #    post '/Sections/create', sec1_json
 
-      end
-      
-      
-      context "when the section exists" do
-      #  it "should render json: {:sections=>section, errCode: 1}" do
-      #    test_json = {first:sec_json[:teacher], format: :json}
-      #    expected = {:sections=>[sec1_json.sort], errCode: SUCCESS}.to_json
-      #    post '/Sections/getSectionsByInstructor', test_json
-      #    response.body.should == expected
-      #  end
-      #end
-        it "should return 2 sections" do
-          test_json = {teacher:sec_json[:teacher], format: :json}
-          expected = 2
-          post '/Sections/getSectionsByInstructor', test_json
-          JSON.parse(response.body)['sections'].size.should == expected
-        end
-      
-        it "should return errCode 1" do
-          test_json = {teacher:sec_json[:teacher], format: :json}
-          expected = 1
-          post '/Sections/getSectionsByInstructor', test_json
-          JSON.parse(response.body)['errCode'].should == expected
-        end
-      end
+    #  end
+    #  
+    #  
+    #  context "when the section exists" do
+    #  #  it "should render json: {:sections=>section, errCode: 1}" do
+    #  #    test_json = {first:sec_json[:teacher], format: :json}
+    #  #    expected = {:sections=>[sec1_json.sort], errCode: SUCCESS}.to_json
+    #  #    post '/Sections/getSectionsByInstructor', test_json
+    #  #    response.body.should == expected
+    #  #  end
+    #  #end
+    #    it "should return 2 sections" do
+    #      test_json = {teacher:sec_json[:teacher], format: :json}
+    #      expected = 2
+    #      post '/Sections/getSectionsByInstructor', test_json
+    #      JSON.parse(response.body)['sections'].size.should == expected
+    #    end
+    #  
+    #    it "should return errCode 1" do
+    #      test_json = {teacher:sec_json[:teacher], format: :json}
+    #      expected = 1
+    #      post '/Sections/getSectionsByInstructor', test_json
+    #      JSON.parse(response.body)['errCode'].should == expected
+    #    end
+    #  end
 
 
-      context "when there is no section" do
-        it "should render json: { errCode: 250}" do
-          test_json = {teacher:'SUCKER1 last', format: :json}
-          expected = { sections:[], errCode: 250 }.to_json
-          post '/Sections/getSectionsByInstructor', test_json
-          response.body.should == expected
-        end
-      end
+    #  context "when there is no section" do
+    #    it "should render json: { errCode: 250}" do
+    #      test_json = {teacher:'SUCKER1 last', format: :json}
+    #      expected = { sections:[], errCode: 250 }.to_json
+    #      post '/Sections/getSectionsByInstructor', test_json
+    #      response.body.should == expected
+    #    end
+    #  end
 
-    end
+    #end
 
 
     #test for view one section
