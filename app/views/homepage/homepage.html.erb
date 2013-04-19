@@ -407,18 +407,33 @@ Contact.prototype.collectInput = function(first_or_second) {
 					$('#modal-date').append(calEvent.dayInfo);
 					$('#modal-lesson').empty(); 
 					$('#modal-lesson').append(calEvent.lesson_type);
+					
+					if (document.cookie.indexOf('user_id') != -1){
+						$('#ulisesModal-Guest').hide();
+						$('#ulisesModal-Account').hide();
+						$('#ulisesModal-Reserve').show();
+					} else{
+						$('#ulisesModal-Guest').show();
+						$('#ulisesModal-Account').show();
+						$('#ulisesModal-Reserve').hide();
+					}
+
+					idToSend = calEvent.id;
+
 
 					idToSend = calEvent.id;
 					
 					return true;
 				}
 
-				$('#modal-cancel').click(function() {
+				$('#ulisesModal-Cancel').click(function() {
 			   		$('#ulisesModal').hide(); 
 				});
 
 				$('#modal-reserve').click(function() {
 					
+					json_request("/Registrations/register", {'section_id':idToSend}, function(data) 
+			   		{ return alert(translateErrCode(data.errCode));}, function(err) { alert('error occurred on request'); });
 			   		$('#ulisesModal').hide(); 
 				});
 				
@@ -469,7 +484,7 @@ Contact.prototype.collectInput = function(first_or_second) {
 
 	<body><div class="container" style="width:1265px">
 
-		<div id="ulisesModal" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div style="width:700;" id="ulisesModal" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	  		<div class="modal-header">
 	    		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 	    		<h3 style="color:blue" id="myModalLabel">Confirm Reservation</h3>
@@ -483,8 +498,10 @@ Contact.prototype.collectInput = function(first_or_second) {
 	    		<p style="color:gray" id="modal-lesson">lesson</p>
 	  		</div>
 	  		<div class="modal-footer">
-		    	<button id="modal-cancel" class="btn" data-dismiss="modal" aria-hidden="true">Cancel Reservation</button>
-		    	<button id="modal-reserve" class="btn btn-primary">Make Reservation</button>
+		    	<button id="ulisesModal-Cancel" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+		    	<button id="ulisesModal-Reserve" class="btn btn-primary">Reserve</button>
+		    	<button id="ulisesModal-Guest" class="btn btn-primary">Reserve as Guest</button>
+		    	<button id="ulisesModal-Account" class="btn btn-primary">Create Account and Reserve</button>
 	  		</div>
 		</div>
 
