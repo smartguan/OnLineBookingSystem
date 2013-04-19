@@ -12,13 +12,14 @@
 		<script type="text/javascript" src="/assets/jquery-1.9.1.min.js"></script>
 		<script type="text/javascript" src="/assets/jquery-ui.min.js"></script>
 
-		<link href='/assets/fullcalendar/fullcalendar.css' rel='stylesheet' />
+		
+		<link href='/assets/fullCalendar/fullcalendar.css' rel='stylesheet' />
 		<link href='/assets/fullcalendar/fullcalendar.print.css' rel='stylesheet' media='print' />
-		<script src='assets/jquery/jquery-1.9.1.min.js'></script>
 		<script src='assets/jquery/jquery-ui-1.10.2.custom.min.js'></script>
 		<script src='assets/fullcalendar/fullcalendar.min.js'></script>
-
-		<script>
+		
+		
+		<script type="text/javascript">
 
 			$(document).ready(function() {
 				var date = new Date();
@@ -146,20 +147,47 @@
 			                	<li class="divider-vertical"></li>
 			                    
 			                    <li id= "SignDropDown" class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Sign In <b class="caret"></b></a>
+						          <ul class="dropdown-menu"> <!-- daniel start -->
+						            <div class="span3">
+						              <form class="form-horizontal">
+						                <br>
+						                <font17px>Username</font17px> 
+						                <input class="span2" type="email" required id="login-email"  placeholder="your@email.com" style="width:188px">
+						                <br><br>
+
+						                <font17px>Password</font17px> 
+						                <input class="span2" type="password" id="login-password" placeholder="Password" style="width:188px"><br>
+
+						                <button id="login-user-button" type="submit" class="btn btn-primary">Sign in</button>
+						                <br><br>
+						                <!-- Error And Sucess -->
+						                <div class="alert hide alert-error" id="login-user-errors">
+						                  <a class="close" data-dismiss="alert">&times;</a>
+						                    <!-- <i class="icon-exclamation-sign"></i> -->
+						                    <span id="login-user-err-message"></span>
+						                </div>
+						                <div class="alert hide alert-success" id="login-user-success">
+						                  <a class="close" data-dismiss="alert">&times;</a>
+						                    <!-- <i class="icon-ok"></i> -->
+						                    Login Successful!
+						                </div><!-- Error And Sucess -->
+						              </form> <!-- loginform -->
+						            </div><!-- span3 -->
+						          </ul> <!-- dropdownmenu --> <!-- daniel end -->
 			                        
-			                        <ul class="dropdown-menu">
+			                        <!-- <ul class="dropdown-menu">
 
 			                        	<form class="form-horizontal">
 			                        		
 			                        		<div class="span3">
 			                        		<br>
 
-			                        		<font17px>Username<font17px>
+			                        		<font17px>Username</font17px>
 
 	  										<input class="span2" type="email" required id="login-email"  placeholder="your@email.com" style="width:188px">
 	      								    <br><br>
 	      									
-	      									<font17px>Password<font17px>
+	      									<font17px>Password</font17px>
 	      									<input class="span2" type="password" id="login-password" placeholder="Password" style="width:188px">
 	      									<br>
 
@@ -171,17 +199,26 @@
 									    		
 									  		</div>
 										</form>
-			                        </ul>
+			                        </ul> -->
+
 			                    </li>
 
 			                    <li id="WelcomeDropDown" class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome, User <b class="caret"></b></a>
-			                        <ul class="dropdown-menu">
+			                        <!-- <ul class="dropdown-menu">
 			                            <li><a href="/Users/updateUsers"><i class="icon-pencil"></i> Update Profile</a></li>
 			                            <li><a href="/"><i class="icon-pencil"></i> Change Password</a></li>
 			                            <li><a href="/"><i class="icon-list"></i> My Sessions</a></li>
 			                            <li class="divider"></li>
 			                            <li><a href="/"><i class="icon-off"></i> Logout</a></li>
-			                        </ul>
+			                        </ul> -->
+			                        <ul class="dropdown-menu">
+          								<li><a href="/Users/show"><i class="icon-pencil"></i> View Profile</a></li>
+          								<li><a href="#update-user-1" role="dialog" data-toggle="modal"><i class="icon-pencil"></i> Update Profile</a></li>
+          								<li><a href="#update-password-1" role="dialog" data-toggle="modal"><i class="icon-pencil"></i> Change Password</a></li	>
+          								<li><a href="/"><i class="icon-list"></i> My Sessions</a></li>
+          								<li class="divider"></li>
+          								<li><a id="logout-button"><i class="icon-off"></i> Logout</a></li>
+          							</ul> <!-- dropdown -->
 			                    </li>
 
 
@@ -192,7 +229,8 @@
 			              <div id="CreateAccountButton" class="pull-right">
 			              	<ul class="nav">
 			                  <li class="divider-vertical"></li>
-			                  <li><a href="/users/new"> Create an Account</a></li>
+			                  <!-- <li><a href="/users/new"> Create an Account</a></li> -->
+			                  <li><a href="#create-user" data-toggle="modal"> Create an Account</a></li>
 			              </ul>
 			              </div>
 			        </div>
@@ -263,7 +301,6 @@
 
 			</div>
 		</body2></div>
-
 		<div class="navbar navbar-fixed-bottom navbar-inverse">
 				<div class="navbar-inner">
 					<div class="container" style="width:1265px">
@@ -281,89 +318,280 @@
 			    	</div>
 			    </div>
 	  	</div>
-  	</div><body>
+
+  	</div>
+	<%= render 'navbar/create_user_modal' %>
+	<%= render 'shared/update_user_form' %>
+	<%= render 'users/update_user_additional' %>
+	<%= render 'users/update_user_password' %>
+	<%= render 'users/update_user_contacts' %>
+  	<body>
 
 		
-		<script type="text/javascript">
+<script type="text/javascript">
+var logged_in = false;
+
+$(document).ready( function() {
+	init_password_update();
+	// $.getJSON("/Users/profile", checkifloggedin);
+	$.getJSON("/Users/profile", init_user_home);
+	// post_json_request("/Users/profile", {a:"bbb"}, init_user_home);
+	// $.ajax({
+	//   url: "/Users/profile",
+	//   type: 'POST',
+	//   dataType: {},
+	//   complete: function(xhr, textStatus) {
+	//     //called when complete
+	//   },
+	//   success: init_user_home,
+	//   error: handleErrorResponse
+	// });
+    // init_user_home(logged_in);
+});
+
+function post_json_request(page, dict, success) {
+    $.ajax({
+        type: 'POST',
+        url: page,
+        data: JSON.stringify(dict),
+        contentType: "application/json",
+        dataType: "json",
+        success: success
+    });
+}
+function checkifloggedin(data) {
+
+  if(data.errCode==1) {    
+    logged_in = true;
+  }
+  logged_in = false;
+}
+function sendUpdateUserRequest() {
+	$("#update-user-err-message").empty();
+	var inputUser = new User();
+
+	post_json_request("/Users/update", inputUser.collectInput("update"), handleUpdateResponse);
+	return false;
+}
+function handleErrorResponse(data) {
+	$('#SignDropDown').hide();
+  	$('#CreateAccountButton').hide();
+	$('#WelcomeDropDown').hide();
+	$('#login-email').val("");
+	$('#login-password').val("");
 
 	
-   			$('#login-email').val("")
-			$('#login-password').val("")
-			$('#SignDropDown').hide()
-			$('#CreateAccountButton').hide()
-			$('#WelcomeDropDown').hide()
+  	// $("#SignDropDown").hide();
+  	// $.container
+  	// var cookie = $.cookie("user_id");
+  	// var does_not_exist = cookie === null || cookie === undefined;
+  	// var isValidData = data === undefined || data === null;
+  	// var isValid = data.errCode === undefined || data.errCode === null;
+	
+
+
+
+	$('#SignDropDown').show();
+  	$('#CreateAccountButton').show();
+
+    $("#login-user-button").click(sendLoginUserRequest);
+    $("#update-user-button").click(sendUpdateUserRequest);
+      
+	$('#logout-button').click(function() {
+		post_json_request("/Users/logout", {}, function(data) { 
+		  alert("logging out");
+		  window.location.href = '/';
+		  return false; 
+		});
+	});
+
+  return false;
+
+}
+function init_user_home(data) {
+	$('#SignDropDown').hide();
+  	$('#CreateAccountButton').hide();
+	$('#WelcomeDropDown').hide();
+	$('#login-email').val("");
+	$('#login-password').val("");
+
+	
+  	// $("#SignDropDown").hide();
+  	// $.container
+  	// var cookie = $.cookie("user_id");
+  	// var does_not_exist = cookie === null || cookie === undefined;
+  	var isValidData = data === undefined || data === null;
+  	var isValid = data.errCode === undefined || data.errCode === null;
+	
+// $.ajax({
+//   url: '/path/to/file',
+//   type: 'POST',
+//   dataType: 'xml/html/script/json/jsonp',
+  
+//   complete: function(xhr, textStatus) {
+//     //called when complete
+//   },
+//   success: init_user_home,
+//   error: function(xhr, textStatus, errorThrown) {
+//     //called when there is an error
+//   }
+// });
+
+
+	if(isValidData && isValid && data.errCode==1 ) {
+	  	// $('#CreateAccountButton').hide();
+	  	// $("#SignDropDown").hide();
+	  	$('#WelcomeDropDown').show();
+	}
+	// (isValid && data.errCode!=1)	{
+	else {
+		
+		$('#SignDropDown').show();
+	  	$('#CreateAccountButton').show();
+		// $('#WelcomeDropDown').hide();
+
+	}
+
+    $("#login-user-button").click(sendLoginUserRequest);
+    $("#update-user-button").click(sendUpdateUserRequest);
+      
+	$('#logout-button').click(function() {
+		post_json_request("/Users/logout", {}, function(data) { 
+		  alert("logging out");
+		  window.location.href = '/';
+		  return false; 
+		});
+	});
+  	// $('#section-template').hide();    //hide template
+	// $('#CreateAccountButton').hide()
+  // getViewUserSections();       //populate table
+  // $.getJSON("/Users/profile", handleProfileResponse);
+  // $.getJSON("/Sections/getAllSections", handleViewSectionsResponse);
+  
+  // $('#logout-button').click(function() {
+  //   post_json_request("/Users/logout", {}, function(data) { 
+  //     alert("logging out");
+  //     window.location.href = '/';
+  //     return false; 
+  //   });
+  // });
+
+
+  // $.getJSON("/Registrations/getEnrolledSections", handleViewSectionsResponse);
+  return false;
+}
+function handleUpdateResponse(data) {
+	if(data.errCode==1) {alert("update success");}
+	else {alert("faieled");}
+	return false;
+}
+///////////////////////////////////////////////////////////////////////
+/////////////////////////// Login User Functions //////////////////////
+///////////////////////////////////////////////////////////////////////
+
+
+function getFormInput(action, key) {
+  var identifier = "#" + action + "-" + key;
+  return $(identifier).val();
+}
+function sendLoginUserRequest() {
+  $("#login-user-errors").fadeOut(100);
+  var login_user = { email:getFormInput("login","email"),  password:getFormInput("login","password") };
+  post_json_request("/Users/login", login_user, handleLoginUserResponse);
+  return false;
+}
+
+
+function handleLoginUserResponse(data)  {
+  var error_message = translateErrCode(data.errCode);
+  $("#login-user-err-message").empty();
+  $("#login-user-err-message").append(error_message);
+
+  if (data.errCode!=1) {
+     $("#login-user-errors").fadeIn(200);
+     return data.errCode;
+  }
+  else {
+    $("#login-user-success").fadeIn(300);
+  	$("#SignDropDown").hide();
+  	$('#CreateAccountButton').hide();
+  	$('#WelcomeDropDown').show();
+    return 1;
+  }
+}
+	
    
-   			/* setup the page so that only one of the forms is shown */
+   // 			/* setup the page so that only one of the forms is shown */
 			
-			$(document).ready(function() {
-			 	show_login_page()
-			 });
+			// $(document).ready(function() {
+			//  	show_login_page()
+			//  });
 
-			function show_login_page() {
-	   			$('#SignDropDown').show()
-				$('#CreateAccountButton').show()	
-	   		}
+			// function show_login_page() {
+	  //  			$('#SignDropDown').show()
+			// 	$('#CreateAccountButton').show()	
+	  //  		}
 
-			function handle_login_response(data) {
-				$('font17px#err_message').empty();
-				$('font17px#err_message').css('font-size','12px');
-				$('font17px#err_message').css('color','red');
-				$('font17px#err_message').append(getErrorMessage(data));
-			}
+			// function handle_login_response(data) {
+			// 	$('font17px#err_message').empty();
+			// 	$('font17px#err_message').css('font-size','12px');
+			// 	$('font17px#err_message').css('color','red');
+			// 	$('font17px#err_message').append(getErrorMessage(data));
+			// }
 
-			function getErrorMessage(data) {
-			  switch (data.errCode){
+			// function getErrorMessage(data) {
+			//   switch (data.errCode){
 
-			    case 108:
-			    	return "Invalid Username and/or Password";
-			      break;
+			//     case 108:
+			//     	return "Invalid Username and/or Password";
+			//       break;
 
-			    //This is the case for success
-			    default:
-			    	if (data.type != "Admin") {
-			    		$('#SignDropDown').hide()
-						$('#CreateAccountButton').hide()
-						$('#WelcomeDropDown').show()
-						$('#ProgressBar').display()
-			    	} 
-			    	else {
-			    		window.location.href = "/admin";
-			    	}   
-			  }
-			}
+			//     //This is the case for success
+			//     default:
+			//     	if (data.type != "Admin") {
+			//     		$('#SignDropDown').hide()
+			// 			$('#CreateAccountButton').hide()
+			// 			$('#WelcomeDropDown').show()
+			// 			$('#ProgressBar').display()
+			//     	} 
+			//     	else {
+			//     		window.location.href = "/admin";
+			//     	}   
+			//   }
+			// }
 
 
-			$('#login-button').click(function() {
-			   email = $('#login-email').val()
-			   password = $('#login-password').val()
-			   json_request("/Users/login", { email: email, password: password }, function(data) 
-			   	{ return handle_login_response(data); }, function(err) { alert('error occurred on request'); });
+			// $('#login-button').click(function() {
+			//    email = $('#login-email').val()
+			//    password = $('#login-password').val()
+			//    json_request("/Users/login", { email: email, password: password }, function(data) 
+			//    	{ return handle_login_response(data); }, function(err) { alert('error occurred on request'); });
 
-			   return false;
-			});
+			//    return false;
+			// });
 
-			function json_request(page, dict, success, failure) {
-		    $.ajax({
-		        type: 'POST',
-		        url: page,
-		        data: JSON.stringify(dict),
-		        contentType: "application/json",
-		        dataType: "json",
-		        success: success,
-		        failure: failure
-		    });}
+			// function json_request(page, dict, success, failure) {
+		 //    $.ajax({
+		 //        type: 'POST',
+		 //        url: page,
+		 //        data: JSON.stringify(dict),
+		 //        contentType: "application/json",
+		 //        dataType: "json",
+		 //        success: success,
+		 //        failure: failure
+		 //    });}
 
-		    $("#show-A").click( function() {
-				$('.Section-A').toggle();
-			});
+		 //    $("#show-A").click( function() {
+			// 	$('.Section-A').toggle();
+			// });
 
-			$("#show-B").click( function() {
-				$('.Section-B').toggle();
-			});
+			// $("#show-B").click( function() {
+			// 	$('.Section-B').toggle();
+			// });
 
-			$("#show-C").click( function() {
-				$('.Section-C').toggle();
-			});
+			// $("#show-C").click( function() {
+			// 	$('.Section-C').toggle();
+			// });
 
 		</script>
 		

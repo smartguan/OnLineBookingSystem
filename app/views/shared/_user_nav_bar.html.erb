@@ -1,26 +1,157 @@
-<div class="navbar navbar-inverse navbar-fixed-top">
+<!-- <div class="navbar navbar-inverse navbar-fixed-top">
   <div class="navbar-inner">
-    <div class="container-fluid" id='topbar'>
-      <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-      </button>
+    <div class="container">
+      <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"></button>
       <a class="brand" href="#">Rancho Rinconanda</a>
-      <div class="nav-collapse collapse">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+      </a>
+      <ul class="dropdown-menu">
+        <li><a href="/">Home<i class=" icon-home icon-white"></i></a></li>
+      </ul>
+        
+
+      <!-- <div class="nav-collapse collapse"> -->
+<!--       <div class="pull-right">
+        <ul class="nav pull-right">
+          <li class="divider-vertical"></li>
+          <li id="WelcomeDropDown" class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome, User 
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a href="/Users/updateUsers"><i class="icon-pencil"></i> Update Profile</a></li>
+              <li><a href="/"><i class="icon-pencil"></i> Change Password</a></li>
+              <li><a href="/"><i class="icon-list"></i> My Sessions</a></li>
+              <li class="divider"></li>
+              <li><a href="/"><i class="icon-off"></i> Logout</a></li>
+            </ul> menu
+          </li> welocme drop
+        </ul> pull right -->       <!-- 
         <p class="navbar-text pull-right">
-          Logged in as <a href="#" id='nav-user-name' class="navbar-link"> </a>
-        </p>
+          Logged in as <a href="#" id='user-name-navbar' class="navbar-link"> </a>
+        </p> -->
+<!--         <ul class="nav">
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Dropdown <b class="caret"></b></a>
+            <ul class="dropdown-menu" >
+              <li><a href="#" class="navbar-link">Logged in as</a></li>
+              <li><a href="#">Action</a></li>
+              <li><a href="#">Another action</a></li>
+              <li><a href="#">Something else here</a></li>
+              <li class="divider"></li>
+              <li><a id="logout" href="/">Logout</a></li>
+            </ul> dropdownmenu
+          </li> dropdown
+          
+          <li><a href="/">Home<i class=" icon-home icon-white"></i></a></li>
+
+        </ul>  -->
+      <!-- </div> nav-collapse 
+    </div> container
+  </div> navbar inner
+</div> fixed top
+ -->
+
+<!--                                   <li><a href="/Users/updateUsers"><i class="icon-pencil"></i> Update Profile</a></li>
+                                  <li><a href="/"><i class="icon-pencil"></i> Change Password</a></li>
+  <li class="dropdown">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Dropdown <b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><a href="#">Action</a></li>
+      <li><a href="#">Another action</a></li>
+      <li><a href="#">Something else here</a></li>
+      <li class="divider"></li>
+        <li><a id="logout" href="/">Logout</a></li>
+    </ul>
+  </li>
+  <div class="btn-group">
+    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">Action <span class="caret"></span></a>
+    <ul class="dropdown-menu">
+      <li><a href="#">Action</a></li>
+      <li><a href="#">Another action</a></li>
+      <li><a href="#">Something else here</a></li>
+      <li class="divider"></li>
+      <li><a href="#">Separated link</a></li>
+    </ul>
+  </div>
+
+<ul class="nav nav-pills">
+  <li class="active"><a href="#">Home</a></li>
+  <li><a href="#">Profile</a></li>
+ -->
+<div class="navbar navbar-inverse nav navbar-fixed-top">
+  <div class="navbar-inner">
+    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </a>
+
+    <a class="brand"  href="/" > &nbsp &nbspRancho Rinconada</a>
+
+
+
+    <div class="pull-right">
+      <ul class="nav pull-right">
+        <li>
+          <a href="/"><i class=" icon-home icon-white"></i></a>
+        </li>
+
+        <li class="divider-vertical"></li>
+
+        <li id= "SignDropDown" class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Sign In <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <div class="span3">
+              <form class="form-horizontal">
+                <br>
+                <font17px>Username</font17px> 
+                <input class="span2" type="email" required id="login-email"  placeholder="your@email.com" style="width:188px">
+                <br><br>
+
+                <font17px>Password</font17px> 
+                <input class="span2" type="password" id="login-password" placeholder="Password" style="width:188px"><br>
+
+                <button id="login-user-button" type="submit" class="btn btn-primary">Sign in</button>
+                <br><br>
+                <!-- Error And Sucess -->
+                <div class="alert hide alert-error" id="login-user-errors">
+                  <a class="close" data-dismiss="alert">&times;</a>
+                    <!-- <i class="icon-exclamation-sign"></i> -->
+                    <span id="login-user-err-message"></span>
+                </div>
+                <div class="alert hide alert-success" id="login-user-success">
+                  <a class="close" data-dismiss="alert">&times;</a>
+                    <!-- <i class="icon-ok"></i> -->
+                    Login Successful!
+                </div><!-- Error And Sucess -->
+              </form> <!-- loginform -->
+            </div><!-- span3 -->
+          </ul> <!-- dropdownmenu -->
+        </li> <!-- signdropdown -->
+
+        <li class="divider-vertical"></li>
+
+        <li id="WelcomeDropDown" class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome, User<b class="caret"></b></a>
+          <ul class="dropdown-menu">
+          <li><a href="/Users/show"><i class="icon-pencil"></i> View Profile</a></li>
+          <li><a href="#update-user-1" role="dialog" data-toggle="modal"><i class="icon-pencil"></i> Update Profile</a></li>
+          <li><a href="#update-password-1" role="dialog" data-toggle="modal"><i class="icon-pencil"></i> Change Password</a></li>
+          <li><a href="/"><i class="icon-list"></i> My Sessions</a></li>
+          <li class="divider"></li>
+          <li><a id="logout-button"><i class="icon-off"></i> Logout</a></li>
+          </ul> <!-- dropdown -->
+        </li> <!-- welcomedropdown -->
+      </ul> <!-- navpullright -->
+
+
+      <div id="CreateAccountButton" class="pull-right" data-toggle="modal" role="dialog" href="#create-user">
         <ul class="nav">
-          <li><a href="/">Home</a></li>
-          <li><a id="logout" href="/">Logout</a></li>
+        <li class="divider-vertical"></li>
+        <li><a href="/users/new"> Create an Account</a></li>
+        <li class="divider-vertical"></li>
         </ul>
-      </div><!--/.nav-collapse -->
-    </div> <!-- container -->
-  </div> <!-- navbar inner -->
-</div> <!-- fixed top -->
-
-<script type="text/javascript">
-
-$('#logout').click(function() {
-  post_json_request("/users/logout", {}, function(data) { return false; });
-});
-
-</script>
+      </div> <!-- create account -->
+    </div> <!--  pull right -->
+  </div> <!--  navbar-inner -->
+</div> <!--  navbar navbar-inverse nav navbar-fixed-top -->

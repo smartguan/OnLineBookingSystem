@@ -20,25 +20,35 @@ Cs169::Application.routes.draw do
   get "users/profile"
 
   # match "/users/profile", to: 'users#profile'
-  post "/registrations/viewEnrolledSections" => "mocks#test_viewEnrolledSections"
-  match "/users/profile", to: "mocks#test_Profile"
-  post "/users/update_password" => "users#updatePassword"
+  # post "/registrations/viewEnrolledSections" => "mocks#test_viewEnrolledSections"
+  # match "/users/profile", to: "mocks#test_Profile"
+  match "/users/profile", to: "users#profile"
+  # match "/Registrations/viewEnrolledSections", to: "registrations#viewEnrolledSections"
+  match '/Users/logout', to: 'users#logout'
+  post "/users/update_password" => "Registrations#updatePassword"
 
   get "users/addSection"
   get "users/update_password"
 
 
+  match 'Users/show', to: 'users#show'
+  match 'Users/testSection', to: 'users#testSection'
+
 
   # For User tests
   match 'Users/test', to: 'users#testView'
   match 'Users/test2', to: 'users#testView2'
+  match 'Users/test3', to: 'users#testView3'
+  match '/testUserInfo', to: 'users#userinfo'
+  match 'Users/tabs', to: 'users#userTabs'
 
   # Routes for Users controller
   match '/Users/login', to: 'users#login'
   match '/Users/update', to: 'users#update'
-  match '/Users/updatePassword', to: 'users#updatePassword'
+  match '/Users/updatePassword', to: 'users#updatePassword' 
   match '/Users/profile', to: 'users#profile'
   match '/Users/logout', to: 'users#logout'
+
 
   # Routes for MemberStudents Controller
   match '/MemberStudents/add', to: 'member_students#add'
@@ -52,14 +62,19 @@ Cs169::Application.routes.draw do
   # Routes for Admin Controller
   match '/Admin/addInstructor', to: 'admin#addInstructor'
   match '/Admin/delete', to: 'admin#delete'
-  match '/Admin/exportCsv', to: 'admin#exportCsv'
+  match '/Admin/exportUsers', to: 'admin#exportUsers'
+  match '/Admin/exportSections', to: 'admin#exportSections'
 
   # vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv #
   # Please Keep all routes below unchanged. 
   # Otherwise the BE for registration will fail
   # vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv #
   # Routes for Registration controller
+
+  # match '/Registrations/viewEnrolledSections', to: 'registrations#viewEnrolledSections'
+
   match '/Registrations/getEnrolledSections', to: 'registrations#getEnrolledSections'
+
   match '/Registrations/register', to: 'registrations#register'
   match '/Registrations/drop', to: 'registrations#drop'
 
