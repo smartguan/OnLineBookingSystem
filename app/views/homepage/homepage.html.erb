@@ -76,7 +76,8 @@
 /////////////////////// Jquery events and clicks ////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 $(document).ready(function() {
-	$("#create-user-button").click(sendCreateUserRequest);
+	resetTypeBoxes();
+  $("#create-user-button").click(sendCreateUserRequest);
 	$('#sm-update-user-button').click(sendUpdateUserRequest);
   init_password_update()
 	$("#create-user-errors").hide();
@@ -95,14 +96,15 @@ function init_user_home(data) {
 	$('#login-email').val("");
 	$('#login-password').val("");
 
+
   	var isValidData = data === undefined || data === null;
   	var isValid = data.errCode === undefined || data.errCode === null;
 
-	if(!isValidData && !isValid && data.errCode==1 ) {
+	if(!isValidData && !isValid && data.errCode==1 && document.cookie.indexOf('user_id') != -1) {
 	  	$('#WelcomeDropDown').show();
 	}
 	else {
-		$('#SignDropDown').show();
+		  $('#SignDropDown').show();
 	  	$('#CreateAccountButton').show();
 	}
   return false;
@@ -152,7 +154,6 @@ function handleCreateUserResponse(data) {
 function sendUpdateUserRequest() {
 	$("#update-user-err-message").empty();
 	var inputUser = new User();
-
 	post_json_request("/Users/update", inputUser.collectInput("update"), handleUpdateResponse);
 	return false;
 }
@@ -573,16 +574,16 @@ Contact.prototype.collectInput = function(first_or_second) {
 						  			
 						  		<br><br><form class="form">
 						  			
-									<label id="show-A" class="checkbox">
-									  	<input type="checkbox"> Type A
+									<label class="checkbox">
+									  	<input type="checkbox" id="show-A"> Type A
 									</label>
 
-									<label id="show-B" class="checkbox">
-										<input type="checkbox"> Type B
+									<label class="checkbox">
+										<input type="checkbox" id="show-B"> Type B
 									</label>
 
-									<label id="show-C" class="checkbox">
-										 <input type="checkbox"> Type C
+									<label class="checkbox">
+										 <input type="checkbox" id="show-C"> Type C
 									</label>
 								</form>
 							</div>
@@ -1003,15 +1004,18 @@ Contact.prototype.collectInput = function(first_or_second) {
    
    			/* setup the page so that only one of the forms is shown */
 			
-			$(document).ready(function() {
-			 	show_login_page()
+			// -------------------------------------------- //
+      // I think this isn't needed, so I comment it out (Seth)
+			// -------------------------------------------- //
+      //$(document).ready(function() {
+			// 	show_login_page()
 
-			 });
+			// });
 
-			function show_login_page() {
-	   			$('#SignDropDown').show()
-				$('#CreateAccountButton').show()	
-	   		}
+			//function show_login_page() {
+	   	//		$('#SignDropDown').show()
+			//	$('#CreateAccountButton').show()	
+	   	//	}
 
 			function handle_login_response(data) {
 				$('font17px#err_message').empty();
@@ -1051,7 +1055,7 @@ Contact.prototype.collectInput = function(first_or_second) {
 			});
 
 			$("#sm-logout-button").click( function() {
-				json_request("/Users/logout", {}, function(data) { return init_user_home(data); }, function(err) { alert("error occurred on request"); });
+        json_request("/Users/logout", {}, function(data) { return init_user_home(data); }, function(err) { alert("error occurred on request"); });
 				return false;
 			});				
 
@@ -1066,6 +1070,13 @@ Contact.prototype.collectInput = function(first_or_second) {
 			$("#show-C").click( function() {
 				$('.Section-C').toggle();
 			});
+
+      function resetTypeBoxes() {
+        $("#show-A").prop('checked' , false)
+        $("#show-B").prop('checked' , false)
+        $("#show-C").prop('checked' , false)
+      }
+
 
 		</script>
 		

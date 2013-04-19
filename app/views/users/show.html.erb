@@ -30,9 +30,23 @@
   border-bottom-color: transparent;
   cursor: default;
 }*/
+
 body {
-  background-color: red;
+	background-color: rgb(1,136,169);
+	margin-top: -10px;
+	text-align: center;
+	font-size: 14px;
+	font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+	}
+
+#calendar {
+	width: 886px;
+	margin: 0 auto;
+	margin-top: -7px;
+	background-color: white;
+	border:  white thin solid;
 }
+
 
 .tabbable {
   /*width:600px;*/
@@ -178,16 +192,38 @@ body {
 $(document).ready( function() {
     init_password_update();
     init_user_profile();
-     $("#login-user-button").click(sendLoginUserRequest);
+    $("#login-user-button").click(sendLoginUserRequest);
+	  $('#update-user-button').click(sendUpdateUserRequest);
 });
+
+function sendUpdateUserRequest() {
+	$("#update-user-err-message").empty();
+	var inputUser = new User();
+	post_json_request("/Users/update", inputUser.collectInput("update"), handleUpdateResponse);
+	return false;
+}
+
+function handleUpdateResponse(data) {
+	if(data.errCode == 1 ) {
+		//to be changed later to #update-user-success
+		$("#create-user-success").fadeIn(300);
+		setTimeout( function(){window.location.replace("/");}, 1600);
+		return 1;
+	}
+	else {
+		alert(translateErrCode(data.errCode))
+	}
+}
+
 
 function init_user_profile() {
   $("#SignDropDown").hide();
   $('#section-template').hide();    //hide template
-  init_password_update();
+  //init_password_update();
   // getViewUserSections();       //populate table
   $.getJSON("/Users/profile", handleProfileResponse);
-  $.getJSON("/Sections/getAllSections", handleViewSectionsResponse);
+  //$.getJSON("/Sections/getAllSections", handleViewSectionsResponse);
+  $.getJSON("/Registrations/getEnrolledSections", handleViewSectionsResponse);
   
   $('#logout-button').click(function() {
     post_json_request("/Users/logout", {}, function(data) { 
@@ -324,5 +360,110 @@ User.renderHTML = function(action, user) {
     // $(skill_id).html(skill_msg);
     return false;
 }
+
+////////////////////////////////////////////////////////////////////////////////////
+ //////////////////////////////////// Helper functions //////////////////////////////
+ ////////////////////////////////////////////////////////////////////////////////////
+
+function getRadioValue(attribute) {
+	var radioId = "input[name=" + attribute + "]:radio:checked";
+	return $(radioId).val();
+}
+
+function collectInput(action, obj) {
+	for(var key in obj) { obj[key] = getFormInput(action, key); }
+	return obj;
+}
+
+function getFormInput(action, key) {
+	var identifier = "#" + action + "-" + key;
+	return $(identifier).val();
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////// User Object ////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
+var User = function(first, last, email, password, password_confirmation, dob, additional_info) {
+	this.first = (first === undefined) ? "" : first;
+	this.last = (last === undefined) ? "" : last;
+	this.email = (email === undefined) ? "" : email;
+	this.dob = (dob === undefined) ? "" : dob;
+	this.password = (password === undefined) ? "" : password;
+	this.password_confirmation = (password_confirmation === undefined) ? "" : password_confirmation;
+	this.additional_info = (additional_info === undefined) ? "" : additional_info;
+};
+
+User.prototype.collectInput = function(action) {
+	// handle simple input texts 
+	for(var key in this) {
+		var identifier = "#" + action + "-" + key;
+		this[key] = $(identifier).val();
+	}
+	var residence = new Residence();
+	var contacts = new Contacts(); //abstact away objects for possible future error checking
+
+	this.residence = residence.collectInput(action); //use objects functions to grab values
+	this.contacts = contacts.collectInput(action);
+
+	// this.gender = parseInt(getRadioValue("gender"),10); //handle radios seperate
+	// this.skill = parseInt(getRadioValue("skill"),10); //str->int w/ radix=10
+
+	this.gender = getRadioValue("gender"); //handle radios seperate
+	this.skill = getRadioValue("skill"); //str->int w/ radix=10
+
+	return this;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////// Residence Object //////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////
+var Residence = function(address, city, zip) {
+	this.address = (address === undefined) ? "" : address;
+	this.city = (city === undefined) ? "" : city;
+	this.zip = (zip === undefined) ? "" : zip;
+};
+
+Residence.prototype.collectInput = function(action) {
+	for(var key in this) { 
+		var identifier = "#" + action + "-residence-" + key;
+		this[key] = $(identifier).val();
+	}
+	return this;
+}
+///////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////// Contacts Objects //////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+var Contacts = function(first, second) {
+	this.first = (first === undefined) ? new Contact() : first;
+	this.second = (second === undefined) ? new Contact() : second;
+};
+
+Contacts.prototype.collectInput = function(action) {
+	for(var key in this) {
+		var tempContact = new Contact();
+		var identifier =  "#" + action + "-" + key + "-"; //create-second-contact-secondary
+		this[key] = tempContact.collectInput(identifier); //use contacts jquery to retrieve specific id's
+	}
+	return this;
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////// Contact Objects //////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
+var Contact = function(name, primary, secondary) {
+	this.name = (name === undefined) ? "" : name;
+	this.primary = (primary === undefined) ? "" : primary;
+	this.secondary = (secondary === undefined) ? "" : secondary;
+};
+Contact.prototype.collectInput = function(first_or_second) {
+	for(var key in this) { 
+		var identifier =  first_or_second + "contact-" + key;
+		this[key] = $(identifier).val();
+	}
+	return this;
+}
+
 </script>
 </html>

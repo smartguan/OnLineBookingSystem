@@ -49,13 +49,13 @@ function handleUpdatePasswordResponse(data) {
   var error_code = data.errCode;
 
 	if (error_code == 1) {
-		setTimeout( function(){window.location.replace("/");}, 1600);
+		setTimeout( function(){window.location.replace("/Users/show");}, 1000);
   }
   else {
 		alert(translateErrCode(error_code))
   }
   $('#err-message').empty();
-	$('#err-message').append(error_msg);
+	//$('#err-message').append(error_msg);
 
  	return false;
 }
