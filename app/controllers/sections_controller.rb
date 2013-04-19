@@ -31,12 +31,12 @@ class SectionsController < ApplicationController
     @sec = newSection
     respond_to do |format|
       if @sec.save
-#        teacher = params[:teacher].split(" ")
-#        last_name = teacher[-1]
-#        first_name = teacher[0, teacher.size-1].join(" ")
-#
-#        @instructor = Instructor.where(:first => first_name, :last => last_name).first
-#        @instructor.sections << @sec
+        #teacher = params[:teacher].split(" ")
+        #last_name = teacher[-1]
+        #first_name = teacher[0, teacher.size-1].join(" ")
+
+        #@instructor = Instructor.where(:first => first_name, :last => last_name).first
+        #@instructor.sections << @sec
         self.returnSuccess format
       else
         self.returnAdminError format
@@ -115,22 +115,22 @@ class SectionsController < ApplicationController
 
 
   # get sections that belong to a given instructor
-  def getSectionsByInstructor
-#    teacher = params[:teacher].split(" ")
-#    last_name = teacher[-1]
-#    first_name = teacher[0, teacher.size-1].join(" ")
-#    
-#    instructor = Instructor.where(:first => first_name, :last => last_name).first
-    sections_list = instructor.sections.all
+  #def getSectionsByInstructor
+  #  #teacher = params[:teacher].split(" ")
+  #  last_name = teacher[-1]
+  #  first_name = teacher[0, teacher.size-1].join(" ")
+  #  
+  #  instructor = Instructor.where(:first => first_name, :last => last_name).first
+  #  sections_list = instructor.sections.all
 
-    respond_to do |format|
-      if sections_list != []
-        format.json { render json: { :sections => sections_list, errCode: 1 } }
-      else
-        format.json { render json: { :sections => [], errCode: 250 } }
-      end
-    end
-  end
+  #  respond_to do |format|
+  #    if sections_list != []
+  #      format.json { render json: { :sections => sections_list, errCode: 1 } }
+  #    else
+  #      format.json { render json: { :sections => [], errCode: 250 } }
+  #    end
+  #  end
+  #end
 
 
   #get sections by date and types
@@ -215,6 +215,8 @@ class SectionsController < ApplicationController
       format.json { render json: { name:@sec.name, errCode: 205 } }
     elsif not @sec.errors[:start_date].empty? or not @sec.errors[:end_date].empty?
       format.json { render json: { name:@sec.name, errCode: 206 } }
+    elsif not @sec.errors[:section_type].empty?
+      format.json { render json: { name:@sec.name, errCode:207 } }
     end
   end
 

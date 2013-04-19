@@ -46,10 +46,11 @@ class Section < ActiveRecord::Base
   validate :enroll_cur_must_be_less_or_equal_enroll_max
   validate :waitlist_cur_must_be_less_or_equal_waitlist_max
   validate :section_not_overlapped_for_a_teacher
+  validate :date_must_match_section_type
 
   #validate teacher name has first and last
   def teacher_has_first_and_last_name
-    self.errors.add :teacher, 'missing_first_or_last_name' unless
+    self.errors.add :teacher, 'teacher_name_invalid' unless
       teacher.include?(" ")
   end
   
@@ -85,11 +86,33 @@ class Section < ActiveRecord::Base
                             ((:start_date BETWEEN start_date AND end_date) OR 
                             (:end_date BETWEEN start_date AND end_date) OR 
                             (:start_date <= start_date AND :end_date >= end_date)) AND
-                              (:day = day AND :name != name AND :teacher = teacher)",
+                              (:section_type = section_type AND 
+                                :name != name AND :teacher = teacher)",
                           :start_time => start_time, :end_time => end_time, 
                           :start_date => start_date, :end_date => end_date,
-                          :day => day, :name => name, :teacher => teacher).first != nil
+                          :section_type => section_type, :name => name, 
+                          :teacher => teacher).first != nil
       self.errors.add :teacher, 'section_overlapped'
+    end
+  end
+
+  #validate date match section_type
+  def date_must_match_section_type
+    days = ['SUNDAY', 'MONDAY', 'TUESDAY', 
+            'WEDNESDAY', 'THURSDAY', 'FRIDAY',
+            'SATURDAY']
+    
+    if not  
+      ((section_type == "A" and start_date.to_date.monday? and 
+                  end_date.to_date.thursday? and 
+                  (end_date.to_date - start_date.to_date == 10)) or
+      (section_type == "B" and start_date.saturday? and 
+                  end_date.to_date.sunday? and 
+                  (end_date.to_date - start_date.to_date == 8)) or
+      (section_type == "C" and start_date == end_date and 
+                              days[start_date.to_date.wday]== day))
+
+      self.errors.add :section_type, 'date not match section_type'
     end
   end
 

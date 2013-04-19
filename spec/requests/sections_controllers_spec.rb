@@ -28,11 +28,14 @@ describe "SectionsControllers" do
 
   #--------------------------------
 =end 
+  days_in_week= ['sunday', 'monday', 'tuesday', 'wednesday',
+                 'thursday', 'friday', 'saturday']
+  
   sec_json = {name:"SEC_A", day:"MONDAY", 
               description:"This section won't teach you swimming", 
               start_time:"10:00:00", end_time:"20:00:00", 
               enroll_cur:0,enroll_max:5, 
-              start_date:"2011-10-10", end_date:"2012-10-10",
+              start_date:"2013-04-15", end_date:"2013-04-15",
               teacher:"SUCKER last", 
               waitlist_cur:0, waitlist_max:5,
               section_type:"C", lesson_type:"PRIVATE",
@@ -171,9 +174,10 @@ describe "SectionsControllers" do
                       description:"This section is good", 
                       start_time:"00:00:00", end_time:"10:00:00", 
                       enroll_cur:0,enroll_max:30, 
-                      start_date:"2012-10-10", end_date:"2013-10-10",
-                      teacher:"A_TEACHER", 
-                      waitlist_cur:0, waitlist_max:30,
+                      start_date:"2013-04-21", end_date:"2013-04-21",
+                      teacher:"SUCKER last", 
+                      waitlist_cur:0, waitlist_max:30, 
+                      section_type:"C", lesson_type:"PRIVATE",
                       format: :json}
           expected = {name:sec1_json[:name], errCode: SUCCESS}.to_json
           post '/Sections/create', sec_json
@@ -222,10 +226,14 @@ describe "SectionsControllers" do
         it "should render json {name:name, errCode: 204}" do
           sec1_json = sec_json.dup
           sec1_json[:name] = "ANOTHER_SEC"
-          sec1_json[:day] = "FRIDAY"
-          sec1_json[:id] = 1
+          sec1_json[:start_date] = "2013-04-23"
+          sec1_json[:end_date] = "2013-04-23"
+          sec1_json[:day] = "Tuesday"
+          sec1_json[:id] = 2
           sec2_json = sec1_json.dup
-          sec2_json[:day] = sec_json[:day]
+          sec2_json[:start_date] = "2013-04-15"
+          sec2_json[:end_date] = "2013-04-25"
+          sec2_json[:section_type] = "A"
           sec2_json[:id] = 2
           expected = {name:sec1_json[:name], errCode: SEC_OVERLAP_FOR_TEACHER}.to_json
           post '/Sections/create', sec_json
@@ -308,7 +316,9 @@ describe "SectionsControllers" do
       before(:each) do
         sec1_json = sec_json.dup
         sec1_json[:name] = 'SEC_B'
-        sec1_json[:day] = 'FRIDAY'
+        sec1_json[:start_date] = "2013-04-20"
+        sec1_json[:end_date] = "2013-04-28"
+        sec1_json[:section_type] = "B"
         post '/Sections/create', sec_json
         post '/Sections/create', sec1_json
 
@@ -350,7 +360,7 @@ describe "SectionsControllers" do
 
     end
 
-    #test for get sections by instructor
+    ##test for get sections by instructor
     #describe "#getSectionsByInstructor" do
     #  before(:each) do
     #    sec1_json = sec_json.dup
@@ -408,14 +418,14 @@ describe "SectionsControllers" do
           sec1_json = sec_json.dup
           sec1_json[:name] = 'SEC_1'
           sec1_json[:start_date] = start_monday.to_date
-          sec1_json[:end_date] = (start_monday + 7.days).to_date
+          sec1_json[:end_date] = (start_monday + 10.days).to_date
           sec1_json[:teacher] = 'SUCKER1 last'
           sec1_json[:section_type] = 'A'
           # sec2
           sec2_json = sec_json.dup
           sec2_json[:name] = 'SEC_2'
           sec2_json[:start_date] = start_saturday.to_date
-          sec2_json[:end_date] = (start_saturday + 7.days).to_date
+          sec2_json[:end_date] = (start_saturday + 8.days).to_date
           sec2_json[:teacher] = 'SUCKER2 last'
           sec2_json[:section_type] = 'B'
           # sec3
@@ -425,6 +435,7 @@ describe "SectionsControllers" do
           sec3_json[:end_date] = Time.now.to_date
           sec3_json[:start_time] = '22:00:00'
           sec3_json[:end_time] = '23:00:00'
+          sec3_json[:day] = days_in_week[Time.now.to_date.wday]
           sec3_json[:teacher] = 'SUCKER3 last'
           sec3_json[:section_type] = 'C'
 
@@ -466,6 +477,7 @@ describe "SectionsControllers" do
           sec4_json[:name] = 'SEC_4'
           sec4_json[:start_date] = '2012-04-18'
           sec4_json[:end_date] = '2012-04-18'
+          sec4_json[:day] = "Thursday"
           sec4_json[:teacher] = 'SUCKER4 last'
           sec4_json[:section_type] = 'C'
           post '/Sections/create', sec4_json
@@ -511,14 +523,14 @@ describe "SectionsControllers" do
           sec1_json = sec_json.dup
           sec1_json[:name] = 'SEC_1'
           sec1_json[:start_date] = start_monday.to_date
-          sec1_json[:end_date] = (start_monday + 7.days).to_date
+          sec1_json[:end_date] = (start_monday + 10.days).to_date
           sec1_json[:teacher] = 'SUCKER1 last'
           sec1_json[:section_type] = 'A'
           # sec2
           sec2_json = sec_json.dup
           sec2_json[:name] = 'SEC_2'
           sec2_json[:start_date] = start_saturday.to_date
-          sec2_json[:end_date] = (start_saturday + 7.days).to_date
+          sec2_json[:end_date] = (start_saturday + 8.days).to_date
           sec2_json[:teacher] = 'SUCKER2 last'
           sec2_json[:section_type] = 'B'
           # sec3
@@ -528,6 +540,7 @@ describe "SectionsControllers" do
           sec3_json[:end_date] = Time.now.to_date
           sec3_json[:start_time] = '22:00:00'
           sec3_json[:end_time] = '23:00:00'
+          sec3_json[:day] = days_in_week[Time.now.to_date.wday]
           sec3_json[:teacher] = 'SUCKER3 last'
           sec3_json[:section_type] = 'C'
 
