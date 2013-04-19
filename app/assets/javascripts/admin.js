@@ -194,18 +194,18 @@ function createSectionTable(jsonString){
         bt.onclick = function() {post_json_request("/Sections/delete", { id: $(this).closest('tr').children('td:first').text() }, function(data) { return handle_add_response(data); });};
         //bt.onclick = function() {alert($(this).closest('tr').children('td:first').text())};
         
-        var bte = document.createElement('input');
-        bte.type = 'button';
-        bte.name = 'edit-section';
-        bte.id = 'edit-section';
-        bte.value = 'Edit';
-        bte.style.width = '50px';
-        bte.onclick = function() {
-            post_json_request("/Sections/getSectionByID", { id: $(this).closest('tr').children('td:first').text() }, function(data) { return handle_edit_response(data); });
-        };
+        // var bte = document.createElement('input');
+        // bte.type = 'button';
+        // bte.name = 'edit-section';
+        // bte.id = 'edit-section';
+        // bte.value = 'Edit';
+        // bte.style.width = '50px';
+        // bte.onclick = function() {
+        //     post_json_request("/Sections/getSectionByID", { id: $(this).closest('tr').children('td:first').text() }, function(data) { return handle_edit_response(data); });
+        //};
 
         row.appendChild(bt);
-        row.appendChild(bte);
+        //row.appendChild(bte);
 
         tbody.appendChild(row);   
     }
