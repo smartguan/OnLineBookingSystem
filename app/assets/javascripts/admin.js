@@ -41,7 +41,6 @@ function get_json_request(page, dict, success) {
 
 function handle_add_response(data) {
   if (data.errCode == 1) {
-    $('#new-form').hide();
     $('#edit-form').hide();
     $('#section-table').fadeOut('slow', function() {
         post_json_request("/Sections/getAllSections", {}, function(data) {loadingSections(data)});
@@ -56,10 +55,10 @@ function handle_add_response(data) {
 
 function handle_edit_response(data) {
     if (data.errCode == 1) {
-        alert(data.sections[0].teacher);
-    $('#edit-form').loadJSON(data.sections[0]);
+        //alert(data.sections[0].teacher);
+    $('#new-form3').loadJSON(data.sections[0]);
     //post_json_request("/Registrations/getSchedule", {}, function(data) {loadingBody(data)});
-    $('#edit-form').toggle();
+     $('#new-form3').toggle();
   } else {
     alert(translateErrCode(data.errCode));
   }
@@ -195,18 +194,18 @@ function createSectionTable(jsonString){
         bt.onclick = function() {post_json_request("/Sections/delete", { id: $(this).closest('tr').children('td:first').text() }, function(data) { return handle_add_response(data); });};
         //bt.onclick = function() {alert($(this).closest('tr').children('td:first').text())};
         
-        var bte = document.createElement('input');
-        bte.type = 'button';
-        bte.name = 'edit-section';
-        bte.id = 'edit-section';
-        bte.value = 'Edit';
-        bte.style.width = '50px';
-        bte.onclick = function() {
-            post_json_request("/Sections/getSectionByID", { id: $(this).closest('tr').children('td:first').text() }, function(data) { return handle_edit_response(data); });
-        };
+        // var bte = document.createElement('input');
+        // bte.type = 'button';
+        // bte.name = 'edit-section';
+        // bte.id = 'edit-section';
+        // bte.value = 'Edit';
+        // bte.style.width = '50px';
+        // bte.onclick = function() {
+        //     post_json_request("/Sections/getSectionByID", { id: $(this).closest('tr').children('td:first').text() }, function(data) { return handle_edit_response(data); });
+        //};
 
         row.appendChild(bt);
-        row.appendChild(bte);
+        //row.appendChild(bte);
 
         tbody.appendChild(row);   
     }

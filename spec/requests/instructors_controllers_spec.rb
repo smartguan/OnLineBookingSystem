@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 # -------------------------------------------- #
-SUCCESS = 1
+#SUCCESS = 1
 
 NO_INSTRUCTOR_FOUND = 450
 

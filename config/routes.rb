@@ -62,7 +62,8 @@ Cs169::Application.routes.draw do
   # Routes for Admin Controller
   match '/Admin/addInstructor', to: 'admin#addInstructor'
   match '/Admin/delete', to: 'admin#delete'
-  match '/Admin/exportCsv', to: 'admin#exportCsv'
+  match '/Admin/exportUsers', to: 'admin#exportUsers'
+  match '/Admin/exportSections', to: 'admin#exportSections'
 
   # vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv #
   # Please Keep all routes below unchanged. 

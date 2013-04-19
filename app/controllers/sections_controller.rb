@@ -31,12 +31,12 @@ class SectionsController < ApplicationController
     @sec = newSection
     respond_to do |format|
       if @sec.save
-        teacher = params[:teacher].split(" ")
-        last_name = teacher[-1]
-        first_name = teacher[0, teacher.size-1].join(" ")
-
-        @instructor = Instructor.where(:first => first_name, :last => last_name).first
-        @instructor.sections << @sec
+#        teacher = params[:teacher].split(" ")
+#        last_name = teacher[-1]
+#        first_name = teacher[0, teacher.size-1].join(" ")
+#
+#        @instructor = Instructor.where(:first => first_name, :last => last_name).first
+#        @instructor.sections << @sec
         self.returnSuccess format
       else
         self.returnAdminError format
@@ -116,11 +116,11 @@ class SectionsController < ApplicationController
 
   # get sections that belong to a given instructor
   def getSectionsByInstructor
-    teacher = params[:teacher].split(" ")
-    last_name = teacher[-1]
-    first_name = teacher[0, teacher.size-1].join(" ")
-    
-    instructor = Instructor.where(:first => first_name, :last => last_name).first
+#    teacher = params[:teacher].split(" ")
+#    last_name = teacher[-1]
+#    first_name = teacher[0, teacher.size-1].join(" ")
+#    
+#    instructor = Instructor.where(:first => first_name, :last => last_name).first
     sections_list = instructor.sections.all
 
     respond_to do |format|

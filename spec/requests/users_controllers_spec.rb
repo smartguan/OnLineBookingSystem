@@ -120,6 +120,19 @@ describe "UsersControlers" do
       parsed_body["errCode"].should == expected
     end
   end
+  
+  describe "when requesting a proflie with a logged out user" do
+    it "should return BAD_CREDENTIALS" do
+      FactoryGirl.create(:member_student)
+      post '/Users/login', { email: "abc@def.org", password: "password",
+                             format: :json }
+      post '/Users/logout', { format: :json }
+      expected = BAD_CREDENTIALS
+      post '/Users/profile', { format: :json }
+      parsed_body = JSON.parse(response.body)
+      parsed_body["errCode"].should == expected
+    end
+  end
 
   #Update Password Functionality
   describe "when updating the password of a valid user" do
@@ -168,6 +181,20 @@ describe "UsersControlers" do
     it "should return BAD_CREDENTIALS" do
       expected = { errCode: BAD_CREDENTIALS }.to_json
       post '/Users/updatePassword', { password: "password",
+                                      new_password: "new_password",
+                                      new_password_confirmation: "new_passwerd",
+                                      format: :json }
+      response.body.should == expected
+    end
+  end
+
+  describe "when updating the password of a user with incorrect password credentials" do
+    it "should return BAD_CREDENTIALS" do
+      FactoryGirl.create(:member_student)
+      expected = { errCode: BAD_CREDENTIALS }.to_json
+      post '/Users/login', { email: "abc@def.org", password: "password",
+                             format: :json }
+      post '/Users/updatePassword', { password: "passwerd",
                                       new_password: "new_password",
                                       new_password_confirmation: "new_passwerd",
                                       format: :json }
