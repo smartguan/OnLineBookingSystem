@@ -431,7 +431,7 @@ Contact.prototype.collectInput = function(first_or_second) {
 				$('#ulisesModal-Reserve').click(function() {
 					
 					json_request("/Registrations/register", {'section_id':idToSend}, function(data) 
-			   		{ return alert(translateErrCode(data.errCode));}, function(err) { alert('error occurred on request'); });
+			   		{ return alert(data.errCode);}, function(err) { alert('error occurred on request'); });
 			   		$('#ulisesModal').hide(); 
 				});
 				
