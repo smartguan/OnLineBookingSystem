@@ -6,7 +6,7 @@ describe Section do
   before { @sec = Section.new(name: "A_SEC", day: "MONDAY", 
           description: "this class is aiming to lower down your intellegence", 
           start_date: "2011-11-29", end_date:"2012-12-30", start_time: "10:00:00", 
-          end_time: "20:00:00", teacher: "Obamma", enroll_cur:1, enroll_max:2,
+          end_time: "20:00:00", teacher: "Obamma last", enroll_cur:1, enroll_max:2,
           waitlist_cur:30, waitlist_max:40, section_type: "A", lesson_type:"PRIVATE") }
   
   subject { @sec }
@@ -62,12 +62,28 @@ describe Section do
     it {should_not be_valid}
   end
 
-  #unit 4: test for description presence
-  describe "when description is not presence or empty string" do
-    before { @sec.description = " " }
-    it {should_not be_valid}
-  end
+  ##unit 4: test for description presence
+  #describe "when description is not presence or empty string" do
+  #  before { @sec.description = " " }
+  #  it {should_not be_valid}
+  #end
 
+  # unit 4: test for invalid teacher name
+  describe "when teacher name is empty" do
+    before do
+      @sec.teacher = " "
+    end
+    it { should_not be_valid }
+  end
+  
+  ## unit 4: test for invalid teacher name
+  #describe "when teacher missing first or last name" do
+  #  before do
+  #    @sec.teacher = "SUCK"
+  #  end
+  #  it { should_not be_valid }
+  #end
+  
   #unit 5: test for end_time > start_time
   describe "when end_time is not greater than start_time" do
     before do 
@@ -175,7 +191,7 @@ describe Section do
       sec1 = @sec.dup
       sec1.save
       @sec.name = "overlapped_section"
-      @sec.teacher = 'SUCKER'
+      @sec.teacher = 'SUCKER last'
       @sec.start_time = '05:00:00'
       @sec.end_time = '21:00:00'
       @sec.start_date =' 2011-05-25'
