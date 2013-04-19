@@ -77,7 +77,8 @@
 /////////////////////////////////////////////////////////////////////////////////////
 $(document).ready(function() {
 	$("#create-user-button").click(sendCreateUserRequest);
-	$('#sm-update-user-button').click(sendUpdateUserRequest)
+	$('#sm-update-user-button').click(sendUpdateUserRequest);
+  init_password_update()
 	$("#create-user-errors").hide();
 	$("#create-user-success").hide();
 	getBarState();
@@ -145,29 +146,8 @@ function handleCreateUserResponse(data) {
 // 	sendUpdateUserRequest()
 // })
 
-function sendUpdateUserRequest() {
-	$("#update-user-err-message").empty();
-	var inputUser = new User();
-
-	post_json_request("/Users/update", inputUser.collectInput("update"), handleUpdateResponse);
-	return false;
-}
-
-function handleUpdateResponse(data) {
-	if(data.errCode == 1 ) {
-		//to be changed later to #update-user-success
-		$("#create-user-success").fadeIn(300);
-		setTimeout( function(){window.location.replace("/");}, 1600);
-		return 1;
-	}
-	else {
-		alert(translateErrCode(data.errCode))
-	}
-}
-
-
 // -------------------------------------------------- //
-//             For update password
+//             For update user profile
 // -------------------------------------------------- //
 function sendUpdateUserRequest() {
 	$("#update-user-err-message").empty();
@@ -188,6 +168,8 @@ function handleUpdateResponse(data) {
 		alert(translateErrCode(data.errCode))
 	}
 }
+
+
  ////////////////////////////////////////////////////////////////////////////////////
  //////////////////////////////////// Helper functions //////////////////////////////
  ////////////////////////////////////////////////////////////////////////////////////

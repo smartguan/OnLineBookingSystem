@@ -41,16 +41,20 @@ function sendPasswordUpdateRequest() {
     	new_password_confirmation :confirm_new_password
     };
 
-	post_json_request("/Users/updatePassword", update_password_dict, function(data) { return handleUpdatePasswordResponse(data); });
+	post_json_request("/Users/updatePassword", update_password_dict, handleUpdatePasswordResponse );
 	return false;
 }
 
 function handleUpdatePasswordResponse(data) {
-	var error_code = data.errCode;
-	var sections = data.sections;
-	var error_msg = getErrorMessage(error_code);
+  var error_code = data.errCode;
 
-	$('#err-message').empty();
+	if (error_code == 1) {
+		setTimeout( function(){window.location.replace("/");}, 1600);
+  }
+  else {
+		alert(translateErrCode(error_code))
+  }
+  $('#err-message').empty();
 	$('#err-message').append(error_msg);
 
  	return false;
