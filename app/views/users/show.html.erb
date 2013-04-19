@@ -319,10 +319,10 @@ function translateSkillLevel(skill_num) {
 //     return "ERROR";
 // }
 
-var User = function(name, email) {
-    this.name = (name === undefined) ? "" : name;
-    this.email = (email === undefined) ? "" : email;
-};
+//var User = function(name, email) {
+//    this.name = (name === undefined) ? "" : name;
+//    this.email = (email === undefined) ? "" : email;
+//};
 
 function injectValue( identifier, obj ) {
   for(var key in obj) {
@@ -345,6 +345,16 @@ function injectValue( identifier, obj ) {
   }
   return true;
 }
+
+var User = function(first, last, email, password, password_confirmation, dob, additional_info) {
+	this.first = (first === undefined) ? "" : first;
+	this.last = (last === undefined) ? "" : last;
+	this.email = (email === undefined) ? "" : email;
+	this.dob = (dob === undefined) ? "" : dob;
+	this.password = (password === undefined) ? "" : password;
+	this.password_confirmation = (password_confirmation === undefined) ? "" : password_confirmation;
+	this.additional_info = (additional_info === undefined) ? "" : additional_info;
+};
 
 User.renderHTML = function(action, user) {
     if(typeof user!=null) {
@@ -384,16 +394,6 @@ function getFormInput(action, key) {
 ////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////// User Object ////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////
-var User = function(first, last, email, password, password_confirmation, dob, additional_info) {
-	this.first = (first === undefined) ? "" : first;
-	this.last = (last === undefined) ? "" : last;
-	this.email = (email === undefined) ? "" : email;
-	this.dob = (dob === undefined) ? "" : dob;
-	this.password = (password === undefined) ? "" : password;
-	this.password_confirmation = (password_confirmation === undefined) ? "" : password_confirmation;
-	this.additional_info = (additional_info === undefined) ? "" : additional_info;
-};
-
 User.prototype.collectInput = function(action) {
 	// handle simple input texts 
 	for(var key in this) {
