@@ -189,7 +189,7 @@ class UsersController < ApplicationController
           end
         end
       else
-        format.json { render json: { errCode: DEFAULT } }
+        format.json { render json: { errCode: BAD_CREDENTIALS } }
       end
     end
   end
@@ -231,7 +231,8 @@ class UsersController < ApplicationController
         if cookies[:user_id] == nil
           format.json { render json: { errCode: BAD_CREDENTIALS } }
         else
-          cookies[:user_id] = nil
+          # cookies[:user_id] = nil
+          cookies.delete(:user_id)
           format.json { render json: { errCode: SUCCESS } }
         end
       else
