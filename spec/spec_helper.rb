@@ -25,6 +25,7 @@ require 'simplecov'
   EXTRA_NOT_VALID = 119
   USER_EXISTS = 107
   BAD_CREDENTIALS = 108
+  NOT_ADMIN = 121
   DEFAULT = 999
 
   #--------------------------------

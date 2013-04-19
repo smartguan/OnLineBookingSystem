@@ -32,8 +32,8 @@ describe "RegistrationpControllers" do
               description:"This section won't teach you swimming", 
               start_time:"10:00:00", end_time:"20:00:00", 
               enroll_cur:0,enroll_max:5, 
-              start_date:"2011-10-10", end_date:"2012-10-10",
-              teacher:"SUCKER", 
+              start_date:"2013-04-15", end_date:"2013-04-15",
+              teacher:"SUCKER last", 
               waitlist_cur:0, waitlist_max:5,
               section_type:"C", lesson_type:"PRIVATE",
               format: :json}
@@ -53,6 +53,16 @@ describe "RegistrationpControllers" do
                           password: "password",
                           password_confirmation: "password",
                           format: :json } 
+  before do
+    email = "admin@admin.org"
+    FactoryGirl.create(:admin)
+    post "/Users/login", {email:email, password:"password", format: :json}
+    user1_json = user_json.dup
+    user1_json[:first] = "SUCKER"
+    user1_json[:last] = "last"
+    user1_json[:email] = "SUCKER_TEACHER@t.com"
+    post "/Admin/addInstructor", user1_json
+  end
 
   
   describe RegistrationsController do

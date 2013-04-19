@@ -5,7 +5,7 @@ describe Section do
   #unit 1: test for correct inputs
   before { @sec = Section.new(name: "A_SEC", day: "MONDAY", 
           description: "this class is aiming to lower down your intellegence", 
-          start_date: "2011-11-29", end_date:"2012-12-30", start_time: "10:00:00", 
+          start_date: "2011-11-14", end_date:"2011-11-24", start_time: "10:00:00", 
           end_time: "20:00:00", teacher: "Obamma last", enroll_cur:1, enroll_max:2,
           waitlist_cur:30, waitlist_max:40, section_type: "A", lesson_type:"PRIVATE") }
   
@@ -164,14 +164,15 @@ describe Section do
       @sec.name = "overlapped_section"
       @sec.start_time = '05:00:00'
       @sec.end_time = '21:00:00'
-      @sec.start_date =' 2011-05-25'
-      @sec.end_date = '2014-05-29'
+      @sec.start_date =' 2011-11-22'
+      @sec.end_date = '2011-11-22'
+      @sec.section_type = "C"
     end
     it {should_not be_valid}
   end
 
   #unit 9-5: test for section overlapped with same day for a teacher
-  describe "when sections overlapped_date_time_different_day for a teacher" do
+  describe "when sections overlapped_date_time_different_type_B for a teacher" do
     before do 
       sec1 = @sec.dup
       sec1.save
@@ -179,8 +180,9 @@ describe Section do
       @sec.day = 'SUNDAY'
       @sec.start_time = '05:00:00'
       @sec.end_time = '21:00:00'
-      @sec.start_date =' 2011-05-25'
-      @sec.end_date = '2014-05-29'
+      @sec.start_date =' 2011-11-19'
+      @sec.end_date = '2011-11-27'
+      @sec.section_type = "B"
     end
     it {should be_valid}
   end
@@ -194,9 +196,110 @@ describe Section do
       @sec.teacher = 'SUCKER last'
       @sec.start_time = '05:00:00'
       @sec.end_time = '21:00:00'
-      @sec.start_date =' 2011-05-25'
-      @sec.end_date = '2014-05-29'
+      @sec.start_date =' 2011-11-14'
+      @sec.end_date = '2011-11-24'
     end
     it {should be_valid}
   end
+
+  describe "when invalid section_type A" do
+    context "when invalid start_date" do
+      before do
+        @sec.start_date = "2013-04-19"
+      end
+      it { should_not be_valid }
+    end
+    
+    context "when invalid end_date" do
+      before do
+        @sec.end_date = "2013-04-19"
+      end
+      it { should_not be_valid }
+    end
+    
+    context "when invalid duration" do
+      before do
+        @sec.end_date = "2011-11-18"
+      end
+      it { should_not be_valid }
+    end
+  end
+
+  describe "section_type B" do
+    context "when it's valid" do
+      before do
+        @sec.start_date = "2013-04-20"
+        @sec.end_date = "2013-04-28"
+        @sec.section_type = "B"
+      end
+      it { should be_valid }
+    end
+
+    context "when invalid start_date" do
+      before do
+        @sec.start_date = "2013-04-19"
+        @sec.section_type = "B"
+      end
+      it { should_not be_valid }
+    end
+    
+    context "when invalid end_date" do
+      before do
+        @sec.end_date = "2013-04-19"
+        @sec.section_type = "B"
+      end
+      it { should_not be_valid }
+    end
+    
+    context "when invalid duration" do
+      before do
+        @sec.start_date = "2013-11-20"
+        @sec.end_date = "2013-11-21"
+        @sec.section_type = "B"
+      end
+      it { should_not be_valid }
+    end
+  end
+
+
+  describe "section_type C" do
+    context "when it's valid" do
+      before do
+        @sec.start_date = "2013-04-20"
+        @sec.end_date = "2013-04-20"
+        @sec.day = "Saturday"
+        @sec.section_type = "C"
+      end
+      it { should be_valid }
+    end
+
+    context "when invalid start_date" do
+      before do
+        @sec.start_date = "2013-04-19"
+        @sec.section_type = "C"
+      end
+      it { should_not be_valid }
+    end
+    
+    context "when invalid end_date" do
+      before do
+        @sec.end_date = "2013-04-19"
+        @sec.section_type = "C"
+      end
+      it { should_not be_valid }
+    end
+    
+    context "when invalid day" do
+      before do
+        @sec.start_date = "2013-11-20"
+        @sec.end_date = "2013-11-20"
+        @sec.day = "Monday"
+        @sec.section_type = "C"
+      end
+      it { should_not be_valid }
+    end
+  end
+
+
+
 end

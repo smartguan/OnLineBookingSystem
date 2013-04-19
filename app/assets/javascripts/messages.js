@@ -50,7 +50,10 @@ function translateErrCode(data) {
 		message = "DATE_INVALID";
 		break;
 	case 207:
-		message = "FAILED_TO_DELETE";
+		message = "SECTYPE_DATE_NOT_MATCH";
+		break;
+	case 208:
+		message = "FAILDED_TO_DELETE";
 		break;
 	case 300:
 		message = "NO_SECTION_TO_SHOW";

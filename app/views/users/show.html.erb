@@ -1,17 +1,328 @@
-<h1>users#show</h1>
-<ul>
-	<li>Name:          <%= @user.name %></li>
-	<li>Email:         <%= @user.email %></li>
-	<li>Zipcode:       <%= @user.zip %></li>
-	<li>Date of Birth: <%= @user.dob %></li>
-</ul>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
 
-<div class="sessions">
-	<h4> user.terms.each do |term| </h4>
-	<table>
-	<tr>
-		<td>term.name</td>
-		<td><%= link_to "TermTitle", "#" %></td>
-	</tr>
-	</table>
-</div>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+
+  <script src="/app/assets/javascripts/jquery.cookie.js"></script>
+  <style type="text/css">
+/*  .nav-tabs > li > a {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    line-height: 20px;
+    border: 1px solid transparent;
+    -webkit-border-radius: 4px 4px 0 0;
+    -moz-border-radius: 4px 4px 0 0;
+    border-radius: 4px 4px 0 0;
+    color: white;
+    background-color: darkslategray;
+  }
+.table.table-hover {
+  border:solid;
+  border-width: 1px;
+}
+.nav-tabs > .active > a:hover {
+  color: black;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-bottom-color: transparent;
+  cursor: default;
+}*/
+body {
+  background-color: red;
+}
+
+.tabbable {
+  /*width:600px;*/
+  border-style: solid;
+  border-width: 1px;
+  border-color: darkslategray;
+}
+</style>
+  
+</head>
+
+<body>
+<%= render 'shared/user_nav_bar' %>
+<%# render 'shared/user_options_links' %>
+
+<!-- User Profile Information -->
+<!-- Lessons -->
+<div class="row-fluid">
+  <div class="tabbable span3 offset1">
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#1" data-toggle="tab">Details</a></li>
+      <li><a href="#2" data-toggle="tab">Contact Info</a></li>
+      <li><a href="#3" data-toggle="tab">Additional Info</a></li>
+    </ul>
+    <div class="tab-content">
+      
+      <div class="tab-pane active" id="1">
+          <h4>User Details</h4>
+          
+          <table class="table table-hover">
+              <tr>
+              <td>First Name</td>
+              <td><span id="show-first"></span></td>
+              </tr>
+              <tr>
+              <td>Last Name</td>
+              <td><span id="show-last"></span></td>
+              </tr>
+              <tr>
+              <td>Email</td>
+              <td><span id="show-email"></span></td>
+              </tr>
+              <tr>
+              <td>Date of Birth</td>
+              <td><span id="show-dob"></span></td>
+              </tr>
+              <td>Gender</td>
+              <td><span id="show-gender"></span></td>
+              </tr>
+          </table>
+          <h4>Current Residence</h4>
+          <legend></legend>
+          
+          <table class="table table-hover">
+              <tr>
+              <td>Address</td>
+              <td><span id="show-residence-address"></span></td>
+              </tr>
+              <td>City</td>
+              <td><span id="show-residence-city"></span></td>
+              </tr>
+              <td>Zipcode</td>
+              <td><span id="show-residence-zip"></span></td>
+              </tr>
+          </table>
+      </div>
+      <div class="tab-pane" id="2">
+          <h4>Contact Info</h4>
+          
+          <table class="table table-hover">
+              <tr>
+                <th>First Contact Number</th>
+              </tr>
+              <tr>
+                <td>Contact Name</td>
+                <td><span id="show-contacts-first-name"></span></td>
+              </tr>
+              <tr>
+                <td>Primary Number</td>
+                <td><span id="show-contacts-first-primary"></span></td>
+              </tr>
+              <tr>
+                <td>Secondary Number</td>
+                <td><span id="show-contacts-first-secondary"></span></td>
+              </tr>
+          </table>
+          <table class="table table-hover">
+              <tr>
+                <th>Second Contact Number</th>
+              </tr>
+              <tr>
+                <td>Contact Name</td>
+                <td><span id="show-contacts-second-name"></span></td>
+              </tr>
+              <tr>
+                <td>Primary Number</td>
+                <td><span id="show-contacts-second-primary"></td>
+              </tr>
+              <tr>
+                <td>Secondary Number</td>
+                <td><span id="show-contacts-second-secondary"></span></td>
+              </tr>
+          </table>
+      </div>
+
+
+      <div class="tab-pane" id="3">
+          <h4>Skill Level</h4>
+          <legend></legend>
+          <table class="table table-hover">
+              <tr>
+              <td>Skill Level</td>
+              <td><span id="show-skill"></span></td>
+              </tr>
+          </table>
+          <h4>Additional Information</h4>
+          <legend></legend>
+          <p style="border:solid; border-width:1px;"><span id="show-extra"></span></p>
+      </div>
+    </div> <!-- tabcontent -->
+  </div> <!-- tabbable -->
+
+  <%= render 'users/testSection' %>
+
+
+
+</div> <!-- row -->
+
+<!-- Put extra hiddend values here -->
+<%= render 'users/section_template' %>
+<%= render 'shared/update_user_form' %>
+<%= render 'users/update_user_additional' %>
+<%= render 'users/update_user_password' %>
+<%= render 'users/update_user_contacts' %>
+
+
+
+
+<script type="text/javascript">
+
+
+
+$(document).ready( function() {
+    init_password_update();
+    init_user_profile();
+     $("#login-user-button").click(sendLoginUserRequest);
+});
+
+function init_user_profile() {
+  $("#SignDropDown").hide();
+  $('#section-template').hide();    //hide template
+  init_password_update();
+  // getViewUserSections();       //populate table
+  $.getJSON("/Users/profile", handleProfileResponse);
+  $.getJSON("/Sections/getAllSections", handleViewSectionsResponse);
+  
+  $('#logout-button').click(function() {
+    post_json_request("/Users/logout", {}, function(data) { 
+      alert("logging out");
+      window.location.href = '/';
+      return false; 
+    });
+  });
+
+  $('#CreateAccountButton').hide();
+
+  // $.getJSON("/Registrations/getEnrolledSections", handleViewSectionsResponse);
+  return true;
+}
+///////////////////////////////////////////////////////////////////////
+/////////////////////////// Login User Functions //////////////////////
+///////////////////////////////////////////////////////////////////////
+
+
+function getFormInput(action, key) {
+  var identifier = "#" + action + "-" + key;
+  return $(identifier).val();
+}
+function sendLoginUserRequest() {
+  $("#login-user-errors").fadeOut(100);
+  var login_user = { email:getFormInput("login","email"),  password:getFormInput("login","password") };
+  post_json_request("/Users/login", login_user, handleLoginUserResponse);
+  return false;
+}
+
+
+function handleLoginUserResponse(data)  {
+  var error_message = translateErrCode(data.errCode);
+  $("#login-user-err-message").empty();
+  $("#login-user-err-message").append(error_message);
+
+  if (data.errCode!=1) {
+     $("#login-user-errors").fadeIn(200);
+     return data.errCode;
+  }
+  else {
+    $("#login-user-success").fadeIn(300);
+    return 1;
+  }
+}
+
+////////////////////////////////////PROFILE .///////////////////////////////////////////////
+
+function handleProfileResponse(data) {
+  var error_code = data.errCode;
+  var error_msg = getErrorMessage(error_code);
+  $('#err-message').append(error_msg);
+  
+
+  // function renderUserHTML(userJSON) {
+  //  var username = new Name(userJSON.first, userJSON.last);
+  //  $('#user-info').find('#user-name').append(username.fullname);
+  //  $('#user-info').find('#user-email').append(userJSON.email);
+  //  $('#user-info').find('#user-dob').append(userJSON.dob);
+  //  $('#user-info').find('#user-zip').append(userJSON.zip);
+
+  //  $('#nav-user-name').append(username.fullname);  //add to user nav
+  //  return false;
+  // }
+
+  if(error_code==1) {
+    // renderUserHTML(data.user);
+    User.renderHTML("show", data.user);
+    var fullname = data.user.first + " " + data.user.last;
+    $("#user-name-navbar").html(fullname);
+    return true;
+  }
+  return false;
+}
+
+function translateSkillLevel(skill_num) {
+    var msg = ""
+    switch(skill_num) {
+        case 0: return "Beginner";
+        case 1: return "Beginner Strokes";
+        case 2: return "Intermediate";
+        case 3: return "Advanced";
+    }
+    return "ERROR";
+}
+
+// function translateGender(gender_num) {
+//     switch(gender_num) {
+//         case 0: return "Male";
+//         case 1: return "Female";
+        // case 2: return "Other";
+    // }
+//     return "ERROR";
+// }
+
+var User = function(name, email) {
+    this.name = (name === undefined) ? "" : name;
+    this.email = (email === undefined) ? "" : email;
+};
+
+function injectValue( identifier, obj ) {
+  for(var key in obj) {
+      var val = obj[key];
+      var isRecursable = (typeof val == 'object') || (typeof val == 'array');
+      var isFinal = (typeof val == 'string') || (typeof val == 'boolean') || (typeof val == 'number');
+
+      if( isFinal ) {
+          var final_id = "#" + identifier + "-" + key;
+          $(final_id).html(val);
+      }
+      else if( isRecursable ) {
+          var next_identifier = identifier + "-" + key;
+          injectValue(next_identifier, val);
+      }
+      else {
+          alert("error occurred");
+          return false;
+      }
+  }
+  return true;
+}
+
+User.renderHTML = function(action, user) {
+    if(typeof user!=null) {
+      injectValue(action, user);
+      return true;
+    }
+      
+    // var gender_msg = translateGender(user.gender);
+    // var skill_msg = translateSkillLevel(user.skill);
+    // var gender_id = "#" + action + "-gender";
+    // var skill_id = "#" + action + "-skill";
+    // $(gender_id).html(gender_msg);
+    // $(skill_id).html(skill_msg);
+    return false;
+}
+</script>
+</html>
