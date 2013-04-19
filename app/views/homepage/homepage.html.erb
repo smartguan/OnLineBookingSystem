@@ -421,8 +421,6 @@ Contact.prototype.collectInput = function(first_or_second) {
 					idToSend = calEvent.id;
 
 
-					idToSend = calEvent.id;
-					
 					return true;
 				}
 
@@ -430,7 +428,7 @@ Contact.prototype.collectInput = function(first_or_second) {
 			   		$('#ulisesModal').hide(); 
 				});
 
-				$('#modal-reserve').click(function() {
+				$('#ulisesModal-Reserve').click(function() {
 					
 					json_request("/Registrations/register", {'section_id':idToSend}, function(data) 
 			   		{ return alert(translateErrCode(data.errCode));}, function(err) { alert('error occurred on request'); });
