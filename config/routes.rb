@@ -31,7 +31,7 @@ Cs169::Application.routes.draw do
   get "users/update_password"
 
 
-  match 'Users/show', to: 'users#show'
+  match '/Users/show', to: 'users#show'
   match 'Users/testSection', to: 'users#testSection'
 
 
