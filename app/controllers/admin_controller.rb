@@ -104,7 +104,7 @@ class AdminController < ApplicationController
       end
       if user.type == "Admin" 
         user_to_delete = User.find_by_email(params[:email])
-        if user
+        if user_to_delete
           format.json { render json: { errCode: SUCCESS } }
           user_to_delete.delete
         else

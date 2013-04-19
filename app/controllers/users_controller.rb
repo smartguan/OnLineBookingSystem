@@ -189,7 +189,7 @@ class UsersController < ApplicationController
           end
         end
       else
-        format.json { render json: { errCode: DEFAULT } }
+        format.json { render json: { errCode: BAD_CREDENTIALS } }
       end
     end
   end

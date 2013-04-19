@@ -175,6 +175,20 @@ describe "UsersControlers" do
     end
   end
 
+  describe "when updating the password of a user with incorrect password credentials" do
+    it "should return BAD_CREDENTIALS" do
+      FactoryGirl.create(:member_student)
+      expected = { errCode: BAD_CREDENTIALS }.to_json
+      post '/Users/login', { email: "abc@def.org", password: "password",
+                             format: :json }
+      post '/Users/updatePassword', { password: "passwerd",
+                                      new_password: "new_password",
+                                      new_password_confirmation: "new_passwerd",
+                                      format: :json }
+      response.body.should == expected
+    end
+  end
+
   #Update Functionality
   describe "when updating a user" do
     before do
