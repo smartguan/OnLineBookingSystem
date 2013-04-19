@@ -9,7 +9,7 @@
 		
 		
 
-		// <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-dropdown.js"></script>
+		<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-dropdown.js"></script>
 		<!-- // <script src="/twitter-bootstrap/twitter-bootstrap-v2/js/bootstrap-modal.js"></script>  -->
 		<script type='text/javascript' src='/assets/jquery-1.9.1.js'></script>
 		<script type="text/javascript" src="/assets/jquery-1.9.1.min.js"></script>
@@ -17,6 +17,8 @@
 
 		
 		<!-- <script src='assets/jquery/jquery-ui-1.10.2.custom.min.js'></script> -->
+
+
 		<script src='assets/fullcalendar/fullcalendar.min.js'></script>
 
 		<link type="text/css" rel="stylesheet" href='/assets/fullcalendar/fullcalendar.css' rel='stylesheet' />
@@ -27,6 +29,7 @@
 			var events = [1000];
 			var index = 0;
 			var usercalendar;
+			var idToSend;
 
 			$(document).ready(function() {
 				
@@ -143,14 +146,6 @@
 
 			UserCalendar.clickEvent = function(calEvent, jsEvent, view) {
 				if(view.name=='agendaDay') {
-					var dict_to_send = 
-					{
-						title: calEvent.title, 
-						day:calEvent.day,
-						start: calEvent.start,
-						end: calEvent.end,
-						teacher: calEvent.teacher, // FUCKING Systax ERROR MAN !!!!!!!!!!!!!!!!!!!!!!!
-					};		
 
 					$('#ulisesModal').show(); 
 					$('#modal-section').empty(); 
@@ -159,11 +154,20 @@
 					$('#modal-date').append(calEvent.dayInfo);
 					$('#modal-lesson').empty(); 
 					$('#modal-lesson').append(calEvent.lesson_type);
-					post_json_request2('/some_url', 
-						dict_to_send, function(){ alert('success'); });
-					$(this.identifier).fullCalendar('changeView', 'month');
+
+					idToSend = calEvent.id;
+					
 					return true;
 				}
+
+				$('#modal-cancel').click(function() {
+			   		$('#ulisesModal').hide(); 
+				});
+
+				$('#modal-reserve').click(function() {
+					
+			   		$('#ulisesModal').hide(); 
+				});
 				
 				if($(UserCalendar.identifier).fullCalendar('getView').name == "month"){
 					
@@ -226,8 +230,8 @@
 	    		<p style="color:gray" id="modal-lesson">lesson</p>
 	  		</div>
 	  		<div class="modal-footer">
-		    	<button class="btn" data-dismiss="modal" aria-hidden="true">Cancel Reservation</button>
-		    	<button class="btn btn-primary">Make Reservation</button>
+		    	<button id="modal-cancel" class="btn" data-dismiss="modal" aria-hidden="true">Cancel Reservation</button>
+		    	<button id="modal-reserve" class="btn btn-primary">Make Reservation</button>
 	  		</div>
 		</div>
 
