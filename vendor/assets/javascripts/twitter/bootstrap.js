@@ -11,4 +11,4 @@
 //= require twitter/bootstrap/tab.js
 //= require twitter/bootstrap/transition.js
 //= require twitter/bootstrap/typeahead.js
-//= require twitter/bootstrap-datepicker.js 
+//= require twitter/bootstrap/bootstrap-datepicker.js 
