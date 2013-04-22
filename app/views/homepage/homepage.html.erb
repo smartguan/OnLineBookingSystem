@@ -283,6 +283,7 @@ Contact.prototype.collectInput = function(first_or_second) {
 			var index = 0;
 			var usercalendar;
 			var idToSend;
+			var danielSwitch;
 
 			$(document).ready(function() {
 				
@@ -325,7 +326,13 @@ Contact.prototype.collectInput = function(first_or_second) {
 			    	var title = 'Section-C Available';
 			    	var id = data[counter]['id'];
 					var start = (data[counter]['start_date']).split("T")[0] + "T" + (data[counter]['start_time']).split("T")[1];
+
 					var dayInfo = new Date((data[counter]['start_date']).split("T")[0] + "T" + (data[counter]['start_time']).split("T")[1]);
+					
+					dayInfo.setHours(parseInt((data[counter]['start_time']).split("T")[1]));
+					dayInfo.setMinutes(parseInt((data[counter]['start_time']).split(":")[1]));
+
+
 					var end = (data[counter]['end_date']).split("T")[0]+ "T" + (data[counter]['end_time']).split("T")[1];
 					var className = 'Section-C';
 					var backgroundColor = 'red';
@@ -428,11 +435,29 @@ Contact.prototype.collectInput = function(first_or_second) {
 			   		$('#ulisesModal').hide(); 
 				});
 
+				$('#closeUlises-modal').click(function() {
+			   		$('#ulisesModal').hide(); 
+				});
+
 				$('#ulisesModal-Reserve').click(function() {
 					
 					json_request("/Registrations/register", {'section_id':idToSend}, function(data) 
 			   		{ return alert(data.errCode);}, function(err) { alert('error occurred on request'); });
 			   		$('#ulisesModal').hide(); 
+				});
+
+				$('#ulisesModal-Sing').click(function (){
+					$('#ulisesModal').hide();
+				});
+
+				$('#ulisesModal-Guest').click(function (){
+					$('#ulisesModal').hide();
+					danielSwitch = "Guest";
+				});
+
+				$('#ulisesModal-Account').click(function (){
+					$('#ulisesModal').hide();
+					danielSwitch = "Account";
 				});
 				
 				if($(UserCalendar.identifier).fullCalendar('getView').name == "month"){
@@ -482,11 +507,16 @@ Contact.prototype.collectInput = function(first_or_second) {
 
 	<body><div class="container" style="width:1265px">
 
-		<div style="width:700;" id="ulisesModal" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+		<!-- Ulises' Modals begin Here -->
+
+		<div style="width:570px;" id="ulisesModal" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
 	  		<div class="modal-header">
-	    		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	    		<button id="closeUlises-modal" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 	    		<h3 style="color:blue" id="myModalLabel">Confirm Reservation</h3>
 	  		</div>
+
 	  		<div class="modal-body">
 	  			<h4><p>- Section Information -</p></h4>
 	    		<p style="color:gray" id="modal-section"> section</p><br>
@@ -495,13 +525,57 @@ Contact.prototype.collectInput = function(first_or_second) {
 	    		<h4><p>- Lesson Type Information -</p></h4>
 	    		<p style="color:gray" id="modal-lesson">lesson</p>
 	  		</div>
+
 	  		<div class="modal-footer">
 		    	<button id="ulisesModal-Cancel" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
-		    	<button id="ulisesModal-Reserve" class="btn btn-primary">Reserve</button>
-		    	<button id="ulisesModal-Guest" class="btn btn-primary">Reserve as Guest</button>
-		    	<button id="ulisesModal-Account" class="btn btn-primary">Create Account and Reserve</button>
+		    	<button id="ulisesModal-Sing" class="btn btn-primary" data-toggle="modal" data-dismiss="modal"href="#ulisesSignInModal">Sign In</button>
+		    	<button id="ulisesModal-Reserve" class="btn btn-primary" >Reserve</button>
+		    	<button id="ulisesModal-Guest" class="btn btn-primary" href='#create-user' data-toggle="modal">Reserve as Guest</button>
+		    	<button id="ulisesModal-Account" class="btn btn-primary" href='#create-user' data-toggle="modal">Create Account and Reserve</button>
 	  		</div>
 		</div>
+
+ 
+
+		<div  style="width:570px;" id="ulisesSignInModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-header">
+		    	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		    	<h3 id="myModalLabel">Sign In</h3>
+		  	</div>
+		  	<div class="modal-body">
+		    	
+		    	<form class="form-horizontal">
+
+		    		    		<div class="span9">
+			    		
+			    		<br>
+			    		<div class="span2"> <label class="control-label" for="inputEmail">Email</label></div>
+						<div class="span3"><input type="email" required id="inputEmail" placeholder="Email"></div>
+
+						<br><br>
+					 	
+					 	<div class="span2"><label class="control-label" for="inputPassword">Password</label></div>
+					
+						<div class="span3"><input type="password" id="inputPassword" placeholder="Password"></div>
+						<br><br>
+
+						<div class="span4 offset1">
+							&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+							<font17px id="err_message"></font17px>
+						</div>
+
+					</div>
+	
+				</form>
+		  	</div>
+
+		  	<div class="modal-footer">
+		    	<button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+		    	<button id="login-button2" type="submit" class="btn btn-primary">Sign In and Confirm</button>
+		  	</div>
+		</div>
+
+		<!-- Ulises' Modals end Here -->
 
 		<body2>
 			<div class="navbar navbar-inverse nav navbar-fixed-top">
@@ -726,7 +800,6 @@ Contact.prototype.collectInput = function(first_or_second) {
 	</div>
 
 	<div class="modal-footer">
-		
 		<a role="button" class="btn" data-toggle="modal" data-dismiss="modal">Cancel</a>
 		<a role="button" class="btn" data-toggle="modal" data-dismiss="modal" href="#create-contacts" >Next</a>
 	</div>
@@ -1017,21 +1090,7 @@ Contact.prototype.collectInput = function(first_or_second) {
 			$('#CreateAccountButton').hide()
 			$('#WelcomeDropDown').hide()
    
-   			/* setup the page so that only one of the forms is shown */
-			
-			// -------------------------------------------- //
-      // I think this isn't needed, so I comment it out (Seth)
-			// -------------------------------------------- //
-      //$(document).ready(function() {
-			// 	show_login_page()
-
-			// });
-
-			//function show_login_page() {
-	   	//		$('#SignDropDown').show()
-			//	$('#CreateAccountButton').show()	
-	   	//	}
-
+  
 			function handle_login_response(data) {
 				$('font17px#err_message').empty();
 				$('font17px#err_message').css('font-size','12px');
@@ -1069,8 +1128,17 @@ Contact.prototype.collectInput = function(first_or_second) {
 			   return false;
 			});
 
+			$('#login-button2').click(function() {
+			   email = $('#inputEmail').val()
+			   password = $('#inputPassword').val()
+			   json_request("/Users/login", { email: email, password: password }, function(data) 
+			   	{ return handle_login_response(data); }, function(err) { alert('error occurred on request'); });
+
+			   return false;
+			});
+
 			$("#sm-logout-button").click( function() {
-        json_request("/Users/logout", {}, function(data) { return init_user_home(data); }, function(err) { alert("error occurred on request"); });
+        	json_request("/Users/logout", {}, function(data) { return init_user_home(data); }, function(err) { alert("error occurred on request"); });
 				return false;
 			});				
 
@@ -1086,11 +1154,15 @@ Contact.prototype.collectInput = function(first_or_second) {
 				$('.Section-C').toggle();
 			});
 
-      function resetTypeBoxes() {
-        $("#show-A").prop('checked' , false)
-        $("#show-B").prop('checked' , false)
-        $("#show-C").prop('checked' , false)
-      }
+			$('#CreateAccountButton').click(function (){
+				danielSwitch = "Main";
+			});
+
+		    function resetTypeBoxes() {
+		       $("#show-A").prop('checked' , false)
+		       $("#show-B").prop('checked' , false)
+		       $("#show-C").prop('checked' , false)
+		    }
 
 
 		</script>
