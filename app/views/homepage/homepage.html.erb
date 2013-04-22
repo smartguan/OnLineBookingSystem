@@ -419,10 +419,13 @@ Contact.prototype.collectInput = function(first_or_second) {
 						$('#ulisesModal-Guest').hide();
 						$('#ulisesModal-Account').hide();
 						$('#ulisesModal-Reserve').show();
+						$('#ulisesModal-Sing').hide();
 					} else{
 						$('#ulisesModal-Guest').show();
 						$('#ulisesModal-Account').show();
+						$('#ulisesModal-Sing').show();
 						$('#ulisesModal-Reserve').hide();
+					
 					}
 
 					idToSend = calEvent.id;
@@ -529,7 +532,7 @@ Contact.prototype.collectInput = function(first_or_second) {
 
 	  		<div class="modal-footer">
 		    	<button id="ulisesModal-Cancel" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
-		    	<button id="ulisesModal-Sing" class="btn btn-primary" data-toggle="modal" data-dismiss="modal"href="#ulisesSignInModal">Sign In</button>
+		    	<button id="ulisesModal-Sing" class="btn btn-primary" href='#ulisesSignInModal' data-toggle="modal">Sign In</button>
 		    	<button id="ulisesModal-Reserve" class="btn btn-primary" >Reserve</button>
 		    	<button id="ulisesModal-Guest" class="btn btn-primary" href='#create-user' data-toggle="modal">Reserve as Guest</button>
 		    	<button id="ulisesModal-Account" class="btn btn-primary" href='#create-user' data-toggle="modal">Create Account and Reserve</button>
@@ -1109,10 +1112,9 @@ Contact.prototype.collectInput = function(first_or_second) {
 			    //This is the case for success
 			    default:
 			    	if (data.type != "Admin") {
-			    		$('#SignDropDown').hide()
-						$('#CreateAccountButton').hide()
-						$('#WelcomeDropDown').show()
-						$('#ProgressBar').display()
+			    		$('#SignDropDown').hide();
+						$('#CreateAccountButton').hide();
+						$('#WelcomeDropDown').show();
 			    	} 
 			    	else {
 			    		window.location.href = "/admin";
