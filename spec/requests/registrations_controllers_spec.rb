@@ -206,6 +206,29 @@ describe "RegistrationpControllers" do
         end
         
       end
+
+      context "when droppting a section not enrolled" do
+        before(:each) do
+          test_json = {section_id:2, format: :json}
+          sec1_json = sec_json.dup
+          sec1_json[:start_date] = "2013-04-16"
+          sec1_json[:end_date] = "2013-04-16"
+          sec1_json[:day] = "Tuesday"
+          post '/Sections/create', sec1_json
+          post '/Registrations/drop', test_json
+        end
+        
+        it "should render errCode == 304" do
+          expected = {errCode:304}.to_json
+          response.body.should == expected
+        end
+
+        it "should has 1 section in the student enrolled list" do
+          expected = 1
+          post "/Registrations/getEnrolledSections", {format: :json}
+          JSON.parse(response.body)['sections'].size.should == expected
+        end
+      end
       
       #tests for waitlist != 0 and @user & @sec actually postdisconnected
       context "when dropping a section with waitlist != 0" do
