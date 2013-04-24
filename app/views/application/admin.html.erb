@@ -1,367 +1,1033 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <script type='text/javascript' src='/assets/jquery-1.9.1.js'></script>
-        <script type="text/javascript" src="/assets/jquery-1.9.1.min.js"></script>
-        <script type="text/javascript" src="/assets/jquery-ui.min.js"></script>
-        <script type="text/javascript" src="/assets/admin.js"></script>
-        <script type="text/javascript" src="/assets/jquery.loadJSON.js"></script>
-        <script type="text/javascript" src="/assets/date.js"></script>
-        <script type="text/javascript" src="/assets/bootstrap-datepicker.js"></script>
-        <script type="text/javascript" src="/assets/messages.js"></script>
-        <script src='assets/jquery/jquery-ui-1.10.2.custom.min.js'></script>
-        
-        <link rel="stylesheet" type="text/css" href="/assets/datepicker.css">
-        <link rel="stylesheet" type="text/css" href="/assets/admin.css">
-        <style>
+	
+	<head>
+		<meta charset="utf-8">
+		<title>Rancho Rinconada Online Booking </title>
+		
+		<link type="text/css" rel="stylesheet" href="assets/homepage.css.scss">
+		
+		
 
-            body {
-                background-color: rgb(1,136,169);
-                margin-top: -10px;
-                text-align: center;
-                font-size: 14px;
-                font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
-                }
+		<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-dropdown.js"></script>
+		<script type='text/javascript' src='/assets/jquery-1.9.1.js'></script>
+		<script type="text/javascript" src="/assets/jquery-1.9.1.min.js"></script>
+		<script src='assets/fullcalendar/fullcalendar.min.js'></script>
+		<script type="text/javascript" src='assets/date.js'></script>
 
-            .datePicker{z-index:1151;}
-        </style>
-    </head>
-    <body><div class="container" style="width:1265px">
+		<link type="text/css" rel="stylesheet" href='/assets/fullcalendar/fullcalendar.css' rel='stylesheet' />
+		<link type="text/css" rel="stylesheet" href='/assets/fullcalendar/fullcalendar.print.css' rel='stylesheet' media='print' />
 
-        <body2>
-            <div class="navbar navbar-inverse nav navbar-fixed-top">
-                <div class="navbar-inner">
-                    <div class="container" style="width:1265px">
-                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </a>
-                        <a class="brand"  href="/" style="color:white; font-size:27px"> &nbsp &nbspRancho Rinconada</a>
-                          <div class="pull-right">
-                            <ul class="nav pull-right">
-                                <li class="divider-vertical"></li>
-                            
-                                <li id="WelcomeDropDown" class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome, Admin <b class="caret"></b></a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="#"><i class="icon-pencil"></i> Change Password</a></li>
-                                        <li class="divider"></li>
-                                        <li><a href="/"><i class="icon-off"></i> Logout</a></li>
-                                    </ul>
-                                </li>
+		<style type="text/css">
+
+			#create-instructor {
+				width:480px;
+				margin-left:-200px;
+			}
+			#create-section {
+				width:480px;
+				margin-left:-200px;
+			}
+
+			#login-user{
+				width:400px;
+				margin-left:-200px;
+			}
+			.modal-body {
+					max-height: 300px;
+			}
+
+			.spacer5 { height: 5px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+			.spacer10 { height: 10px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+			.spacer15 { height: 15px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+			.spacer20 { height: 20px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+			.spacer25 { height: 25px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+			.spacer30 { height: 30px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+			.spacer35 { height: 35px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+			.spacer40 { height: 40px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+			.spacer45 { height: 45px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+			.spacer50 { height: 50px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+			.spacer100 { height: 100px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+			.spacer200 { height: 200px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+
+		</style>
+
+		<script type="text/javascript">
+			/////////////////////////////////////////////////////////////////////////////////////
+			/////////////////////// Jquery events and clicks ////////////////////////////////////
+			/////////////////////////////////////////////////////////////////////////////////////
+			$(document).ready(function() {
+				resetTypeBoxes();
+				resetLessonBoxes();
+				document.create_section_form.create_section_max_enroll.disabled=true;
+				document.create_section_form.create_section_max_waitlist.disabled=true;
+			  $("#create-instructor-button").click(sendCreateInstructorRequest);
+				$('#sm-update-user-button').click(sendUpdateUserRequest);
+			  init_password_update()
+				$("#create-instructor-errors").hide();
+				$("#create-instructor-success").hide();
+				$("#create-section-errors").hide();
+				$("#create-section-success").hide();
+				$('#WelcomeDropDown').show();
+				 $('#CreateInstructorButton').show();
+			});
+
+
+			function submitGetRequest(url, handler) {
+				return $.getJSON(url, handler);
+			}
+
+
+			///////////////////////////////////////////////////////////////////////
+			/////////////////////////////////// Create User Functions ///////////////////////
+			///////////////////////////////////////////////////////////////////////
+			function sendCreateInstructorRequest() {
+				$("#create-instructor-err-message").empty();
+				var inputUser = new User();
+
+				post_json_request("/Admin/addInstructor", inputUser.collectInput("create"), handleCreateInstructorResponse);
+				return false;
+			}
+
+			function sendCreateSectionRequest() {
+				$("#create-section-err-message").empty();
+				var inputSection = new Section();
+
+				post_json_request("/Sections/create", inputSection.collectInput("create-section"), handleCreateSectionResponse);
+				return false;
+			}
+
+			function handleCreateInstructorResponse(data) {
+				var error_message =  translateErrCode(data.errCode);
+				$("#create-instructor-errors").fadeOut(300);
+				$("#create-instructor-err-message").html(error_message);
+				
+				if(data.errCode!=1) {
+					 $("#create-instructor-errors").show();
+					 return data.errCode;
+				}
+				else {
+					$("#create-instructor-success").fadeIn(300);
+					setTimeout( function(){window.location.replace("/newadmin");}, 1600);
+					return 1;
+				}
+			}
+
+			function handleCreateSectionResponse(data) {
+				var error_message = translateErrCode(data.errCode);
+				$("#create-section-errors").fadeOut(300);
+				$("#create-section-err-message").html(error_message);
+
+				if(data.errCode!=1) {
+					$("#create-section-errors").show();
+					return data.errCode;
+				} else {
+					$("#create-section-success").fadeIn(300);
+					setTimeout( function(){window.location.replace("/newadmin");}, 1600);
+					return 1;
+				}
+			}
+
+			// $('#sm-update-user-button').click(function() {
+			// 	alert("alert")
+			// 	sendUpdateUserRequest()
+			// })
+
+			// -------------------------------------------------- //
+			//             For update user profile
+			// -------------------------------------------------- //
+			function sendUpdateUserRequest() {
+				$("#update-user-err-message").empty();
+				var inputUser = new User();
+				post_json_request("/Users/update", inputUser.collectInput("update"), handleUpdateResponse);
+				return false;
+			}
+
+			function handleUpdateResponse(data) {
+				if(data.errCode == 1 ) {
+					//to be changed later to #update-user-success
+					$("#create-instructor-success").fadeIn(300);
+					setTimeout( function(){window.location.replace("/");}, 1600);
+					return 1;
+				}
+				else {
+					alert(translateErrCode(data.errCode))
+				}
+			}
+
+
+			 ////////////////////////////////////////////////////////////////////////////////////
+			 //////////////////////////////////// Helper functions //////////////////////////////
+			 ////////////////////////////////////////////////////////////////////////////////////
+
+			function getRadioValue(attribute) {
+				var radioId = "input[name=" + attribute + "]:radio:checked";
+				return $(radioId).val();
+			}
+
+			function collectInput(action, obj) {
+				for(var key in obj) { obj[key] = getFormInput(action, key); }
+				return obj;
+			}
+
+			function getFormInput(action, key) {
+				var identifier = "#" + action + "-" + key;
+				return $(identifier).val();
+			}
+
+			function getDayString(date) {
+				var weekday=new Array(7);
+				weekday[0]="SUNDAY";
+				weekday[1]="MONDAY";
+				weekday[2]="TUESDAY";
+				weekday[3]="WEDNESDAY";
+				weekday[4]="THURSDAY";
+				weekday[5]="FRIDAY";
+				weekday[6]="SATURDAY";
+				return weekday[date.getDay()];
+			}
+
+			function addDays(date, amount) {
+        var tzOff = date.getTimezoneOffset() * 60 * 1000;
+        var t = date.getTime();
+        t += (1000 * 60 * 60 * 24) * amount;
+        var d = new Date();
+        d.setTime(t);
+        var tzOff2 = d.getTimezoneOffset() * 60 * 1000;
+        if (tzOff != tzOff2)
+        {
+            var diff = tzOff2 - tzOff;
+            t += diff;
+            d.setTime(t);
+        }
+        return d;
+			}
+
+			////////////////////////////////////////////////////////////////////////////////////
+			/////////////////////////////////// User Object ////////////////////////////////////
+			////////////////////////////////////////////////////////////////////////////////////
+			var User = function(first, last, email, password, password_confirmation, dob, additional_info) {
+				this.first = (first === undefined) ? "" : first;
+				this.last = (last === undefined) ? "" : last;
+				this.email = (email === undefined) ? "" : email;
+				this.dob = (dob === undefined) ? "" : dob;
+				this.password = (password === undefined) ? "" : password;
+				this.password_confirmation = (password_confirmation === undefined) ? "" : password_confirmation;
+				this.additional_info = (additional_info === undefined) ? "" : additional_info;
+			};
+
+			User.prototype.collectInput = function(action) {
+				// handle simple input texts 
+				for(var key in this) {
+					var identifier = "#" + action + "-" + key;
+					this[key] = $(identifier).val();
+				}
+				var residence = new Residence();
+				var contacts = new Contacts(); //abstact away objects for possible future error checking
+
+				this.residence = residence.collectInput(action); //use objects functions to grab values
+				this.contacts = contacts.collectInput(action);
+
+				// this.gender = parseInt(getRadioValue("gender"),10); //handle radios seperate
+				// this.skill = parseInt(getRadioValue("skill"),10); //str->int w/ radix=10
+
+				this.gender = getRadioValue("gender"); //handle radios seperate
+				this.skill = getRadioValue("skill"); //str->int w/ radix=10
+
+				return this;
+			}
+
+
+			///////////////////////////////////////////////////////////////////////////////////////
+			/////////////////////////////////// Residence Object //////////////////////////////////
+			///////////////////////////////////////////////////////////////////////////////////////
+			var Residence = function(address, city, zip) {
+				this.address = (address === undefined) ? "" : address;
+				this.city = (city === undefined) ? "" : city;
+				this.zip = (zip === undefined) ? "" : zip;
+			};
+
+			Residence.prototype.collectInput = function(action) {
+				for(var key in this) { 
+					var identifier = "#" + action + "-residence-" + key;
+					this[key] = $(identifier).val();
+				}
+				return this;
+			}
+			///////////////////////////////////////////////////////////////////////////////////
+			/////////////////////////////// Contacts Objects //////////////////////////////////
+			///////////////////////////////////////////////////////////////////////////////////
+			var Contacts = function(first, second) {
+				this.first = (first === undefined) ? new Contact() : first;
+				//this.second = (second === undefined) ? new Contact() : second;
+			};
+
+			Contacts.prototype.collectInput = function(action) {
+				for(var key in this) {
+					var tempContact = new Contact();
+					var identifier =  "#" + action + "-" + key + "-"; //create-second-contact-secondary
+					this[key] = tempContact.collectInput(identifier); //use contacts jquery to retrieve specific id's
+				}
+				return this;
+			}
+
+			//////////////////////////////////////////////////////////////////////////////////
+			/////////////////////////////// Contact Objects //////////////////////////////////
+			//////////////////////////////////////////////////////////////////////////////////
+			var Contact = function(name, primary, secondary) {
+				this.name = (name === undefined) ? "" : name;
+				this.primary = (primary === undefined) ? "" : primary;
+				this.secondary = (secondary === undefined) ? "" : secondary;
+			};
+			Contact.prototype.collectInput = function(first_or_second) {
+				for(var key in this) { 
+					var identifier =  first_or_second + "contact-" + key;
+					this[key] = $(identifier).val();
+				}
+				return this;
+			}
+
+			//////////////////////////////////////////////////////////////////////////////////
+			/////////////////////////////// Section Objects //////////////////////////////////
+			//////////////////////////////////////////////////////////////////////////////////
+			var Section = function(name, start_date, end_date, day, start_time, end_time, teacher, enroll_max, waitlist_max, description, section_type, lesson_type) {
+				this.name = (name === undefined) ? "" : name;
+				this.start_date = (start_date === undefined) ? "" : start_date;
+				this.end_date = (end_date === undefined) ? "" : end_date;
+				this.day = (day === undefined) ? "" : day;
+				this.start_time = (start_time === undefined) ? "" : start_time;
+				this.end_time = (end_time === undefined) ? "" : end_time;
+				this.teacher = (teacher === undefined) ? "" : teacher;
+				this.enroll_max = (enroll_max === undefined) ? "" : enroll_max;
+				this.waitlist_max = (waitlist_max === undefined) ? "" : waitlist_max;
+				this.description = (description === undefined) ? "" : description;
+				this.section_type = (section_type === undefined) ? "" : section_type;
+				this.lesson_type = (lesson_type === undefined) ? "" : lesson_type;
+			};
+			Section.prototype.collectInput = function(action) {
+				for(var key in this) {
+					var identifier = "#" + action + "-" + key;
+					this[key] = $(identifier).val();
+					//alert("this[" + key + "] = " + this[key]);
+				}
+				this.name = "";
+				this.description = "";
+
+				if (this.section_type == "A") {
+					//alert(new Date(this.start_date).getDate() + 10);
+					//var myDate = new Date();
+					//myDate.setDate(new Date(this.start_date).getDate() + 9);
+					this.end_date = addDays(new Date(this.start_date), 10);
+					//this.end_date = myDate.getDate();
+					this.day = "MONDAY";
+				} else if (this.section_type == "B") {
+					// var myDate = new Date();
+					// myDate.setDate(new Date(this.start_date).getDate() + 7);
+					// this.end_date = myDate;
+					this.end_date = addDays(new Date(this.start_date), 8);
+					this.day = "SATURDAY";
+				} else if (this.section_type == "C") {
+					this.end_date = this.start_date
+					this.day = getDayString(new Date(this.start_date));
+				}
+
+				if (this.lesson_type == "PRIVATE") {
+					this.enroll_max = 1;
+					this.waitlist_max = 0;
+				}
+				return this;
+			}
+			</script>
+
+			<script>
+
+				var events = [1000];
+				var index = 0;
+				var usercalendar;
+				var idToSend;
+				var createInstructorSwitch;
+				var sectionType;
+				var lessonType;
+
+				$(document).ready(function() {
+					
+					var date = new Date();
+					var d = date.getDate();
+					var m = date.getMonth();
+					var y = date.getFullYear();
+
+					json_request("/Instructors/getAllInstructors", {}, function(data){ 
+    				var options = '';
+            for (var i = 0; i < data.instructors.length; i++) {
+            	var name = data.instructors[i].first + ' ' + data.instructors[i].last;
+            	//alert(name);
+              options += '<option value="' + name + '">' + name + '</option>';
+          	}
+          	$('#create-section-teacher').html(options);
+          }); 
+
+
+					json_request("/Sections/getAvailableSectionsFromNowOn", {}, function(data) 
+				   	{ return extractSections(data['sections']); }, function(err) { alert('error occurred on request'); });
+
+
+					usercalendar = new UserCalendar(events);
+					usercalendar.display();
+					$('#editSectionModal').hide();
+					$('#createSectionModal').hide();
+
+
+				});
 
 
 
-                            </ul>
-                          </div>
-                    </div>
-                </div>
-            </div>
-
-        </body2>
-        <center>
-        <h1>Administrator's Page</h1>
-        </center>
-
-        <div class="container-fluid"><body2>
-
-            <div class="row-fluid">
+				function json_request(page, dict, success, failure) {
+			    $.ajax({
+			        type: 'POST',
+			        url: page,
+			        data: JSON.stringify(dict),
+			        contentType: "application/json",
+			        dataType: "json",
+			        success: success,
+			        failure: failure
+			    });}
 
 
-                <div class="span12">
-                    <center>
-                    <div class="btn-group">
-                        <button class="btn" id="show-section">Show Sections</button>
-                        <button class="btn" id="show-users">Show Users</button>
-                    </div>
-                    <div class="btn-group">
-                        <button class="btn" id="export-users-button">Export Users</button>
-                        <button class="btn" id="export-sections-button">Export Sections</button>
-                    </div>
-                    <div class="btn-group">
-                        <a href="#new-form3" role="button" class="btn" data-toggle="modal">Create Section</a>
-                        <button class="btn" id="logout-button">Logout</button>
-                    </div>
+			    function extractSections(data){
 
-                    <div id="sec-table"><table id="section-table" class='table'></table></div>
-                </center>
-                </div>
-            </div>
-        </body2></div>
-        <div class="navbar navbar-fixed-bottom navbar-inverse">
-                <div class="navbar-inner">
-                    <div class="container" style="width:1265px">
-                        <div id="copyRights" class="pull-left">
-                            <ul class="nav">
-                              <li><a style="color:gray; font-size:15px">© 2012 Copyright Rancho Rinconada Rec Center</a></li>
-                            </ul>
-                        </div>
+			    	for (var counter = 0, dictLen = data.length; counter < dictLen; counter++) {
 
-                        <div id="bringToTop" class="pull-right">
-                            <ul class="nav">
-                              <li><a href="#">Bring To Top</a></li>
-                            </ul>
-                         </div>
-                    </div>
-                </div>
+			    		var lesson_type = data[counter]['lesson_type']; 
+				    	var title = 'Section-C Available';
+				    	var id = data[counter]['id'];
+						var start = (data[counter]['start_date']).split("T")[0] + "T" + (data[counter]['start_time']).split("T")[1];
+
+						var dayInfo = new Date((data[counter]['start_date']).split("T")[0] + "T" + (data[counter]['start_time']).split("T")[1]);
+						
+						dayInfo.setHours(parseInt((data[counter]['start_time']).split("T")[1]));
+						dayInfo.setMinutes(parseInt((data[counter]['start_time']).split(":")[1]));
+
+
+						var end = (data[counter]['end_date']).split("T")[0]+ "T" + (data[counter]['end_time']).split("T")[1];
+						var className = 'Section-C';
+						var backgroundColor = 'red';
+
+
+				    	if (data[counter]['section_type'] =='A') {
+				    		title = 'Section-A Available';
+				    		backgroundColor = 'blue';
+				    		className = 'Section-A';
+				    		end = (data[counter]['start_date']).split("T")[0]+ "T" + (data[counter]['end_time']).split("T")[1];
+
+				    	} else if (data[counter]['section_type']=='B') {
+				    		title = 'Section-B Available';
+				    		className = 'Section-B';
+				    		backgroundColor = 'orange';
+
+				    	} 
+
+				    	var newSection = {'title':title, 'id':id, 'start':start, 'end':end, 'allDay':false,
+				    	'lesson_type':lesson_type,'dayInfo':dayInfo, 'className': className, 'backgroundColor':backgroundColor};
+
+				    	
+				    	events[index] = newSection;
+				    	index = index + 1;
+				    	
+				    	$(UserCalendar.identifier).fullCalendar( 'refetchEvents' );
+						$(UserCalendar.identifier).fullCalendar( 'rerenderEvents' );
+
+					}
+
+			    	return true;
+
+			    }
+
+
+				var UserCalendar = function(input_events) {
+					//Instance Variable and Methods (ie input events dependant)
+					this.events = input_events;
+
+					this.calendarOptions = 	{
+						header: UserCalendar.headerOptions,
+						editable: false,
+						events: input_events,
+						eventClick: UserCalendar.clickEvent,
+						dayClick: UserCalendar.clickDay,
+						viewDisplay: UserCalendar.disp,
+						
+					};
+
+					this.display = function() {
+						$(UserCalendar.identifier).fullCalendar(this.calendarOptions);
+					}
+				}
+
+				// Singleton Class per Page Static Methods
+				UserCalendar.identifier = "#calendar";
+
+				UserCalendar.headerOptions = {
+					left: 'prev,next today',
+					center: 'title',
+					right: 'month prev,next',
+				};
+
+				UserCalendar.disp = function (view ) {
+					if($(UserCalendar.identifier).fullCalendar('getView').name == "month"){
+
+						$('#Month').show()
+						$('#Day').hide()
+					}
+				}
+
+				UserCalendar.clickDay = function(date, jsEvent, view) {
+					if($(UserCalendar.identifier).fullCalendar('getView').name == "month"){
+
+						var radios = document.getElementsByName('radio-section-type');
+
+						for (var i = 0, length = radios.length; i < length; i++) {
+   						if (radios[i].checked) {
+        				sectionType = radios[i].value;
+    					}
+						}
+
+						var radios = document.getElementsByName('radio-lesson-type');
+
+						for (var i = 0, length = radios.length; i < length; i++) {
+   						if (radios[i].checked) {
+        				lessonType = radios[i].value;
+    					}
+						}
+
+						if ((sectionType == "A" && date.getDay() == 1) || (sectionType == "B" && date.getDay() == 6) || sectionType == "C") {
+							$('#createSectionModal').show();
+							document.create_section_form.create_section_start_date.value = date;
+							document.create_section_form.create_section_section_type.value = sectionType;
+							document.create_section_form.create_section_lesson_type.value = lessonType;
+							$('#createSectionModal-Create').show();
+						} else {
+							alert("Please click on Monday to create an A event or Saturday for a B event.");
+						}
+					}
+
+					$('#createSectionModal-Cancel').click(function() {
+				   		$('#createSectionModal').hide(); 
+					});
+
+					$('#createSectionModal-Close').click(function() {
+				   		$('#createSectionModal').hide(); 
+					});
+
+					$('#createSectionModal-Create').click(function() {
+
+							sendCreateSectionRequest()
+							//$('#createSectionModal').hide(); 
+					});
+				}
+
+				UserCalendar.clickEvent = function(calEvent, jsEvent, view) {
+					if(view.name=='agendaDay') {
+
+						$('#editSectionModal').show(); 
+						$('#modal-section').empty(); 
+						$('#modal-section').append(calEvent.className);
+						$('#modal-date').empty(); 
+						$('#modal-date').append(calEvent.dayInfo);
+						$('#modal-lesson').empty(); 
+						$('#modal-lesson').append(calEvent.lesson_type);
+						$('#editSectionModal-Delete').show();
+
+						idToSend = calEvent.id;
+
+
+						return true;
+					}
+
+					$('#editSectionModal-Cancel').click(function() {
+				   		$('#editSectionModal').hide(); 
+					});
+
+					$('#closeEditSection-modal').click(function() {
+				   		$('#editSectionModal').hide(); 
+					});
+
+					$('#editSectionModal-Delete').click(function() {
+						
+						json_request("/Sections/delete", {'id':idToSend}, function(data) 
+				   		{ if (data.errCode == 1) {window.location.replace("/newadmin")};}, function(err) { alert('error occurred on request'); });
+				   		$('#editSectionModal').hide(); 
+					});
+					
+					if($(UserCalendar.identifier).fullCalendar('getView').name == "month"){
+						
+						$(UserCalendar.identifier).fullCalendar('changeView', 'agendaDay');
+						$(UserCalendar.identifier).fullCalendar('gotoDate',calEvent.dayInfo);
+						$('#Month').hide()
+						$('#Day').show()
+					}
+					return false;
+				}
+
+				//UserCalendar.clickDay = function(date, allDay, jsEvent, view) {
+				//	if($(UserCalendar.identifier).fullCalendar('getView').name == "month"){
+				//		$(UserCalendar.identifier).fullCalendar('changeView', 'agendaDay').fullCalendar('gotoDate', date);
+				//		alert(date);
+				//		$('#Month').hide()
+				//		$('#Day').show()
+				//	}
+				//	return true;
+				//}
+				
+		</script>
+
+		<style>
+
+			body {
+				background-color: rgb(1,136,169);
+				margin-top: -10px;
+				text-align: center;
+				font-size: 14px;
+				font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+				}
+
+			#calendar {
+				width: 886px;
+				margin: 0 auto;
+				margin-top: -7px;
+				background-color: white;
+				border:  white thin solid;
+				}
+
+		</style>
+		
+
+	</head>
+
+	<body><div class="container" style="width:1265px">
+
+		<div style="width:570px;" id="editSectionModal" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+	  		<div class="modal-header">
+	    		<button id="closeEditSection-modal" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	    		<h3 style="color:blue" id="myModalLabel">Edit Section</h3>
+	  		</div>
+
+	  		<div class="modal-body">
+	  			<h4><p>- Section Information -</p></h4>
+	    		<p style="color:gray" id="modal-section"> section</p><br>
+	    		<h4><p>- Selected Date and Time -</p></h4>
+	    		<p style="color:gray" id="modal-date">date and time</p><br>
+	    		<h4><p>- Lesson Type Information -</p></h4>
+	    		<p style="color:gray" id="modal-lesson">lesson</p>
+	  		</div>
+
+	  		<div class="modal-footer">
+		    	<button id="editSectionModal-Cancel" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+		    	<button id="editSectionModal-Delete" class="btn btn-primary" >Delete</button>
+	  		</div>
+		</div>
+
+		<body2>
+			<div class="navbar navbar-inverse nav navbar-fixed-top">
+			    <div class="navbar-inner">
+			    	<div class="container" style="width:1265px">
+			            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+			                <span class="icon-bar"></span>
+			                <span class="icon-bar"></span>
+			                <span class="icon-bar"></span>
+			            </a>
+			            <a class="brand"  href="/" style="color:white; font-size:27px"> &nbsp &nbspRancho Rinconada</a>
+			              <div class="pull-right">
+			                <ul class="nav pull-right">
+			                	<li class="divider-vertical"></li>
+			                    <li id="WelcomeDropDown" class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome, Admin <b class="caret"></b></a>
+			                        <ul class="dropdown-menu">
+			                            <li><a href='#update-password-Daniel' data-toggle="modal"><i class="icon-pencil"></i> Change Password</a></li>
+			                            <li class="divider"></li>
+			                            <li><a href="#" id="sm-logout-button"><i class="icon-off"></i> Logout</a></li>
+			                        </ul>
+			                    </li>
+
+
+
+			                </ul>
+			              </div>
+
+			              <div id="CreateInstructorButton" class="pull-right">
+			              	<ul class="nav">
+			                  <li class="divider-vertical"></li>
+			                  <li><a href='#create-instructor' data-toggle="modal"> Create an Instructor</a></li>
+			              </ul>
+			              </div>
+			        </div>
+			    </div>
+			</div>
+
+		</body2>
+
+		<div class="container-fluid"><body2>
+
+			<div class="row-fluid">
+
+				<div class="span3">
+
+					<position-fixed-top>
+						<div class="span10">
+							
+							<div id="CreateSection" class="alert alert-info">
+						  		<h5>Create a section: </h5>
+						  		Select the Section Type You Want
+						  		To Create ...
+						  			
+						  		<br><br><form class="form">
+						  			
+									<label class="radio">
+									  	<input type="radio" name="radio-lesson-type" id="lesson1" value="PRIVATE" checked> Private
+									</label>
+
+									<label class="radio">
+										<input type="radio" name="radio-lesson-type" id="lesson2" value="PRE-COMP"> Pre-Competitive
+									</label>
+
+									<label class="radio">
+										 <input type="radio" name="radio-lesson-type" id="lesson3" value="GROUP"> Group
+									</label>
+								</form>
+								<form class="form" name="section_type">
+						  			
+									<label class="radio">
+									  	<input type="radio" name="radio-section-type" id="A" value="A" checked> A (Monday-Thursday)
+									</label>
+
+									<label class="radio">
+										<input type="radio" name="radio-section-type" id="B" value="B"> B (Saturday-Sunday)
+									</label>
+
+									<label class="radio">
+										 <input type="radio" name="radio-section-type" id="C" value="C"> C (Any Day)
+									</label>
+								</form>
+ 
+							</div>
+
+							<div class="alert alert-info">
+							  <h5>To Make a Section:</h5>
+							  Step One:<br> Select a Section and Lesson Type.<br><br>
+
+							  Step Two:<br> Click on the appropriate day <br>
+							  (Monday for Type A, Saturday for <br>
+							  Type B or any day for Type C)<br>
+							  and submit the form.<br><br>
+
+							</div>
+						</div>
+					</position-fix-top>
+				</div>
+			
+
+				<div class="span9">
+
+					<div id="DateSelection" class="alert alert-info">
+
+			  			<h3 id="Month">Select a Day and Section Type: </h3>
+			  			<h3 id="Day">Select the Time and Lesson Type: </h3><br>
+			  			<div id="calendar"></div><br>
+			  			
+					</div>
+
+				</div>
+
+			</div>
+		</body2></div>
+
+		<div class="navbar navbar-fixed-bottom navbar-inverse">
+				<div class="navbar-inner">
+					<div class="container" style="width:1265px">
+			        	<div id="copyRights" class="pull-left">
+			              	<ul class="nav">
+			                  <li><a style="color:gray; font-size:15px">© 2012 Copyright Rancho Rinconada Rec Center</a></li>
+			              	</ul>
+			        	</div>
+
+			        	<div id="bringToTop" class="pull-right">
+			              	<ul class="nav">
+			                  <li><a href="#">Bring To Top</a></li>
+			              	</ul>
+			             </div>
+			    	</div>
+			    </div>
+	  	</div>
+
+	  	<!-- Create a User -->
+<div class="modal hide fade" id="create-instructor" >
+	<div class="modal-header">
+		<a class="close" data-dismiss="modal">&times;</a>
+		<h3>Create an Instructor</h3>
+	</div>
+	<div class="modal-body">
+		<form class="form-horizontal" id='create-instructor-form'>
+			<legend>Personal Information</legend>
+			<div class="row-fluid">
+				<div class="span4"><label for="create-first">First Name</label></div>
+				<div class="span8"><input id="create-first"  type="text" name="first" class="create-text"></div>
+			</div>
+
+			<div class="row-fluid">
+				<div class="span4"><label for="create-last">Last Name</label></div>
+				<div class="span8"><input id="create-last" type="text" name="last" class='create-text'></div>
+			</div>
+
+			<div class="row-fluid">
+				<div class="span4"><label for="create-email">Email</label></div>
+				<div class="span8"><input id="create-email" type="text" name="email" class='create-text'></div>
+			</div>
+
+			<div class="row-fluid">
+				<div class="span4"><label for="create-password">Password</label></div>
+				<div class="span8"><input id="create-password" type="password" name="password" class='create-text'></div>
+			</div>
+
+			<div class="row-fluid">
+				<div class="span4"><label for="create-password_confirmation">Confirm Password</label></div>
+				<div class="span8"><input id="create-password_confirmation" type="password" name="password_confirmation" class='create-text'></div>
+			</div>
+
+			<div class="row-fluid"><div class="spacer25"></div></div> <!-- morespace -->
+				
+			<div class="row-fluid">
+				<div class="span6"><label for="create-dob">Date of Birth</label></div>
+				<label><input type="radio" name="gender" checked="checked" value="male">Male</label>
+			</div>
+			<div class="row-fluid">
+				<div class="span6"><input id="create-dob" placeholder="mm/dd/yyyy" type="text" name="create-dob" style="width:100px"></div>
+				<label><input type="radio" name="gender" value="female">Female</label>
+			</div>
+
+			<legend>Residence</legend>
+			<div class="control-group">
+				<label class="control-label" for="create-residence-address">Address</label>
+				<div class="controls">
+					<input type="text" class="input-large" id="create-residence-address">
+				</div>
+			</div> <!-- address -->
+
+			<div class="control-group">
+				<label class="control-label" for="create-residence-city">City</label>
+				<div class="controls">
+					<input type="text" class="input-medium" id="create-residence-city">
+				</div>
+			</div> <!-- city -->
+
+			<div class="control-group">
+				<label class="control-label" for="create-residence-zip">Zipcode</label>
+				<div class="controls">
+					<input type="text" class="input-small" id="create-residence-zip">
+				</div>
+			</div> <!-- zip -->
+			<legend>First Contact</legend>
+				<div class="control-group">
+					<label class="control-label" for="create-first-contact-name">Name </label>
+					<div class="controls">
+						<input type="text" class="input-large" id="create-first-contact-name">
+					</div>
+				</div> <!-- contact one name -->
+
+				<div class="control-group">
+					<label class="control-label" for="create-first-contact-primary">Primary Contact</label>
+					<div class="controls">
+						<input type="text" class="input-medium bfh-phone" data-country="US" id="create-first-contact-primary">
+					</div>
+				</div> <!-- contact one primary -->
+
+				<div class="control-group">
+					<label class="control-label" for="create-first-contact-secondary">Secondary Contact</label>
+					<div class="controls">
+						<input type="text" class="input-medium bfh-phone" data-country="US" id="create-first-contact-secondary">
+					</div>
+				</div> <!-- contact one secondary -->
+		</form> <!-- Residence form -->
+	</div>
+
+	<div class="modal-footer">
+		<div class="alert alert-error" id="create-instructor-errors">
+			<a class="close" data-dismiss="alert">&times;</a>
+			<p>
+				<i class="icon-exclamation-sign">  </i><span id="create-instructor-err-message"></span>
+			</p>
+		</div>
+		<div class="alert alert-success" id="create-instructor-success">
+			<a class="close" data-dismiss="alert">&times;</a>
+			<i class="icon-ok"></i> You successfully created an Instructor.
+		</div>
+		<a role="button" class="btn" data-toggle="modal" data-dismiss="modal">Cancel</a>
+		<a role="button" class="btn btn-primary" data-toggle="modal" data-dismiss="modal" id="create-instructor-button">Create Instructor</a>
+	</div>
+</div>
+
+
+	  	<!-- Create a Section -->
+<div style="width:570px;" id="createSectionModal" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<!--div class="modal hide fade" id="create-section" -->
+	<div class="modal-header">
+		<button id="createSectionModal-Close" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		<h3>Create a Section</h3>
+	</div>
+	<div class="modal-body">
+		<form class="form-horizontal" id='create-section-form' name="create_section_form">
+			<div class="control-group">
+          <label class="control-label" for="create-section-start_date">Start Date</label>
+          <div class="controls">
+              <input type="text" name="create_section_start_date" id="create-section-start_date" disabled>
+          </div>
+      </div>
+      <div class="control-group">
+          <label class="control-label" for="create-section-section_type">Section Type</label>
+          <div class="controls">
+              <input type="text" name="create_section_section_type" id="create-section-section_type" disabled>
+          </div>
+      </div>
+      <div class="control-group">
+          <label class="control-label" for="create-section-lesson_type">Lesson Type</label>
+          <div class="controls">
+              <input type="text" name="create_section_lesson_type" id="create-section-lesson_type" disabled>
+          </div>
+      </div>
+    	<div class="control-group">
+        <label class="control-label" for="create-section-teacher">Instructor</label>
+        <div class="controls">
+            <select type="text" name="create_section_teacher" id="create-section-teacher"></select>
         </div>
-    </div>
-    
-
-    <div id="new-form3" class="modal hide fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-            <h3 id="myModalLabel">Create Section</h3>
+    	</div>
+			<div class="control-group">
+        <label class="control-label" for="create-section-start_time">Start Time</label>
+        <div class="controls">
+            <select type="time" name="create_section_start_time" id="create-section-start_time">
+                <option value="8:00AM">8:00AM</option>
+                <option value="9:00AM">9:00AM</option>
+                <option value="10:00AM">10:00AM</option>
+                <option value="11:00AM">11:00AM</option>
+                <option value="12:00PM">12:00PM</option>
+                <option value="1:00PM">1:00PM</option>
+                <option value="2:00PM">2:00PM</option>
+                <option value="3:00PM">3:00PM</option>
+                <option value="4:00PM">4:00PM</option>
+                <option value="5:00PM">5:00PM</option>
+                <option value="6:00PM">6:00PM</option>
+                <option value="7:00PM">7:00PM</option>
+                <option value="8:00PM">8:00PM</option>
+                <option value="9:00PM">9:00PM</option>
+            </select>
         </div>
-        <div class="modal-body">
-
-            <form class="form-horizontal">
-                <div class="control-group">
-                    <label class="control-label" for="addname">Name</label>
-                    <div class="controls">
-                        <input type="text" name="add-name" id="add-name" placeholder="Name">
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="addstartdate">Start Date</label>
-                    <div class="controls">
-                        <input type="text" name="add-start-date" id="add-start-date" class="datepicker" placeholder="click here">
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="addenddate">End Date</label>
-                    <div class="controls">
-                        <input type="text" name="add-end-date" id="add-end-date" class="datepicker" placeholder="click here">
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="addday">Day</label>
-                    <div class="controls">
-                        <select type="text" name="add-day" id="add-day">
-                            <option value="Sunday">Sunday</option>
-                            <option value="Monday">Monday</option>
-                            <option value="Tuesday">Tuesday</option>
-                            <option value="WEDNESDAY">Wednesday</option>
-                            <option value="Thursday">Thursday</option>
-                            <option value="Friday">Friday</option>
-                            <option value="Saturday">Saturday</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="addstarttime">Start Time</label>
-                    <div class="controls">
-                        <select type="time" name="add-start-time" id="add-start-time">
-                            <option value="8:00AM">8:00AM</option>
-                            <option value="9:00AM">9:00AM</option>
-                            <option value="10:00AM">10:00AM</option>
-                            <option value="11:00AM">11:00AM</option>
-                            <option value="12:00PM">12:00PM</option>
-                            <option value="1:00PM">1:00PM</option>
-                            <option value="2:00PM">2:00PM</option>
-                            <option value="3:00PM">3:00PM</option>
-                            <option value="4:00PM">4:00PM</option>
-                            <option value="5:00PM">5:00PM</option>
-                            <option value="6:00PM">6:00PM</option>
-                            <option value="7:00PM">7:00PM</option>
-                            <option value="8:00PM">8:00PM</option>
-                            <option value="9:00PM">9:00PM</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="addendtime">End Time</label>
-                    <div class="controls">
-                        <select type="time" name="add-end-time" id="add-end-time">
-                            <option value="8:00AM">8:00AM</option>
-                            <option value="9:00AM">9:00AM</option>
-                            <option value="10:00AM">10:00AM</option>
-                            <option value="11:00AM">11:00AM</option>
-                            <option value="12:00PM">12:00PM</option>
-                            <option value="1:00PM">1:00PM</option>
-                            <option value="2:00PM">2:00PM</option>
-                            <option value="3:00PM">3:00PM</option>
-                            <option value="4:00PM">4:00PM</option>
-                            <option value="5:00PM">5:00PM</option>
-                            <option value="6:00PM">6:00PM</option>
-                            <option value="7:00PM">7:00PM</option>
-                            <option value="8:00PM">8:00PM</option>
-                            <option value="9:00PM">9:00PM</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="addteacher">Teacher</label>
-                    <div class="controls">
-                        <input type="text" name="add-teacher" id="add-teacher" placeholder="Teacher">
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="addmaxenroll">Class capacity</label>
-                    <div class="controls">
-                        <input type="integer" name="add-max-enroll" id="add-max-enroll">
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="addmaxwaitlist">Waitlist capacity</label>
-                    <div class="controls">
-                        <input type="integer" name="add-max-waitlist" id="add-max-waitlist">
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="adddescription">Description</label>
-                    <div class="controls">
-                        <textarea rows="3" name="add-description" id="add-description"></textarea>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="addsectiontype">Section Type</label>
-                    <div class="controls">
-                        <select type="text" name="add-section-type" id="add-section-type">
-                            <option value="A">A</option>
-                            <option value="B">B</option>
-                            <option value="C">C</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="addlessontype">Lesson Type</label>
-                    <div class="controls">
-                        <select type="text" name="add-lesson-type" id="add-lesson-type">
-                            <option value="PRIVATE">Private</option>
-                            <option value="PRE-COMP">Pre-Comp</option>
-                            <option value="GROUP">Group</option>
-                        </select>
-                    </div>
-                </div>
-            </form>
+    	</div>
+			<div class="control-group">
+        <label class="control-label" for="create-section-end_time">End Time</label>
+        <div class="controls">
+            <select type="time" name="create_section_end_time" id="create-section-end_time">
+                <option value="9:00AM">9:00AM</option>
+                <option value="10:00AM">10:00AM</option>
+                <option value="11:00AM">11:00AM</option>
+                <option value="12:00PM">12:00PM</option>
+                <option value="1:00PM">1:00PM</option>
+                <option value="2:00PM">2:00PM</option>
+                <option value="3:00PM">3:00PM</option>
+                <option value="4:00PM">4:00PM</option>
+                <option value="5:00PM">5:00PM</option>
+                <option value="6:00PM">6:00PM</option>
+                <option value="7:00PM">7:00PM</option>
+                <option value="8:00PM">8:00PM</option>
+                <option value="9:00PM">9:00PM</option>
+            </select>
         </div>
-        <div class="modal-footer">
-            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-            <button class="btn btn-primary" id="add_submit-button">Save</button>
-        </div>
-    </div>
+    	</div>
+    	<div class="control-group">
+          <label class="control-label" for="create-section-max_enroll">Class capacity</label>
+          <div class="controls">
+              <input type="integer" name="create_section_max_enroll" id="create-section-max_enroll" disabled="true">
+          </div>
+      </div>
+      <div class="control-group">
+          <label class="control-label" for="create-section-max_waitlist">Waitlist capacity</label>
+          <div class="controls">
+              <input type="integer" name="create_section_max_waitlist" id="create-section-max_waitlist" disabled="true">
+          </div>
+      </div>
+		</form>
+	</div>
 
-</body>
+	<div class="modal-footer">
+		<div class="alert alert-error" id="create-section-errors">
+			<a class="close" data-dismiss="alert">&times;</a>
+			<p>
+				<i class="icon-exclamation-sign">  </i><span id="create-section-err-message"></span>
+			</p>
+		</div>
+		<div class="alert alert-success" id="create-section-success">
+			<a class="close" data-dismiss="alert">&times;</a>
+			<i class="icon-ok"></i> You successfully created a Section.
+		</div>
+		<!--a role="button" class="btn" data-toggle="modal" data-dismiss="modal">Cancel</a-->
+		<!--a role="button" class="btn btn-primary" data-toggle="modal" data-dismiss="modal" id="create-section-button">Create Section</a-->
+		<button id="createSectionModal-Cancel" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+		<button id="createSectionModal-Create" class="btn btn-primary" >Create</button>
+	</div>
+</div>
 
+  	</div><body>
 
-<script type="text/javascript">
+		
+		<script type="text/javascript">
 
-$('#main-page').hide();
-$('#new-form').hide();
-$('#edit-form').hide();
+			$('#CreateInstructorButton').show()
+			$('#WelcomeDropDown').show()
+   
 
-/* setup the page so that only one of the forms is shown */
-$(document).ready(function() {
-    init_data();
-   show_login_page();
- });
+			$("#sm-logout-button").click( function() {
+        	json_request("/Users/logout", {}, function(data) { window.location.href = "/" }, function(err) { alert("error occurred on request"); });
+				return false;
+			});				
 
-// $('#new-button').click(function() {
-//     toggle_new_form();
-// })
+		   $("#lesson1").click( function() {
+				// $("#create-section-max-enroll").hide();
+				// $("#create-section-max-waitlist").hide();
+				document.create_section_form.create_section_max_enroll.disabled=true;
+				document.create_section_form.create_section_max_waitlist.disabled=true;
+			});
 
-$('#show-section').click(function() {
-    $('#sec-table').show();
-})
+			$("#lesson2").click( function() {
+				// $("#create-section-max-enroll").show();
+				// $("#create-section-max-waitlist").show();
+				//alert(document.create_section_form);
+				document.create_section_form.create_section_max_enroll.disabled=false;
+				document.create_section_form.create_section_max_waitlist.disabled=false;
+			});
 
-$('#show-users').click(function() {
-    alert("Not implemented yet");
-})
+			$("#lesson3").click( function() {
+				// $("#create-section-max-enroll").show();
+				// $("#create-section-max-waitlist").show();
+				document.create_section_form.create_section_max_enroll.disabled=false;
+				document.create_section_form.create_section_max_waitlist.disabled=false;
+			});
 
-$('#logout-button').click(function() {
-    window.location.href = '/';
-})
+			$('#CreateInstructorButton').click(function (){
+				createInstructorSwitch = "Main";
+			});
 
-$('#export-users-button').click(function() {
-    //window.location.href = "/Admin/exportUsers";
-    alert("Not implemented yet");
-});
+			$('#SignDropDown').click(function (){
+				$('font17px#err_message').empty();
+			});
 
-$('#export-sections-button').click(function() {
-    //window.location.href = "/Admin/exportSections";
-    alert("Not implemented yet");
-});
+			function resetLessonBoxes() {
+	       $("#lesson1").prop('checked' , true)
+	       $("#lesson2").prop('checked' , false)
+	       $("#lesson3").prop('checked' , false)
+	    }
 
-$(function() {
-    $("button#add_submit-button").click(function() {
-        name = $('#add-name').val()
-        start_date = new Date($('#add-start-date').val())
-        end_date = new Date($('#add-end-date').val())
-        day = $('#add-day').val()
-        start_time = $('#add-start-time').val()
-        end_time = $('#add-end-time').val()
-        teacher = $('#add-teacher').val()
-        enroll_max = $('#add-max-enroll').val()
-        waitlist_max = $('#add-max-waitlist').val()
-        description = $('#add-description').val()
-        section_type = $('#add-section-type').val()
-        lesson_type = $('#add-lesson-type').val()
+	    function resetTypeBoxes() {
+	    	sectionType = "A";
+	      $("#A").prop('checked' , true)
+	      $("#B").prop('checked' , false)
+	      $("#C").prop('checked' , false)
+	    }
 
-        post_json_request("/Sections/create", { name: name, start_date: start_date, end_date: end_date, day: day, start_time: start_time, end_time: end_time, teacher: teacher, enroll_cur: 0, enroll_max: enroll_max, waitlist_cur: 0, waitlist_max: waitlist_max, description: description, section_type: section_type, lesson_type: lesson_type }, function(data) { return handle_add_response(data); });
-    });
-});
-
-$('#add_submit-button').on('click', function(e) {
-    e.preventDefault();
-    name = $('#add-name').val()
-    start_date = $('#add-start-date').val()
-    end_date = $('#add-end-date').val()
-    day = $('#add-day').val()
-    start_time = $('#add-start-time').val()
-    end_time = $('#add-end-time').val()
-    teacher = $('#add-teacher').val()
-    enroll_max = $('#add-max-enroll').val()
-    waitlist_max = $('#add-max-waitlist').val()
-    description = $('#add-description').val()
-    section_type = $('#add-section-type').val()
-    lesson_type = $('#add-lesson-type').val()
-
-    post_json_request("/Sections/create", { name: name, start_date: start_date, end_date: end_date, day: day, start_time: start_time, end_time: end_time, teacher: teacher, enroll_cur: 0, enroll_max: enroll_max, waitlist_cur: 0, waitlist_max: waitlist_max, description: description, section_type: section_type, lesson_type: lesson_type }, function(data) { return handle_add_response(data); });
-});
-
-$('#edit_submit-button').click(function() {
-    name = $('#name').val()
-    start_date = $('#start_date').val()
-    end_date = $('#end_date').val()
-    day = $('#day').val()
-    start_time = $('#start_time').val()
-    end_time = $('#end_time').val()
-    teacher = $('#teacher').val()
-    enroll_max = $('#enroll_max').val()
-    waitlist_max = $('#waitlist_max').val()
-    description = $('#description').val()
-    section_type = $('#add-section-type').val()
-    lesson_type = $('#add-lesson-type').val()
-
-    post_json_request("/Sections/edit", { name: name, start_date: start_date, end_date: end_date, day: day, start_time: start_time, end_time: end_time, teacher: teacher, enroll_cur: 0, enroll_max: enroll_max, waitlist_cur: 0, waitlist_max: waitlist_max, description: description, section_type: section_type, lesson_type: lesson_type }, function(data) { return handle_add_response(data); });
-});
-
-//Date.firstDayOfWeek = 0;
-//Date.format = 'mm/dd/yyyy';
-// $(function()
-// {
-//     $('#date-pick').datePicker({
-//         beforeShow: function() { $('#date-pick').css("z-index", 1051);}
-//     });
-// });
-
-$('.datepicker').datepicker({
-});
-
-$.fn.clearForm = function() {
-  return this.each(function() {
-    var type = this.type, tag = this.tagName.toLowerCase();
-    if (tag == 'form')
-      return $(':input',this).clearForm();
-    if (type == 'text' || type == 'password' || tag == 'textarea')
-      this.value = '';
-    else if (type == 'checkbox' || type == 'radio')
-      this.checked = false;
-    else if (tag == 'select')
-      this.selectedIndex = -1;
-  });
-};
-
-</script>
+		</script>
+		
 </html>
