@@ -28,7 +28,7 @@ describe "RegistrationpControllers" do
 
   #--------------------------------
 =end  
-  sec_json = {name:"A_SEC", day:"MONDAY", 
+  sec_json = {name:"A_SEC", #day:"MONDAY", 
               description:"This section won't teach you swimming", 
               start_time:"10:00:00", end_time:"20:00:00", 
               enroll_cur:0,enroll_max:5, 
@@ -207,13 +207,12 @@ describe "RegistrationpControllers" do
         
       end
 
-      context "when droppting a section not enrolled" do
+      context "when dropping a section not enrolled" do
         before(:each) do
           test_json = {section_id:2, format: :json}
           sec1_json = sec_json.dup
           sec1_json[:start_date] = "2013-04-16"
           sec1_json[:end_date] = "2013-04-16"
-          sec1_json[:day] = "Tuesday"
           post '/Sections/create', sec1_json
           post '/Registrations/drop', test_json
         end
@@ -324,6 +323,125 @@ describe "RegistrationpControllers" do
 
     end
 
+
+
+    #test for user dropping a section
+    describe "#dropAndGetEnrolledSections" do
+      before (:each) do
+        test_json = {section_id:1, format: :json}
+        post '/MemberStudents/add', user_json
+        post '/Sections/create', sec_json
+        post '/Registrations/register', test_json
+      end
+      
+      context "when successfully dropped a section with waitlist_cur==0" do
+        before (:each) do
+          test_json = {section_id:1, format: :json}
+          post '/Registrations/dropAndGetEnrolledSections', test_json
+
+        end
+        
+        it "should succeed and contains empty sections list" do
+          expected = { sections:[], errCode: 1 }.to_json
+          response.body.should == expected
+        end
+
+        it "should decrement enroll_cur" do
+          expected = 0
+          post "/Sections/getAllSections", {format: :json}
+          JSON.parse(response.body)['sections'][0]['enroll_cur'].should == expected
+        end
+        
+        it "should delete section from the user" do
+          input_json = {format: :json}
+          expected = []
+          post'/Registrations/getEnrolledSections', input_json
+          JSON.parse(response.body)['sections'].should == expected
+        end
+        
+      end
+
+      context "when droppting a section not enrolled" do
+        before(:each) do
+          test_json = {section_id:2, format: :json}
+          sec1_json = sec_json.dup
+          sec1_json[:start_date] = "2013-04-16"
+          sec1_json[:end_date] = "2013-04-16"
+          post '/Sections/create', sec1_json
+          post '/Registrations/dropAndGetEnrolledSections', test_json
+        end
+        
+        it "should render errCode == 304" do
+          expected = 304
+          JSON.parse(response.body)['errCode'] == expected
+        end
+
+        it "should has 1 section in response sections list" do
+          expected = 1
+          JSON.parse(response.body)['sections'].size.should == expected
+        end
+        
+        it "should has 1 section in the student enrolled list" do
+          expected = 1
+          post "/Registrations/getEnrolledSections", {format: :json}
+          JSON.parse(response.body)['sections'].size.should == expected
+        end
+      end
+      
+      #tests for waitlist != 0 and @user & @sec actually postdisconnected
+      context "when dropping a section with waitlist != 0" do
+        before (:each) do
+          user_json1 = user_json.dup
+          6.times do 
+            user_json1[:email] = "a" + user_json1[:email]
+            test_json = {section_id: 1, format: :json}
+            post '/MemberStudents/add', user_json1
+            post '/Registrations/register', test_json
+          end
+          test_json = {section_id:1, format: :json}
+          post '/Users/login', {email:user_json[:email], password:"password", format: :json}
+          post '/Registrations/dropAndGetEnrolledSections', test_json 
+        end
+
+        it "should render json: { sections:[], errCode: 1}" do
+          expected = { sections:[], errCode: 1 }.to_json
+          response.body.should == expected
+        end
+
+        it "should decrement the waitlist by 1" do
+          expected = 1
+          post "/Sections/getAllSections", {format: :json}
+          JSON.parse(response.body)['sections'][0]['waitlist_cur'].should == expected
+        end
+        
+        it "shoul remain the same for enroll_cur" do
+          expected = 5
+          post "/Sections/getAllSections", {format: :json}
+          JSON.parse(response.body)['sections'][0]['enroll_cur'].should == expected
+        end
+
+        it "should pull the first user in the wailist into enroll_cur" do
+          email = "aaaaa" + user_json[:email]
+          #input_json = {user_email:email, format: :json}
+          input_json = {format: :json}
+          expected = 0
+          post '/Users/login', {email:email, password:"password", format: :json}
+          post '/Registrations/getEnrolledSections', input_json
+          JSON.parse(response.body)['sections'][0]['waitlist_place'].should == expected
+        end
+        
+        it "should rank second in the waitlist_place for aaaaaa+email" do
+          email = "aaaaaa" + user_json[:email]
+          #input_json = {user_email:email, format: :json}
+          input_json = {format: :json}
+          expected = 1
+          post '/Users/login', {email:email, password:"password", format: :json}
+          post'/Registrations/getEnrolledSections', input_json
+          JSON.parse(response.body)['sections'][0]['waitlist_place'].should == expected
+        end
+        
+      end
+    end
 
 
   end

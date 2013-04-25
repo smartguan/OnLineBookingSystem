@@ -30,13 +30,16 @@ class SectionsController < ApplicationController
   def create
     @sec = newSection
     respond_to do |format|
-      if @sec.save
-        #teacher = params[:teacher].split(" ")
-        #last_name = teacher[-1]
-        #first_name = teacher[0, teacher.size-1].join(" ")
+      current_user = User.where( :id => cookies[:user_id] ).first
+      if current_user == nil or current_user.type == "admin"
+        format.json { render json: { name:params[:name], errCode:209 } }
+      elsif @sec.save
+        teacher = params[:teacher].split(" ")
+        last_name = teacher[-1]
+        first_name = teacher[0, teacher.size-1].join(" ")
 
-        #@instructor = Instructor.where(:first => first_name, :last => last_name).first
-        #@instructor.sections << @sec
+        @instructor = Instructor.where(:first => first_name, :last => last_name).first
+        @instructor.sections << @sec
         self.returnSuccess format
       else
         self.returnAdminError format
@@ -50,7 +53,10 @@ class SectionsController < ApplicationController
     @sec = Section.find_by_id(params[:id])
 
     respond_to do |format|
-      if @sec.update_attributes(day:params[:day], 
+      current_user = User.where( :id => cookies[:user_id] ).first
+      if current_user == nil or current_user.type == "admin"
+        format.json { render json: { name:params[:name], errCode:209 } }
+      elsif @sec.update_attributes(day:params[:day], 
                                 description:params[:description], 
                                 end_date:params[:end_date],
                                 end_time:params[:end_time],
@@ -72,9 +78,11 @@ class SectionsController < ApplicationController
     @sec = Section.find_by_id(params[:id])
 
     respond_to do |format|
-      if @sec.destroy
+      current_user = User.where( :id => cookies[:user_id] ).first
+      if current_user == nil or current_user.type == "admin"
+        format.json { render json: { name:params[:name], errCode:209 } }
+      elsif @sec.destroy
         returnSuccess format
-      #might be implemented later. e.g. can't destroy user with booking payment
       else
         format.json { render json: { errCode: 207 } }
       end
@@ -115,22 +123,22 @@ class SectionsController < ApplicationController
 
 
   # get sections that belong to a given instructor
-  #def getSectionsByInstructor
-  #  #teacher = params[:teacher].split(" ")
-  #  last_name = teacher[-1]
-  #  first_name = teacher[0, teacher.size-1].join(" ")
-  #  
-  #  instructor = Instructor.where(:first => first_name, :last => last_name).first
-  #  sections_list = instructor.sections.all
+  def getSectionsByInstructor
+    teacher = params[:teacher].split(" ")
+    last_name = teacher[-1]
+    first_name = teacher[0, teacher.size-1].join(" ")
+    
+    instructor = Instructor.where(:first => first_name, :last => last_name).first
+    sections_list = instructor.sections.all
 
-  #  respond_to do |format|
-  #    if sections_list != []
-  #      format.json { render json: { :sections => sections_list, errCode: 1 } }
-  #    else
-  #      format.json { render json: { :sections => [], errCode: 250 } }
-  #    end
-  #  end
-  #end
+    respond_to do |format|
+      if sections_list != []
+        format.json { render json: { :sections => sections_list, errCode: 1 } }
+      else
+        format.json { render json: { :sections => [], errCode: 250 } }
+      end
+    end
+  end
 
 
   #get sections by date and types
@@ -181,7 +189,7 @@ class SectionsController < ApplicationController
 
   #newSection
   def newSection
-   return Section.new(name:params[:name].upcase, day:params[:day], 
+   return Section.new(name:params[:name].upcase, #day:params[:day], 
                             description:params[:description], end_date:params[:end_date],
                             end_time:params[:end_time], enroll_cur:0,
                             enroll_max:params[:enroll_max], start_date:params[:start_date],
@@ -201,8 +209,8 @@ class SectionsController < ApplicationController
   def returnAdminError format
     if not @sec.errors[:name].empty?
       format.json { render json: { name:@sec.name, errCode: 200 } }
-    elsif not @sec.errors[:day].empty?
-      format.json { render json: { name:@sec.name, errCode: 201 } }
+    #elsif not @sec.errors[:day].empty?
+    #  format.json { render json: { name:@sec.name, errCode: 201 } }
     elsif not @sec.errors[:description].empty?
       format.json { render json: { name:@sec.name, errCode: 202 } }
     elsif not @sec.errors[:teacher].empty?
