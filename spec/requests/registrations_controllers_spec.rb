@@ -54,8 +54,8 @@ describe "RegistrationpControllers" do
                           password_confirmation: "password",
                           format: :json } 
   before do
-    email = "admin@admin.org"
-    FactoryGirl.create(:admin)
+    email = "admin_reg@admin.org"
+    FactoryGirl.create(:admin, email:email)
     post "/Users/login", {email:email, password:"password", format: :json}
     user1_json = user_json.dup
     user1_json[:first] = "SUCKER"
@@ -69,8 +69,8 @@ describe "RegistrationpControllers" do
     describe "#register" do
       before (:each) do
         test_json = {section_id:1, format: :json}
-        post '/MemberStudents/add', user_json
         post '/Sections/create', sec_json
+        post '/MemberStudents/add', user_json
         post '/Registrations/register', test_json
       end
       

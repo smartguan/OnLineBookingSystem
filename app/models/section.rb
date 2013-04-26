@@ -86,14 +86,31 @@ class Section < ActiveRecord::Base
     if Section.where("((:start_time BETWEEN start_time AND end_time) OR 
                            (:end_time BETWEEN start_time AND end_time) OR 
                            (:start_time <= start_time AND :end_time >= end_time)) AND
+                            
                             ((:start_date BETWEEN start_date AND end_date) OR 
                             (:end_date BETWEEN start_date AND end_date) OR 
                             (:start_date <= start_date AND :end_date >= end_date)) AND
-                              ( (:section_type = 'C' OR section_type = 'C' OR 
-                                 :section_type = section_type) AND
-                              :name != name AND :teacher = teacher)",
+                              
+                              ((:section_type = section_type) OR
+                            
+                            ((:day IN ('MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY')) AND
+                              (:section_type = 'C' AND section_type = 'A')) OR
+                              
+                            ((day IN ('MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY')) AND
+                              (:section_type = 'A' AND section_type = 'C')) OR
+                              
+                            ((:day IN ('SATURDAY','SUNDAY')) AND
+                              (:section_type = 'C' AND section_type = 'B')) OR
+                              
+                            ((day IN ('SATURDAY','SUNDAY')) AND
+                              (:section_type = 'B' AND section_type = 'C'))) AND
+                              
+                              
+                              (:name != name AND :teacher = teacher)",
                           :start_time => start_time, :end_time => end_time, 
-                          :start_date => start_date, :end_date => end_date,
+                          :start_date => start_date.to_date, 
+                          :end_date => end_date.to_date,
+                          :day => day,
                           :section_type => section_type, :name => name, 
                           :teacher => teacher).first != nil
       self.errors.add :teacher, 'section_overlapped'

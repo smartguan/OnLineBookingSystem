@@ -58,6 +58,7 @@ Cs169::Application.routes.draw do
 
   # Routes for Instructors Controller
   match '/Instructors/getAllInstructors', to: 'instructors#getAllInstructors'
+  match '/Instructors/getAvailableInstructors', to: 'instructors#getAvailableInstructors'
   
   # Routes for Admin Controller
   match '/Admin/addInstructor', to: 'admin#addInstructor'
