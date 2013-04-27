@@ -1,0 +1,70 @@
+<style type="text/css">
+body {
+  background-color: white;
+
+}
+.accordion-inner {
+  /*border-width: 1px;*/
+  /*border-style: solid;*/
+  font-size: 11px;
+}
+.status-enrolled {
+  background-color: ForestGreen;
+  color: white;
+}
+.status-waitlisted {
+  background-color: yellow;
+}
+#confirm-modal {
+  margin-left: -150px;
+  width: 300px;
+}
+</style>
+
+<!-- Section placeholder -->
+<div class="accordion span8" id="show-enrolled-sections">
+
+</div> 
+
+<!-- Section Template -->
+<div class="accordion-group hide section" id="section-template">
+    <div class="accordion-heading row-fluid">
+        <a class="accordion-toggle section-header" data-toggle="collapse" data-parent="#show-enrolled-sections"></a>
+    </div><!-- accordion-heading -->
+    <div class="section-body accordion-body collapse in">
+      <div class="accordion-inner">
+        <table class="table">
+          <tr>
+            <th>Instructor</th>
+            <th>Start</th>
+            <th>End</th>
+            <th>Group </th>
+            <th>Description </th>
+            <th>Status </th>
+          </tr>
+          <tr>
+            <td><span class='section-teacher'></span></td>
+            <td><span class='section-start_date'></span></td>
+            <td><span class='section-end_date'></span></td>
+            <td><span class='section-lesson_type'></span></td>
+            <td><span class='section-description'></span></td>
+            <td>
+              <span class='section-status'></span><br />
+              <button class="btn btn-mini btn-primary section-eventButton" type="button"></button>
+            </td>
+          </tr>
+
+      </table>
+    </div> <!-- accordion-body collapse -->
+  </div> <!-- section-id -->
+</div> <!-- accordion-group -->
+
+<!-- <a class="btn" data-toggle="modal" href="#confirm-modal">Confirm</a> -->
+
+
+
+<div class="alert alert-info hide" id="no-enrolled-sections-message">
+  <center><h4>Not enrolled in any sections</h4></center>
+</div>
+
+

@@ -1,53 +1,67 @@
-var Section = function(sectionJSON, clickFunction, buttonTitle) {
-	this.title = sectionJSON.name;
-	this.instructor = sectionJSON.teacher;
-	this.description = sectionJSON.description;
-	this.date_start = parseDate_reservation(sectionJSON.start_date);
-	this.date_end = parseDate_reservation(sectionJSON.end_date);
-	this.date_range = new Range(this.date_start, this.date_end);
-	this.time_start = parseTime_reservation(sectionJSON.start_time);
-	this.time_end = parseTime_reservation(sectionJSON.end_time);
-	this.time_range = new Range(this.time_start, this.time_end);	
-	this.waitlist_frac = new Frac(sectionJSON.waitlist_cur, sectionJSON.waitlist_max);
-	this.enroll_frac = new Frac(sectionJSON.enroll_cur, sectionJSON.enroll_max);
+///////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////// Residence Object //////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////
+var Residence = function(address, city, zip) {
+	this.address = (address === undefined) ? "" : address;
+	this.city = (city === undefined) ? "" : city;
+	this.zip = (zip === undefined) ? "" : zip;
+};
 
-	this.renderHTML = function() {
-		var $section_clone = $('#section-template').clone();
-		$section_clone.removeAttr('id').addClass('section');
-
-		$section_clone.find('.instructor').append(this.instructor);
-		$section_clone.find('.description').append(this.description);
-		$section_clone.find('.time').append(this.time_range.string);
-		$section_clone.find('.date').append(this.date_range.string);
-		$section_clone.find('.waitlisted').append(this.waitlist_frac.string);
-		$section_clone.find('.enrolled').append(this.enroll_frac.string);
-		
-		$section_clone.find('a.title').append(this.title).click(function() {$(this).siblings().slideToggle();});
-
-		$section_clone.find('button').append(buttonTitle);
-
-		$section_clone.find('button').on("click", {title:this.title}, function(event) { clickFunction(event.data.title) });		
-		return $section_clone;
+Residence.prototype.collectInput = function(action) {
+	for(var key in this) { 
+		var identifier = "#" + action + "-residence-" + key;
+		this[key] = $(identifier).val();
 	}
+	return this;
+}
+///////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////// Contacts Objects //////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+var Contacts = function(first, second) {
+	this.first = (first === undefined) ? new Contact() : first;
+	this.second = (second === undefined) ? new Contact() : second;
+};
+
+Contacts.prototype.collectInput = function(action) {
+	for(var key in this) {
+		var tempContact = new Contact();
+		var identifier =  "#" + action + "-" + key + "-"; //create-second-contact-secondary
+		this[key] = tempContact.collectInput(identifier); //use contacts jquery to retrieve specific id's
+	}
+	return this;
 }
 
-var Range = function(start, end) 
-{
-	this.start = start;
-	this.end = end;
-	this.string = (this.start + " - " + this.end);
+//////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////// Contact Objects //////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
+var Contact = function(name, primary, secondary) {
+	this.name = (name === undefined) ? "" : name;
+	this.primary = (primary === undefined) ? "" : primary;
+	this.secondary = (secondary === undefined) ? "" : secondary;
+};
+Contact.prototype.collectInput = function(first_or_second) {
+	for(var key in this) { 
+		var identifier =  first_or_second + "contact-" + key;
+		this[key] = $(identifier).val();
+	}
+	return this;
 }
 
-var Frac = function(numerator, demoninator) 
-{
-	this.numerator = numerator;
-	this.demoninator = demoninator;
-	this.string = (this.numerator + " / " + this.demoninator);
+
+//////////////////////////// Helper Objects //////////////////////////////
+var Range = function(start, end) {
+  this.start = start;
+  this.end = end;
 }
 
-var CustomButton = function(clickFunction, size, text) {
-	var buttonClass = "btn btn-"+ size + " btn-primary";
-	var tempButton = $('<button type="button"></button>').addClass(buttonClass);
-	tempButton.append(text);
-	tempButton.on("click", {title:this.title}, function(event) { clickFunction(event.data.title) });	
+Range.prototype.toString = function() {
+  return this.start + " - " + this.end; 
+}
+
+var Frac = function(numerator, demoninator) {
+  this.numerator = numerator;
+  this.demoninator = demoninator;
+}
+Frac.prototype.toString = function() {
+  return this.numerator + "/" + this.demoninator;
 }
