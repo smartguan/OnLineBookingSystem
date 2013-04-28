@@ -13,8 +13,9 @@ Section.renderHTML = function(section, buttonTitle, clickFunction) {
     // handle bootstrap constraints
     var section_id = pop(section, "id");
     // alert(section_id);
-    $section_clone.find('.section-header').attr('href',("#section"+ section_id) );
-    $section_clone.find('.section-body').attr('id',"section"+  section_id);
+    $section_clone.find('.section-header').attr('href',("#section-"+ section_id) );
+    $section_clone.find('.section-header').attr('data-target',("#section-"+ section_id) );
+    $section_clone.find('.section-body').attr('id',"section-"+  section_id);
     $section_clone = translateStatus($section_clone, pop(section,"waitlist_place"), pop(section,"waitlist_max"));
 
 
@@ -43,6 +44,7 @@ var Sections = function(sectionsJSON) {
 
 Sections.renderHTML = function(sections) {
     var enrolledSectionsId = "#show-enrolled-sections";
+    $("#show-enrolled-sections").empty().show();
     // alert(sections.length);
     // alert(sections.length);
 

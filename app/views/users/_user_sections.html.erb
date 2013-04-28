@@ -1,37 +1,15 @@
-<style type="text/css">
-body {
-  background-color: white;
 
-}
-.accordion-inner {
-  /*border-width: 1px;*/
-  /*border-style: solid;*/
-  font-size: 11px;
-}
-.status-enrolled {
-  background-color: ForestGreen;
-  color: white;
-}
-.status-waitlisted {
-  background-color: yellow;
-}
-#confirm-modal {
-  margin-left: -150px;
-  width: 300px;
-}
-</style>
 
 <!-- Section placeholder -->
-<div class="accordion span8" id="show-enrolled-sections">
-
+<div class="accordion span6 offset1" id="show-enrolled-sections">
 </div> 
 
 <!-- Section Template -->
-<div class="accordion-group hide section" id="section-template">
+<div class="accordion-group hide" id="section-template">
     <div class="accordion-heading row-fluid">
-        <a class="accordion-toggle section-header" data-toggle="collapse" data-parent="#show-enrolled-sections"></a>
+        <a class="accordion-toggle section-header" data-toggle="collapse" data-parent="#show-enrolled-sections-xxx"></a>
     </div><!-- accordion-heading -->
-    <div class="section-body accordion-body collapse in">
+    <div class="accordion-body collapse section-body">
       <div class="accordion-inner">
         <table class="table">
           <tr>
@@ -60,11 +38,5 @@ body {
 </div> <!-- accordion-group -->
 
 <!-- <a class="btn" data-toggle="modal" href="#confirm-modal">Confirm</a> -->
-
-
-
-<div class="alert alert-info hide" id="no-enrolled-sections-message">
-  <center><h4>Not enrolled in any sections</h4></center>
-</div>
 
 
