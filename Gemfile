@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'bootstrap-sass', '2.1'
+#gem 'bootstrap-sass', '2.1'
 gem 'rails', '3.2.12'
 gem 'jquery-rails', '2.0.2'
 gem 'jquery-cookie-rails', '1.3.1'
@@ -10,6 +10,7 @@ gem 'rb-readline'
 gem 'simplecov', :require => false, :group => :test
 
 group :assets do
+  gem "twitter-bootstrap-rails"
   gem 'sass-rails',   '3.2.5'
   gem 'coffee-rails', '3.2.2'
   gem 'uglifier', '1.2.3'

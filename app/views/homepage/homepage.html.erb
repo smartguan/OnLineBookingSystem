@@ -9,14 +9,15 @@
 		
 		
 
-		<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-dropdown.js"></script>
-		<!-- // <script src="/twitter-bootstrap/twitter-bootstrap-v2/js/bootstrap-modal.js"></script>  -->
+		<!-- <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-dropdown.js"></script> -->
+		<!-- // <script src="/twitter-bootstrap/twitter-bootstrap-v2/js/bootstrap-modal.js"></script> -->
+
 		<script type='text/javascript' src='/assets/jquery-1.9.1.js'></script>
 		<script type="text/javascript" src="/assets/jquery-1.9.1.min.js"></script>
-		<!-- // <script type="text/javascript" src="/assets/jquery-ui.min.js"></script> -->
+		<script type="text/javascript" src="/assets/jquery-ui.min.js"></script>
 
 		
-		<!-- <script src='assets/jquery/jquery-ui-1.10.2.custom.min.js'></script> -->
+		<script src='assets/jquery/jquery-ui-1.10.2.custom.min.js'></script>
 
 
 		<script src='assets/fullcalendar/fullcalendar.min.js'></script>
@@ -407,7 +408,7 @@ Contact.prototype.collectInput = function(first_or_second) {
 			UserCalendar.clickEvent = function(calEvent, jsEvent, view) {
 				if(view.name=='agendaDay') {
 
-					$('#ulisesModal').show(); 
+					$('#ulisesModal').fadeIn(800);
 					$('#modal-section').empty(); 
 					$('#modal-section').append(calEvent.className);
 					$('#modal-date').empty(); 
@@ -483,7 +484,7 @@ Contact.prototype.collectInput = function(first_or_second) {
 			//	}
 			//	return true;
 			//}
-			
+
 		</script>
 
 		<style>
@@ -514,7 +515,7 @@ Contact.prototype.collectInput = function(first_or_second) {
 
 		<!-- Ulises' Modals begin Here -->
 
-		<div style="width:570px;" id="ulisesModal" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div style="width:570px;" id="ulisesModal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 
 	  		<div class="modal-header">
 	    		<button id="closeUlises-modal" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -532,7 +533,7 @@ Contact.prototype.collectInput = function(first_or_second) {
 
 	  		<div class="modal-footer">
 		    	<button id="ulisesModal-Cancel" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
-		    	<button id="ulisesModal-Sing" class="btn btn-primary" href='#ulisesSignInModal' data-toggle="modal">Sign In</button>
+		    	<button id="ulisesModal-Sing" class="btn btn-primary" href='#ulisesSignInModal' data-toggle="modal" data-target'#ulisesSignInMidal'>Sign In</button>
 		    	<button id="ulisesModal-Reserve" class="btn btn-primary" >Reserve</button>
 		    	<button id="ulisesModal-Guest" class="btn btn-primary" href='#create-user' data-toggle="modal">Reserve as Guest</button>
 		    	<button id="ulisesModal-Account" class="btn btn-primary" href='#create-user' data-toggle="modal">Create Account and Reserve</button>
@@ -541,7 +542,7 @@ Contact.prototype.collectInput = function(first_or_second) {
 
  
 
-		<div  style="width:570px;" id="ulisesSignInModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div  style="width:570px;" id="ulisesSignInModal" class="modal hide" >
 			<div class="modal-header">
 		    	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 		    	<h3 id="myModalLabel">Sign In</h3>
@@ -734,7 +735,7 @@ Contact.prototype.collectInput = function(first_or_second) {
 	  	</div>
 
 	  	<!-- Create a User -->
-<div class="modal hide fade" id="create-user" >
+<div style="left:35%; width:870px;" class="modal hide fade" id="create-user" >
 	<div class="modal-header">
 		<a class="close" data-dismiss="modal">&times;</a>
 		<h3>Create an Account</h3>
@@ -1094,7 +1095,15 @@ Contact.prototype.collectInput = function(first_or_second) {
 			$('#CreateAccountButton').hide()
 			$('#WelcomeDropDown').hide()
    
-  
+  			$('#login-button').click(function() {
+			   email = $('#login-email').val()
+			   password = $('#login-password').val()
+			   json_request("/Users/login", { email: email, password: password }, function(data) 
+			   	{ return handle_login_response(data); }, function(err) { alert('error occurred on request'); });
+
+			   return false;
+			});
+
 			function handle_login_response(data) {
 				$('font17px#err_message').empty();
 				$('font17px#err_message').css('font-size','12px');
@@ -1122,23 +1131,55 @@ Contact.prototype.collectInput = function(first_or_second) {
 			  }
 			}
 
-			$('#login-button').click(function() {
-			   email = $('#login-email').val()
-			   password = $('#login-password').val()
-			   json_request("/Users/login", { email: email, password: password }, function(data) 
-			   	{ return handle_login_response(data); }, function(err) { alert('error occurred on request'); });
-
-			   return false;
-			});
-
 			$('#login-button2').click(function() {
 			   email = $('#inputEmail').val()
 			   password = $('#inputPassword').val()
 			   json_request("/Users/login", { email: email, password: password }, function(data) 
-			   	{ return handle_login_response(data); }, function(err) { alert('error occurred on request'); });
+			   	{ return handle_login_response2(data); }, function(err) { alert('error occurred on request'); });
 
 			   return false;
 			});
+
+			function handle_login_response2(data) {
+				$('font17px#err_message').empty();
+				$('font17px#err_message').css('font-size','12px');
+				$('font17px#err_message').css('color','red');
+				$('font17px#err_message').append(getErrorMessage2(data));
+			}
+
+			function getErrorMessage2(data) {
+			  switch (data.errCode){
+
+			    case 108:
+			    	return "Invalid Username and/or Password";
+			      break;
+
+			    //This is the case for success
+			    default:
+			    	if (data.type != "Admin") {
+			    		$('#SignDropDown').hide();
+						$('#CreateAccountButton').hide();
+						$('#WelcomeDropDown').show();
+						//$('#ulisesSignInModal').animate({top:'0px', opacity: '.08'});			
+						//$('body').removeClass('modal-open');
+						//$('.modal-backdrop').hide();
+						//$('#ulisesSignInModal').animate({opacity: '100'});	
+						//$('#ulisesSignInModal').toggle();	
+						//$('.modal-backdrop').remove();
+						//alert("I am about to make a reservation");
+			    	} 
+			    	else {
+			    		window.location.href = "/admin";
+			    	}   
+			  }
+			}
+
+			// $(function() {
+				// $('#login-button2').click(function() {
+    				// $('#ulisesSignInModal').modal('hide');
+				// });
+			// });
+
 
 			$("#sm-logout-button").click( function() {
         	json_request("/Users/logout", {}, function(data) { return init_user_home(data); }, function(err) { alert("error occurred on request"); });
