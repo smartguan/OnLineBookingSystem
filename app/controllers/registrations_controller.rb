@@ -150,4 +150,38 @@ class RegistrationsController < ApplicationController
   end
 
 
+  # drop a section and get the rest enrolled sections
+  def dropAndGetEnrolledSections
+    if cookies[:user_id] != nil
+      @student = Student.find_by_id(cookies[:user_id])
+    end
+    @sec = Section.find_by_id(params[:section_id])
+    
+    respond_to do |format|
+      
+      if @student.sections.where(:id => @sec.id).first == nil
+        format.json { render json: {sections:@student.sections.all, errCode: 304 } }
+      else
+        @student.sections.delete(@sec)
+        if @sec.waitlist_cur == 0
+          @sec.enroll_cur -= 1
+        else
+          #shift the person 1st in the waitlist to the enrolled list
+          @sec.waitlist_cur -= 1
+          
+          Registration.where("section_id = :section_id and 
+                              waitlist_place > 0", 
+                              :section_id => @sec.id).each do |r|
+            r.update_attributes(waitlist_place:(r.waitlist_place - 1))
+          end
+        end
+        @sec.update_attributes(enroll_cur:@sec.enroll_cur, 
+                               waitlist_cur:@sec.waitlist_cur)
+        format.json { render json: { sections: @student.sections.all,
+                                   errCode:1 } }
+      end
+    end
+
+  end
+
 end

@@ -1,0 +1,162 @@
+
+<!-- Create a User -->
+<div class="modal hide fade" id="update-user">
+	<div class="modal-header">
+		<a class="close" data-dismiss="modal">&times;</a>
+		<h3>Update Profile</h3>
+	</div>
+	<div class="modal-body">
+		<form class="form-horizontal" id='update-user-form'>
+			<legend>Personal Information</legend>
+			<div class="row-fluid">
+				<div class="span4"><label for="update-first">First Name</label></div>
+				<div class="span8"><input id="update-first"  type="text" name="first"></div>
+			</div>
+
+			<div class="row-fluid">
+				<div class="span4"><label for="update-last">Last Name</label></div>
+				<div class="span8"><input id="update-last" type="text" name="last"></div>
+			</div>
+
+			<div class="row-fluid">
+				<div class="span4"><label for="update-email">Email</label></div>
+				<div class="span8"><input id="update-email" type="text" name="email"></div>
+			</div>
+
+			<div class="row-fluid">
+				<div class="span4"><label for="update-password">Password</label></div>
+				<div class="span8"><input id="update-password" type="password" name="password"></div>
+			</div>
+
+			<div class="row-fluid"><div class="spacer25"></div></div> <!-- morespace -->
+				
+			<div class="row-fluid">
+				<div class="span6"><label for="update-dob">Date of Birth</label></div>
+				<label><input type="radio" name="update-gender" checked="checked" value="male">Male</label>
+			</div>
+			<div class="row-fluid">
+				<div class="span6"><input id="update-dob" placeholder="mm/dd/yyyy" type="text" name="update-dob" style="width:100px"></div>
+				<label><input type="radio" name="update-gender" value="female">Female</label>
+				<label><input type="radio" name="update-gender" value="other">Other</label>
+			</div>
+
+			<legend>Residence</legend>
+			<div class="control-group">
+				<label class="control-label" for="update-residence-address">Address</label>
+				<div class="controls">
+					<input type="text" class="input-large" id="update-residence-address">
+				</div>
+			</div> <!-- address -->
+
+			<div class="control-group">
+				<label class="control-label" for="update-residence-city">City</label>
+				<div class="controls">
+					<input type="text" class="input-medium" id="update-residence-city">
+				</div>
+			</div> <!-- city -->
+
+			<div class="control-group">
+				<label class="control-label" for="update-residence-zip">Zipcode</label>
+				<div class="controls">
+					<input type="text" class="input-small" id="update-residence-zip">
+				</div>
+			</div> <!-- zip -->
+		</form> <!-- Residence form -->
+	</div>
+	<div class="modal-footer">
+		<a role="button" class="btn" data-toggle="modal" data-dismiss="modal">Cancel</a>
+		<a role="button" class="btn" data-toggle="modal" data-dismiss="modal" href="#update-contacts" >Next</a>
+	</div>
+</div>
+
+<div class="modal hide fade" id="update-contacts">
+	<div class="modal-header">
+		<a class="close" data-dismiss="modal">&times;</a>
+		<h3>Contact Information</h3>
+	</div>
+	<div class="modal-body">
+		<form class="form-horizontal">
+				<legend>First Contact</legend>
+				<div class="control-group">
+					<label class="control-label" for="update-first-contact-name">Name </label>
+					<div class="controls">
+						<input type="text" class="input-large" id="update-contacts-first-name">
+					</div>
+				</div> <!-- contact one name -->
+
+				<div class="control-group">
+					<label class="control-label" for="update-first-contact-primary">Primary Number</label>
+					<div class="controls">
+						<input type="text" class="input-medium bfh-phone" data-country="US" id="update-contacts-first-primary">
+					</div>
+				</div><!--  contact one primary -->
+
+				<div class="control-group">
+					<label class="control-label" for="update-first-contact-secondary">Secondary Number</label>
+					<div class="controls">
+						<input type="text" class="input-medium bfh-phone" data-country="US" id="update-contacts-first-secondary">
+					</div>
+				</div> <!-- contact one secondary -->
+
+				<legend>Second Contact</legend>
+				<!-- Secondary Number Modal -->
+				<div class="control-group">
+					<label class="control-label" for="update-second-contact-name">Name </label>
+					<div class="controls">
+						<input type="text" class="input-large" id="update-contacts-second-name">
+					</div>
+				</div> <!-- contact two name -->
+
+				<div class="control-group">
+					<label class="control-label" for="update-contacts-second-primary">Primary Number</label>
+					<div class="controls">
+						<input type="text" class="input-medium bfh-phone" data-country="US" id="update-contacts-second-primary">
+					</div>
+				</div><!--  contact two primary -->
+
+				<div class="control-group">
+					<label class="control-label" for="update-contacts-second-secondary">Secondary Number</label>
+					<div class="controls">
+						<input type="text" class="input-medium bfh-phone" data-country="US" id="update-contacts-second-secondary">
+					</div>
+				</div> <!-- contact two secondary -->
+		</form> <!-- contact one form -->
+	</div>
+	<div class="modal-footer">
+		<a role="button" class="btn" data-toggle="modal" data-dismiss="modal" href="#update-user">Back</a>
+		<a role="button" class="btn" data-toggle="modal" data-dismiss="modal" href="#update-other" >Next</a>
+	</div>
+</div>
+
+<!-- Miscalaneous -->
+<div class="modal hide fade" id="update-other">
+	<div class="modal-header">
+		<a class="close" data-dismiss="modal">&times;</a>
+		<h3>Experience and Needs</h3>
+	</div>
+	<div class="modal-body">
+			<form>
+				<legend><h5>Skill Level</h5></legend>
+				<label><input type="radio" name="update-skill" value="beginner" checked="checked">beginner</label>
+				<label><input type="radio" name="update-skill" value="beginning strokes">beginning strokes</label>
+				<label><input type="radio" name="update-skill" value="intermediate">intermediate</label>
+				<label><input type="radio" name="update-skill" value="advanced">advanced</label>
+				
+				<legend><h5>Additional Information</h5></legend>
+				<textarea id="update-extra" class="field span5"  name="additional-info" rows="4"></textarea>
+		</form>
+
+	</div>
+		<div class="modal-footer">
+			<div class="alert alert-error hide" id="update-user-errors">
+				<i class="icon-exclamation-sign"></i>
+				<span id="update-user-err-message"></span>
+			</div>
+			<div class="alert alert-success hide" id="update-user-success">
+				<i class="icon-ok"></i> Update Successful!
+			</div>
+			<a role="button" class="btn" data-toggle="modal" data-dismiss="modal" href="#update-contacts">Back</a>
+			<a role="button" class="btn btn-primary" data-toggle="modal" data-dismiss="modal" id="update-user-button">Update Profile</a>
+	</div>
+
+</div>

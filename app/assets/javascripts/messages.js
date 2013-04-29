@@ -28,6 +28,33 @@ function translateErrCode(data) {
 	case 109:
 		message = "PASS_NOT_MATCH";
 		break;
+	case 112:
+  		message = "CONTACT_ONE_NOT_VALID";
+  		break;
+  	case 113:
+  		message = "CONTACT_ONE_PRIMARY_NOT_VALID";
+  		break;
+  	case 113:
+  		message = "CONTACT_ONE_SECONDARY_NOT_VALID";
+  		break;
+  	case 114:
+  		message = "CONTACT_TWO_NOT_VALID";
+  		break;
+  	case 115:
+  		message = "CONTACT_TWO_PRIMARY_NOT_VALID";
+  		break;
+  	case 116:
+  		message = "CONTACT_TWO_SECONDARY_NOT_VALID";
+  		break;
+  	case 120:
+  		message = "GENDER_NOT_VALID";
+  		break;
+  	case 118:
+  		message = "SKILL_NOT_VALID";
+  		break;
+  	case 119:
+  		message = "EXTRA_NOT_VALID";
+  		break;
 	case 200:
 		message = "SEC_NAME_INVALID";
 		break;

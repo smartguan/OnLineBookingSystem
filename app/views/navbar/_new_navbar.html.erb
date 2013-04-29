@@ -1,0 +1,66 @@
+<div class="navbar navbar-inverse nav navbar-fixed-top">
+    <div class="navbar-inner">
+    	<div class="container" style="width:1265px">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <a class="brand"  href="/" style="color:white; font-size:27px"> &nbsp &nbspRancho Rinconada</a>
+              <div class="pull-right">
+                <ul class="nav pull-right">
+                	<li class="divider-vertical"></li>
+                    
+                    <li id= "SignDropDown" class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Sign In <b class="caret"></b></a>
+                        
+                        <ul class="dropdown-menu">
+
+                        	<form class="form-horizontal">
+                        		
+                        		<div class="span3">
+                        		<br>
+
+                        		<font17px>Username</font17px>
+
+									<input class="span2" type="email" required id="login-email"  placeholder="your@email.com" style="width:188px">
+								    <br><br>
+									
+									<font17px>Password</font17px>
+									<input class="span2" type="password" id="login-password" placeholder="Password" style="width:188px">
+									<br>
+
+									<font17px id="err_message"></font17px><br>
+
+						      	<button id="login-button" type="submit" class="btn btn-primary">Sign in
+						      	</button>
+						      	<br><br>
+						    		
+						  		</div>
+							</form>
+                        </ul>
+                    </li>
+
+                    <li id="WelcomeDropDown" class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome <span id="user-name-navbar"></span> <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#update-user" data-toggle="modal" data-target="#update-user"><i class="icon-pencil"></i> Update Profile</a></li>
+                            <li><a href='#update-password-1' data-toggle="modal" data-target='#update-password-1'><i class="icon-pencil"></i> Change Password</a></li>
+                            <li><a href="/Users/show"><i class="icon-list"></i> My Info</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#" id="logout-button"><i class="icon-off"></i> Logout</a></li>
+                        </ul>
+                    </li>
+
+
+
+                </ul>
+              </div>
+
+              <div id="CreateAccountButton" class="pull-right">
+              	<ul class="nav">
+                  <li class="divider-vertical"></li>
+                  <li><a href='#create-user' data-toggle="modal"> Create an Account</a></li>
+              	</ul>
+              </div>
+        </div>
+    </div>
+</div>
