@@ -1,3 +1,4 @@
+//
 /////////////////////////////////////////////////////
 ////////////////////Section /////////////////////////
 /////////////////////////////////////////////////////
@@ -43,11 +44,9 @@ var Sections = function(sectionsJSON) {
 }
 
 Sections.renderHTML = function(sections) {
-    var enrolledSectionsId = "#show-enrolled-sections";
-    $("#show-enrolled-sections").empty().show();
-    // alert(sections.length);
-    // alert(sections.length);
-
+    var enrolledID = "#show-enrolled-sections";
+    $(enrolledID).empty().show();
+  
     for(i=0; i<sections.length; i++) { 
         var section = sections[i];
 
@@ -69,15 +68,14 @@ Sections.renderHTML = function(sections) {
             end_date : parseDate(section.end_date),
             description : section.description,
             lesson_type : section.lesson_type,
-            // waitlist_place : section.waitlist_cur, //fix later
             waitlist_place : section.waitlist_place,
             waitlist_max : section.waitlist_max
         }
-        // mock_waitlist_pos(section);
+        
         var temp = new Section(header_msg, section);
 
         var temphtml = Section.renderHTML(temp,"Drop", showConfirmation).show();
-        $(enrolledSectionsId).append(temphtml);
+        $(enrolledID).append(temphtml);
       
     }
     return true;
@@ -94,6 +92,7 @@ function translateDOW(section_type, day) {
 
     return dow_out;
 }
+
 function translateStatus(clone, waitlist_place, waitlist_max) {
 
   if(waitlist_place==0) {
@@ -107,15 +106,15 @@ function translateStatus(clone, waitlist_place, waitlist_max) {
   }
   return clone;
 }
+
 function createHeaderMessage(title, dow, time_frac) {
   return title + " ---- " + dow + " ---- " + time_frac.toString();
 }
 
-
-
 function getRandomNum(range) {
   return Math.floor(Math.random()*range);
 }
+
 function mock_missing_fields(section) {
   var group_enum = ["private", "group", "precomp"];
   var type_enum =  ["A", "B", "C"];
@@ -123,6 +122,7 @@ function mock_missing_fields(section) {
   section.section_type = group_enum[getRandomNum(group_enum.length)];
   section.lesson_type = type_enum[getRandomNum(type_enum.length)];
 }
+
 function mock_waitlist_pos(section) {
   section.waitlist_place = getRandomNum(section.waitlist_max);
 }
