@@ -811,104 +811,102 @@
         </div>
 
         <!-- Create a User -->
-<div class="modal hide fade" id="create-instructor" >
+<div style="left:32%; width:870px;" class="modal hide fade" id="create-instructor" >
     <div class="modal-header">
         <a class="close" data-dismiss="modal">&times;</a>
         <h3>Create an Instructor</h3>
     </div>
     <div class="modal-body">
-        <form class="form-horizontal" id='create-instructor-form'>
-            <legend>Personal Information</legend>
-            <div class="row-fluid">
-                <div class="span4"><label for="create-first">First Name</label></div>
-                <div class="span8"><input id="create-first"  type="text" name="first" class="create-text"></div>
-            </div>
+
+        <form class="form-inline" id='create-user-form'>
 
             <div class="row-fluid">
-                <div class="span4"><label for="create-last">Last Name</label></div>
-                <div class="span8"><input id="create-last" type="text" name="last" class='create-text'></div>
-            </div>
+                <legend>Personal Information</legend>
+                <!-- First Part -->
+                <div class="row-fluid">
+                    <div class="span6">
+                    
+                        <br>
+                        <div class="span3 offset1"><label>First Name</label></div>
+                        <div class="span3"><input id="create-first"  type="text" name="first" class="create-text"></div>
+                        <br><br>
+                        <div class="span3 offset1"><label>Last Name</label></div>
+                        <div class="span3"><input id="create-last" type="text" name="last" class='create-text'></div>
+                        <br><br>
+                        <div class="span3 offset1"><label>Email</label></div>
+                        <div class="span3"><input id="create-email" type="email" required name="email" class='create-text'></div>
 
-            <div class="row-fluid">
-                <div class="span4"><label for="create-email">Email</label></div>
-                <div class="span8"><input id="create-email" type="text" name="email" class='create-text'></div>
-            </div>
-
-            <div class="row-fluid">
-                <div class="span4"><label for="create-password">Password</label></div>
-                <div class="span8"><input id="create-password" type="password" name="password" class='create-text'></div>
-            </div>
-
-            <div class="row-fluid">
-                <div class="span4"><label for="create-password_confirmation">Confirm Password</label></div>
-                <div class="span8"><input id="create-password_confirmation" type="password" name="password_confirmation" class='create-text'></div>
-            </div>
-
-            <div class="row-fluid"><div class="spacer25"></div></div> <!-- morespace -->
-                
-            <div class="row-fluid">
-                <div class="span6"><label for="create-dob">Date of Birth</label></div>
-                <label><input type="radio" name="gender" checked="checked" value="male">Male</label>
-            </div>
-            <div class="row-fluid">
-                <div class="span6"><input id="create-dob" placeholder="mm/dd/yyyy" type="text" name="create-dob" style="width:100px"></div>
-                <label><input type="radio" name="gender" value="female">Female</label>
-            </div>
-
-            <legend>Residence</legend>
-            <div class="control-group">
-                <label class="control-label" for="create-residence-address">Address</label>
-                <div class="controls">
-                    <input type="text" class="input-large" id="create-residence-address">
-                </div>
-            </div> <!-- address -->
-
-            <div class="control-group">
-                <label class="control-label" for="create-residence-city">City</label>
-                <div class="controls">
-                    <input type="text" class="input-medium" id="create-residence-city">
-                </div>
-            </div> <!-- city -->
-
-            <div class="control-group">
-                <label class="control-label" for="create-residence-zip">Zipcode</label>
-                <div class="controls">
-                    <input type="text" class="input-small" id="create-residence-zip">
-                </div>
-            </div> <!-- zip -->
-            <legend>First Contact</legend>
-                <div class="control-group">
-                    <label class="control-label" for="create-first-contact-name">Name </label>
-                    <div class="controls">
-                        <input type="text" class="input-large" id="create-first-contact-name">
                     </div>
-                </div> <!-- contact one name -->
 
-                <div class="control-group">
-                    <label class="control-label" for="create-first-contact-primary">Primary Contact</label>
-                    <div class="controls">
-                        <input type="text" class="input-medium bfh-phone" data-country="US" id="create-first-contact-primary">
+                    <!-- Second Part -->
+                    <div class="span6">
+                        <br>
+                        <div class="span3 offset1"><label>Password</label></div>
+                        <div class="span3"><input id="create-password" type="password" name="password" class='create-text'></div>
+                        <br><br>
+                        <div class="span4"><label>Confirm Password</label></div>
+                        <div class="span3 "><input id="create-password_confirmation" type="password" name="password_confirmation" class='create-text'></div>
+                        <br><br>
+                        <div class="span3"><label>Date of Birth</label></div>
+                        <div class="span2"><input id="create-dob" placeholder="mm/dd/yyyy" type="text" name="create-dob" style="width:100px"></div>
+                        <div class="span4 offset2">
+                        <label class="radio"><input type="radio" name="gender" checked="checked" value="male">&nbspMale&nbsp</label>
+                        <label class="radio"><input type="radio" name="gender" value="female">&nbspFemale</label>
+                        </div>
+                        
                     </div>
-                </div> <!-- contact one primary -->
+                </div>
+            </div> 
 
-                <div class="control-group">
-                    <label class="control-label" for="create-first-contact-secondary">Secondary Contact</label>
-                    <div class="controls">
-                        <input type="text" class="input-medium bfh-phone" data-country="US" id="create-first-contact-secondary">
+            <br><br>
+
+
+            <div class="row-fluid">
+                <!-- First Part -->
+                <div class="row-fluid">
+                    <div class="span6">
+                        <legend>Residence Information</legend>
+
+                        <div class="span3 offset1"><label>Address</label></div>
+                        <div class="span3"><input type="text" class="input-large" id="create-residence-address"></div>
+                        <br><br>
+                        <div class="span3 offset1"><label>City</label></div>
+                        <div class="span3"><input type="text" class="input-large" id="create-residence-city"></div>
+                        <br><br>
+                        <div class="span3 offset1"><label >Zipcode</label></div>
+                        <div class="span3"><input type="text" class="input-small" id="create-residence-zip"></div>
+                       
                     </div>
-                </div> <!-- contact one secondary -->
-        </form> <!-- Residence form -->
+
+                    <!-- Second Part -->
+                    <div class="span6">
+
+                        <legend>Contact Information</legend>
+
+                        <div class="span3 offset1"><label>Name</label></div>
+                        <div class="span3"><input type="text" class="input-large" id="create-first-contact-name"></div>
+                        <br><br>
+                        <div class="span5"><label>Primary Tel. Number</label></div>
+                        <div class="span3"><input type="text" class="input-medium bfh-phone" data-country="US" id="create-first-contact-primary"></div>
+                        <br><br>
+                        <div class="span5"><label>Secondary Tel. Number</label></div>
+                        <div class="span3"><input type="text" class="input-medium bfh-phone" data-country="US" id="create-first-contact-secondary"></div>
+                    </div>
+                </div>
+            </div> 
+
+        </form> <!-- Residence form -->      
+               
     </div>
 
     <div class="modal-footer">
         <div class="alert alert-error" id="create-instructor-errors">
-            <a class="close" data-dismiss="alert">&times;</a>
+           
             <p>
                 <i class="icon-exclamation-sign">  </i><span id="create-instructor-err-message"></span>
             </p>
         </div>
         <div class="alert alert-success" id="create-instructor-success">
-            <a class="close" data-dismiss="alert">&times;</a>
             <i class="icon-ok"></i> You successfully created an Instructor.
         </div>
         <a role="button" class="btn" data-toggle="modal" data-dismiss="modal">Cancel</a>
@@ -918,91 +916,111 @@
 
 
         <!-- Create a Section -->
-<div style="width:570px;" id="createSectionModal" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div style="left:45%; width:700px;" id="createSectionModal" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 <!--div class="modal hide fade" id="create-section" -->
     <div class="modal-header">
         <button id="createSectionModal-Close" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
         <h3>Create a Section</h3>
     </div>
+    
     <div class="modal-body">
-        <form class="form-horizontal" id='create-section-form' name="create_section_form">
-            <div class="control-group">
-          <label class="control-label" for="create-section-start_date">Start Date</label>
-          <div class="controls">
-              <input type="text" name="create_section_start_date" id="create-section-start_date" disabled>
-          </div>
-      </div>
-      <div class="control-group">
-          <label class="control-label" for="create-section-section_type">Section Type</label>
-          <div class="controls">
-              <input type="text" name="create_section_section_type" id="create-section-section_type" disabled>
-          </div>
-      </div>
-      <div class="control-group">
-          <label class="control-label" for="create-section-lesson_type">Lesson Type</label>
-          <div class="controls">
-              <input type="text" name="create_section_lesson_type" id="create-section-lesson_type" disabled>
-          </div>
-      </div>
-        <div class="control-group">
-        <label class="control-label" for="create-section-teacher">Instructor</label>
-        <div class="controls">
-            <select type="text" name="create_section_teacher" id="create-section-teacher"></select>
-        </div>
-        </div>
-            <div class="control-group">
-        <label class="control-label" for="create-section-start_time">Start Time</label>
-        <div class="controls">
-            <select type="time" name="create_section_start_time" id="create-section-start_time">
-                <option value="8:00AM">8:00AM</option>
-                <option value="9:00AM">9:00AM</option>
-                <option value="10:00AM">10:00AM</option>
-                <option value="11:00AM">11:00AM</option>
-                <option value="12:00PM">12:00PM</option>
-                <option value="1:00PM">1:00PM</option>
-                <option value="2:00PM">2:00PM</option>
-                <option value="3:00PM">3:00PM</option>
-                <option value="4:00PM">4:00PM</option>
-                <option value="5:00PM">5:00PM</option>
-                <option value="6:00PM">6:00PM</option>
-                <option value="7:00PM">7:00PM</option>
-                <option value="8:00PM">8:00PM</option>
-                <option value="9:00PM">9:00PM</option>
-            </select>
-        </div>
-        </div>
-            <div class="control-group">
-        <label class="control-label" for="create-section-end_time">End Time</label>
-        <div class="controls">
-            <select type="time" name="create_section_end_time" id="create-section-end_time">
-                <option value="9:00AM">9:00AM</option>
-                <option value="10:00AM">10:00AM</option>
-                <option value="11:00AM">11:00AM</option>
-                <option value="12:00PM">12:00PM</option>
-                <option value="1:00PM">1:00PM</option>
-                <option value="2:00PM">2:00PM</option>
-                <option value="3:00PM">3:00PM</option>
-                <option value="4:00PM">4:00PM</option>
-                <option value="5:00PM">5:00PM</option>
-                <option value="6:00PM">6:00PM</option>
-                <option value="7:00PM">7:00PM</option>
-                <option value="8:00PM">8:00PM</option>
-                <option value="9:00PM">9:00PM</option>
-            </select>
-        </div>
-        </div>
-        <div class="control-group">
-          <label class="control-label" for="create-section-max_enroll">Class capacity</label>
-          <div class="controls">
-              <input type="integer" name="create_section_max_enroll" id="create-section-max_enroll" disabled="true">
-          </div>
-      </div>
-      <div class="control-group">
-          <label class="control-label" for="create-section-max_waitlist">Waitlist capacity</label>
-          <div class="controls">
-              <input type="integer" name="create_section_max_waitlist" id="create-section-max_waitlist" disabled="true">
-          </div>
-      </div>
+
+        <form class="form-inline" id='create-section-form' name="create_section_form">
+
+            <div class="row-fluid">
+                <!-- First Part -->
+                <div class="row-fluid">
+                    <div class="span6">
+                        <br>
+                        <div class="span4">
+                            <label class="control-label" for="create-section-start_date">Start Date</label>
+                        </div>
+                        <div class="span3">
+                            <input type="text" name="create_section_start_date" id="create-section-start_date" disabled>
+                        </div>
+                        <br><br>
+                        
+                        <div class="span4">
+                            <label class="control-label" for="create-section-section_type">Section Type</label>
+                        </div>
+                        <div class="span4">
+                            <input type="text" name="create_section_section_type" id="create-section-section_type" disabled>
+                        </div>
+                        <br><br>
+
+                         <div class="span4">
+                            <label class="control-label" for="create-section-lesson_type">Lesson Type</label>
+                        </div>
+                        <div class="span4">
+                            <input type="text" name="create_section_lesson_type" id="create-section-lesson_type" disabled>
+                        </div>
+                        <br><br>
+
+                        <div class="span4">
+                            <label class="control-label" for="create-section-teacher">Instructor</label>
+                        </div>
+                        <div class="span4">
+                            <select type="text" name="create_section_teacher" id="create-section-teacher"></select>
+                        </div>
+                        <br><br>
+                        
+                    </div>
+
+
+                    <!-- Second Part -->
+                    <div class="span6">
+
+                        <br>
+                        <div class="span5 offset2"><label>End Time</label></div>
+                        <div class="span3">
+                            <select style="width:100px;" type="time" name="create_section_end_time" id="create-section-end_time">
+                                <option value="9:00AM">9:00AM</option>
+                                <option value="10:00AM">10:00AM</option>
+                                <option value="11:00AM">11:00AM</option>
+                                <option value="12:00PM">12:00PM</option>
+                                <option value="1:00PM">1:00PM</option>
+                                <option value="2:00PM">2:00PM</option>
+                                <option value="3:00PM">3:00PM</option>
+                                <option value="4:00PM">4:00PM</option>
+                                <option value="5:00PM">5:00PM</option>
+                                <option value="6:00PM">6:00PM</option>
+                                <option value="7:00PM">7:00PM</option>
+                                <option value="8:00PM">8:00PM</option>
+                                <option value="9:00PM">9:00PM</option>
+                            </select>
+                        </div>
+                        <br><br>
+
+                        <div class="span5 offset2"><label>Start Time</label></div>
+                        <div class="span3">
+                            <select style="width:100px;" type="time" name="create_section_start_time" id="create-section-start_time">
+                                <option value="8:00AM">8:00AM</option>
+                                <option value="9:00AM">9:00AM</option>
+                                <option value="10:00AM">10:00AM</option>
+                                <option value="11:00AM">11:00AM</option>
+                                <option value="12:00PM">12:00PM</option>
+                                <option value="1:00PM">1:00PM</option>
+                                <option value="2:00PM">2:00PM</option>
+                                <option value="3:00PM">3:00PM</option>
+                                <option value="4:00PM">4:00PM</option>
+                                <option value="5:00PM">5:00PM</option>
+                                <option value="6:00PM">6:00PM</option>
+                                <option value="7:00PM">7:00PM</option>
+                                <option value="8:00PM">8:00PM</option>
+                                <option value="9:00PM">9:00PM</option>
+                            </select>
+
+                        </div>
+                        <br><br>
+                        <div class="span5 offset2"><label>Class Capacity</label></div>
+                        <div class="span3"><input style="width:100px;" type="long" name="create_section_max_enroll" id="create-section-max_enroll" disabled="false"></div>
+                        <br><br>
+                        <div class="span5 offset2"><label>Waitlist Capacity</label></div>
+                        <div class="span3"><input style="width:100px;" type="integer" name="create_section_max_waitlist" id="create-section-max_waitlist" disabled="false"></div>
+                        
+                    </div>
+                </div>
+            </div> 
         </form>
     </div>
 
