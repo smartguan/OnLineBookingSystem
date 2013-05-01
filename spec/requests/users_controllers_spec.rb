@@ -1,32 +1,9 @@
 require 'spec_helper'
 
 describe "UsersControlers" do
-  #Capybara.javascript_driver = :webkit
+  # Error Codes are located in spec_helper.rb
 
-#  SUCCESS = 1 
-#  FIRST_NOT_VALID = 101
-#  LAST_NOT_VALID = 102
-#  EMAIL_NOT_VALID = 103
-#  PASS_NOT_VALID = 104
-#  PASS_NOT_MATCH = 109
-#  DOB_NOT_VALID = 105
-#  ADDRESS_NOT_VALID = 110
-#  CITY_NOT_VALID = 111
-#  ZIP_NOT_VALID = 106
-#  CONTACT_ONE_NOT_VALID = 112
-#  CONTACT_ONE_PRIMARY_NOT_VALID = 113
-#  CONTACT_ONE_SECONDARY_NOT_VALID = 113
-#  CONTACT_TWO_NOT_VALID = 114
-#  CONTACT_TWO_PRIMARY_NOT_VALID = 115
-#  CONTACT_TWO_SECONDARY_NOT_VALID = 116
-#  GENDER_NOT_VALID = 120
-#  SKILL_NOT_VALID = 118
-#  EXTRA_NOT_VALID = 119
-#  USER_EXISTS = 107
-#  BAD_CREDENTIALS = 108
-#  DEFAULT = 999
-
-  #Login functionality
+  # User/login functionality
   describe "when logging in with valid email" do
     it "should return SUCCESS and type" do
       FactoryGirl.create(:instructor)
@@ -66,7 +43,7 @@ describe "UsersControlers" do
     end
   end
 
-  #Logout Functionality
+  # User/logout functionality
   describe "when logging out with valid user" do
     it "should return SUCCESS" do
       FactoryGirl.create(:instructor)
@@ -86,7 +63,7 @@ describe "UsersControlers" do
     end
   end
 
-  #Profile Functionality
+  # User/profile functionality
   describe "when requesting a profile with a valid user" do
     it "should return SUCCESS" do
       FactoryGirl.create(:member_student)
@@ -134,7 +111,7 @@ describe "UsersControlers" do
     end
   end
 
-  #Update Password Functionality
+  # User/updatePassword functionality
   describe "when updating the password of a valid user" do
     it "should return SUCCESS" do
       FactoryGirl.create(:member_student)
@@ -202,7 +179,7 @@ describe "UsersControlers" do
     end
   end
 
-  #Update Functionality
+  # User/update functionality
   describe "when updating a user" do
     before do
       FactoryGirl.create(:member_student)

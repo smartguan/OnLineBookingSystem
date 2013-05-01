@@ -1,4 +1,6 @@
 class MemberStudentsController < ApplicationController
+  
+  # Error Codes 
   SUCCESS = 1 
   FIRST_NOT_VALID = 101
   LAST_NOT_VALID = 102
