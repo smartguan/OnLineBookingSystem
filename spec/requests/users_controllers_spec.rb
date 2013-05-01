@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe "UsersControlers" do
-  #Capybara.javascript_driver = :webkit
+  # Error Codes are located in spec_helper.rb
 
 #  SUCCESS = 1 
 #  FIRST_NOT_VALID = 101
@@ -26,7 +26,7 @@ describe "UsersControlers" do
 #  BAD_CREDENTIALS = 108
 #  DEFAULT = 999
 
-  # Login functionality
+  # User/login functionality
   describe "when logging in with valid email" do
     it "should return SUCCESS and type" do
       FactoryGirl.create(:instructor)
@@ -66,7 +66,7 @@ describe "UsersControlers" do
     end
   end
 
-  #Logout Functionality
+  # User/logout functionality
   describe "when logging out with valid user" do
     it "should return SUCCESS" do
       FactoryGirl.create(:instructor)
@@ -86,7 +86,7 @@ describe "UsersControlers" do
     end
   end
 
-  #Profile Functionality
+  # User/profile functionality
   describe "when requesting a profile with a valid user" do
     it "should return SUCCESS" do
       FactoryGirl.create(:member_student)
@@ -134,7 +134,7 @@ describe "UsersControlers" do
     end
   end
 
-  #Update Password Functionality
+  # User/updatePassword functionality
   describe "when updating the password of a valid user" do
     it "should return SUCCESS" do
       FactoryGirl.create(:member_student)
@@ -202,7 +202,7 @@ describe "UsersControlers" do
     end
   end
 
-  #Update Functionality
+  # User/update functionality
   describe "when updating a user" do
     before do
       FactoryGirl.create(:member_student)

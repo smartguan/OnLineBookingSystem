@@ -1,4 +1,5 @@
 class AdminController < ApplicationController
+  # Error Codes 
   SUCCESS = 1 
   FIRST_NOT_VALID = 101
   LAST_NOT_VALID = 102
@@ -22,15 +23,29 @@ class AdminController < ApplicationController
   BAD_CREDENTIALS = 108
   NOT_ADMIN = 121
   DEFAULT = 999
+  
+  def init
+    respond_to do |format|
+      Admin.create(first: "first", last: "last", email: "admin@admin.org",
+                   password: "password", password_confirmation: "password",
+                   dob: "11/22/1234", zip: "12345", address: "123 a st.",
+                   city: "admin town", contact_one: "mom",
+                   contact_one_primary: "(111) 222-3333",
+                   contact_one_secondary: "(111) 222-3333",
+                   contact_two: "dad",
+                   contact_two_primary: "(111) 222-3333",
+                   contact_two_secondary: "(111) 222-3333",
+                   skill: "advanced", gender: "other", access_code: 0,
+                   extra: "", zip: "12345")
+    end
+  end
 
   def addInstructor
     respond_to do |format| 
-      if not cookies.has_key?(:user_id)
-        format.json { render json: { errCode: NOT_ADMIN } } 
-      elsif cookies[:user_id] == nil
-        format.json { render json: { errCode: NOT_ADMIN } } 
-      else
+      if cookies.has_key?(:user_id)
         user = User.find(cookies[:user_id])
+      else
+        format.json { render json: { errCode: NOT_ADMIN } } 
       end
       if user.type == "Admin" 
         user = Instructor.new(first: params[:first], last: params[:last], 
@@ -95,12 +110,10 @@ class AdminController < ApplicationController
 
   def delete
     respond_to do |format| 
-      if not cookies.has_key?(:user_id)
-        format.json { render json: { errCode: NOT_ADMIN } } 
-      elsif cookies[:user_id] == nil
-        format.json { render json: { errCode: NOT_ADMIN } } 
-      else
+      if cookies.has_key?(:user_id)
         user = User.find(cookies[:user_id])
+      else
+        format.json { render json: { errCode: NOT_ADMIN } } 
       end
       if user.type == "Admin" 
         user_to_delete = User.find_by_email(params[:email])
@@ -117,7 +130,7 @@ class AdminController < ApplicationController
   end
 
   def exportUsers
-    if cookies.has_key?(:user_id) and not cookies[:user_id] == nil
+    if cookies.has_key?(:user_id)
       user = User.find(cookies[:user_id])
       if user.type == "Admin" 
         users = User.order(:type)
@@ -128,7 +141,7 @@ class AdminController < ApplicationController
   end
   
   def exportSections
-    if cookies.has_key?(:user_id) and not cookies[:user_id] == nil
+    if cookies.has_key?(:user_id)
       user = User.find(cookies[:user_id])
       if user.type == "Admin" 
         sections = Section.order(:start_date)

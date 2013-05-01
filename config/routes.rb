@@ -63,6 +63,7 @@ Cs169::Application.routes.draw do
   match '/Instructors/getAvailableInstructors', to: 'instructors#getAvailableInstructors'
   
   # Routes for Admin Controller
+  match '/Admin/init', to: 'admin#init'
   match '/Admin/addInstructor', to: 'admin#addInstructor'
   match '/Admin/delete', to: 'admin#delete'
   match '/Admin/exportUsers', to: 'admin#exportUsers'
