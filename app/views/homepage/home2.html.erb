@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+	
+	<head>
+		<meta charset="utf-8">
+		<title>Rancho Rinconada Online Booking </title>
+		
+		<link type="text/css" rel="stylesheet" href="assets/homepage.css.scss">
+		
+		
+
+		<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-dropdown.js"></script>
+		<!-- // <script src="/twitter-bootstrap/twitter-bootstrap-v2/js/bootstrap-modal.js"></script>  -->
+		<script type='text/javascript' src='/assets/jquery-1.9.1.js'></script>
+		<script type="text/javascript" src="/assets/jquery-1.9.1.min.js"></script>
+		<!-- // <script type="text/javascript" src="/assets/jquery-ui.min.js"></script> -->
+
+		
+		<!-- <script src='assets/jquery/jquery-ui-1.10.2.custom.min.js'></script> -->
+
+
+		<script src='assets/fullcalendar/fullcalendar.min.js'></script>
+
+		<link type="text/css" rel="stylesheet" href='/assets/fullcalendar/fullcalendar.css' rel='stylesheet' />
+		<link type="text/css" rel="stylesheet" href='/assets/fullcalendar/fullcalendar.print.css' rel='stylesheet' media='print' />
+
+		<style type="text/css">
+
+#create-user {
+	width:480px;
+	margin-left:-200px;
+}
+#login-user{
+	width:400px;
+	margin-left:-200px;
+}
+.modal-body {
+		max-height: 300px;
+}
+/*#create-user-errors {
+	height: 20px;
+	font-size: 11px;
+	text-align: center;
+}
+#create-user-success {
+	height: 20px;
+	font-size: 11px;
+	text-align: center;
+}
+#login-user-errors {
+	height: 20px;
+	font-size: 11px;
+	text-align: center;
+}
+#login-user-success {
+	height: 20px;
+	font-size: 11px;
+	text-align: center;
+}*/
+.spacer5 { height: 5px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer10 { height: 10px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer15 { height: 15px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer20 { height: 20px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer25 { height: 25px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer30 { height: 30px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer35 { height: 35px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer40 { height: 40px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer45 { height: 45px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer50 { height: 50px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer100 { height: 100px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer200 { height: 200px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+</style>
+
+<script type="text/javascript">
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////// Jquery events and clicks ////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+$(document).ready(function() {
+	resetTypeBoxes();
+  $("#create-user-button").click(sendCreateUserRequest);
+	$('#sm-update-user-button').click(sendUpdateUserRequest);
+  init_password_update()
+	$("#create-user-errors").hide();
+	$("#create-user-success").hide();
+	getBarState();
+});
+
+function getBarState() {
+	$.getJSON('/Users/profile', init_user_home)
+}
+
+function init_user_home(data) {
+	$('#SignDropDown').hide();
+  	$('#CreateAccountButton').hide();
+	$('#WelcomeDropDown').hide();
+	$('#login-email').val("");
+	$('#login-password').val("");
+
+
+  	var isValidData = data === undefined || data === null;
+  	var isValid = data.errCode === undefined || data.errCode === null;
+
+	if(!isValidData && !isValid && data.errCode==1 && document.cookie.indexOf('user_id') != -1) {
+	  	$('#WelcomeDropDown').show();
+	}
+	else {
+		  $('#SignDropDown').show();
+	  	$('#CreateAccountButton').show();
+	}
+  return false;
+}
+
+
+function submitGetRequest(url, handler) {
+	return $.getJSON(url, handler);
+}
+
+
+///////////////////////////////////////////////////////////////////////
+/////////////////////////////////// Create User Functions /////////////
+///////////////////////////////////////////////////////////////////////
+// function sendCreateUserRequest() {
+// 	$("#create-user-err-message").empty();
+// 	var inputUser = new User();
+
+// 	post_json_request("/MemberStudents/add", inputUser.collectInput("create"), handleCreateUserResponse);
+// 	return false;
+// }
+
+// function handleCreateUserResponse(data) {
+// 	var error_message =  translateErrCode(data.errCode);
+// 	$("#create-user-errors").fadeOut(300);
+// 	$("#create-user-err-message").html(error_message);
+	
+// 	if(data.errCode!=1) {
+// 		 $("#create-user-errors").show();
+// 		 return data.errCode;
+// 	}
+// 	else {
+// 		$("#create-user-success").fadeIn(300);
+// 		setTimeout( function(){window.location.replace("/");}, 1600);
+// 		return 1;
+// 	}
+// }
+
+// // $('#sm-update-user-button').click(function() {
+// // 	alert("alert")
+// // 	sendUpdateUserRequest()
+// // })
+
+// // -------------------------------------------------- //
+// //             For update user profile
+// // -------------------------------------------------- //
+// function sendUpdateUserRequest() {
+// 	$("#update-user-err-message").empty();
+// 	var inputUser = new User();
+// 	post_json_request("/Users/update", inputUser.collectInput("update"), handleUpdateResponse);
+// 	return false;
+// }
+
+// function handleUpdateResponse(data) {
+// 	if(data.errCode == 1 ) {
+// 		//to be changed later to #update-user-success
+// 		$("#create-user-success").fadeIn(300);
+// 		setTimeout( function(){window.location.replace("/");}, 1600);
+// 		return 1;
+// 	}
+// 	else {
+// 		alert(translateErrCode(data.errCode))
+// 	}
+// }
+
+
+//  ////////////////////////////////////////////////////////////////////////////////////
+//  //////////////////////////////////// Helper functions //////////////////////////////
+//  ////////////////////////////////////////////////////////////////////////////////////
+
+// function getRadioValue(attribute) {
+// 	var radioId = "input[name=" + attribute + "]:radio:checked";
+// 	return $(radioId).val();
+// }
+
+// function collectInput(action, obj) {
+// 	for(var key in obj) { obj[key] = getFormInput(action, key); }
+// 	return obj;
+// }
+
+// function getFormInput(action, key) {
+// 	var identifier = "#" + action + "-" + key;
+// 	return $(identifier).val();
+// }
+
+
+// ////////////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////// User Object ////////////////////////////////////
+// ////////////////////////////////////////////////////////////////////////////////////
+// var User = function(first, last, email, password, password_confirmation, dob, additional_info) {
+// 	this.first = (first === undefined) ? "" : first;
+// 	this.last = (last === undefined) ? "" : last;
+// 	this.email = (email === undefined) ? "" : email;
+// 	this.dob = (dob === undefined) ? "" : dob;
+// 	this.password = (password === undefined) ? "" : password;
+// 	this.password_confirmation = (password_confirmation === undefined) ? "" : password_confirmation;
+// 	this.additional_info = (additional_info === undefined) ? "" : additional_info;
+// };
+
+// User.prototype.collectInput = function(action) {
+// 	// handle simple input texts 
+// 	for(var key in this) {
+// 		var identifier = "#" + action + "-" + key;
+// 		this[key] = $(identifier).val();
+// 	}
+// 	var residence = new Residence();
+// 	var contacts = new Contacts(); //abstact away objects for possible future error checking
+
+// 	this.residence = residence.collectInput(action); //use objects functions to grab values
+// 	this.contacts = contacts.collectInput(action);
+
+// 	// this.gender = parseInt(getRadioValue("gender"),10); //handle radios seperate
+// 	// this.skill = parseInt(getRadioValue("skill"),10); //str->int w/ radix=10
+
+// 	this.gender = getRadioValue("gender"); //handle radios seperate
+// 	this.skill = getRadioValue("skill"); //str->int w/ radix=10
+
+// 	return this;
+// }
+
+
+// ///////////////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////// Residence Object //////////////////////////////////
+// ///////////////////////////////////////////////////////////////////////////////////////
+// var Residence = function(address, city, zip) {
+// 	this.address = (address === undefined) ? "" : address;
+// 	this.city = (city === undefined) ? "" : city;
+// 	this.zip = (zip === undefined) ? "" : zip;
+// };
+
+// Residence.prototype.collectInput = function(action) {
+// 	for(var key in this) { 
+// 		var identifier = "#" + action + "-residence-" + key;
+// 		this[key] = $(identifier).val();
+// 	}
+// 	return this;
+// }
+// ///////////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////// Contacts Objects //////////////////////////////////
+// ///////////////////////////////////////////////////////////////////////////////////
+// var Contacts = function(first, second) {
+// 	this.first = (first === undefined) ? new Contact() : first;
+// 	this.second = (second === undefined) ? new Contact() : second;
+// };
+
+// Contacts.prototype.collectInput = function(action) {
+// 	for(var key in this) {
+// 		var tempContact = new Contact();
+// 		var identifier =  "#" + action + "-" + key + "-"; //create-second-contact-secondary
+// 		this[key] = tempContact.collectInput(identifier); //use contacts jquery to retrieve specific id's
+// 	}
+// 	return this;
+// }
+
+// //////////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////// Contact Objects //////////////////////////////////
+// //////////////////////////////////////////////////////////////////////////////////
+// var Contact = function(name, primary, secondary) {
+// 	this.name = (name === undefined) ? "" : name;
+// 	this.primary = (primary === undefined) ? "" : primary;
+// 	this.secondary = (secondary === undefined) ? "" : secondary;
+// };
+// Contact.prototype.collectInput = function(first_or_second) {
+// 	for(var key in this) { 
+// 		var identifier =  first_or_second + "contact-" + key;
+// 		this[key] = $(identifier).val();
+// 	}
+// 	return this;
+// }
+
+</script>
+
+		<script>
+
+			var events = [1000];
+			var index = 0;
+			var usercalendar;
+			var idToSend;
+			var danielSwitch;
+
+			$(document).ready(function() {
+				
+				var date = new Date();
+				var d = date.getDate();
+				var m = date.getMonth();
+				var y = date.getFullYear();
+
+
+				json_request("/Sections/getAvailableSectionsFromNowOn", {}, function(data) 
+			   	{ return extractSections(data['sections']); }, function(err) { alert('error occurred on request'); });
+
+
+				usercalendar = new UserCalendar(events);
+				usercalendar.display();
+				$('#ulisesModal').hide();  
+
+
+			});
+
+
+
+			function json_request(page, dict, success, failure) {
+		    $.ajax({
+		        type: 'POST',
+		        url: page,
+		        data: JSON.stringify(dict),
+		        contentType: "application/json",
+		        dataType: "json",
+		        success: success,
+		        failure: failure
+		    });}
+
+
+		    function extractSections(data){
+
+		    	for (var counter = 0, dictLen = data.length; counter < dictLen; counter++) {
+
+		    		var lesson_type = data[counter]['lesson_type']; 
+			    	var title = 'Section-C Available';
+			    	var id = data[counter]['id'];
+					var start = (data[counter]['start_date']).split("T")[0] + "T" + (data[counter]['start_time']).split("T")[1];
+
+					var dayInfo = new Date((data[counter]['start_date']).split("T")[0] + "T" + (data[counter]['start_time']).split("T")[1]);
+					
+					dayInfo.setHours(parseInt((data[counter]['start_time']).split("T")[1]));
+					dayInfo.setMinutes(parseInt((data[counter]['start_time']).split(":")[1]));
+
+
+					var end = (data[counter]['end_date']).split("T")[0]+ "T" + (data[counter]['end_time']).split("T")[1];
+					var className = 'Section-C';
+					var backgroundColor = 'red';
+
+
+			    	if (data[counter]['section_type'] =='A') {
+			    		title = 'Section-A Available';
+			    		backgroundColor = 'blue';
+			    		className = 'Section-A';
+			    		end = (data[counter]['start_date']).split("T")[0]+ "T" + (data[counter]['end_time']).split("T")[1];
+
+			    	} else if (data[counter]['section_type']=='B') {
+			    		title = 'Section-B Available';
+			    		className = 'Section-B';
+			    		backgroundColor = 'orange';
+
+			    	} 
+
+			    	var newSection = {'title':title, 'id':id, 'start':start, 'end':end, 'allDay':false,
+			    	'lesson_type':lesson_type,'dayInfo':dayInfo, 'className': className, 'backgroundColor':backgroundColor};
+
+			    	
+			    	events[index] = newSection;
+			    	index = index + 1;
+			    	
+			    	$(UserCalendar.identifier).fullCalendar( 'refetchEvents' );
+					$(UserCalendar.identifier).fullCalendar( 'rerenderEvents' );
+
+				}
+
+		    	return true;
+
+		    }
+
+
+			var UserCalendar = function(input_events) {
+				//Instance Variable and Methods (ie input events dependant)
+				this.events = input_events;
+
+				this.calendarOptions = 	{
+					header: UserCalendar.headerOptions,
+					editable: false,
+					events: input_events,
+					eventClick: UserCalendar.clickEvent,
+					//dayClick: UserCalendar.clickDay,
+					viewDisplay: UserCalendar.disp,
+					
+				};
+
+				this.display = function() {
+					$(UserCalendar.identifier).fullCalendar(this.calendarOptions);
+				}
+			}
+
+			// Singleton Class per Page Static Methods
+			UserCalendar.identifier = "#calendar";
+
+			UserCalendar.headerOptions = {
+				left: 'prev,next today',
+				center: 'title',
+				right: 'month prev,next',
+			};
+
+			UserCalendar.disp = function (view ) {
+				if($(UserCalendar.identifier).fullCalendar('getView').name == "month"){
+
+					$('#Month').show()
+					$('#Day').hide()
+				}
+			}
+
+			UserCalendar.clickEvent = function(calEvent, jsEvent, view) {
+				if(view.name=='agendaDay') {
+
+					$('#ulisesModal').show(); 
+					$('#modal-section').empty(); 
+					$('#modal-section').append(calEvent.className);
+					$('#modal-date').empty(); 
+					$('#modal-date').append(calEvent.dayInfo);
+					$('#modal-lesson').empty(); 
+					$('#modal-lesson').append(calEvent.lesson_type);
+					
+					if (document.cookie.indexOf('user_id') != -1){
+						$('#ulisesModal-Guest').hide();
+						$('#ulisesModal-Account').hide();
+						$('#ulisesModal-Reserve').show();
+						$('#ulisesModal-Sing').hide();
+					} else{
+						$('#ulisesModal-Guest').show();
+						$('#ulisesModal-Account').show();
+						$('#ulisesModal-Sing').show();
+						$('#ulisesModal-Reserve').hide();
+					
+					}
+
+					idToSend = calEvent.id;
+
+
+					return true;
+				}
+
+				$('#ulisesModal-Cancel').click(function() {
+			   		$('#ulisesModal').hide(); 
+				});
+
+				$('#closeUlises-modal').click(function() {
+			   		$('#ulisesModal').hide(); 
+				});
+
+				$('#ulisesModal-Reserve').click(function() {
+					
+					json_request("/Registrations/register", {'section_id':idToSend}, function(data) 
+			   		{ return alert(data.errCode);}, function(err) { alert('error occurred on request'); });
+			   		$('#ulisesModal').hide(); 
+				});
+
+				$('#ulisesModal-Sing').click(function (){
+					$('font17px#err_message').empty();
+					$('#ulisesModal').hide();
+				});
+
+				$('#ulisesModal-Guest').click(function (){
+					$('#ulisesModal').hide();
+					danielSwitch = "Guest";
+				});
+
+				$('#ulisesModal-Account').click(function (){
+					$('#ulisesModal').hide();
+					danielSwitch = "Account";
+				});
+				
+				if($(UserCalendar.identifier).fullCalendar('getView').name == "month"){
+					
+					$(UserCalendar.identifier).fullCalendar('changeView', 'agendaDay');
+					$(UserCalendar.identifier).fullCalendar('gotoDate',calEvent.dayInfo);
+					$('#Month').hide()
+					$('#Day').show()
+				}
+				return false;
+			}
+
+			//UserCalendar.clickDay = function(date, allDay, jsEvent, view) {
+			//	if($(UserCalendar.identifier).fullCalendar('getView').name == "month"){
+			//		$(UserCalendar.identifier).fullCalendar('changeView', 'agendaDay').fullCalendar('gotoDate', date);
+			//		alert(date);
+			//		$('#Month').hide()
+			//		$('#Day').show()
+			//	}
+			//	return true;
+			//}
+			
+		</script>
+
+		<style>
+
+			body {
+				background-color: rgb(1,136,169);
+				margin-top: -10px;
+				text-align: center;
+				font-size: 14px;
+				font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+				}
+
+			#calendar {
+				width: 886px;
+				margin: 0 auto;
+				margin-top: -7px;
+				background-color: white;
+				border:  white thin solid;
+				}
+
+		</style>
+		
+
+	</head>
+
+	<body><div class="container" style="width:1265px">
+
+
+		<!-- Ulises' Modals begin Here -->
+
+		<div style="width:570px;" id="ulisesModal" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+	  		<div class="modal-header">
+	    		<button id="closeUlises-modal" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	    		<h3 style="color:blue" id="myModalLabel">Confirm Reservation</h3>
+	  		</div>
+
+	  		<div class="modal-body">
+	  			<h4><p>- Section Information -</p></h4>
+	    		<p style="color:gray" id="modal-section"> section</p><br>
+	    		<h4><p>- Selected Date and Time -</p></h4>
+	    		<p style="color:gray" id="modal-date">date and time</p><br>
+	    		<h4><p>- Lesson Type Information -</p></h4>
+	    		<p style="color:gray" id="modal-lesson">lesson</p>
+	  		</div>
+
+	  		<div class="modal-footer">
+		    	<button id="ulisesModal-Cancel" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+		    	<button id="ulisesModal-Sing" class="btn btn-primary" href='#ulisesSignInModal' data-toggle="modal">Sign In</button>
+		    	<button id="ulisesModal-Reserve" class="btn btn-primary" >Reserve</button>
+		    	<button id="ulisesModal-Guest" class="btn btn-primary" href='#create-user' data-toggle="modal">Reserve as Guest</button>
+		    	<button id="ulisesModal-Account" class="btn btn-primary" href='#create-user' data-toggle="modal">Create Account and Reserve</button>
+	  		</div>
+		</div>
+
+ 
+
+		<div  style="width:570px;" id="ulisesSignInModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-header">
+		    	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		    	<h3 id="myModalLabel">Sign In</h3>
+		  	</div>
+		  	<div class="modal-body">
+		    	
+		    	<form class="form-horizontal">
+
+		    		    		<div class="span9">
+			    		
+			    		<br>
+			    		<div class="span2"> <label class="control-label" for="inputEmail">Email</label></div>
+						<div class="span3"><input type="email" required id="inputEmail" placeholder="Email"></div>
+
+						<br><br>
+					 	
+					 	<div class="span2"><label class="control-label" for="inputPassword">Password</label></div>
+					
+						<div class="span3"><input type="password" id="inputPassword" placeholder="Password"></div>
+						<br><br>
+
+						<div class="span4 offset1">
+							&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+							<font17px id="err_message"></font17px>
+						</div>
+
+					</div>
+	
+				</form>
+		  	</div>
+
+		  	<div class="modal-footer">
+		    	<button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+		    	<button id="login-button2" type="submit" class="btn btn-primary">Sign In and Confirm</button>
+		  	</div>
+		</div>
+
+		<!-- Ulises' Modals end Here -->
+
+		<body2>
+			<div class="navbar navbar-inverse nav navbar-fixed-top">
+			    <div class="navbar-inner">
+			    	<div class="container" style="width:1265px">
+			            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+			                <span class="icon-bar"></span>
+			                <span class="icon-bar"></span>
+			                <span class="icon-bar"></span>
+			            </a>
+			            <a class="brand"  href="/" style="color:white; font-size:27px"> &nbsp &nbspRancho Rinconada</a>
+			              <div class="pull-right">
+			                <ul class="nav pull-right">
+			                	<li class="divider-vertical"></li>
+			                    
+			                    <li id= "SignDropDown" class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Sign In <b class="caret"></b></a>
+			                        
+			                        <ul class="dropdown-menu">
+
+			                        	<form class="form-horizontal">
+			                        		
+			                        		<div class="span3">
+			                        		<br>
+
+			                        		<font17px>Username</font17px>
+
+	  										<input class="span2" type="email" required id="login-email"  placeholder="your@email.com" style="width:188px">
+	      								    <br><br>
+	      									
+	      									<font17px>Password</font17px>
+	      									<input class="span2" type="password" id="login-password" placeholder="Password" style="width:188px">
+	      									<br>
+
+	      									<font17px id="err_message"></font17px><br>
+
+									      	<button id="login-button" type="submit" class="btn btn-primary">Sign in
+									      	</button>
+									      	<br><br>
+									    		
+									  		</div>
+										</form>
+			                        </ul>
+			                    </li>
+
+			                    <li id="WelcomeDropDown" class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome, User <b class="caret"></b></a>
+			                        <ul class="dropdown-menu">
+			                            <li><a href="#update-user-Daniel" data-toggle="modal"><i class="icon-pencil"></i> Update Profile</a></li>
+			                            <li><a href='#update-password-Daniel' data-toggle="modal"><i class="icon-pencil"></i> Change Password</a></li>
+			                            <li><a href="/Users/show"><i class="icon-list"></i> My Info</a></li>
+			                            <li class="divider"></li>
+			                            <li><a href="#" id="sm-logout-button"><i class="icon-off"></i> Logout</a></li>
+			                        </ul>
+			                    </li>
+
+
+
+			                </ul>
+			              </div>
+
+			              <div id="CreateAccountButton" class="pull-right">
+			              	<ul class="nav">
+			                  <li class="divider-vertical"></li>
+			                  <li><a href='#create-user' data-toggle="modal"> Create an Account</a></li>
+			              </ul>
+			              </div>
+			        </div>
+			    </div>
+			</div>
+
+		</body2>
+
+		<div class="container-fluid"><body2>
+
+			<div class="row-fluid">
+
+				<div class="span3">
+
+					<position-fixed-top>
+						<div class="span10">
+							
+							<div id="FilterSelection" class="alert alert-info">
+						  		<h5>Hide Only: </h5>
+						  		Select the Section Types You Are<br> 
+						  		Not Interested In ...
+						  			
+						  		<br><br><form class="form">
+						  			
+									<label class="checkbox">
+									  	<input type="checkbox" id="show-A"> Type A
+									</label>
+
+									<label class="checkbox">
+										<input type="checkbox" id="show-B"> Type B
+									</label>
+
+									<label class="checkbox">
+										 <input type="checkbox" id="show-C"> Type C
+									</label>
+								</form>
+							</div>
+
+							<div class="alert alert-info">
+							  <h5>To Make a Reservation:</h5>
+							  Step One:<br> Select a Day and a Section Type<br>
+							  from the Calendar by Clicking<br> 
+							  Over the Rounded-edged Squares. <br><br>
+
+							  Step Two:<br> Select the Time and a Lesson<br> Type
+							  in the Pop-up Window by<br> Clicking
+							  over the Rounded-edge Squares.<br><br>
+
+							  Empty Days and Times Cannot<br> 
+							  be Reserved.<br> 
+
+							</div>
+						</div>
+					</position-fix-top>
+				</div>
+			
+
+				<div class="span9">
+
+					<div id="DateSelection" class="alert alert-info">
+
+			  			<h3 id="Month">Select a Day and Section Type: </h3>
+			  			<h3 id="Day">Select the Time and Lesson Type: </h3><br>
+			  			<div id="calendar"></div><br>
+			  			
+					</div>
+
+				</div>
+
+			</div>
+		</body2></div>
+
+		<div class="navbar navbar-fixed-bottom navbar-inverse">
+			<div class="navbar-inner">
+				<div class="container" style="width:1265px">
+		        	<div id="copyRights" class="pull-left">
+		              	<ul class="nav">
+		                  <li><a style="color:gray; font-size:15px">© 2012 Copyright Rancho Rinconada Rec Center</a></li>
+		              	</ul>
+		        	</div>
+
+		        	<div id="bringToTop" class="pull-right">
+		              	<ul class="nav">
+		                  <li><a href="#">Bring To Top</a></li>
+		              	</ul>
+		             </div>
+		    	</div>
+		    </div>
+	  	</div>
+
+	  <%= render "navbar/update_user_modal" %>
+	  <%= render "navbar/update_user_password" %>
+	  <%= render "navbar/create_user_modal_v2" %>
+	  <%# render "homepage/homepage_modals" %>
+  	<body>
+
+		
+		<script type="text/javascript">
+
+	
+   			$('#login-email').val("")
+			$('#login-password').val("")
+			$('#SignDropDown').hide()
+			$('#CreateAccountButton').hide()
+			$('#WelcomeDropDown').hide()
+   
+  
+			function handle_login_response(data) {
+				$('font17px#err_message').empty();
+				$('font17px#err_message').css('font-size','12px');
+				$('font17px#err_message').css('color','red');
+				$('font17px#err_message').append(getErrorMessage(data));
+			}
+
+			function getErrorMessage(data) {
+			  switch (data.errCode){
+
+			    case 108:
+			    	return "Invalid Username and/or Password";
+			      break;
+
+			    //This is the case for success
+			    default:
+			    	if (data.type != "Admin") {
+			    		$('#SignDropDown').hide();
+						$('#CreateAccountButton').hide();
+						$('#WelcomeDropDown').show();
+			    	} 
+			    	else {
+			    		window.location.href = "/admin";
+			    	}   
+			  }
+			}
+
+			$('#login-button').click(function() {
+			   email = $('#login-email').val()
+			   password = $('#login-password').val()
+			   json_request("/Users/login", { email: email, password: password }, function(data) 
+			   	{ return handle_login_response(data); }, function(err) { alert('error occurred on request'); });
+
+			   return false;
+			});
+
+			$('#login-button2').click(function() {
+			   email = $('#inputEmail').val()
+			   password = $('#inputPassword').val()
+			   json_request("/Users/login", { email: email, password: password }, function(data) 
+			   	{ return handle_login_response(data); }, function(err) { alert('error occurred on request'); });
+
+			   return false;
+			});
+
+			$("#sm-logout-button").click( function() {
+        	json_request("/Users/logout", {}, function(data) { return init_user_home(data); }, function(err) { alert("error occurred on request"); });
+				return false;
+			});				
+
+		    $("#show-A").click( function() {
+				$('.Section-A').toggle();
+			});
+
+			$("#show-B").click( function() {
+				$('.Section-B').toggle();
+			});
+
+			$("#show-C").click( function() {
+				$('.Section-C').toggle();
+			});
+
+			$('#CreateAccountButton').click(function (){
+				danielSwitch = "Main";
+			});
+
+			$('#SignDropDown').click(function (){
+				$('font17px#err_message').empty();
+			});
+
+
+		    function resetTypeBoxes() {
+		       $("#show-A").prop('checked' , false)
+		       $("#show-B").prop('checked' , false)
+		       $("#show-C").prop('checked' , false)
+		    }
+
+
+		</script>
+		
+</html>

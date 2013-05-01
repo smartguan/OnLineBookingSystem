@@ -26,7 +26,7 @@ describe "UsersControlers" do
 #  BAD_CREDENTIALS = 108
 #  DEFAULT = 999
 
-  #Login functionality
+  # Login functionality
   describe "when logging in with valid email" do
     it "should return SUCCESS and type" do
       FactoryGirl.create(:instructor)
@@ -386,4 +386,5 @@ describe "UsersControlers" do
       end
     end
   end
+
 end
