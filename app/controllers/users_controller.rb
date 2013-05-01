@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  
+  # Error Codes 
   SUCCESS = 1 
   FIRST_NOT_VALID = 101
   LAST_NOT_VALID = 102
@@ -39,9 +41,7 @@ class UsersController < ApplicationController
   end
 
   def update
-    if not cookies.has_key?(:user_id)
-      user = nil
-    elsif not cookies[:user_id] == nil
+    if cookies.has_key?(:user_id)
       user = User.find(cookies[:user_id])
     else
       user = nil
@@ -163,9 +163,7 @@ class UsersController < ApplicationController
   end
 
   def updatePassword
-    if not cookies.has_key?(:user_id)
-      user = nil
-    elsif not cookies[:user_id] == nil
+    if cookies.has_key?(:user_id)
       user = User.find(cookies[:user_id])
     else
       user = nil
@@ -195,9 +193,7 @@ class UsersController < ApplicationController
   end
   
   def profile
-    if not cookies.has_key?(:user_id)
-      user = nil
-    elsif not cookies[:user_id] == nil
+    if cookies.has_key?(:user_id)
       user = User.find(cookies[:user_id])
     else
       user = nil
@@ -228,13 +224,8 @@ class UsersController < ApplicationController
   def logout  
     respond_to do |format|
       if cookies.has_key?(:user_id)
-        if cookies[:user_id] == nil
-          format.json { render json: { errCode: BAD_CREDENTIALS } }
-        else
-          cookies.delete(:user_id)
-          #cookies.deleter[:user_id] = nil
-          format.json { render json: { errCode: SUCCESS } }
-        end
+        cookies.delete(:user_id)
+        format.json { render json: { errCode: SUCCESS } }
       else
         format.json { render json: { errCode: BAD_CREDENTIALS } }
       end

@@ -1,30 +1,7 @@
 require 'spec_helper'
 
 describe "MemberStudentsControllers" do
-  #Capybara.javascript_driver = :webkit
-
-#  SUCCESS = 1 
-#  FIRST_NOT_VALID = 101
-#  LAST_NOT_VALID = 102
-#  EMAIL_NOT_VALID = 103
-#  PASS_NOT_VALID = 104
-#  PASS_NOT_MATCH = 109
-#  DOB_NOT_VALID = 105
-#  ADDRESS_NOT_VALID = 110
-#  CITY_NOT_VALID = 111
-#  ZIP_NOT_VALID = 106
-#  CONTACT_ONE_NOT_VALID = 112
-#  CONTACT_ONE_PRIMARY_NOT_VALID = 113
-#  CONTACT_ONE_SECONDARY_NOT_VALID = 113
-#  CONTACT_TWO_NOT_VALID = 114
-#  CONTACT_TWO_PRIMARY_NOT_VALID = 115
-#  CONTACT_TWO_SECONDARY_NOT_VALID = 116
-#  GENDER_NOT_VALID = 120
-#  SKILL_NOT_VALID = 118
-#  EXTRA_NOT_VALID = 119
-#  USER_EXISTS = 107
-#  BAD_CREDENTIALS = 108
-#  DEFAULT = 999
+  # Error Codes located in spec_helper.rb
 
   before { @user_hash = { first: "first", last: "last", dob: "00/11/2222", 
                           residence: { address: "123 a st.", city: "b-town", 
@@ -42,6 +19,7 @@ describe "MemberStudentsControllers" do
                           password_confirmation: "password",
                           format: :json } }
 
+  # MemberStudents/add 
   describe "when adding a valid user" do
     it "should create a user" do
       expect { post "/MemberStudents/add", @user_hash }.to change(MemberStudent, :count).by(1)
