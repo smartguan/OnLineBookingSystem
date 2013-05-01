@@ -9,14 +9,15 @@
 		
 		
 
-		<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-dropdown.js"></script>
-		<!-- // <script src="/twitter-bootstrap/twitter-bootstrap-v2/js/bootstrap-modal.js"></script>  -->
+		<!-- <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-dropdown.js"></script> -->
+		<!-- // <script src="/twitter-bootstrap/twitter-bootstrap-v2/js/bootstrap-modal.js"></script> -->
+
 		<script type='text/javascript' src='/assets/jquery-1.9.1.js'></script>
 		<script type="text/javascript" src="/assets/jquery-1.9.1.min.js"></script>
-		<!-- // <script type="text/javascript" src="/assets/jquery-ui.min.js"></script> -->
+		<script type="text/javascript" src="/assets/jquery-ui.min.js"></script>
 
 		
-		<!-- <script src='assets/jquery/jquery-ui-1.10.2.custom.min.js'></script> -->
+		<script src='assets/jquery/jquery-ui-1.10.2.custom.min.js'></script>
 
 
 		<script src='assets/fullcalendar/fullcalendar.min.js'></script>
@@ -283,6 +284,7 @@ Contact.prototype.collectInput = function(first_or_second) {
 			var index = 0;
 			var usercalendar;
 			var idToSend;
+			var danielSwitch;
 
 			$(document).ready(function() {
 				
@@ -325,7 +327,13 @@ Contact.prototype.collectInput = function(first_or_second) {
 			    	var title = 'Section-C Available';
 			    	var id = data[counter]['id'];
 					var start = (data[counter]['start_date']).split("T")[0] + "T" + (data[counter]['start_time']).split("T")[1];
+
 					var dayInfo = new Date((data[counter]['start_date']).split("T")[0] + "T" + (data[counter]['start_time']).split("T")[1]);
+					
+					dayInfo.setHours(parseInt((data[counter]['start_time']).split("T")[1]));
+					dayInfo.setMinutes(parseInt((data[counter]['start_time']).split(":")[1]));
+
+
 					var end = (data[counter]['end_date']).split("T")[0]+ "T" + (data[counter]['end_time']).split("T")[1];
 					var className = 'Section-C';
 					var backgroundColor = 'red';
@@ -400,7 +408,7 @@ Contact.prototype.collectInput = function(first_or_second) {
 			UserCalendar.clickEvent = function(calEvent, jsEvent, view) {
 				if(view.name=='agendaDay') {
 
-					$('#ulisesModal').show(); 
+					$('#ulisesModal').fadeIn(800);
 					$('#modal-section').empty(); 
 					$('#modal-section').append(calEvent.className);
 					$('#modal-date').empty(); 
@@ -412,10 +420,13 @@ Contact.prototype.collectInput = function(first_or_second) {
 						$('#ulisesModal-Guest').hide();
 						$('#ulisesModal-Account').hide();
 						$('#ulisesModal-Reserve').show();
+						$('#ulisesModal-Sing').hide();
 					} else{
 						$('#ulisesModal-Guest').show();
 						$('#ulisesModal-Account').show();
+						$('#ulisesModal-Sing').show();
 						$('#ulisesModal-Reserve').hide();
+					
 					}
 
 					idToSend = calEvent.id;
@@ -428,11 +439,30 @@ Contact.prototype.collectInput = function(first_or_second) {
 			   		$('#ulisesModal').hide(); 
 				});
 
+				$('#closeUlises-modal').click(function() {
+			   		$('#ulisesModal').hide(); 
+				});
+
 				$('#ulisesModal-Reserve').click(function() {
 					
 					json_request("/Registrations/register", {'section_id':idToSend}, function(data) 
 			   		{ return alert(data.errCode);}, function(err) { alert('error occurred on request'); });
 			   		$('#ulisesModal').hide(); 
+				});
+
+				$('#ulisesModal-Sing').click(function (){
+					$('font17px#err_message').empty();
+					$('#ulisesModal').hide();
+				});
+
+				$('#ulisesModal-Guest').click(function (){
+					$('#ulisesModal').hide();
+					danielSwitch = "Guest";
+				});
+
+				$('#ulisesModal-Account').click(function (){
+					$('#ulisesModal').hide();
+					danielSwitch = "Account";
 				});
 				
 				if($(UserCalendar.identifier).fullCalendar('getView').name == "month"){
@@ -454,7 +484,7 @@ Contact.prototype.collectInput = function(first_or_second) {
 			//	}
 			//	return true;
 			//}
-			
+
 		</script>
 
 		<style>
@@ -482,11 +512,16 @@ Contact.prototype.collectInput = function(first_or_second) {
 
 	<body><div class="container" style="width:1265px">
 
-		<div style="width:700;" id="ulisesModal" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+		<!-- Ulises' Modals begin Here -->
+
+		<div style="width:570px;" id="ulisesModal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
 	  		<div class="modal-header">
-	    		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	    		<button id="closeUlises-modal" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 	    		<h3 style="color:blue" id="myModalLabel">Confirm Reservation</h3>
 	  		</div>
+
 	  		<div class="modal-body">
 	  			<h4><p>- Section Information -</p></h4>
 	    		<p style="color:gray" id="modal-section"> section</p><br>
@@ -495,13 +530,57 @@ Contact.prototype.collectInput = function(first_or_second) {
 	    		<h4><p>- Lesson Type Information -</p></h4>
 	    		<p style="color:gray" id="modal-lesson">lesson</p>
 	  		</div>
+
 	  		<div class="modal-footer">
 		    	<button id="ulisesModal-Cancel" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
-		    	<button id="ulisesModal-Reserve" class="btn btn-primary">Reserve</button>
-		    	<button id="ulisesModal-Guest" class="btn btn-primary">Reserve as Guest</button>
-		    	<button id="ulisesModal-Account" class="btn btn-primary">Create Account and Reserve</button>
+		    	<button id="ulisesModal-Sing" class="btn btn-primary" href='#ulisesSignInModal' data-toggle="modal" data-target'#ulisesSignInMidal'>Sign In</button>
+		    	<button id="ulisesModal-Reserve" class="btn btn-primary" >Reserve</button>
+		    	<button id="ulisesModal-Guest" class="btn btn-primary" href='#create-user' data-toggle="modal">Reserve as Guest</button>
+		    	<button id="ulisesModal-Account" class="btn btn-primary" href='#create-user' data-toggle="modal">Create Account and Reserve</button>
 	  		</div>
 		</div>
+
+ 
+
+		<div  style="width:570px;" id="ulisesSignInModal" class="modal hide fade" >
+			<div class="modal-header">
+		    	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		    	<h3 id="myModalLabel">Sign In</h3>
+		  	</div>
+		  	<div class="modal-body">
+		    	
+		    	<form class="form-horizontal">
+
+		    		    		<div class="span9">
+			    		
+			    		<br>
+			    		<div class="span2"> <label class="control-label" for="inputEmail">Email</label></div>
+						<div class="span3"><input type="email" required id="inputEmail" placeholder="Email"></div>
+
+						<br><br>
+					 	
+					 	<div class="span2"><label class="control-label" for="inputPassword">Password</label></div>
+					
+						<div class="span3"><input type="password" id="inputPassword" placeholder="Password"></div>
+						<br><br>
+
+						<div class="span4 offset1">
+							&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+							<font17px id="err_message"></font17px>
+						</div>
+
+					</div>
+	
+				</form>
+		  	</div>
+
+		  	<div class="modal-footer">
+		    	<button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+		    	<button id="login-button2" type="submit" class="btn btn-primary" data-toggle="modal" data-dismiss="modal">Sign In and Confirm</button>
+		  	</div>
+		</div>
+
+		<!-- Ulises' Modals end Here -->
 
 		<body2>
 			<div class="navbar navbar-inverse nav navbar-fixed-top">
@@ -655,135 +734,124 @@ Contact.prototype.collectInput = function(first_or_second) {
 			    </div>
 	  	</div>
 
-	  	<!-- Create a User -->
-<div class="modal hide fade" id="create-user" >
+	  	
+
+<!-- ////////////////////////     Create a User           ////////////////////////////////////////  -->
+
+
+
+
+
+<div style="left:32%; width:870px;" class="modal hide fade" id="create-user" >
 	<div class="modal-header">
 		<a class="close" data-dismiss="modal">&times;</a>
 		<h3>Create an Account</h3>
 	</div>
 	<div class="modal-body">
-		<form class="form-horizontal" id='create-user-form'>
-			<legend>Personal Information</legend>
-			<div class="row-fluid">
-				<div class="span4"><label for="create-first">First Name</label></div>
-				<div class="span8"><input id="create-first"  type="text" name="first" class="create-text"></div>
-			</div>
+		<form class="form-inline" id='create-user-form'>
 
 			<div class="row-fluid">
-				<div class="span4"><label for="create-last">Last Name</label></div>
-				<div class="span8"><input id="create-last" type="text" name="last" class='create-text'></div>
-			</div>
+				<!-- First Part -->
+				<div class="row-fluid">
+					<div class="span6">
+						<legend>Personal Information</legend>
+						
+						<div class="span3 offset1"><label>First Name</label></div>
+						<div class="span3"><input id="create-first"  type="text" name="first" class="create-text"></div>
+						<br><br>
+						<div class="span3 offset1"><label>Last Name</label></div>
+						<div class="span3"><input id="create-last" type="text" name="last" class='create-text'></div>
+						<br><br>
+						<div class="span3 offset1"><label>Email</label></div>
+						<div class="span3"><input id="create-email" type="email" required name="email" class='create-text'></div>
+						<br><br>
+						<div class="span3 offset1"><label>Password</label></div>
+						<div class="span3"><input id="create-password" type="password" name="password" class='create-text'></div>
+						<br><br>
+						<div class="span4"><label>Confirm Password</label></div>
+						<div class="span3 "><input id="create-password_confirmation" type="password" name="password_confirmation" class='create-text'></div>
+						<br><br>
+						<div class="span3"><label>Date of Birth</label></div>
+						<div class="span2"><input id="create-dob" placeholder="mm/dd/yyyy" type="text" name="create-dob" style="width:100px"></div>
 
-			<div class="row-fluid">
-				<div class="span4"><label for="create-email">Email</label></div>
-				<div class="span8"><input id="create-email" type="text" name="email" class='create-text'></div>
-			</div>
+						<div class="span4 offset2">
+						<label class="radio"><input type="radio" name="gender" checked="checked" value="male">&nbspMale&nbsp</label>
+						<label class="radio"><input type="radio" name="gender" value="female">&nbspFemale</label>
+						</div>
+						
+						
 
-			<div class="row-fluid">
-				<div class="span4"><label for="create-password">Password</label></div>
-				<div class="span8"><input id="create-password" type="password" name="password" class='create-text'></div>
-			</div>
+					</div>
 
-			<div class="row-fluid">
-				<div class="span4"><label for="create-password_confirmation">Confirm Password</label></div>
-				<div class="span8"><input id="create-password_confirmation" type="password" name="password_confirmation" class='create-text'></div>
-			</div>
+					<!-- Second Part -->
+					<div class="span6">
+						<legend>Residence Information</legend>
 
-			<div class="row-fluid"><div class="spacer25"></div></div> <!-- morespace -->
-				
-			<div class="row-fluid">
-				<div class="span6"><label for="create-dob">Date of Birth</label></div>
-				<label><input type="radio" name="gender" checked="checked" value="male">Male</label>
-			</div>
-			<div class="row-fluid">
-				<div class="span6"><input id="create-dob" placeholder="mm/dd/yyyy" type="text" name="create-dob" style="width:100px"></div>
-				<label><input type="radio" name="gender" value="female">Female</label>
-			</div>
-
-			<legend>Residence</legend>
-			<div class="control-group">
-				<label class="control-label" for="create-residence-address">Address</label>
-				<div class="controls">
-					<input type="text" class="input-large" id="create-residence-address">
+						<div class="span3 offset1"><label>Address</label></div>
+						<div class="span3"><input type="text" class="input-large" id="create-residence-address"></div>
+						<br><br>
+						<div class="span3 offset1"><label>City</label></div>
+						<div class="span3"><input type="text" class="input-large" id="create-residence-city"></div>
+						<br><br>
+						<div class="span3 offset1"><label >Zipcode</label></div>
+						<div class="span3"><input type="text" class="input-small" id="create-residence-zip"></div>
+					</div>
 				</div>
-			</div> <!-- address -->
-
-			<div class="control-group">
-				<label class="control-label" for="create-residence-city">City</label>
-				<div class="controls">
-					<input type="text" class="input-medium" id="create-residence-city">
-				</div>
-			</div> <!-- city -->
-
-			<div class="control-group">
-				<label class="control-label" for="create-residence-zip">Zipcode</label>
-				<div class="controls">
-					<input type="text" class="input-small" id="create-residence-zip">
-				</div>
-			</div> <!-- zip -->
+			</div> 
 
 		</form> <!-- Residence form -->
 	</div>
 
 	<div class="modal-footer">
-		
 		<a role="button" class="btn" data-toggle="modal" data-dismiss="modal">Cancel</a>
 		<a role="button" class="btn" data-toggle="modal" data-dismiss="modal" href="#create-contacts" >Next</a>
 	</div>
 </div>
 
 
-<div class="modal hide fade" id="create-contacts">
+<div style="left:38%; width:870px;" class="modal hide fade" id="create-contacts">
 	<div class="modal-header">
 		<a class="close" data-dismiss="modal">&times;</a>
 		<h3>Contact Information</h3>
 	</div>
 	<div class="modal-body">
-		<form class="form-horizontal">
-				<legend>First Contact</legend>
-				<div class="control-group">
-					<label class="control-label" for="create-first-contact-name">Name </label>
-					<div class="controls">
-						<input type="text" class="input-large" id="create-first-contact-name">
-					</div>
-				</div> <!-- contact one name -->
+		<form class="form-inline">
 
-				<div class="control-group">
-					<label class="control-label" for="create-first-contact-primary">Primary Contact</label>
-					<div class="controls">
-						<input type="text" class="input-medium bfh-phone" data-country="US" id="create-first-contact-primary">
-					</div>
-				</div> <!-- contact one primary -->
+			<div class="row-fluid">
 
-				<div class="control-group">
-					<label class="control-label" for="create-first-contact-secondary">Secondary Contact</label>
-					<div class="controls">
-						<input type="text" class="input-medium bfh-phone" data-country="US" id="create-first-contact-secondary">
-					</div>
-				</div> <!-- contact one secondary -->
+				<!-- First Part -->
+				<div class="row-fluid">
+					
+					<div class="span6">
+						<legend>Primary Contact Information</legend>
+						
+						<div class="span3 offset1"><label>Name </label></div>
+						<div class="span3"><input type="text" class="input-large" id="create-first-contact-name"></div>
+						<br><br>
+						<div class="span5 offset1"><label>Primary Tel. Number</label></div>
+						<div class="span2"><input type="text" class="input-medium bfh-phone" data-country="US" id="create-first-contact-primary"></div>
+						<br><br>
+						<div class="span5 offset1"><label>Secondary Tel. Number</label></div>
+						<div class="span2"><input type="text" class="input-medium bfh-phone" data-country="US" id="create-first-contact-secondary"></div>
 
-				<legend>Second Contact</legend>
-				<!-- Secondary Contact Modal -->
-				<div class="control-group">
-					<label class="control-label" for="create-second-contact-name">Name </label>
-					<div class="controls">
-						<input type="text" class="input-large" id="create-second-contact-name">
 					</div>
-				</div> <!-- contact two name -->
 
-				<div class="control-group">
-					<label class="control-label" for="create-second-contact-primary">Primary Contact</label>
-					<div class="controls">
-						<input type="text" class="input-medium bfh-phone" data-country="US" id="create-second-contact-primary">
-					</div>
-				</div> <!-- contact two primary -->
+					<!-- Second Part -->
+					<div class="span6">
+						<legend>Secondary Contact Infomration</legend>
 
-				<div class="control-group">
-					<label class="control-label" for="create-second-contact-secondary">Secondary Contact</label>
-					<div class="controls">
-						<input type="text" class="input-medium bfh-phone" data-country="US" id="create-second-contact-secondary">
+						<div class="span3 offset1"><label>Name </label></div>
+						<div class="span3"><input type="text" class="input-large" id="create-second-contact-name"></div>
+						<br><br>
+						<div class="span5 offset1"><label>Primary Tel. Number</label></div>
+						<div class="span2"><input type="text" class="input-medium bfh-phone" data-country="US" id="create-second-contact-primary"></div>
+						<br><br>
+						<div class="span5 offset1"><label>Secondary Tel. Number</label></div>
+						<div class="span2"><input type="text" class="input-medium bfh-phone" data-country="US" id="create-second-contact-secondary"></div>
 					</div>
-				</div> <!-- contact two secondary -->
+				</div>
+			</div> 
+
 		</form> <!-- contact one form -->
 	</div>
 	<div class="modal-footer">
@@ -799,34 +867,44 @@ Contact.prototype.collectInput = function(first_or_second) {
 		<h3>Experience and Needs</h3>
 	</div>
 	<div class="modal-body">
-			<form>
-				<legend><h5>Skill Level</h5></legend>
-				<label><input type="radio" name="skill" value="beginner" checked="checked">beginner</label>
-				<label><input type="radio" name="skill" value="beginning strokes">beginning strokes</label>
-				<label><input type="radio" name="skill" value="intermediate">intermediate</label>
-				<label><input type="radio" name="skill" value="advanced">advanced</label>
+			
+			<form class="form-inline">
+				<legend>Skill Level</legend>
+				<label class="radio"><input type="radio" name="skill" value="beginning strokes">&nbspBeginning Strokes</label>
+				&nbsp&nbsp
+				<label class="radio"><input type="radio" name="skill" value="beginner" checked="checked">&nbspBeginner</label>
+				&nbsp&nbsp
+				<label class="radio"><input type="radio" name="skill" value="intermediate">&nbspIntermediate</label>
+				&nbsp&nbsp
+				<label class="radio"><input type="radio" name="skill" value="advanced">&nbspadvanced</label>
+				<br><br>
 				
 				<br />
-				<legend><h5>Additional Information</h5></legend>
+				<legend>Additional Information</legend>
 				<textarea id="create-additional_info" class="field span6"  name="additional-info" rows="4"></textarea>
-		</form>
+			</form>
 
 	</div>
 	<div class="modal-footer">
 		<div class="alert alert-error" id="create-user-errors">
-			<a class="close" data-dismiss="alert">&times;</a>
+
 			<p>
 				<i class="icon-exclamation-sign">  </i><span id="create-user-err-message"></span>
 			</p>
 		</div>
 		<div class="alert alert-success" id="create-user-success">
-			<a class="close" data-dismiss="alert">&times;</a>
 			<i class="icon-ok"></i> You successfully created an Account.
 		</div>
 		<a role="button" class="btn" data-toggle="modal" data-dismiss="modal" href="#create-contacts">Back</a>
 		<a role="button" class="btn btn-primary" data-toggle="modal" data-dismiss="modal" id="create-user-button">Create Account</a>
 	</div>
 </div>
+
+
+
+<!-- ////////////////////////     Update User Password           ////////////////////////////////////////  -->
+
+
 
 <div class="modal hide fade" id="update-password-Daniel">
 	<div class="modal-header">
@@ -836,76 +914,89 @@ Contact.prototype.collectInput = function(first_or_second) {
 	<div class="modal-body">
 		<!-- Changing password -->
 		<!-- <form id='update-password-form'>   -->
-		<form class="form-horizontal">
-		  	<label for="password-old">Current Password</label>
-			<input type="password" name="password-old" id="password-old"><br>
 
-			<label for="password-new">New Password</label>
-			<input type="password" name="password" id="password-new"><br>
 
-			<label for="password-new-confirm">Re-type Password</label>
-			<input type="password" name="password-new-confirmation" id="password-new-confirmation"><br><br>
-		</form>
+
+		<form class="form-inline">
+			<div class="row-fluid">
+				<div class="row-fluid">
+					
+					<div class="span10 offset1">
+						<br>
+						<div class="span4 offset1"><label>Current Password</label></div>
+						<div class="span3"><input type="password" name="password-old" id="password-old"></div>
+						<br><br>
+						<div class="span4 offset1"><label>New Password</label></div>
+						<div class="span3"><input type="password" name="password" id="password-new"></div>
+						<br><br>
+						<div class="span5 offset0"><label>Confirm New Password</label></div>
+						<div class="span3"><input type="password" name="password-new-confirmation" id="password-new-confirmation"></div>
+
+					</div>
+				</div>
+			</div> 
+
+		</form> 
+
 	</div>
 	<div class="modal-footer">
-		<a class="btn btn-small btn-primary" type="button" id="submit-password-update">Change Password</a>
-		<a  class="btn" href="#" data-dismiss="modal">Close</a>
+		<a  class="btn" href="#" data-dismiss="modal">Cancel</a>
+		<a class="btn btn btn-primary" type="button" id="submit-password-update">Change Password</a>
 	</div>
 </div>
 
 
-<div class="modal hide fade" id="update-contacts">
+<!-- ////////////////////////     Update User  Profile           ////////////////////////////////////////  -->
+
+
+
+<div style="left:38%; width:870px;" class="modal hide fade" id="update-contacts">
 	<div class="modal-header">
 		<a class="close" data-dismiss="modal">&times;</a>
 		<h3>Contact Information</h3>
 	</div>
 	<div class="modal-body">
-		<form class="form-horizontal">
-				<legend>First Contact</legend>
-				<div class="control-group">
-					<label class="control-label" for="update-first-contact-name">Name </label>
-					<div class="controls">
-						<input type="text" class="input-large" id="update-first-contact-name">
-					</div>
-				</div> <!-- contact one name -->
 
-				<div class="control-group">
-					<label class="control-label" for="update-first-contact-primary">Primary Contact</label>
-					<div class="controls">
-						<input type="text" class="input-medium bfh-phone" data-country="US" id="update-first-contact-primary">
-					</div>
-				</div><!--  contact one primary -->
 
-				<div class="control-group">
-					<label class="control-label" for="update-first-contact-secondary">Secondary Contact</label>
-					<div class="controls">
-						<input type="text" class="input-medium bfh-phone" data-country="US" id="update-first-contact-secondary">
-					</div>
-				</div> <!-- contact one secondary -->
+		<form class="form-inline">
 
-				<legend>Second Contact</legend>
-				<!-- Secondary Contact Modal -->
-				<div class="control-group">
-					<label class="control-label" for="update-second-contact-name">Name </label>
-					<div class="controls">
-						<input type="text" class="input-large" id="update-second-contact-name">
-					</div>
-				</div> <!-- contact two name -->
+			<div class="row-fluid">
 
-				<div class="control-group">
-					<label class="control-label" for="update-second-contact-primary">Primary Contact</label>
-					<div class="controls">
-						<input type="text" class="input-medium bfh-phone" data-country="US" id="update-second-contact-primary">
-					</div>
-				</div><!--  contact two primary -->
+				<!-- First Part -->
+				<div class="row-fluid">
+					
+					<div class="span6">
+						<legend>Primary Contact Information</legend>
+						
+						<div class="span3 offset1"><label>Name </label></div>
+						<div class="span3"><input type="text" class="input-large" id="update-first-contact-name"></div>
+						<br><br>
+						<div class="span5 offset1"><label>Primary Tel. Number</label></div>
+						<div class="span2"><input type="text" class="input-medium bfh-phone" data-country="US" id="update-first-contact-primary"></div>
+						<br><br>
+						<div class="span5 offset1"><label>Secondary Tel. Number</label></div>
+						<div class="span2"><input type="text" class="input-medium bfh-phone" data-country="US" id="update-first-contact-secondary"></div>
 
-				<div class="control-group">
-					<label class="control-label" for="update-second-contact-secondary">Secondary Contact</label>
-					<div class="controls">
-						<input type="text" class="input-medium bfh-phone" data-country="US" id="update-second-contact-secondary">
 					</div>
-				</div> <!-- contact two secondary -->
+
+					<!-- Second Part -->
+					<div class="span6">
+						<legend>Secondary Contact Infomration</legend>
+
+						<div class="span3 offset1"><label>Name </label></div>
+						<div class="span3"><input type="text" class="input-large" id="update-second-contact-name"></div>
+						<br><br>
+						<div class="span5 offset1"><label>Primary Tel. Number</label></div>
+						<div class="span2"><input type="text" class="input-medium bfh-phone" data-country="US" id="update-second-contact-primary"></div>
+						<br><br>
+						<div class="span5 offset1"><label>Secondary Tel. Number</label></div>
+						<div class="span2"><input type="text" class="input-medium bfh-phone" data-country="US" id="update-second-contact-secondary"></div>
+					</div>
+				</div>
+			</div> 
+
 		</form> <!-- contact one form -->
+				
 	</div>
 	<div class="modal-footer">
 		<a role="button" class="btn" data-toggle="modal" data-dismiss="modal" href="#update-user-Daniel">Back</a>
@@ -915,22 +1006,30 @@ Contact.prototype.collectInput = function(first_or_second) {
 
 <!-- Miscalaneous -->
 <div class="modal hide fade" id="update-other">
+	
 	<div class="modal-header">
 		<a class="close" data-dismiss="modal">&times;</a>
 		<h3>Experience and Needs</h3>
 	</div>
+	
 	<div class="modal-body">
-			<form>
-				<legend><h5>Skill Level</h5></legend>
-				<label><input type="radio" name="skill" value="0" checked="checked">beginner</label>
-				<label><input type="radio" name="skill" value="1">beginning strokes</label>
-				<label><input type="radio" name="skill" value="2">intermediate</label>
-				<label><input type="radio" name="skill" value="3">advanced</label>
+
+			<form class="form-inline">
+				<legend>Skill Level</legend>
+				<label class="radio"><input type="radio" name="skill" value="beginning strokes">&nbspBeginning Strokes</label>
+				&nbsp&nbsp
+				<label class="radio"><input type="radio" name="skill" value="beginner" checked="checked">&nbspBeginner</label>
+				&nbsp&nbsp
+				<label class="radio"><input type="radio" name="skill" value="intermediate">&nbspIntermediate</label>
+				&nbsp&nbsp
+				<label class="radio"><input type="radio" name="skill" value="advanced">&nbspAdvanced</label>
+				<br><br>
 				
 				<br />
-				<legend><h5>Additional Information</h5></legend>
+				<legend>Additional Information</legend>
 				<textarea id="update-additional_info" class="field span6"  name="additional-info" rows="4"></textarea>
-		</form>
+			</form>
+
 
 	</div>
 	<div class="modal-footer">
@@ -939,70 +1038,66 @@ Contact.prototype.collectInput = function(first_or_second) {
 	</div>
 </div>
 
-<div class="modal fade" id="update-user-Daniel" >
+
+
+
+<div style="left:38%; width:870px;" class="modal fade" id="update-user-Daniel" >
 <div class="modal-header">
 	<a class="close" data-dismiss="modal">&times;</a>
 	<h3>Update Profile</h3>
 </div>
 <div class="modal-body">
-	<form class="form-horizontal" id='update-user-form'>
-		<legend>Personal Information</legend>
-		<div class="row-fluid">
-			<div class="span4"><label for="update-first">First Name</label></div>
-			<div class="span8"><input id="update-first"  type="text" name="first"></div>
-		</div>
 
-		<div class="row-fluid">
-			<div class="span4"><label for="update-last">Last Name</label></div>
-			<div class="span8"><input id="update-last" type="text" name="last"></div>
-		</div>
+	<form class="form-inline" id='create-user-form'>
 
-		<div class="row-fluid">
-			<div class="span4"><label for="update-email">Email</label></div>
-			<div class="span8"><input id="update-email" type="text" name="email"></div>
-		</div>
+			<div class="row-fluid">
+				<!-- First Part -->
+				<div class="row-fluid">
+					<div class="span6">
+						<legend>Personal Information</legend>
+						
+						<div class="span3 offset1"><label>First Name</label></div>
+						<div class="span3"><input id="update-first"  type="text" name="first"></div>
+						<br><br>
+						<div class="span3 offset1"><label>Last Name</label></div>
+						<div class="span3"><input id="update-last" type="text" name="last"></div>
+						<br><br>
+						<div class="span3 offset1"><label>Email</label></div>
+						<div class="span3"><input id="update-email" type="text" name="email"></div>
+						<br><br>
+						<div class="span3"><label>Date of Birth</label></div>
+						<div class="span2"><input id="update-dob" placeholder="mm/dd/yyyy" type="text" name="update-dob" style="width:100px"></div>
 
-		<div class="row-fluid">
-			<div class="span4"><label for="update-password">Password</label></div>
-			<div class="span8"><input id="update-password" type="password" name="password"></div>
-		</div>
+						<div class="span4 offset2">
+						<label class="radio"><input type="radio" name="gender" checked="checked" value="male">&nbspMale&nbsp</label>
+						<label class="radio"><input type="radio" name="gender" value="female">&nbspFemale</label>
+						</div>
 
-		<div class="row-fluid"><div class="spacer25"></div></div> <!-- morespace -->
-			
-		<div class="row-fluid">
-			<div class="span6"><label for="update-dob">Date of Birth</label></div>
-			<label><input type="radio" name="gender" checked="checked" value="0">Male</label>
-		</div>
-		<div class="row-fluid">
-			<div class="span6"><input id="update-dob" placeholder="mm/dd/yyyy" type="text" name="update-dob" style="width:100px"></div>
-			<label><input type="radio" name="gender" value="1">Female</label>
-		</div>
+					</div>
 
-		<legend>Residence</legend>
-		<div class="control-group">
-			<label class="control-label" for="update-residence-address">Address</label>
-			<div class="controls">
-				<input type="text" class="input-large" id="update-residence-address">
-			</div>
-		</div> <!-- address -->
+					<!-- Second Part -->
+					<div class="span6">
+						<legend>Residence Information</legend>
 
-		<div class="control-group">
-			<label class="control-label" for="update-residence-city">City</label>
-			<div class="controls">
-				<input type="text" class="input-medium" id="update-residence-city">
-			</div>
-		</div> <!-- city -->
+						<div class="span3 offset1"><label>Address</label></div>
+						<div class="span3"><input type="text" class="input-large" id="update-residence-address"></div>
+						<br><br>
+						<div class="span3 offset1"><label>City</label></div>
+						<div class="span3"><input type="text" class="input-large" id="update-residence-city"></div>
+						<br><br>
+						<div class="span3 offset1"><label>Zipcode</label></div>
+						<div class="span3"><input type="text" class="input-small" id="update-residence-zip"></div>
+					</div>
+				</div>
+			</div> 
 
-		<div class="control-group">
-			<label class="control-label" for="update-residence-zip">Zipcode</label>
-			<div class="controls">
-				<input type="text" class="input-small" id="update-residence-zip">
-			</div>
-		</div> <!-- zip -->
+		</form> <!-- Update Profile form -->
+
 		<div class="modal-footer">
-			<a role="button" class="btn btn-primary" data-toggle="modal" data-dismiss="modal" href="#update-contacts" id="update-contacts-button">Next</a>
+			<a role="button" class="btn" data-toggle="modal" data-dismiss="modal">Cancel</a>
+			<a role="button" class="btn" data-toggle="modal" data-dismiss="modal" href="#update-contacts" id="update-contacts-button">Next</a>
 	</div>
-	</form> <!-- Residence form -->
+	
 </div>
 
   	</div><body>
@@ -1017,20 +1112,14 @@ Contact.prototype.collectInput = function(first_or_second) {
 			$('#CreateAccountButton').hide()
 			$('#WelcomeDropDown').hide()
    
-   			/* setup the page so that only one of the forms is shown */
-			
-			// -------------------------------------------- //
-      // I think this isn't needed, so I comment it out (Seth)
-			// -------------------------------------------- //
-      //$(document).ready(function() {
-			// 	show_login_page()
+  			$('#login-button').click(function() {
+			   email = $('#login-email').val()
+			   password = $('#login-password').val()
+			   json_request("/Users/login", { email: email, password: password }, function(data) 
+			   	{ return handle_login_response(data); }, function(err) { alert('error occurred on request'); });
 
-			// });
-
-			//function show_login_page() {
-	   	//		$('#SignDropDown').show()
-			//	$('#CreateAccountButton').show()	
-	   	//	}
+			   return false;
+			});
 
 			function handle_login_response(data) {
 				$('font17px#err_message').empty();
@@ -1049,10 +1138,9 @@ Contact.prototype.collectInput = function(first_or_second) {
 			    //This is the case for success
 			    default:
 			    	if (data.type != "Admin") {
-			    		$('#SignDropDown').hide()
-						$('#CreateAccountButton').hide()
-						$('#WelcomeDropDown').show()
-						$('#ProgressBar').display()
+			    		$('#SignDropDown').hide();
+						$('#CreateAccountButton').hide();
+						$('#WelcomeDropDown').show();
 			    	} 
 			    	else {
 			    		window.location.href = "/admin";
@@ -1060,17 +1148,58 @@ Contact.prototype.collectInput = function(first_or_second) {
 			  }
 			}
 
-			$('#login-button').click(function() {
-			   email = $('#login-email').val()
-			   password = $('#login-password').val()
+			$('#login-button2').click(function() {
+			   email = $('#inputEmail').val()
+			   password = $('#inputPassword').val()
 			   json_request("/Users/login", { email: email, password: password }, function(data) 
-			   	{ return handle_login_response(data); }, function(err) { alert('error occurred on request'); });
+			   	{ return handle_login_response2(data); }, function(err) { alert('error occurred on request'); });
 
 			   return false;
 			});
 
+			function handle_login_response2(data) {
+				$('font17px#err_message').empty();
+				$('font17px#err_message').css('font-size','12px');
+				$('font17px#err_message').css('color','red');
+				$('font17px#err_message').append(getErrorMessage2(data));
+			}
+
+			function getErrorMessage2(data) {
+			  switch (data.errCode){
+
+			    case 108:
+			    	return "Invalid Username and/or Password";
+			      break;
+
+			    //This is the case for success
+			    default:
+			    	if (data.type != "Admin") {
+			    		$('#SignDropDown').hide();
+						$('#CreateAccountButton').hide();
+						$('#WelcomeDropDown').show();
+						//$('#ulisesSignInModal').animate({top:'0px', opacity: '.08'});			
+						//$('body').removeClass('modal-open');
+						//$('.modal-backdrop').hide();
+						//$('#ulisesSignInModal').animate({opacity: '100'});	
+						//$('#ulisesSignInModal').toggle();	
+						//$('.modal-backdrop').remove();
+						//alert("I am about to make a reservation");
+			    	} 
+			    	else {
+			    		window.location.href = "/admin";
+			    	}   
+			  }
+			}
+
+			// $(function() {
+				// $('#login-button2').click(function() {
+    				// $('#ulisesSignInModal').modal('hide');
+				// });
+			// });
+
+
 			$("#sm-logout-button").click( function() {
-        json_request("/Users/logout", {}, function(data) { return init_user_home(data); }, function(err) { alert("error occurred on request"); });
+        	json_request("/Users/logout", {}, function(data) { return init_user_home(data); }, function(err) { alert("error occurred on request"); });
 				return false;
 			});				
 
@@ -1086,11 +1215,20 @@ Contact.prototype.collectInput = function(first_or_second) {
 				$('.Section-C').toggle();
 			});
 
-      function resetTypeBoxes() {
-        $("#show-A").prop('checked' , false)
-        $("#show-B").prop('checked' , false)
-        $("#show-C").prop('checked' , false)
-      }
+			$('#CreateAccountButton').click(function (){
+				danielSwitch = "Main";
+			});
+
+			$('#SignDropDown').click(function (){
+				$('font17px#err_message').empty();
+			});
+
+
+		    function resetTypeBoxes() {
+		       $("#show-A").prop('checked' , false)
+		       $("#show-B").prop('checked' , false)
+		       $("#show-C").prop('checked' , false)
+		    }
 
 
 		</script>

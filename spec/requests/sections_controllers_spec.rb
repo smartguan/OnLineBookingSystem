@@ -31,7 +31,7 @@ describe "SectionsControllers" do
   days_in_week= ['sunday', 'monday', 'tuesday', 'wednesday',
                  'thursday', 'friday', 'saturday']
   
-  sec_json = {name:"SEC_A", day:"MONDAY", 
+  sec_json = {name:"SEC_A", #day:"MONDAY", 
               description:"This section won't teach you swimming", 
               start_time:"10:00:00", end_time:"20:00:00", 
               enroll_cur:0,enroll_max:5, 
@@ -77,6 +77,7 @@ describe "SectionsControllers" do
     user_json1[:first] = 'SUCKER4'
     user_json1[:email] = 'SUCKER4@t.com'
     post 'Admin/addInstructor', user_json1
+    # post '/Users/logout', { format: :json }
   end
 
 
@@ -103,15 +104,15 @@ describe "SectionsControllers" do
       #  end
       #end
     
-      context "when day not valid" do
-        it "should render json {name:name, errCode: 201}" do
-          expected = {name:sec_json[:name], errCode: DAY_INVALID}.to_json
-          sec1_json = sec_json.dup
-          sec1_json[:day] = "" 
-          post '/Sections/create', sec1_json
-          response.body.should == expected
-        end
-      end
+      #context "when day not valid" do
+      #  it "should render json {name:name, errCode: 201}" do
+      #    expected = {name:sec_json[:name], errCode: DAY_INVALID}.to_json
+      #    sec1_json = sec_json.dup
+      #    sec1_json[:day] = "" 
+      #    post '/Sections/create', sec1_json
+      #    response.body.should == expected
+      #  end
+      #end
     
       #context "when description not valid" do
       #  it "should render json {name:name, errCode: 202}" do
@@ -170,7 +171,7 @@ describe "SectionsControllers" do
       
       context "when all valid" do
         it "should render json {name:secName, errCode: 1}" do
-          sec1_json = {id:1, name:"SEC_A", day:"SUNDAY", 
+          sec1_json = {id:1, name:"SEC_A", #day:"SUNDAY", 
                       description:"This section is good", 
                       start_time:"00:00:00", end_time:"10:00:00", 
                       enroll_cur:0,enroll_max:30, 
@@ -186,17 +187,17 @@ describe "SectionsControllers" do
         end
       end
     
-      context "when day not valid" do
-        it "should render json {name:name, errCode: 201}" do
-          sec1_json = sec_json.dup
-          sec1_json[:id] = 1
-          sec1_json[:day] = " " 
-          expected = {name:sec1_json[:name], errCode: DAY_INVALID}.to_json
-          post '/Sections/create', sec_json
-          post '/Sections/edit', sec1_json
-          response.body.should == expected
-        end
-      end
+      #context "when day not valid" do
+      #  it "should render json {name:name, errCode: 201}" do
+      #    sec1_json = sec_json.dup
+      #    sec1_json[:id] = 1
+      #    sec1_json[:day] = " " 
+      #    expected = {name:sec1_json[:name], errCode: DAY_INVALID}.to_json
+      #    post '/Sections/create', sec_json
+      #    post '/Sections/edit', sec1_json
+      #    response.body.should == expected
+      #  end
+      #end
     
       #context "when description not valid" do
       #  it "should render json {name:name, errCode: 202}" do
@@ -228,7 +229,6 @@ describe "SectionsControllers" do
           sec1_json[:name] = "ANOTHER_SEC"
           sec1_json[:start_date] = "2013-04-23"
           sec1_json[:end_date] = "2013-04-23"
-          sec1_json[:day] = "Tuesday"
           sec1_json[:id] = 2
           sec2_json = sec1_json.dup
           sec2_json[:start_date] = "2013-04-15"
@@ -360,52 +360,53 @@ describe "SectionsControllers" do
 
     end
 
-    ##test for get sections by instructor
-    #describe "#getSectionsByInstructor" do
-    #  before(:each) do
-    #    sec1_json = sec_json.dup
-    #    sec1_json[:name] = 'SEC_B'
-    #    sec1_json[:day] = 'FRIDAY'
-    #    post '/Sections/create', sec_json
-    #    post '/Sections/create', sec1_json
+    #test for get sections by instructor
+    describe "#getSectionsByInstructor" do
+      before(:each) do
+        sec1_json = sec_json.dup
+        sec1_json[:name] = 'SEC_C'
+        sec1_json[:start_date] = "2013-04-26"
+        sec1_json[:end_date] = "2013-04-26"
+        post '/Sections/create', sec_json
+        post '/Sections/create', sec1_json
 
-    #  end
-    #  
-    #  
-    #  context "when the section exists" do
-    #  #  it "should render json: {:sections=>section, errCode: 1}" do
-    #  #    test_json = {first:sec_json[:teacher], format: :json}
-    #  #    expected = {:sections=>[sec1_json.sort], errCode: SUCCESS}.to_json
-    #  #    post '/Sections/getSectionsByInstructor', test_json
-    #  #    response.body.should == expected
-    #  #  end
-    #  #end
-    #    it "should return 2 sections" do
-    #      test_json = {teacher:sec_json[:teacher], format: :json}
-    #      expected = 2
-    #      post '/Sections/getSectionsByInstructor', test_json
-    #      JSON.parse(response.body)['sections'].size.should == expected
-    #    end
-    #  
-    #    it "should return errCode 1" do
-    #      test_json = {teacher:sec_json[:teacher], format: :json}
-    #      expected = 1
-    #      post '/Sections/getSectionsByInstructor', test_json
-    #      JSON.parse(response.body)['errCode'].should == expected
-    #    end
-    #  end
+      end
+      
+      
+      context "when the section exists" do
+      #  it "should render json: {:sections=>section, errCode: 1}" do
+      #    test_json = {first:sec_json[:teacher], format: :json}
+      #    expected = {:sections=>[sec1_json.sort], errCode: SUCCESS}.to_json
+      #    post '/Sections/getSectionsByInstructor', test_json
+      #    response.body.should == expected
+      #  end
+      #end
+        it "should return 2 sections" do
+          test_json = {teacher:sec_json[:teacher], format: :json}
+          expected = 2
+          post '/Sections/getSectionsByInstructor', test_json
+          JSON.parse(response.body)['sections'].size.should == expected
+        end
+      
+        it "should return errCode 1" do
+          test_json = {teacher:sec_json[:teacher], format: :json}
+          expected = 1
+          post '/Sections/getSectionsByInstructor', test_json
+          JSON.parse(response.body)['errCode'].should == expected
+        end
+      end
 
 
-    #  context "when there is no section" do
-    #    it "should render json: { errCode: 250}" do
-    #      test_json = {teacher:'SUCKER1 last', format: :json}
-    #      expected = { sections:[], errCode: 250 }.to_json
-    #      post '/Sections/getSectionsByInstructor', test_json
-    #      response.body.should == expected
-    #    end
-    #  end
+      context "when there is no section" do
+        it "should render json: { errCode: 250}" do
+          test_json = {teacher:'SUCKER1 last', format: :json}
+          expected = { sections:[], errCode: 250 }.to_json
+          post '/Sections/getSectionsByInstructor', test_json
+          response.body.should == expected
+        end
+      end
 
-    #end
+    end
 
 
     #test for view one section
@@ -435,7 +436,6 @@ describe "SectionsControllers" do
           sec3_json[:end_date] = Time.now.to_date
           sec3_json[:start_time] = '22:00:00'
           sec3_json[:end_time] = '23:00:00'
-          sec3_json[:day] = days_in_week[Time.now.to_date.wday]
           sec3_json[:teacher] = 'SUCKER3 last'
           sec3_json[:section_type] = 'C'
 
@@ -477,7 +477,6 @@ describe "SectionsControllers" do
           sec4_json[:name] = 'SEC_4'
           sec4_json[:start_date] = '2012-04-18'
           sec4_json[:end_date] = '2012-04-18'
-          sec4_json[:day] = "Thursday"
           sec4_json[:teacher] = 'SUCKER4 last'
           sec4_json[:section_type] = 'C'
           post '/Sections/create', sec4_json
@@ -540,7 +539,6 @@ describe "SectionsControllers" do
           sec3_json[:end_date] = Time.now.to_date
           sec3_json[:start_time] = '22:00:00'
           sec3_json[:end_time] = '23:00:00'
-          sec3_json[:day] = days_in_week[Time.now.to_date.wday]
           sec3_json[:teacher] = 'SUCKER3 last'
           sec3_json[:section_type] = 'C'
 

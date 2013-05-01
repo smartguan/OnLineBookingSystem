@@ -1,4 +1,4 @@
-//= require bootstrap
+
 
 function show_login_page_reservation() {
   $('#main-page').show();

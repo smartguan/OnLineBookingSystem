@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Section do
   
   #unit 1: test for correct inputs
-  before { @sec = Section.new(name: "A_SEC", day: "MONDAY", 
+  before { @sec = Section.new(name: "A_SEC", #day: "MONDAY", 
           description: "this class is aiming to lower down your intellegence", 
           start_date: "2011-11-14", end_date:"2011-11-24", start_time: "10:00:00", 
           end_time: "20:00:00", teacher: "Obamma last", enroll_cur:1, enroll_max:2,
@@ -12,7 +12,7 @@ describe Section do
   subject { @sec }
 
   it {should respond_to(:name)}
-  it {should respond_to(:day)}
+  #it {should respond_to(:day)}
   it {should respond_to(:description)}
   it {should respond_to(:start_date)}
   it {should respond_to(:end_date)}
@@ -44,23 +44,23 @@ describe Section do
   #  it {should_not be_valid}
   #end
   
-  #unit 2-1: test for day presence
-  describe "when day is not presence or empty string" do
-    before { @sec.day = " " }
-    it {should_not be_valid}
-  end
+  ##unit 2-1: test for day presence
+  #describe "when day is not presence or empty string" do
+  #  before { @sec.day = " " }
+  #  it {should_not be_valid}
+  #end
 
-  #unit 2-2: test for day format
-  describe "when day is lower case" do
-    before { @sec.day = "Monday" }
-    it {should be_valid}
-  end
+  ##unit 2-2: test for day format
+  #describe "when day is lower case" do
+  #  before { @sec.day = "Monday" }
+  #  it {should be_valid}
+  #end
 
-  #unit 3: test for day validation
-  describe "when day is wrong" do
-    before { @sec.day = "DAD" }
-    it {should_not be_valid}
-  end
+  ##unit 3: test for day validation
+  #describe "when day is wrong" do
+  #  before { @sec.day = "DAD" }
+  #  it {should_not be_valid}
+  #end
 
   ##unit 4: test for description presence
   #describe "when description is not presence or empty string" do
@@ -76,13 +76,13 @@ describe Section do
     it { should_not be_valid }
   end
   
-  ## unit 4: test for invalid teacher name
-  #describe "when teacher missing first or last name" do
-  #  before do
-  #    @sec.teacher = "SUCK"
-  #  end
-  #  it { should_not be_valid }
-  #end
+  # unit 4: test for invalid teacher name
+  describe "when teacher missing first or last name" do
+    before do
+      @sec.teacher = "SUCK"
+    end
+    it { should_not be_valid }
+  end
   
   #unit 5: test for end_time > start_time
   describe "when end_time is not greater than start_time" do
@@ -156,8 +156,38 @@ describe Section do
     it {should_not be_valid}
   end
 
+  #unit 9-5: test for section overlapped with same day for a teacher
+  describe "when sections A-A overlapped for a teacher" do
+    before do 
+      sec1 = @sec.dup
+      sec1.save
+      @sec.name = "overlapped_section"
+      @sec.start_time = '05:00:00'
+      @sec.end_time = '21:00:00'
+      @sec.start_date =' 2011-11-21'
+      @sec.end_date = '2011-12-01'
+      @sec.section_type = "A"
+    end
+    it {should_not be_valid}
+  end
+
+  #unit 9-5: test for section overlapped with same day for a teacher
+  describe "when sections A-B overlapped for a teacher" do
+    before do 
+      sec1 = @sec.dup
+      sec1.save
+      @sec.name = "overlapped_section"
+      @sec.start_time = '05:00:00'
+      @sec.end_time = '21:00:00'
+      @sec.start_date =' 2011-11-19'
+      @sec.end_date = '2011-11-27'
+      @sec.section_type = "B"
+    end
+    it {should be_valid}
+  end
+
   #unit 9-4: test for section overlapped with ovevlapped date for a teacher
-  describe "when sections overlapped_date_time for a teacher" do
+  describe "when sections A-C overlapped for a teacher" do
     before do 
       sec1 = @sec.dup
       sec1.save
@@ -171,18 +201,32 @@ describe Section do
     it {should_not be_valid}
   end
 
-  #unit 9-5: test for section overlapped with same day for a teacher
-  describe "when sections overlapped_date_time_different_type_B for a teacher" do
+  #unit 9-4: test for section overlapped with ovevlapped date for a teacher
+  describe "when sections C-A overlapped for a teacher" do
     before do 
       sec1 = @sec.dup
-      sec1.save
       @sec.name = "overlapped_section"
-      @sec.day = 'SUNDAY'
       @sec.start_time = '05:00:00'
       @sec.end_time = '21:00:00'
+      @sec.start_date =' 2011-11-22'
+      @sec.end_date = '2011-11-22'
+      @sec.section_type = "C"
+      @sec.save
+      @sec = sec1.dup
+    end
+    it {should_not be_valid}
+  end
+
+  #unit 9-5: test for section overlapped with same day for a teacher
+  describe "when sections B-B overlapped for a teacher" do
+    before do 
+      @sec.name = "overlapped_section"
       @sec.start_date =' 2011-11-19'
       @sec.end_date = '2011-11-27'
       @sec.section_type = "B"
+      @sec.save
+      @sec.start_date =' 2011-11-26'
+      @sec.end_date = '2011-12-04'
     end
     it {should be_valid}
   end
@@ -267,7 +311,6 @@ describe Section do
       before do
         @sec.start_date = "2013-04-20"
         @sec.end_date = "2013-04-20"
-        @sec.day = "Saturday"
         @sec.section_type = "C"
       end
       it { should be_valid }
@@ -289,15 +332,15 @@ describe Section do
       it { should_not be_valid }
     end
     
-    context "when invalid day" do
-      before do
-        @sec.start_date = "2013-11-20"
-        @sec.end_date = "2013-11-20"
-        @sec.day = "Monday"
-        @sec.section_type = "C"
-      end
-      it { should_not be_valid }
-    end
+    #context "when invalid day" do
+    #  before do
+    #    @sec.start_date = "2013-11-20"
+    #    @sec.end_date = "2013-11-20"
+    #    @sec.day = "Monday"
+    #    @sec.section_type = "C"
+    #  end
+    #  it { should_not be_valid }
+    #end
   end
 
 

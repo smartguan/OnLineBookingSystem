@@ -58,6 +58,7 @@ Cs169::Application.routes.draw do
 
   # Routes for Instructors Controller
   match '/Instructors/getAllInstructors', to: 'instructors#getAllInstructors'
+  match '/Instructors/getAvailableInstructors', to: 'instructors#getAvailableInstructors'
   
   # Routes for Admin Controller
   match '/Admin/init', to: 'admin#init'
@@ -75,9 +76,9 @@ Cs169::Application.routes.draw do
   # match '/Registrations/viewEnrolledSections', to: 'registrations#viewEnrolledSections'
 
   match '/Registrations/getEnrolledSections', to: 'registrations#getEnrolledSections'
-
   match '/Registrations/register', to: 'registrations#register'
   match '/Registrations/drop', to: 'registrations#drop'
+  match '/Registrations/dropAndGetEnrolledSections', to: 'registrations#dropAndGetEnrolledSections'
 
   # Routes for Sections controller (previously Admin)
   match '/Sections/create', to:'sections#create'

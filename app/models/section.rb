@@ -7,8 +7,11 @@ class Section < ActiveRecord::Base
   belongs_to :instructor, :inverse_of => :sections
 
   before_validation do |section| 
+    days = ['SUNDAY', 'MONDAY', 'TUESDAY', 
+            'WEDNESDAY', 'THURSDAY', 'FRIDAY',
+            'SATURDAY']
   #  section.name = name.upcase
-    section.day = day.upcase
+    section.day = days[start_date.to_date.wday]
     section.teacher = teacher.upcase
     section.section_type = section_type.upcase
     section.lesson_type = lesson_type.upcase
@@ -16,7 +19,7 @@ class Section < ActiveRecord::Base
 
   #validates :name, presence:true, length: {maximum: 20},
   #                 uniqueness: {case_sensitive: false}
-  validates :day, presence:true
+  #validates :day, presence:true
   validates :teacher, presence:true
   #validates :description, presence:true
   validates :end_date, presence:true
@@ -31,16 +34,16 @@ class Section < ActiveRecord::Base
   validates :lesson_type, presence:true
 
   
-  #validate for inclusion for day
-  validates_inclusion_of :day, :in => ['SUNDAY', 'MONDAY', 'TUESDAY', 
-                                      'WEDNESDAY', 'THURSDAY', 'FRIDAY',
-                                      'SATURDAY']
+  ##validate for inclusion for day
+  #validates_inclusion_of :day, :in => ['SUNDAY', 'MONDAY', 'TUESDAY', 
+  #                                    'WEDNESDAY', 'THURSDAY', 'FRIDAY',
+  #                                    'SATURDAY']
   #validate for inclusion for section_type
   validates_inclusion_of :section_type, :in => ['A', 'B', 'C'] 
   #validate for inclusion for lesson_type
   validates_inclusion_of :lesson_type, :in => ['PRIVATE', 'PRE-COMP', 'GROUP']
   
-  #validate :teacher_has_first_and_last_name
+  validate :teacher_has_first_and_last_name
   validate :start_time_must_be_before_end_time
   validate :start_date_must_be_before_end_date
   validate :enroll_cur_must_be_less_or_equal_enroll_max
@@ -83,13 +86,31 @@ class Section < ActiveRecord::Base
     if Section.where("((:start_time BETWEEN start_time AND end_time) OR 
                            (:end_time BETWEEN start_time AND end_time) OR 
                            (:start_time <= start_time AND :end_time >= end_time)) AND
+                            
                             ((:start_date BETWEEN start_date AND end_date) OR 
                             (:end_date BETWEEN start_date AND end_date) OR 
                             (:start_date <= start_date AND :end_date >= end_date)) AND
-                              (:section_type = section_type AND 
-                                :name != name AND :teacher = teacher)",
+                              
+                              ((:section_type = section_type) OR
+                            
+                            ((:day IN ('MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY')) AND
+                              (:section_type = 'C' AND section_type = 'A')) OR
+                              
+                            ((day IN ('MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY')) AND
+                              (:section_type = 'A' AND section_type = 'C')) OR
+                              
+                            ((:day IN ('SATURDAY','SUNDAY')) AND
+                              (:section_type = 'C' AND section_type = 'B')) OR
+                              
+                            ((day IN ('SATURDAY','SUNDAY')) AND
+                              (:section_type = 'B' AND section_type = 'C'))) AND
+                              
+                              
+                              (:name != name AND :teacher = teacher)",
                           :start_time => start_time, :end_time => end_time, 
-                          :start_date => start_date, :end_date => end_date,
+                          :start_date => start_date.to_date, 
+                          :end_date => end_date.to_date,
+                          :day => day,
                           :section_type => section_type, :name => name, 
                           :teacher => teacher).first != nil
       self.errors.add :teacher, 'section_overlapped'
@@ -98,10 +119,6 @@ class Section < ActiveRecord::Base
 
   #validate date match section_type
   def date_must_match_section_type
-    days = ['SUNDAY', 'MONDAY', 'TUESDAY', 
-            'WEDNESDAY', 'THURSDAY', 'FRIDAY',
-            'SATURDAY']
-    
     if not  
       ((section_type == "A" and start_date.to_date.monday? and 
                   end_date.to_date.thursday? and 
@@ -109,8 +126,7 @@ class Section < ActiveRecord::Base
       (section_type == "B" and start_date.saturday? and 
                   end_date.to_date.sunday? and 
                   (end_date.to_date - start_date.to_date == 8)) or
-      (section_type == "C" and start_date == end_date and 
-                              days[start_date.to_date.wday]== day))
+      (section_type == "C" and start_date == end_date) )
 
       self.errors.add :section_type, 'date not match section_type'
     end

@@ -9,9 +9,9 @@
 	margin-left:-200px;
 }
 .modal-body {
-		max-height: 300px;
+	max-height: 300px;
 }
-/*#create-user-errors {
+#create-user-errors {
 	height: 20px;
 	font-size: 11px;
 	text-align: center;
@@ -30,7 +30,7 @@
 	height: 20px;
 	font-size: 11px;
 	text-align: center;
-}*/
+}
 .spacer5 { height: 5px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
 .spacer10 { height: 10px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
 .spacer15 { height: 15px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
@@ -84,11 +84,11 @@
 				
 			<div class="row-fluid">
 				<div class="span6"><label for="create-dob">Date of Birth</label></div>
-				<label><input type="radio" name="gender" checked="checked" value="male">Male</label>
+				<label><input type="radio" name="create-gender" checked="checked" value="male">Male</label>
 			</div>
 			<div class="row-fluid">
 				<div class="span6"><input id="create-dob" placeholder="mm/dd/yyyy" type="text" name="create-dob" style="width:100px"></div>
-				<label><input type="radio" name="gender" value="female">Female</label>
+				<label><input type="radio" name="create-gender" value="female">Female</label>
 			</div>
 
 			<legend>Residence</legend>
@@ -117,7 +117,6 @@
 	</div>
 
 	<div class="modal-footer">
-		
 		<a role="button" class="btn" data-toggle="modal" data-dismiss="modal">Cancel</a>
 		<a role="button" class="btn" data-toggle="modal" data-dismiss="modal" href="#create-contacts" >Next</a>
 	</div>
@@ -192,14 +191,14 @@
 	<div class="modal-body">
 			<form>
 				<legend><h5>Skill Level</h5></legend>
-				<label><input type="radio" name="skill" value="beginner" checked="checked">beginner</label>
-				<label><input type="radio" name="skill" value="beginning strokes">beginning strokes</label>
-				<label><input type="radio" name="skill" value="intermediate">intermediate</label>
-				<label><input type="radio" name="skill" value="advanced">advanced</label>
+				<label><input type="radio" name="create-skill" value="beginner" checked="checked">beginner</label>
+				<label><input type="radio" name="create-skill" value="beginning strokes">beginning strokes</label>
+				<label><input type="radio" name="create-skill" value="intermediate">intermediate</label>
+				<label><input type="radio" name="create-skill" value="advanced">advanced</label>
 				
 				<br />
 				<legend><h5>Additional Information</h5></legend>
-				<textarea id="create-additional_info" class="field span6"  name="additional-info" rows="4"></textarea>
+				<textarea id="create-extra" class="field span6"  name="create-extra" rows="4"></textarea>
 		</form>
 
 	</div>
@@ -230,154 +229,151 @@
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////// Jquery events and clicks ////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
-$(document).ready(function() {
-	$("#create-user-button").click(sendCreateUserRequest);
-	$("#create-user-errors").hide();
-	$("#create-user-success").hide();
-});
-// function handletest(data) {
-// 	$('body').append(data.errCode);
-// 	var sections = data.sections;
-// 	for(i=0; i<sections.length; i++) { 
-// 		var inputSection = sections[i];
-// 		for (var key in inputSection) {
-// 			$('body').append(inputSection[key]); + " ";
-// 		}
-// 	}
-// }
-function submitGetRequest(url, handler) {
-	return $.getJSON(url, handler);
-}
+	// $(document).ready(function() {
+	// 	$("#create-user-button").click(sendCreateUserRequest);
+	// 	$("#create-user-errors").hide();
+	// 	$("#create-user-success").hide();
+	// });
+	// // function handletest(data) {
+	// // 	$('body').append(data.errCode);
+	// // 	var sections = data.sections;
+	// // 	for(i=0; i<sections.length; i++) { 
+	// // 		var inputSection = sections[i];
+	// // 		for (var key in inputSection) {
+	// // 			$('body').append(inputSection[key]); + " ";
+	// // 		}
+	// // 	}
+	// // }
+	// function submitGetRequest(url, handler) {
+	// 	return $.getJSON(url, handler);
+	// }
 
 
-///////////////////////////////////////////////////////////////////////
-/////////////////////////////////// Create User Functions ///////////////////////
-///////////////////////////////////////////////////////////////////////
-function sendCreateUserRequest() {
-	$("#create-user-err-message").empty();
-	var inputUser = new User();
+	// /////////////////////////////////////////////////////////////////////////////////
+	// /////////////////////////////////// Create User Functions ///////////////////////
+	// /////////////////////////////////////////////////////////////////////////////////
+	// function sendCreateUserRequest() {
+	// 	$("#create-user-err-message").empty();
+	// 	var inputUser = new User();
 
-	post_json_request("/MemberStudents/add", inputUser.collectInput("create"), handleCreateUserResponse);
-	return false;
-}
+	// 	post_json_request("/Users/add", inputUser.collectInput("create"), handleCreateUserResponse);
+	// 	return false;
+	// }
 
-function handleCreateUserResponse(data) {
-	var error_message =  translateErrCode(data.errCode);
-	$("#create-user-errors").fadeOut(300);
-	$("#create-user-err-message").html(error_message);
-	
-	if(data.errCode!=1) {
-		 $("#create-user-errors").show();
-		 return data.errCode;
-	}
-	else {
-		$("#create-user-success").fadeIn(300);
-		setTimeout( function(){window.location.replace("/users/update_password");}, 1600);
-		return 1;
-	}
-}
- ////////////////////////////////////////////////////////////////////////////////////
- //////////////////////////////////// Helper functions //////////////////////////////
- ////////////////////////////////////////////////////////////////////////////////////
+	// function handleCreateUserResponse(data) {
+	// 	var error_message =  translateErrCode(data.errCode);
+	// 	$("#create-user-errors").fadeOut(300);
+	// 	$("#create-user-err-message").html(error_message);
+		
+	// 	if(data.errCode!=1) {
+	// 		 $("#create-user-errors").show();
+	// 		 return data.errCode;
+	// 	}
+	// 	else {
+	// 		$("#create-user-success").fadeIn(300);
+	// 		setTimeout( function(){window.location.replace("/");}, 1600);
+	// 		return 1;
+	// 	}
+	// }
+	//  ////////////////////////////////////////////////////////////////////////////////////
+	//  //////////////////////////////////// Helper functions //////////////////////////////
+	//  ////////////////////////////////////////////////////////////////////////////////////
 
-function getRadioValue(attribute) {
-	var radioId = "input[name=" + attribute + "]:radio:checked";
-	return $(radioId).val();
-}
+	// function getRadioValue(attribute) {
+	// 	var radioId = "input[name=" + attribute + "]:radio:checked";
+	// 	return $(radioId).val();
+	// }
 
-function collectInput(action, obj) {
-	for(var key in obj) { obj[key] = getFormInput(action, key); }
-	return obj;
-}
+	// function collectInput(action, obj) {
+	// 	for(var key in obj) { obj[key] = getFormInput(action, key); }
+	// 	return obj;
+	// }
 
-function getFormInput(action, key) {
-	var identifier = "#" + action + "-" + key;
-	return $(identifier).val();
-}
-
-
-////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////// User Object ////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////
-var User = function(first, last, email, password, password_confirmation, dob, additional_info) {
-	this.first = (first === undefined) ? "" : first;
-	this.last = (last === undefined) ? "" : last;
-	this.email = (email === undefined) ? "" : email;
-	this.dob = (dob === undefined) ? "" : dob;
-	this.password = (password === undefined) ? "" : password;
-	this.password_confirmation = (password_confirmation === undefined) ? "" : password_confirmation;
-	this.additional_info = (additional_info === undefined) ? "" : additional_info;
-};
-
-User.prototype.collectInput = function(action) {
-	// handle simple input texts 
-	for(var key in this) {
-		var identifier = "#" + action + "-" + key;
-		this[key] = $(identifier).val();
-	}
-	var residence = new Residence();
-	var contacts = new Contacts(); //abstact away objects for possible future error checking
-
-	this.residence = residence.collectInput(action); //use objects functions to grab values
-	this.contacts = contacts.collectInput(action);
-
-	// this.gender = parseInt(getRadioValue("gender"),10); //handle radios seperate
-	// this.skill = parseInt(getRadioValue("skill"),10); //str->int w/ radix=10
-
-	this.gender = getRadioValue("gender"); //handle radios seperate
-	this.skill = getRadioValue("skill"); //str->int w/ radix=10
-
-	return this;
-}
+	// function getFormInput(action, key) {
+	// 	var identifier = "#" + action + "-" + key;
+	// 	return $(identifier).val();
+	// }
 
 
-///////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////// Residence Object //////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////
-var Residence = function(address, city, zip) {
-	this.address = (address === undefined) ? "" : address;
-	this.city = (city === undefined) ? "" : city;
-	this.zip = (zip === undefined) ? "" : zip;
-};
+	// ////////////////////////////////////////////////////////////////////////////////////
+	// /////////////////////////////////// User Object ////////////////////////////////////
+	// ////////////////////////////////////////////////////////////////////////////////////
+	// var User = function(first, last, email, password, password_confirmation, dob, additional_info) {
+	// 	this.first = (first === undefined) ? "" : first;
+	// 	this.last = (last === undefined) ? "" : last;
+	// 	this.email = (email === undefined) ? "" : email;
+	// 	this.dob = (dob === undefined) ? "" : dob;
+	// 	this.password = (password === undefined) ? "" : password;
+	// 	this.password_confirmation = (password_confirmation === undefined) ? "" : password_confirmation;
+	// 	this.additional_info = (additional_info === undefined) ? "" : additional_info;
+	// };
 
-Residence.prototype.collectInput = function(action) {
-	for(var key in this) { 
-		var identifier = "#" + action + "-residence-" + key;
-		this[key] = $(identifier).val();
-	}
-	return this;
-}
-///////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////// Contacts Objects //////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////
-var Contacts = function(first, second) {
-	this.first = (first === undefined) ? new Contact() : first;
-	this.second = (second === undefined) ? new Contact() : second;
-};
+	// User.prototype.collectInput = function(action) {
+	// 	// handle simple input texts 
+	// 	for(var key in this) {
+	// 		var identifier = "#" + action + "-" + key;
+	// 		this[key] = $(identifier).val();
+	// 	}
+	// 	var residence = new Residence();
+	// 	var contacts = new Contacts(); //abstact away objects for possible future error checking
 
-Contacts.prototype.collectInput = function(action) {
-	for(var key in this) {
-		var tempContact = new Contact();
-		var identifier =  "#" + action + "-" + key + "-"; //create-second-contact-secondary
-		this[key] = tempContact.collectInput(identifier); //use contacts jquery to retrieve specific id's
-	}
-	return this;
-}
+	// 	this.residence = residence.collectInput(action); //use objects functions to grab values
+	// 	this.contacts = contacts.collectInput(action);
 
-//////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////// Contact Objects //////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////
-var Contact = function(name, primary, secondary) {
-	this.name = (name === undefined) ? "" : name;
-	this.primary = (primary === undefined) ? "" : primary;
-	this.secondary = (secondary === undefined) ? "" : secondary;
-};
-Contact.prototype.collectInput = function(first_or_second) {
-	for(var key in this) { 
-		var identifier =  first_or_second + "contact-" + key;
-		this[key] = $(identifier).val();
-	}
-	return this;
-}
+	// 	this.gender = parseInt(getRadioValue("gender"),10); //handle radios seperate
+	// 	this.skill = parseInt(getRadioValue("skill"),10); //str->int w/ radix=10
+
+	// 	return this;
+	// }
+
+
+	// ///////////////////////////////////////////////////////////////////////////////////////
+	// /////////////////////////////////// Residence Object //////////////////////////////////
+	// ///////////////////////////////////////////////////////////////////////////////////////
+	// var Residence = function(address, city, zip) {
+	// 	this.address = (address === undefined) ? "" : address;
+	// 	this.city = (city === undefined) ? "" : city;
+	// 	this.zip = (zip === undefined) ? "" : zip;
+	// };
+
+	// Residence.prototype.collectInput = function(action) {
+	// 	for(var key in this) { 
+	// 		var identifier = "#" + action + "-residence-" + key;
+	// 		this[key] = $(identifier).val();
+	// 	}
+	// 	return this;
+	// }
+	// ///////////////////////////////////////////////////////////////////////////////////
+	// /////////////////////////////// Contacts Objects //////////////////////////////////
+	// ///////////////////////////////////////////////////////////////////////////////////
+	// var Contacts = function(first, second) {
+	// 	this.first = (first === undefined) ? new Contact() : first;
+	// 	this.second = (second === undefined) ? new Contact() : second;
+	// };
+
+	// Contacts.prototype.collectInput = function(action) {
+	// 	for(var key in this) {
+	// 		var tempContact = new Contact();
+	// 		var identifier =  "#" + action + "-" + key + "-"; //create-second-contact-secondary
+	// 		this[key] = tempContact.collectInput(identifier); //use contacts jquery to retrieve specific id's
+	// 	}
+	// 	return this;
+	// }
+
+	// //////////////////////////////////////////////////////////////////////////////////
+	// /////////////////////////////// Contact Objects //////////////////////////////////
+	// //////////////////////////////////////////////////////////////////////////////////
+	// var Contact = function(name, primary, secondary) {
+	// 	this.name = (name === undefined) ? "" : name;
+	// 	this.primary = (primary === undefined) ? "" : primary;
+	// 	this.secondary = (secondary === undefined) ? "" : secondary;
+	// };
+	// Contact.prototype.collectInput = function(first_or_second) {
+	// 	for(var key in this) { 
+	// 		var identifier =  first_or_second + "contact-" + key;
+	// 		this[key] = $(identifier).val();
+	// 	}
+	// 	return this;
+	// }
 
 </script>
