@@ -1,0 +1,349 @@
+<!-- Create a User -->
+<div class="modal hide fade" id="create-user" >
+	<div class="modal-header">
+		<a class="close" data-dismiss="modal">&times;</a>
+		<h3>Create an Account</h3>
+	</div>
+	<div class="modal-body">
+		<form class="form-horizontal" id='create-user-form'>
+			<legend>Personal Information</legend>
+			<div class="row-fluid">
+				<div class="span4"><label for="create-first">First Name</label></div>
+				<div class="span8"><input id="create-first"  type="text" name="first" class="create-text"></div>
+			</div>
+
+			<div class="row-fluid">
+				<div class="span4"><label for="create-last">Last Name</label></div>
+				<div class="span8"><input id="create-last" type="text" name="last" class='create-text'></div>
+			</div>
+
+			<div class="row-fluid">
+				<div class="span4"><label for="create-email">Email</label></div>
+				<div class="span8"><input id="create-email" type="text" name="email" class='create-text'></div>
+			</div>
+
+			<div class="row-fluid">
+				<div class="span4"><label for="create-password">Password</label></div>
+				<div class="span8"><input id="create-password" type="password" name="password" class='create-text'></div>
+			</div>
+
+			<div class="row-fluid">
+				<div class="span4"><label for="create-password_confirmation">Confirm Password</label></div>
+				<div class="span8"><input id="create-password_confirmation" type="password" name="password_confirmation" class='create-text'></div>
+			</div>
+
+			<div class="row-fluid"><div class="spacer25"></div></div> <!-- morespace -->
+				
+			<div class="row-fluid">
+				<div class="span6"><label for="create-dob">Date of Birth</label></div>
+				<label><input type="radio" name="gender" checked="checked" value="male">Male</label>
+			</div>
+			<div class="row-fluid">
+				<div class="span6"><input id="create-dob" placeholder="mm/dd/yyyy" type="text" name="create-dob" style="width:100px"></div>
+				<label><input type="radio" name="gender" value="female">Female</label>
+			</div>
+
+			<legend>Residence</legend>
+			<div class="control-group">
+				<label class="control-label" for="create-residence-address">Address</label>
+				<div class="controls">
+					<input type="text" class="input-large" id="create-residence-address">
+				</div>
+			</div> <!-- address -->
+
+			<div class="control-group">
+				<label class="control-label" for="create-residence-city">City</label>
+				<div class="controls">
+					<input type="text" class="input-medium" id="create-residence-city">
+				</div>
+			</div> <!-- city -->
+
+			<div class="control-group">
+				<label class="control-label" for="create-residence-zip">Zipcode</label>
+				<div class="controls">
+					<input type="text" class="input-small" id="create-residence-zip">
+				</div>
+			</div> <!-- zip -->
+
+		</form> <!-- Residence form -->
+	</div>
+
+	<div class="modal-footer">
+		<a role="button" class="btn" data-toggle="modal" data-dismiss="modal">Cancel</a>
+		<a role="button" class="btn" data-toggle="modal" data-dismiss="modal" href="#create-contacts" >Next</a>
+	</div>
+</div>
+
+
+<div class="modal hide fade" id="create-contacts">
+	<div class="modal-header">
+		<a class="close" data-dismiss="modal">&times;</a>
+		<h3>Contact Information</h3>
+	</div>
+	<div class="modal-body">
+		<form class="form-horizontal">
+				<legend>First Contact</legend>
+				<div class="control-group">
+					<label class="control-label" for="create-first-contact-name">Name </label>
+					<div class="controls">
+						<input type="text" class="input-large" id="create-first-contact-name">
+					</div>
+				</div> <!-- contact one name -->
+
+				<div class="control-group">
+					<label class="control-label" for="create-first-contact-primary">Primary Contact</label>
+					<div class="controls">
+						<input type="text" class="input-medium bfh-phone" data-country="US" id="create-first-contact-primary">
+					</div>
+				</div> <!-- contact one primary -->
+
+				<div class="control-group">
+					<label class="control-label" for="create-first-contact-secondary">Secondary Contact</label>
+					<div class="controls">
+						<input type="text" class="input-medium bfh-phone" data-country="US" id="create-first-contact-secondary">
+					</div>
+				</div> <!-- contact one secondary -->
+
+				<legend>Second Contact</legend>
+				<!-- Secondary Contact Modal -->
+				<div class="control-group">
+					<label class="control-label" for="create-second-contact-name">Name </label>
+					<div class="controls">
+						<input type="text" class="input-large" id="create-second-contact-name">
+					</div>
+				</div> <!-- contact two name -->
+
+				<div class="control-group">
+					<label class="control-label" for="create-second-contact-primary">Primary Contact</label>
+					<div class="controls">
+						<input type="text" class="input-medium bfh-phone" data-country="US" id="create-second-contact-primary">
+					</div>
+				</div> <!-- contact two primary -->
+
+				<div class="control-group">
+					<label class="control-label" for="create-second-contact-secondary">Secondary Contact</label>
+					<div class="controls">
+						<input type="text" class="input-medium bfh-phone" data-country="US" id="create-second-contact-secondary">
+					</div>
+				</div> <!-- contact two secondary -->
+		</form> <!-- contact one form -->
+	</div>
+	<div class="modal-footer">
+		<a role="button" class="btn" data-toggle="modal" data-dismiss="modal" href="#create-user">Back</a>
+		<a role="button" class="btn" data-toggle="modal" data-dismiss="modal" href="#other" >Next</a>
+	</div>
+</div>
+
+<!-- Miscalaneous -->
+<div class="modal hide fade" id="other">
+	<div class="modal-header">
+		<a class="close" data-dismiss="modal">&times;</a>
+		<h3>Experience and Needs</h3>
+	</div>
+	<div class="modal-body">
+			<form>
+				<legend><h5>Skill Level</h5></legend>
+				<label><input type="radio" name="skill" value="beginner" checked="checked">beginner</label>
+				<label><input type="radio" name="skill" value="beginning strokes">beginning strokes</label>
+				<label><input type="radio" name="skill" value="intermediate">intermediate</label>
+				<label><input type="radio" name="skill" value="advanced">advanced</label>
+				
+				<br />
+				<legend><h5>Additional Information</h5></legend>
+				<textarea id="create-additional_info" class="field span6"  name="additional-info" rows="4"></textarea>
+		</form>
+
+	</div>
+	<div class="modal-footer">
+		<div class="alert alert-error" id="create-user-errors">
+			<a class="close" data-dismiss="alert">&times;</a>
+			<p>
+				<i class="icon-exclamation-sign">  </i><span id="create-user-err-message"></span>
+			</p>
+		</div>
+		<div class="alert alert-success" id="create-user-success">
+			<a class="close" data-dismiss="alert">&times;</a>
+			<i class="icon-ok"></i> You successfully created an Account.
+		</div>
+		<a role="button" class="btn" data-toggle="modal" data-dismiss="modal" href="#create-contacts">Back</a>
+		<a role="button" class="btn btn-primary" data-toggle="modal" data-dismiss="modal" id="create-user-button">Create Account</a>
+	</div>
+</div>
+
+<div class="modal hide fade" id="update-password-Daniel">
+	<div class="modal-header">
+		<a class="close" data-dismiss="modal">&times;</a>
+		<h3>Update Password</h3>
+	</div>
+	<div class="modal-body">
+		<!-- Changing password -->
+		<!-- <form id='update-password-form'>   -->
+		<form class="form-horizontal">
+		  	<label for="password-old">Current Password</label>
+			<input type="password" name="password-old" id="password-old"><br>
+
+			<label for="password-new">New Password</label>
+			<input type="password" name="password" id="password-new"><br>
+
+			<label for="password-new-confirm">Re-type Password</label>
+			<input type="password" name="password-new-confirmation" id="password-new-confirmation"><br><br>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<a class="btn btn-small btn-primary" type="button" id="submit-password-update">Change Password</a>
+		<a  class="btn" href="#" data-dismiss="modal">Close</a>
+	</div>
+</div>
+
+
+<div class="modal hide fade" id="update-contacts">
+	<div class="modal-header">
+		<a class="close" data-dismiss="modal">&times;</a>
+		<h3>Contact Information</h3>
+	</div>
+	<div class="modal-body">
+		<form class="form-horizontal">
+				<legend>First Contact</legend>
+				<div class="control-group">
+					<label class="control-label" for="update-first-contact-name">Name </label>
+					<div class="controls">
+						<input type="text" class="input-large" id="update-first-contact-name">
+					</div>
+				</div> <!-- contact one name -->
+
+				<div class="control-group">
+					<label class="control-label" for="update-first-contact-primary">Primary Contact</label>
+					<div class="controls">
+						<input type="text" class="input-medium bfh-phone" data-country="US" id="update-first-contact-primary">
+					</div>
+				</div><!--  contact one primary -->
+
+				<div class="control-group">
+					<label class="control-label" for="update-first-contact-secondary">Secondary Contact</label>
+					<div class="controls">
+						<input type="text" class="input-medium bfh-phone" data-country="US" id="update-first-contact-secondary">
+					</div>
+				</div> <!-- contact one secondary -->
+
+				<legend>Second Contact</legend>
+				<!-- Secondary Contact Modal -->
+				<div class="control-group">
+					<label class="control-label" for="update-second-contact-name">Name </label>
+					<div class="controls">
+						<input type="text" class="input-large" id="update-second-contact-name">
+					</div>
+				</div> <!-- contact two name -->
+
+				<div class="control-group">
+					<label class="control-label" for="update-second-contact-primary">Primary Contact</label>
+					<div class="controls">
+						<input type="text" class="input-medium bfh-phone" data-country="US" id="update-second-contact-primary">
+					</div>
+				</div><!--  contact two primary -->
+
+				<div class="control-group">
+					<label class="control-label" for="update-second-contact-secondary">Secondary Contact</label>
+					<div class="controls">
+						<input type="text" class="input-medium bfh-phone" data-country="US" id="update-second-contact-secondary">
+					</div>
+				</div> <!-- contact two secondary -->
+		</form> <!-- contact one form -->
+	</div>
+	<div class="modal-footer">
+		<a role="button" class="btn" data-toggle="modal" data-dismiss="modal" href="#update-user-Daniel">Back</a>
+		<a role="button" class="btn" data-toggle="modal" data-dismiss="modal" href="#update-other" >Next</a>
+	</div>
+</div>
+
+<!-- Miscalaneous -->
+<div class="modal hide fade" id="update-other">
+	<div class="modal-header">
+		<a class="close" data-dismiss="modal">&times;</a>
+		<h3>Experience and Needs</h3>
+	</div>
+	<div class="modal-body">
+			<form>
+				<legend><h5>Skill Level</h5></legend>
+				<label><input type="radio" name="skill" value="0" checked="checked">beginner</label>
+				<label><input type="radio" name="skill" value="1">beginning strokes</label>
+				<label><input type="radio" name="skill" value="2">intermediate</label>
+				<label><input type="radio" name="skill" value="3">advanced</label>
+				
+				<br />
+				<legend><h5>Additional Information</h5></legend>
+				<textarea id="update-additional_info" class="field span6"  name="additional-info" rows="4"></textarea>
+		</form>
+
+	</div>
+	<div class="modal-footer">
+		<a role="button" class="btn" data-toggle="modal" data-dismiss="modal" href="#update-contacts">Back</a>
+		<a role="button" class="btn btn-primary" data-toggle="modal" data-dismiss="modal" id="sm-update-user-button">Update Profile</a>
+	</div>
+</div>
+
+<div class="modal fade" id="update-user-Daniel" >
+	<div class="modal-header">
+		<a class="close" data-dismiss="modal">&times;</a>
+		<h3>Update Profile</h3>
+	</div>
+	<div class="modal-body">
+		<form class="form-horizontal" id='update-user-form'>
+			<legend>Personal Information</legend>
+			<div class="row-fluid">
+				<div class="span4"><label for="update-first">First Name</label></div>
+				<div class="span8"><input id="update-first"  type="text" name="first"></div>
+			</div>
+
+			<div class="row-fluid">
+				<div class="span4"><label for="update-last">Last Name</label></div>
+				<div class="span8"><input id="update-last" type="text" name="last"></div>
+			</div>
+
+			<div class="row-fluid">
+				<div class="span4"><label for="update-email">Email</label></div>
+				<div class="span8"><input id="update-email" type="text" name="email"></div>
+			</div>
+
+			<div class="row-fluid">
+				<div class="span4"><label for="update-password">Password</label></div>
+				<div class="span8"><input id="update-password" type="password" name="password"></div>
+			</div>
+
+			<div class="row-fluid"><div class="spacer25"></div></div> <!-- morespace -->
+				
+			<div class="row-fluid">
+				<div class="span6"><label for="update-dob">Date of Birth</label></div>
+				<label><input type="radio" name="gender" checked="checked" value="0">Male</label>
+			</div>
+			<div class="row-fluid">
+				<div class="span6"><input id="update-dob" placeholder="mm/dd/yyyy" type="text" name="update-dob" style="width:100px"></div>
+				<label><input type="radio" name="gender" value="1">Female</label>
+			</div>
+
+			<legend>Residence</legend>
+			<div class="control-group">
+				<label class="control-label" for="update-residence-address">Address</label>
+				<div class="controls">
+					<input type="text" class="input-large" id="update-residence-address">
+				</div>
+			</div> <!-- address -->
+
+			<div class="control-group">
+				<label class="control-label" for="update-residence-city">City</label>
+				<div class="controls">
+					<input type="text" class="input-medium" id="update-residence-city">
+				</div>
+			</div> <!-- city -->
+
+			<div class="control-group">
+				<label class="control-label" for="update-residence-zip">Zipcode</label>
+				<div class="controls">
+					<input type="text" class="input-small" id="update-residence-zip">
+				</div>
+			</div> <!-- zip -->
+			<div class="modal-footer">
+				<a role="button" class="btn btn-primary" data-toggle="modal" data-dismiss="modal" href="#update-contacts" id="update-contacts-button">Next</a>
+		</div>
+		</form> <!-- Residence form -->
+	</div>
+</div>

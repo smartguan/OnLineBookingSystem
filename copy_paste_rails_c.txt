@@ -1,0 +1,9 @@
+Section.create(day:params[:day], 
+                                description:params[:description], 
+                                end_date:params[:end_date],
+                                end_time:params[:end_time],
+                                enroll_max:params[:enroll_max], 
+                                start_date:params[:start_date],
+                                start_time:params[:start_time], 
+                                teacher:params[:teacher], 
+                                waitlist_max:params[:waitlist_max]))

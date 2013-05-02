@@ -19,6 +19,8 @@ Cs169::Application.routes.draw do
 
   get "users/profile"
 
+  match "/new_home", to: "homepage#new_homepage"
+  match "/dyn_admin", to: "application#dyn_admin"
   # match "/users/profile", to: 'users#profile'
   # post "/registrations/viewEnrolledSections" => "mocks#test_viewEnrolledSections"
   # match "/users/profile", to: "mocks#test_Profile"
@@ -96,6 +98,7 @@ Cs169::Application.routes.draw do
 
   match '/admin' => 'application#admin'
   match '/newadmin' => 'application#newadmin'
+  match '/oldadmin' => 'application#oldadmin'
   match '/reservation' => 'application#reservation'
 
   post '/users/new', to: 'users#create'

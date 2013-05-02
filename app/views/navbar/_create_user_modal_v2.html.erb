@@ -1,0 +1,159 @@
+<!-- ////////////////////////     Create a User           ////////////////////////////////////////  -->
+
+<div style="left:32%; width:870px;" class="modal hide fade" id="create-user" >
+	<div class="modal-header">
+		<a class="close" data-dismiss="modal">&times;</a>
+		<h3>Create an Account</h3>
+	</div>
+	<div class="modal-body">
+		<form class="form-inline" id='create-user-form'>
+
+			<div class="row-fluid">
+				<!-- First Part -->
+				<div class="row-fluid">
+					<div class="span6">
+						<legend>Personal Information</legend>
+						
+						<div class="span3 offset1"><label for="create-first">First Name</label></div>
+						<div class="span3"><input id="create-first"  type="text" name="first" class="create-text"></div>
+						<br><br>
+						<div class="span3 offset1"><label for="create-last">Last Name</label></div>
+						<div class="span3"><input id="create-last" type="text" name="last" class='create-text'></div>
+						<br><br>
+						<div class="span3 offset1"><label for="create-email">Email</label></div>
+						<div class="span3"><input id="create-email" type="email" required name="email" class='create-text'></div>
+						<br><br>
+						<div class="span3 offset1"><label for="create-password">Password</label></div>
+						<div class="span3"><input id="create-password" type="password" name="password" class='create-text'></div>
+						<br><br>
+						<div class="span4"><label for="create-password_confirmation">Confirm Password</label></div>
+						<div class="span3 "><input id="create-password_confirmation" type="password" name="password_confirmation" class='create-text'></div>
+						<br><br>
+						<div class="span3"><label>Date of Birth</label></div>
+						<div class="span2"><input id="create-dob" placeholder="mm/dd/yyyy" type="text" name="create-dob" style="width:100px"></div>
+
+						<div class="span4 offset2">
+						<label class="radio"><input type="radio" name="gender" checked="checked" value="male">&nbspMale&nbsp</label>
+						<label class="radio"><input type="radio" name="gender" value="female">&nbspFemale</label>
+						</div>
+						
+						
+
+					</div>
+
+					<!-- Second Part -->
+					<div class="span6">
+						<legend>Residence Information</legend>
+
+						<div class="span3 offset1"><label>Address</label></div>
+						<div class="span3"><input type="text" class="input-large" id="create-residence-address"></div>
+						<br><br>
+						<div class="span3 offset1"><label>City</label></div>
+						<div class="span3"><input type="text" class="input-large" id="create-residence-city"></div>
+						<br><br>
+						<div class="span3 offset1"><label >Zipcode</label></div>
+						<div class="span3"><input type="text" class="input-small" id="create-residence-zip"></div>
+					</div>
+				</div>
+			</div> 
+
+		</form> <!-- Residence form -->
+	</div>
+
+	<div class="modal-footer">
+		<a role="button" class="btn" data-toggle="modal" data-dismiss="modal">Cancel</a>
+		<a role="button" class="btn" data-toggle="modal" data-dismiss="modal" href="#create-contacts" >Next</a>
+	</div>
+</div>
+
+
+<div style="left:38%; width:870px;" class="modal hide fade" id="create-contacts">
+	<div class="modal-header">
+		<a class="close" data-dismiss="modal">&times;</a>
+		<h3>Contact Information</h3>
+	</div>
+	<div class="modal-body">
+		<form class="form-inline">
+
+			<div class="row-fluid">
+
+				<!-- First Part -->
+				<div class="row-fluid">
+					
+					<div class="span6">
+						<legend>Primary Contact Information</legend>
+						
+						<div class="span3 offset1"><label for="create-contacts-first-name">Name </label></div>
+						<div class="span3"><input type="text" class="input-large" id="create-contacts-first-name"></div>
+						<br><br>
+						<div class="span5 offset1"><label for="create-contacts-first-primary">Primary Tel. Number</label></div>
+						<div class="span2"><input type="text" class="input-medium bfh-phone" data-country="US" id="create-contacts-first-primary"></div>
+						<br><br>
+						<div class="span5 offset1"><label for="create-contacts-first-secondary">Secondary Tel. Number</label></div>
+						<div class="span2"><input type="text" class="input-medium bfh-phone" data-country="US" id="create-contacts-first-secondary"></div>
+
+					</div>
+
+					<!-- Second Part -->
+					<div class="span6">
+						<legend>Secondary Contact Infomration</legend>
+
+						<div class="span3 offset1"><label for="create-contacts-second-name">Name </label></div>
+						<div class="span3"><input type="text" class="input-large" id="create-contacts-second-name"></div>
+						<br><br>
+						<div class="span5 offset1"><label for="create-contacts-second-primary">Primary Tel. Number</label></div>
+						<div class="span2"><input type="text" class="input-medium bfh-phone" data-country="US" id="create-contacts-second-primary"></div>
+						<br><br>
+						<div class="span5 offset1"><label for="create-contacts-second-secondary">Secondary Tel. Number</label></div>
+						<div class="span2"><input type="text" class="input-medium bfh-phone" data-country="US" id="create-contacts-second-secondary"></div>
+					</div>
+				</div>
+			</div> 
+
+		</form> <!-- contact one form -->
+	</div>
+	<div class="modal-footer">
+		<a role="button" class="btn" data-toggle="modal" data-dismiss="modal" href="#create-user">Back</a>
+		<a role="button" class="btn" data-toggle="modal" data-dismiss="modal" href="#other" >Next</a>
+	</div>
+</div>
+
+<!-- Miscalaneous -->
+<div class="modal hide fade" id="other">
+	<div class="modal-header">
+		<a class="close" data-dismiss="modal">&times;</a>
+		<h3>Experience and Needs</h3>
+	</div>
+	<div class="modal-body">
+			
+			<form class="form-inline">
+				<legend>Skill Level</legend>
+				<label class="radio"><input type="radio" name="skill" value="beginning strokes">&nbspBeginning Strokes</label>
+				&nbsp&nbsp
+				<label class="radio"><input type="radio" name="skill" value="beginner" checked="checked">&nbspBeginner</label>
+				&nbsp&nbsp
+				<label class="radio"><input type="radio" name="skill" value="intermediate">&nbspIntermediate</label>
+				&nbsp&nbsp
+				<label class="radio"><input type="radio" name="skill" value="advanced">&nbspadvanced</label>
+				<br><br>
+				
+				<br />
+				<legend>Additional Information</legend>
+				<textarea id="create-additional_info" class="field span6"  name="additional-info" rows="4"></textarea>
+			</form>
+
+	</div>
+	<div class="modal-footer">
+		<div class="alert alert-error" id="create-user-errors">
+			<p>
+				<i class="icon-exclamation-sign">  </i><span id="create-user-err-message"></span>
+			</p>
+		</div>
+		<div class="alert alert-success" id="create-user-success">
+			<i class="icon-ok"></i> You successfully created an Account.
+		</div>
+		<a role="button" class="btn" data-toggle="modal" data-dismiss="modal" href="#create-contacts">Back</a>
+		<a role="button" class="btn btn-primary" data-toggle="modal" data-dismiss="modal" id="create-user-button">Create Account</a>
+	</div>
+</div>
+<%= render 'navbar/create_user_modal_v2' %>

@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    <head>
+<meta charset="utf-8">
+<title>Rancho Rinconada Online Booking </title>
+
+<link type="text/css" rel="stylesheet" href="assets/homepage.css.scss">
+
+<script type='text/javascript' src='/assets/jquery-1.9.1.js'></script>
+<script type="text/javascript" src="/assets/jquery-1.9.1.min.js"></script>
+<script src='assets/fullcalendar/fullcalendar.min.js'></script>
+<script type="text/javascript" src='assets/date.js'></script>
+
+<link type="text/css" rel="stylesheet" href='/assets/fullcalendar/fullcalendar.css' rel='stylesheet' />
+<link type="text/css" rel="stylesheet" href='/assets/fullcalendar/fullcalendar.print.css' rel='stylesheet' media='print' />
+
+<style type="text/css">
+
+    #create-instructor {
+        width:480px;
+        margin-left:-200px;
+    }
+    #create-section {
+        width:480px;
+        margin-left:-200px;
+    }
+
+    #login-user{
+        width:400px;
+        margin-left:-200px;
+    }
+    .modal-body {
+        max-height: 300px;
+    }
+
+
+    body {
+        background-color: rgb(1,136,169);
+        margin-top: -10px;
+        /*text-align: center;*/
+        font-size: 14px;
+        font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+    }
+
+    #calendar {
+        /*width: 840px;*/
+        width: 96%;
+        margin: 0 auto;
+        margin-top: -7px;
+        background-color: white;
+        border:  white thin solid;
+    }
+
+</style>
+
+</head>
+
+    
+
+<%# render 'admin_modals/admin_navbar' %>
+
+<div class="row-fluid">
+    <div id="SectionsBar" class="span3">
+        <div id="CreateSection" class="alert alert-info">
+            <h5>Create a section: </h5>
+            Select the Section Type You Want
+            To Create ... <br><br>
+            <form class="form">
+                
+                <label class="radio">
+                    <input type="radio" name="radio-lesson-type" id="lesson1" value="PRIVATE" checked> Private
+                </label>
+
+                <label class="radio">
+                    <input type="radio" name="radio-lesson-type" id="lesson2" value="PRE-COMP"> Pre-Competitive
+                </label>
+
+                <label class="radio">
+                     <input type="radio" name="radio-lesson-type" id="lesson3" value="GROUP"> Group
+                </label>
+            </form>
+            <form class="form" name="section_type">
+                
+                <label class="radio">
+                    <input type="radio" name="radio-section-type" id="A" value="A" checked> A (Monday-Thursday)
+                </label>
+
+                <label class="radio">
+                    <input type="radio" name="radio-section-type" id="B" value="B"> B (Saturday-Sunday)
+                </label>
+
+                <label class="radio">
+                     <input type="radio" name="radio-section-type" id="C" value="C"> C (Any Day)
+                </label>
+            </form>
+        </div>
+
+        <div class="alert alert-info">
+              <h5>To Make a Section:</h5>
+              Step One:<br> Select a Section and Lesson Type.<br><br>
+
+              Step Two:<br> Click on the appropriate day <br>
+              (Monday for Type A, Saturday for <br>
+              Type B or any day for Type C)<br>
+              and submit the form.<br><br>
+        </div>
+        <div class="alert alert-info">
+          <h5>Sections Options:</h5>
+          
+            <a class="btn" href="/Admin/exportSections">Export Sections</a>
+            <br><br>
+        </div>
+    </div>
+    <div id="UsersBar">
+        
+        <div id="UsersOptions" class="alert alert-info">
+            <h5>Users Options: </h5>
+            More Users Options will be available when I think of them
+                
+            <br><br>
+            <a class="btn" href="/Admin/exportUsers">Export Users</a>
+            <br><br>
+        </div>
+    </div>
+
+
+    <div id="SectionsView" class="alert alert-info span9">
+        <h3 id="Month">Select a Day and Section Type: </h3>
+        <h3 id="Day">Select the Time and Lesson Type: </h3><br>
+        <div id="calendar"></div><br>
+        
+    </div>
+
+    <div id="UsersView" class="span9">
+        <div id="UsersTable" class="alert alert-info">
+            <h3>Users Table here</h3>
+        </div>
+    </div>
+</div>
+    
+
+<%# render 'navbar/navbar_bottom' %>
+<%= render 'admin_modals/create_instructor_modal' %>
+<%= render 'admin_modals/edit_section_modal' %>
+<%= render 'admin_modals/create_section_modal' %>
+    <!-- Create a Section -->
+
+
+<script type="text/javascript">
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////// Jquery events and clicks ////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+
+var events = [1000];
+var index = 0;
+var usercalendar;
+var idToSend;
+var createInstructorSwitch;
+var sectionType;
+var lessonType;
+
+$(document).ready(function() {
+    resetTypeBoxes();
+    resetLessonBoxes();
+    
+    init_admin_calendar();
+    init_admin_view();
+    init_password_update();
+    
+    $("#create-instructor-button").click(sendCreateInstructorRequest);
+    $('#update-user-button').click(sendUpdateUserRequest);
+    $('#sections-view-button').click( toggleUsersAndSections );
+    $('#users-view-button').click( toggleUsersAndSections );
+    $('#editSectionModal-Delete').click(sendDeleteSectionRequest);
+    
+    $('#CreateInstructorButton').click(function (){createInstructorSwitch = "Main"; });
+
+    $("#lesson1").click( function() {
+        document.create_section_form.create_section_max_enroll.disabled=true;
+        document.create_section_form.create_section_max_waitlist.disabled=true;
+    });
+
+    $("#lesson2").click( function() {
+        document.create_section_form.create_section_max_enroll.disabled=false;
+        document.create_section_form.create_section_max_waitlist.disabled=false;
+    });
+
+    $("#lesson3").click( function() {
+        document.create_section_form.create_section_max_enroll.disabled=false;
+        document.create_section_form.create_section_max_waitlist.disabled=false;
+    });
+
+    $('#SignDropDown').click(function (){
+        $('font17px#err_message').empty();
+    });
+    
+    $('#export-users-button').click(function() {
+        document.link = "/Admin/exportUsers";
+    });
+
+    $('#editSectionModal-Cancel, #closeEditSection-modal').click(
+        function() { $('#editSectionModal').hide(); }
+    );
+    
+});
+
+//initializer for what is shown on the page
+function init_admin_view() {
+    $('#UsersView').hide();
+    $('#UsersBar').hide();
+
+    document.create_section_form.create_section_max_enroll.disabled=true;
+    document.create_section_form.create_section_max_waitlist.disabled=true;
+    $('#editSectionModal').hide();
+    $('#createSectionModal').hide();
+    
+    $('#SectionsBar').show();
+    $('#SectionsView').show();
+    $('#CreateInstructorButton').show()
+   
+    $('#WelcomeDropDown').show();
+    $('#CreateInstructorButton').show();
+
+    init_errors_and_success();
+}
+//multiuse function applicable on all pages
+function init_errors_and_success() {
+    $(".alert.alert-error").hide();
+    $(".alert.alert-success").hide();
+}
+//initializer for calendar
+function init_admin_calendar() {
+    var date = new Date();
+    var d = date.getDate();
+    var m = date.getMonth();
+    var y = date.getFullYear();
+
+    json_request("/Instructors/getAllInstructors", {}, handleGetAllInstructors); 
+
+    //currentView = "Sections";
+
+    json_request(
+        "/Sections/getAvailableSectionsFromNowOn", 
+        {}, 
+        function(data) { return extractSections(data['sections']); }, 
+        function(err) { alert('error occurred on request'); }
+    );
+
+    usercalendar = new UserCalendar(events);
+    usercalendar.display();
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////// REQUESTS ////////////////////////
+////////////////////////////////////////////////////////
+function sendCreateInstructorRequest() {
+    $("#create-instructor-err-message").empty();
+    var inputUser = new User();
+
+    post_json_request("/Admin/addInstructor", User.collectInput("create", inputUser), handleCreateInstructorResponse);
+    return false;
+}
+
+function sendCreateSectionRequest() {
+    $("#create-section-err-message").empty();
+    var inputSection = new Section();
+
+    post_json_request("/Sections/create", inputSection.collectInput("create-section"), handleCreateSectionResponse);
+    return false;
+}
+
+function sendDeleteSectionRequest() {
+    json_request("/Sections/delete", {'id':idToSend}, handleDeleteResponse, handleDeleteResponseErr);
+    
+    if($(UserCalendar.identifier).fullCalendar('getView').name == "month"){    
+        $(UserCalendar.identifier).fullCalendar('changeView', 'agendaDay');
+        $(UserCalendar.identifier).fullCalendar('gotoDate',calEvent.dayInfo);
+        $('#Month').hide()
+        $('#Day').show()
+    }
+    return false;
+}
+
+////////////////////////////////////////////////////////
+////////////////////// HANDLERS ////////////////////////
+////////////////////////////////////////////////////////
+function handleDeleteResponse(data) {
+    if (data.errCode == 1) {
+        window.location.replace("/newadmin")
+    }
+}
+function handleDeleteResponseErr(err) {
+    alert('error occurred on request');
+    $('#editSectionModal').hide();   
+}
+
+function handleCreateInstructorResponse(data) {
+    var error_message =  translateErrCode(data.errCode);
+    $("#create-instructor-errors").fadeOut(300);
+    $("#create-instructor-err-message").html(error_message);
+    
+    if(data.errCode!=1) {
+         $("#create-instructor-errors").show();
+         return data.errCode;
+    }
+    else {
+        $("#create-instructor-success").fadeIn(300);
+        setTimeout( function(){window.location.replace("/newadmin");}, 1600);
+        return 1;
+    }
+}
+
+function handleCreateSectionResponse(data) {
+    var error_message = translateErrCode(data.errCode);
+    $("#create-section-errors").fadeOut(300);
+    $("#create-section-err-message").html(error_message);
+
+    if(data.errCode!=1) {
+        $("#create-section-errors").show();
+        return data.errCode;
+    } else {
+        $("#create-section-success").fadeIn(300);
+        setTimeout( function(){window.location.replace("/newadmin");}, 1600);
+        return 1;
+    }
+}
+
+function handleGetAllInstructors(data) {
+    var options = '';
+    for (var i = 0; i < data.instructors.length; i++) {
+        var name = data.instructors[i].first + ' ' + data.instructors[i].last;
+        //alert(name);
+        options += '<option value="' + name + '">' + name + '</option>';
+    }
+    $('#create-section-teacher').html(options);
+}
+
+
+/////////////////////////////////////////////////
+///////////////// Helper functions //////////////
+/////////////////////////////////////////////////
+function getDayString(date) {
+    var weekday=new Array(7);
+    weekday[0]="SUNDAY";
+    weekday[1]="MONDAY";
+    weekday[2]="TUESDAY";
+    weekday[3]="WEDNESDAY";
+    weekday[4]="THURSDAY";
+    weekday[5]="FRIDAY";
+    weekday[6]="SATURDAY";
+    return weekday[date.getDay()];
+}
+
+function addDays(date, amount) {
+    var tzOff = date.getTimezoneOffset() * 60 * 1000;
+    var t = date.getTime();
+    t += (1000 * 60 * 60 * 24) * amount;
+    var d = new Date();
+    d.setTime(t);
+    var tzOff2 = d.getTimezoneOffset() * 60 * 1000;
+
+    if (tzOff != tzOff2) {
+        var diff = tzOff2 - tzOff;
+        t += diff;
+        d.setTime(t);
+    }
+    return d;
+}
+
+function resetLessonBoxes() {
+   $("#lesson1").prop('checked' , true)
+   $("#lesson2").prop('checked' , false)
+   $("#lesson3").prop('checked' , false)
+}
+
+function resetTypeBoxes() {
+  sectionType = "A";
+  $("#A").prop('checked' , true)
+  $("#B").prop('checked' , false)
+  $("#C").prop('checked' , false)
+}
+
+function toggleUsersAndSections() {
+    $('#SectionsBar').toggle();
+    $('#SectionsView').toggle();
+    $('#UsersBar').toggle();
+    $('#UsersView').toggle();
+}
+
+function submitGetRequest(url, handler) {
+    return $.getJSON(url, handler);
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////// Section Objects //////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
+var Section = function(name, start_date, end_date, day, start_time, end_time, teacher, enroll_max, waitlist_max, description, section_type, lesson_type) {
+    this.name = (name === undefined) ? "" : name;
+    this.start_date = (start_date === undefined) ? "" : start_date;
+    this.end_date = (end_date === undefined) ? "" : end_date;
+    this.day = (day === undefined) ? "" : day;
+    this.start_time = (start_time === undefined) ? "" : start_time;
+    this.end_time = (end_time === undefined) ? "" : end_time;
+    this.teacher = (teacher === undefined) ? "" : teacher;
+    this.enroll_max = (enroll_max === undefined) ? "" : enroll_max;
+    this.waitlist_max = (waitlist_max === undefined) ? "" : waitlist_max;
+    this.description = (description === undefined) ? "" : description;
+    this.section_type = (section_type === undefined) ? "" : section_type;
+    this.lesson_type = (lesson_type === undefined) ? "" : lesson_type;
+};
+Section.prototype.collectInput = function(action) {
+    for(var key in this) {
+        var identifier = "#" + action + "-" + key;
+        this[key] = $(identifier).val();
+        //alert("this[" + key + "] = " + this[key]);
+    }
+    this.name = "";
+    this.description = "";
+
+    if (this.section_type == "A") {
+        //alert(new Date(this.start_date).getDate() + 10);
+        //var myDate = new Date();
+        //myDate.setDate(new Date(this.start_date).getDate() + 9);
+        this.end_date = addDays(new Date(this.start_date), 10);
+        //this.end_date = myDate.getDate();
+        this.day = "MONDAY";
+    } else if (this.section_type == "B") {
+        // var myDate = new Date();
+        // myDate.setDate(new Date(this.start_date).getDate() + 7);
+        // this.end_date = myDate;
+        this.end_date = addDays(new Date(this.start_date), 8);
+        this.day = "SATURDAY";
+    } else if (this.section_type == "C") {
+        this.end_date = this.start_date
+        this.day = getDayString(new Date(this.start_date));
+    }
+
+    if (this.lesson_type == "PRIVATE") {
+        this.enroll_max = 1;
+        this.waitlist_max = 0;
+    }
+    return this;
+}
+//var currentView
+function extractSections(data){
+
+    for (var counter = 0, dictLen = data.length; counter < dictLen; counter++) {
+
+        var lesson_type = data[counter]['lesson_type']; 
+        var title = 'Section-C Available';
+        var id = data[counter]['id'];
+        var start = (data[counter]['start_date']).split("T")[0] + "T" + (data[counter]['start_time']).split("T")[1];
+
+        var dayInfo = new Date((data[counter]['start_date']).split("T")[0] + "T" + (data[counter]['start_time']).split("T")[1]);
+        
+        dayInfo.setHours(parseInt((data[counter]['start_time']).split("T")[1]));
+        dayInfo.setMinutes(parseInt((data[counter]['start_time']).split(":")[1]));
+
+
+        var end = (data[counter]['end_date']).split("T")[0]+ "T" + (data[counter]['end_time']).split("T")[1];
+        var className = 'Section-C';
+        var backgroundColor = 'red';
+
+
+        if (data[counter]['section_type'] =='A') {
+            title = 'Section-A Available';
+            backgroundColor = 'blue';
+            className = 'Section-A';
+            end = (data[counter]['start_date']).split("T")[0]+ "T" + (data[counter]['end_time']).split("T")[1];
+
+        } else if (data[counter]['section_type']=='B') {
+            title = 'Section-B Available';
+            className = 'Section-B';
+            backgroundColor = 'orange';
+
+        } 
+
+        var newSection = {'title':title, 'id':id, 'start':start, 'end':end, 'allDay':false,
+        'lesson_type':lesson_type,'dayInfo':dayInfo, 'className': className, 'backgroundColor':backgroundColor};
+
+        
+        events[index] = newSection;
+        index = index + 1;
+        
+        $(UserCalendar.identifier).fullCalendar( 'refetchEvents' );
+        $(UserCalendar.identifier).fullCalendar( 'rerenderEvents' );
+
+    }
+
+    return true;
+}
+
+//////////////////////////////////////////////////////
+////////////////// User Calendar /////////////////////
+//////////////////////////////////////////////////////
+var UserCalendar = function(input_events) {
+    //Instance Variable and Methods (ie input events dependant)
+    this.events = input_events;
+
+    this.calendarOptions =  {
+        header: UserCalendar.headerOptions,
+        editable: false,
+        events: input_events,
+        eventClick: UserCalendar.clickEvent,
+        dayClick: UserCalendar.clickDay,
+        viewDisplay: UserCalendar.disp,
+        
+    };
+
+    this.display = function() {
+        $(UserCalendar.identifier).fullCalendar(this.calendarOptions);
+    }
+}
+
+// Singleton Class per Page Static Methods
+UserCalendar.identifier = "#calendar";
+
+UserCalendar.headerOptions = {
+    left: 'prev,next today',
+    center: 'title',
+    right: 'month prev,next',
+};
+
+UserCalendar.disp = function (view ) {
+    if($(UserCalendar.identifier).fullCalendar('getView').name == "month"){
+
+        $('#Month').show()
+        $('#Day').hide()
+    }
+}
+
+UserCalendar.clickDay = function(date, jsEvent, view) {
+    if($(UserCalendar.identifier).fullCalendar('getView').name == "month"){
+        var radios = document.getElementsByName('radio-section-type');
+
+        for (var i = 0, length = radios.length; i < length; i++) {
+            if (radios[i].checked) {
+                sectionType = radios[i].value;
+            }
+        }
+
+        var radios = document.getElementsByName('radio-lesson-type');
+
+        for (var i = 0, length = radios.length; i < length; i++) {
+            if (radios[i].checked) {
+                lessonType = radios[i].value;
+            }
+        }
+
+        if ((sectionType == "A" && date.getDay() == 1) || (sectionType == "B" && date.getDay() == 6) || sectionType == "C") {
+            $('#createSectionModal').show();
+            document.create_section_form.create_section_start_date.value = date;
+            document.create_section_form.create_section_section_type.value = sectionType;
+            document.create_section_form.create_section_lesson_type.value = lessonType;
+            $('#createSectionModal-Create').show();
+        } else {
+            alert("Please click on Monday to create an A event or Saturday for a B event.");
+        }
+    }
+
+    $('#createSectionModal-Cancel').click(function() {
+        $('#createSectionModal').hide(); 
+    });
+
+    $('#createSectionModal-Close').click(function() {
+        $('#createSectionModal').hide(); 
+    });
+
+    $('#createSectionModal-Create').click(sendCreateSectionRequest);
+    
+}
+
+UserCalendar.clickEvent = function(calEvent, jsEvent, view) {
+    if(view.name=='agendaDay') {
+
+        $('#editSectionModal').show(); 
+        $('#modal-section').empty(); 
+        $('#modal-section').append(calEvent.className);
+        $('#modal-date').empty(); 
+        $('#modal-date').append(calEvent.dayInfo);
+        $('#modal-lesson').empty(); 
+        $('#modal-lesson').append(calEvent.lesson_type);
+        $('#editSectionModal-Delete').show();
+
+        idToSend = calEvent.id;
+        return true;
+    }
+}
+    // $("#sm-logout-button").click( function() {
+    //     json_request("/Users/logout", 
+    //         {}, 
+    //         function(data) { 
+    //             window.location.href = "/" }, 
+    //         function(err) { 
+    //             alert("error occurred on request"); }
+    //     );
+    //     return false;
+    // });             
+
+    // $("#create-instructor-errors").hide();
+    // $("#create-instructor-success").hide();
+    // $("#create-section-errors").hide();
+    // $("#create-section-success").hide();
+
+</script>
+
+
+        
+
+        
+</html>

@@ -1,9 +1,10 @@
 source 'https://rubygems.org'
 
 #gem 'bootstrap-sass', '2.1'
+
 gem 'rails', '3.2.12'
 gem 'jquery-rails', '2.0.2'
-gem 'jquery-cookie-rails', '1.3.1'
+# gem 'jquery-cookie-rails', '1.3.1'
 gem 'bcrypt-ruby', '3.0.1'
 gem 'rb-readline'
 # gem 'libnotify'
@@ -17,14 +18,14 @@ group :assets do
 end
 
 group :test, :development do
-  gem 'rspec-rails', '2.13.0'
+  gem 'rspec-rails'
   gem 'guard-spork', '1.5.0'
   gem 'spork', '0.9.2'
 end
 
 group :development do
   gem 'sqlite3', '1.3.5'
-  gem 'rspec-rails', '2.13.0'
+  # gem 'rspec-rails', '2.13.0'
 end
 
 group :test do

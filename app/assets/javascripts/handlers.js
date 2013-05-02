@@ -99,20 +99,23 @@ function handleProfileResponse(data) {
 }
 
 function handleCreateUserResponse(data) {
-  var error_message =  translateErrCode(data.errCode);
-  $("#create-user-errors").fadeOut(300);
-  $("#create-user-err-message").html(error_message);
-  
-  if(data.errCode!=1) {
-     $("#create-user-errors").show();
-     return data.errCode;
+  var not_ok_id = getStatusID(false, "create-user-errors");
+  var error_msg = translateErrCode(data.errCode);
+  $(not_ok_id).fadeOut(200);
+  $(not_ok_id).find("#create-user-err-message").html(error_msg);
+
+  if(data.errCode == 1 ) {
+    var ok_id = getStatusID(true, "create-user-success");
+    $(ok_id).fadeIn(600);
+    setTimeout(function(){window.location.replace("/Users/show");},600);
+    return true;
   }
   else {
-    $("#create-user-success").fadeIn(300);
-    setTimeout( function(){window.location.replace("/");}, 1600);
-    return 1;
+    $(not_ok_id).fadeIn(400);
+    return false;
   }
 }
+
 
 function handleRegisterSectionResponse(data) {
  var error_code = data.errCode;

@@ -59,8 +59,8 @@
             $(document).ready(function() {
                 resetTypeBoxes();
                 resetLessonBoxes();
-                document.create_section_form.create_section_max_enroll.disabled=true;
-                document.create_section_form.create_section_max_waitlist.disabled=true;
+                document.create_section_form.create_section_enroll_max.disabled=true;
+                document.create_section_form.create_section_waitlist_max.disabled=true;
               $("#create-instructor-button").click(sendCreateInstructorRequest);
                 $('#sm-update-user-button').click(sendUpdateUserRequest);
               init_password_update()
@@ -108,7 +108,7 @@
                 }
                 else {
                     $("#create-instructor-success").fadeIn(300);
-                    setTimeout( function(){window.location.replace("/newadmin");}, 1600);
+                    setTimeout( function(){window.location.replace("/admin");}, 1600);
                     return 1;
                 }
             }
@@ -123,7 +123,7 @@
                     return data.errCode;
                 } else {
                     $("#create-section-success").fadeIn(300);
-                    setTimeout( function(){window.location.replace("/newadmin");}, 1600);
+                    setTimeout( function(){window.location.replace("/admin");}, 1600);
                     return 1;
                 }
             }
@@ -559,7 +559,7 @@
                     $('#editSectionModal-Delete').click(function() {
                         
                         json_request("/Sections/delete", {'id':idToSend}, function(data) 
-                        { if (data.errCode == 1) {window.location.replace("/newadmin")};}, function(err) { alert('error occurred on request'); });
+                        { if (data.errCode == 1) {window.location.replace("/admin")};}, function(err) { alert('error occurred on request'); });
                         $('#editSectionModal').hide(); 
                     });
                     
@@ -1013,10 +1013,10 @@
                         </div>
                         <br><br>
                         <div class="span5 offset2"><label>Class Capacity</label></div>
-                        <div class="span3"><input style="width:100px;" type="long" name="create_section_max_enroll" id="create-section-max_enroll" disabled="false"></div>
+                        <div class="span3"><input style="width:100px;" type="long" name="create_section_enroll_max" id="create-section-enroll_max" disabled="false"></div>
                         <br><br>
                         <div class="span5 offset2"><label>Waitlist Capacity</label></div>
-                        <div class="span3"><input style="width:100px;" type="integer" name="create_section_max_waitlist" id="create-section-max_waitlist" disabled="false"></div>
+                        <div class="span3"><input style="width:100px;" type="integer" name="create_section_waitlist_max" id="create-section-waitlist_max" disabled="false"></div>
                         
                     </div>
                 </div>
@@ -1072,23 +1072,23 @@
            $("#lesson1").click( function() {
                 // $("#create-section-max-enroll").hide();
                 // $("#create-section-max-waitlist").hide();
-                document.create_section_form.create_section_max_enroll.disabled=true;
-                document.create_section_form.create_section_max_waitlist.disabled=true;
+                document.create_section_form.create_section_enroll_max.disabled=true;
+                document.create_section_form.create_section_waitlist_max.disabled=true;
             });
 
             $("#lesson2").click( function() {
                 // $("#create-section-max-enroll").show();
                 // $("#create-section-max-waitlist").show();
                 //alert(document.create_section_form);
-                document.create_section_form.create_section_max_enroll.disabled=false;
-                document.create_section_form.create_section_max_waitlist.disabled=false;
+                document.create_section_form.create_section_enroll_max.disabled=false;
+                document.create_section_form.create_section_waitlist_max.disabled=false;
             });
 
             $("#lesson3").click( function() {
                 // $("#create-section-max-enroll").show();
                 // $("#create-section-max-waitlist").show();
-                document.create_section_form.create_section_max_enroll.disabled=false;
-                document.create_section_form.create_section_max_waitlist.disabled=false;
+                document.create_section_form.create_section_enroll_max.disabled=false;
+                document.create_section_form.create_section_waitlist_max.disabled=false;
             });
 
             $('#CreateInstructorButton').click(function (){
