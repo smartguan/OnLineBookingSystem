@@ -465,20 +465,29 @@ Contact.prototype.collectInput = function(first_or_second) {
 				    case 1:
 				    	handle_reserve_message("You Have Been Successfully Resgistered !!...",'green');
 				    	break;
+
 				    case 301:
-				    	handle_reserve_message("You Are Currently Resgistered in This Class.",'red');
-				    	break;
-				    case 3:
-				    	handle_reserve_message("The Class is Currently Full. You Have Been Added to The Wait List",'orange');
-				    	break;
-				    case 4:
-				    	handle_reserve_message("This Class is Currently Full...",'red');
-				    	break;
-				    case 5:
-				    	handle_reserve_message("The Resgistration Deadline For This Class Has Expired",'red');
-				    	break;
-				    default:
-				    	handle_reserve_message(data.errCode+"Oooops! Something went really wrong. Please Contact Rancho Rinconada",'red');
+				    	switch (data.sections[0]['statusCode']){
+				    
+						    case 2:
+						    	handle_reserve_message("You Are Currently Resgistered in This Class.",'red');
+						    	break;
+
+
+						    case 3:
+						    	handle_reserve_message("The Class is Currently Full. You Have Been Added to The Wait List",'orange');
+						    	break;
+						    case 4:
+						    	handle_reserve_message("This Class is Currently Full...",'red');
+						    	break;
+						    case 5:
+						    	handle_reserve_message("The Resgistration Deadline For This Class Has Expired",'red');
+						    	break;
+						    default:
+						    	handle_reserve_message(data.errCode+"Oooops! Something went really wrong. Please Contact Rancho Rinconada",'red');
+						}
+					default:
+						handle_reserve_message(data.errCode+"Oooops! Something went really wrong. Please Contact Rancho Rinconada",'red');
 				    	
 				  }
 				}
