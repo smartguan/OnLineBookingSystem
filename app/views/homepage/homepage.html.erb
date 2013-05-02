@@ -448,7 +448,7 @@ Contact.prototype.collectInput = function(first_or_second) {
 					
 					json_request("/Registrations/register", {'section_id':idToSend}, function(data) 
 			   		{ return getErrorMessageReservation(data);}, function(err) { alert('error occurred on request'); });
-			   		$('#ulisesModal').hide(); 
+			   		//$('#ulisesModal').hide(); 
 				});
 
 
@@ -472,8 +472,6 @@ Contact.prototype.collectInput = function(first_or_second) {
 						    case 2:
 						    	handle_reserve_message("You Are Currently Resgistered in This Class.",'red');
 						    	break;
-
-
 						    case 3:
 						    	handle_reserve_message("The Class is Currently Full. You Have Been Added to The Wait List",'orange');
 						    	break;
@@ -484,10 +482,11 @@ Contact.prototype.collectInput = function(first_or_second) {
 						    	handle_reserve_message("The Resgistration Deadline For This Class Has Expired",'red');
 						    	break;
 						    default:
-						    	handle_reserve_message(data.errCode+"Oooops! Something went really wrong. Please Contact Rancho Rinconada",'red');
+						    	handle_reserve_message("Oooops! Something went really wrong. Please Contact Rancho Rinconada",'red');
 						}
+						break;
 					default:
-						handle_reserve_message(data.errCode+"Oooops! Something went really wrong. Please Contact Rancho Rinconada",'red');
+						handle_reserve_message("Oooops! Something went really wrong. Please Contact Rancho Rinconada",'red');
 				    	
 				  }
 				}
