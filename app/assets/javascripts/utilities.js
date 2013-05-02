@@ -30,7 +30,7 @@ function pop(obj,key) {
   return retval;
 }
 function isValid(val) {
-    return !(val===null || val===undefined);
+    return !(val===undefined || val===null);
 }
 function parseTime(timeIn) {
     time = timeIn.split('T')[1].split('Z')[0].split(':')
@@ -66,5 +66,17 @@ function post_json_request(page, dict, success) {
         contentType: "application/json",
         dataType: "json",
         success: success
+    });
+}
+
+function json_request(page, dict, success, failure) {
+    $.ajax({
+        type: 'POST',
+        url: page,
+        data: JSON.stringify(dict),
+        contentType: "application/json",
+        dataType: "json",
+        success: success,
+        failure: failure
     });
 }

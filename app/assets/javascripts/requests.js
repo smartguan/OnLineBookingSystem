@@ -40,7 +40,6 @@ function dropSectionButtonClick(event) {
 function sendCreateUserRequest() {
   $("#create-user-err-message").empty();
   var inputUser = new User();
-
-  post_json_request("/MemberStudents/add", inputUser.collectInput("create"), handleCreateUserResponse);
+  post_json_request("/MemberStudents/add", User.collectInput("create", inputUser), handleCreateUserResponse);
   return false;
 }
