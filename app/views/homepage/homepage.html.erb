@@ -443,12 +443,45 @@ Contact.prototype.collectInput = function(first_or_second) {
 			   		$('#ulisesModal').hide(); 
 				});
 
+				// Setting the error message for reservations
 				$('#ulisesModal-Reserve').click(function() {
 					
 					json_request("/Registrations/register", {'section_id':idToSend}, function(data) 
-			   		{ return alert(data.errCode);}, function(err) { alert('error occurred on request'); });
+			   		{ return getErrorMessageReservation(data);}, function(err) { alert('error occurred on request'); });
 			   		$('#ulisesModal').hide(); 
 				});
+
+
+				function handle_reserve_message(message, colour) {
+					$('font17px#err_message').empty();
+					$('font17px#err_message').css('font-size','12px');
+					$('font17px#err_message').css('color',colour);
+					$('font17px#err_message').append(message);
+				}
+
+				function getErrorMessageReservation(data) {
+				  switch (data.errCode){
+
+				    case 1:
+				    	handle_reserve_message("You Have Been Successfully Resgistered !!...",'green');
+				    	break;
+				    case 301:
+				    	handle_reserve_message("You Are Currently Resgistered in This Class.",'red');
+				    	break;
+				    case 3:
+				    	handle_reserve_message("The Class is Currently Full. You Have Been Added to The Wait List",'orange');
+				    	break;
+				    case 4:
+				    	handle_reserve_message("This Class is Currently Full...",'red');
+				    	break;
+				    case 5:
+				    	handle_reserve_message("The Resgistration Deadline For This Class Has Expired",'red');
+				    	break;
+				    default:
+				    	handle_reserve_message(data.errCode+"Oooops! Something went really wrong. Please Contact Rancho Rinconada",'red');
+				    	
+				  }
+				}
 
 				$('#ulisesModal-Sing').click(function (){
 					$('font17px#err_message').empty();
@@ -528,7 +561,8 @@ Contact.prototype.collectInput = function(first_or_second) {
 	    		<h4><p>- Selected Date and Time -</p></h4>
 	    		<p style="color:gray" id="modal-date">date and time</p><br>
 	    		<h4><p>- Lesson Type Information -</p></h4>
-	    		<p style="color:gray" id="modal-lesson">lesson</p>
+	    		<p style="color:gray" id="modal-lesson">lesson</p><br>
+	    		<font17px id="err_message"></font17px><br>
 	  		</div>
 
 	  		<div class="modal-footer">
@@ -1148,6 +1182,10 @@ Contact.prototype.collectInput = function(first_or_second) {
 			  }
 			}
 
+			$('#SignDropDown').click(function() {
+				$('#ulisesModal').hide(300);
+			});
+
 			$('#login-button2').click(function() {
 			   email = $('#inputEmail').val()
 			   password = $('#inputPassword').val()
@@ -1190,12 +1228,6 @@ Contact.prototype.collectInput = function(first_or_second) {
 			    	}   
 			  }
 			}
-
-			// $(function() {
-				// $('#login-button2').click(function() {
-    				// $('#ulisesSignInModal').modal('hide');
-				// });
-			// });
 
 
 			$("#sm-logout-button").click( function() {
