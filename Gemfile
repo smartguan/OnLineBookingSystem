@@ -6,7 +6,7 @@ gem 'rails', '3.2.12'
 gem 'jquery-rails', '2.0.2'
 # gem 'jquery-cookie-rails', '1.3.1'
 gem 'bcrypt-ruby', '3.0.1'
-gem 'rb-readline'
+gem 'rb-readline', '0.4.2'
 # gem 'libnotify'
 gem 'simplecov', :require => false, :group => :test
 
