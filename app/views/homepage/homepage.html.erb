@@ -100,7 +100,7 @@ function init_user_home(data) {
   	var isValidData = data === undefined || data === null;
   	var isValid = data.errCode === undefined || data.errCode === null;
 
-	if(!isValidData && !isValid && data.errCode==1 && document.cookie.indexOf('user_id') != -1) {
+	if(!isValidData && !isValid && data.errCode==1 && document.cookie.indexOf('remember_token') != -1) {
 	  	$('#WelcomeDropDown').show();
 	}
 	else {
@@ -418,7 +418,7 @@ Contact.prototype.collectInput = function(first_or_second) {
 					$('#modal-lesson').empty(); 
 					$('#modal-lesson').append(calEvent.lesson_type);
 					
-					if (document.cookie.indexOf('user_id') != -1){
+					if (document.cookie.indexOf('remember_token') != -1){
 						$('#ulisesModal-Guest').hide();
 						$('#ulisesModal-Account').hide();
 						$('#ulisesModal-Reserve').show();

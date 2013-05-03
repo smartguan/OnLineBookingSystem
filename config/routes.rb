@@ -68,6 +68,7 @@ Cs169::Application.routes.draw do
   match '/Admin/delete', to: 'admin#delete'
   match '/Admin/exportUsers', to: 'admin#exportUsers'
   match '/Admin/exportSections', to: 'admin#exportSections'
+  match '/Admin/allUsers', to: 'admin#allUsers'
 
   # vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv #
   # Please Keep all routes below unchanged. 
