@@ -9,9 +9,10 @@ gem 'bcrypt-ruby', '3.0.1'
 gem 'rb-readline', '0.4.2'
 # gem 'libnotify'
 gem 'simplecov', :require => false, :group => :test
+  
+gem "twitter-bootstrap-rails"
 
 group :assets do
-  gem "twitter-bootstrap-rails"
   gem 'sass-rails',   '3.2.5'
   gem 'coffee-rails', '3.2.2'
   gem 'uglifier', '1.2.3'
