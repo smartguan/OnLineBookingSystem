@@ -77,7 +77,6 @@
 /////////////////////// Jquery events and clicks ////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 $(document).ready(function() {
-	resetTypeBoxes();
   $("#create-user-button").click(sendCreateUserRequest);
 	$('#sm-update-user-button').click(sendUpdateUserRequest);
   init_password_update()
@@ -321,6 +320,7 @@ Contact.prototype.collectInput = function(first_or_second) {
 
 		    function extractSections(data){
 
+
 		    	for (var counter = 0, dictLen = data.length; counter < dictLen; counter++) {
 
 		    		var lesson_type = data[counter]['lesson_type']; 
@@ -349,6 +349,7 @@ Contact.prototype.collectInput = function(first_or_second) {
 			    		title = 'Section-B Available';
 			    		className = 'Section-B';
 			    		backgroundColor = 'orange';
+			    		end = (data[counter]['start_date']).split("T")[0]+ "T" + (data[counter]['end_time']).split("T")[1];
 
 			    	} 
 
@@ -402,6 +403,7 @@ Contact.prototype.collectInput = function(first_or_second) {
 
 					$('#Month').show()
 					$('#Day').hide()
+					resetTypeBoxes()
 				}
 			}
 
@@ -449,6 +451,7 @@ Contact.prototype.collectInput = function(first_or_second) {
 					json_request("/Registrations/register", {'section_id':idToSend}, function(data) 
 			   		{ return getErrorMessageReservation(data);}, function(err) { alert('error occurred on request'); });
 			   		//$('#ulisesModal').hide(); 
+			   		$('font17px#err_message').empty();
 				});
 
 
@@ -623,7 +626,7 @@ Contact.prototype.collectInput = function(first_or_second) {
 
 		<!-- Ulises' Modals end Here -->
 
-		<body2>
+		<body3>
 			<div class="navbar navbar-inverse nav navbar-fixed-top">
 			    <div class="navbar-inner">
 			    	<div class="container" style="width:1265px">
@@ -691,9 +694,9 @@ Contact.prototype.collectInput = function(first_or_second) {
 			    </div>
 			</div>
 
-		</body2>
+		</body3>
 
-		<div class="container-fluid"><body2>
+		<div class="container-fluid"><body3>
 
 			<div class="row-fluid">
 
@@ -755,7 +758,7 @@ Contact.prototype.collectInput = function(first_or_second) {
 				</div>
 
 			</div>
-		</body2></div>
+		</body3></div>
 
 		<div class="navbar navbar-fixed-bottom navbar-inverse">
 				<div class="navbar-inner">
