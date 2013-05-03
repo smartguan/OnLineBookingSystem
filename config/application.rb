@@ -59,5 +59,8 @@ module Cs169
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+    # Disable rails to bootstrap the application during assets compilation
+    config.assets.initialize_on_precompile = false
   end
 end
