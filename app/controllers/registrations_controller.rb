@@ -37,7 +37,7 @@ class RegistrationsController < ApplicationController
     @sec = Section.find_by_id(params[:section_id])
     
     respond_to do |format|
-      if @student.sections.exists?(:name => @sec.name) or
+      if @student.sections.exists?(:id => @sec.id) or
          @sec.students.exists?(:id=>@student.id)
         format.json { render json: { sections:[{section_id:@sec.id, 
                                                 section_name:@sec.name, 
@@ -54,7 +54,8 @@ class RegistrationsController < ApplicationController
                                                 waitlist_place:@reg.waitlist_place,
                                                 statusCode:3}],
                                      errCode:301} }        
-      elsif @sec.waitlist_cur == @sec.waitlist_max
+      elsif @sec.waitlist_cur == @sec.waitlist_max and
+            @sec.waitlist_max != 0
         format.json { render json: { sections:[{section_id:@sec.id, 
                                                 section_name:@sec.name, 
                                                 statusCode:4}],
