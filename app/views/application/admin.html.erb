@@ -14,6 +14,7 @@
         <script type="text/javascript" src="/assets/jquery-1.9.1.min.js"></script>
         <script src='assets/fullcalendar/fullcalendar.min.js'></script>
         <script type="text/javascript" src='assets/date.js'></script>
+        <script type="text/javascript" src='assets/admin.js'></script>
 
         <link type="text/css" rel="stylesheet" href='/assets/fullcalendar/fullcalendar.css' rel='stylesheet' />
         <link type="text/css" rel="stylesheet" href='/assets/fullcalendar/fullcalendar.print.css' rel='stylesheet' media='print' />
@@ -57,6 +58,7 @@
             /////////////////////// Jquery events and clicks ////////////////////////////////////
             /////////////////////////////////////////////////////////////////////////////////////
             $(document).ready(function() {
+                init_user_data();
                 resetTypeBoxes();
                 resetLessonBoxes();
                 document.create_section_form.create_section_enroll_max.disabled=true;
@@ -108,7 +110,7 @@
                 }
                 else {
                     $("#create-instructor-success").fadeIn(300);
-                    setTimeout( function(){window.location.replace("/admin");}, 1600);
+                    setTimeout( function(){window.location.replace("/admin");}, 800);
                     return 1;
                 }
             }
@@ -123,7 +125,7 @@
                     return data.errCode;
                 } else {
                     $("#create-section-success").fadeIn(300);
-                    setTimeout( function(){window.location.replace("/admin");}, 1600);
+                    setTimeout( function(){window.location.replace("/admin");}, 800);
                     return 1;
                 }
             }
@@ -688,7 +690,7 @@
 
                 <div class="span3">
 
-                    <position-fixed-top>
+                    <!--position-fixed-top-->
                         <div class="span10">
                             
                             <div id="SectionsBar">
@@ -768,7 +770,7 @@
                             </div-->
                         </div>
                     </div>
-                    </position-fix-top>
+                    <!--/position-fix-top-->
                 </div>
             
 
@@ -782,9 +784,10 @@
                         
                     </div>
 
-                    <div id="UsersView" class="span9">
-                        <div id="UsersTable" class="alert alert-info">
+                    <div id="UsersView" class="alert alert-info">
+                        <div id="UsersTable">
                             <h3>Users Table here</h3>
+                            <div id="sec-table"><table id="user-table" class='table'></table></div>
                         </div>
                     </div>
                 </div>
