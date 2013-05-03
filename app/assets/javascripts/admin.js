@@ -24,6 +24,17 @@ function get_json_request(page, dict, success) {
   });
 }
 
+function handle_add_response(data) {
+  if (data.errCode == 1) {
+    $('#user-table').fadeOut('slow', function() {
+        post_json_request("/Admin/allUsers", {}, function(data) {loadingUsers(data)});
+        $('#user-table').fadeIn('fast');
+    })
+  } else {
+    alert(translateErrCode(data.errCode));
+  }
+}
+
 function handle_edit_response(data) {
     if (data.errCode == 1) {
         //alert(data.sections[0].teacher);
@@ -36,12 +47,12 @@ function handle_edit_response(data) {
 }
 
 function init_user_data() {
-    post_json_request("/Instructors/getAllInstructors", {}, function(data) {loadingUsers(data)})
+    post_json_request("/Admin/allUsers", {}, function(data) {loadingUsers(data)})
     //post_json_request("/Sections/getAllSections", {}, function(data) {loadingSections(data)})
 }
 
 function loadingUsers(data){
-    var json = data.instructors
+    var json = data.users
     if(json.length > 0){
         createUserTable(json);
     } else {
@@ -142,7 +153,7 @@ function createUserTable(jsonString){
         bt.id = 'delete-section';
         bt.value = 'Delete';
         bt.style.width = '60px';
-        bt.onclick = function() {post_json_request("/Users/delete", { name: $(this).closest('tr').children('td:first').text() }, function(data) { return handle_add_response(data); });};
+        bt.onclick = function() {post_json_request("/Admin/delete", { id: $(this).closest('tr').children('td:first').text() }, function(data) { return handle_add_response(data); });};
         //bt.onclick = function() {alert($(this).closest('tr').children('td:first').text())};
 
         row.appendChild(bt);
