@@ -43,7 +43,7 @@ class MemberStudentsController < ApplicationController
     respond_to do |format| 
       if user.save
         format.json { render json: { errCode: SUCCESS } } 
-        cookies[:user_id] = user.id
+        cookies[:remember_token] = user.remember_token
       else 
         if user.errors.messages[:first] 
           format.json { render json: { errCode: FIRST_NOT_VALID } }

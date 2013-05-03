@@ -30,8 +30,8 @@ class SectionsController < ApplicationController
   def create
     @sec = newSection
     respond_to do |format|
-      current_user = User.where( :id => cookies[:user_id] ).first
-      if current_user == nil or current_user.type == "admin"
+      current_user = User.where( :remember_token => cookies[:remember_token] ).first
+      if current_user == nil or current_user.type != "Admin"
         format.json { render json: { name:params[:name], errCode:209 } }
       elsif @sec.save
         teacher = params[:teacher].split(" ")
@@ -53,8 +53,8 @@ class SectionsController < ApplicationController
     @sec = Section.find_by_id(params[:id])
 
     respond_to do |format|
-      current_user = User.where( :id => cookies[:user_id] ).first
-      if current_user == nil or current_user.type == "admin"
+      current_user = User.where( :remember_token => cookies[:remember_token] ).first
+      if current_user == nil or current_user.type != "Admin"
         format.json { render json: { name:params[:name], errCode:209 } }
       elsif @sec.update_attributes(day:params[:day], 
                                 description:params[:description], 
@@ -78,8 +78,8 @@ class SectionsController < ApplicationController
     @sec = Section.find_by_id(params[:id])
 
     respond_to do |format|
-      current_user = User.where( :id => cookies[:user_id] ).first
-      if current_user == nil or current_user.type == "admin"
+      current_user = User.where( :remember_token => cookies[:remember_token] ).first
+      if current_user == nil or current_user.type != "Admin"
         format.json { render json: { name:params[:name], errCode:209 } }
       elsif @sec.destroy
         returnSuccess format

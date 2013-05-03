@@ -31,13 +31,13 @@ class RegistrationsController < ApplicationController
 
   #for students to register for sections
   def register
-    if cookies[:user_id] != nil
-      @student = Student.find_by_id(cookies[:user_id])
+    if cookies[:remember_token] != nil
+      @student = Student.find_by_remember_token(cookies[:remember_token])
     end
     @sec = Section.find_by_id(params[:section_id])
     
     respond_to do |format|
-      if @student.sections.exists?(:name => @sec.name) or
+      if @student.sections.exists?(:id => @sec.id) or
          @sec.students.exists?(:id=>@student.id)
         format.json { render json: { sections:[{section_id:@sec.id, 
                                                 section_name:@sec.name, 
@@ -54,7 +54,8 @@ class RegistrationsController < ApplicationController
                                                 waitlist_place:@reg.waitlist_place,
                                                 statusCode:3}],
                                      errCode:301} }        
-      elsif @sec.waitlist_cur == @sec.waitlist_max
+      elsif @sec.waitlist_cur == @sec.waitlist_max and
+            @sec.waitlist_max != 0
         format.json { render json: { sections:[{section_id:@sec.id, 
                                                 section_name:@sec.name, 
                                                 statusCode:4}],
@@ -78,8 +79,8 @@ class RegistrationsController < ApplicationController
 
   #for students to drop a registered section
   def drop
-    if cookies[:user_id] != nil
-      @student = Student.find_by_id(cookies[:user_id])
+    if cookies[:remember_token] != nil
+      @student = Student.find_by_remember_token(cookies[:remember_token])
     end
     @sec = Section.find_by_id(params[:section_id])
     
@@ -122,8 +123,8 @@ class RegistrationsController < ApplicationController
 
   #for students to view his/her enrolled sections
   def getEnrolledSections
-    if cookies[:user_id] != nil
-      @student = Student.find_by_id(cookies[:user_id])
+    if cookies[:remember_token] != nil
+      @student = Student.find_by_remember_token(cookies[:remember_token])
     end
     
     respond_to do |format|
@@ -152,8 +153,8 @@ class RegistrationsController < ApplicationController
 
   # drop a section and get the rest enrolled sections
   def dropAndGetEnrolledSections
-    if cookies[:user_id] != nil
-      @student = Student.find_by_id(cookies[:user_id])
+    if cookies[:remember_token] != nil
+      @student = Student.find_by_remember_token(cookies[:remember_token])
     end
     @sec = Section.find_by_id(params[:section_id])
     
