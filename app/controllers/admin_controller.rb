@@ -154,7 +154,7 @@ class AdminController < ApplicationController
   def allUsers 
     respond_to do |format|
       if cookies.has_key?(:remember_token)
-        format.json { render json: { errCode: SUCCESS users: User.all } }
+        format.json { render json: { errCode: SUCCESS, users: User.all } }
       else
         format.json { render json: { errCode: NOT_ADMIN } }
       end
