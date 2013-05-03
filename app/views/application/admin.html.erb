@@ -415,7 +415,11 @@
                         dayInfo.setHours(parseInt((data[counter]['start_time']).split("T")[1]));
                         dayInfo.setMinutes(parseInt((data[counter]['start_time']).split(":")[1]));
 
-
+                        var teacher = data[counter]['teacher']
+                        var yourmomenroll = data[counter]['enroll_cur'];
+                        var yourmomenrollmax = data[counter]['enroll_max'];
+                        var yourmomwaitlistenroll = data[counter]['waitlist_cur'];
+                        var yourmomwaitlistenrollmax = data[counter]['waitlist_max'];
                         var end = (data[counter]['end_date']).split("T")[0]+ "T" + (data[counter]['end_time']).split("T")[1];
                         var className = 'Section-C';
                         var backgroundColor = 'red';
@@ -436,7 +440,7 @@
                         } 
 
                         var newSection = {'title':title, 'id':id, 'start':start, 'end':end, 'allDay':false,
-                        'lesson_type':lesson_type,'dayInfo':dayInfo, 'className': className, 'backgroundColor':backgroundColor};
+                        'lesson_type':lesson_type,'dayInfo':dayInfo, 'className': className, 'backgroundColor':backgroundColor, 'teacher': teacher, 'yourmomenroll': yourmomenroll, 'yourmomenrollmax': yourmomenrollmax, 'yourmomwaitlistenroll': yourmomwaitlistenroll, 'yourmomwaitlistenrollmax': yourmomwaitlistenrollmax};
 
                         
                         events[index] = newSection;
@@ -543,6 +547,16 @@
                         $('#modal-date').append(calEvent.dayInfo);
                         $('#modal-lesson').empty(); 
                         $('#modal-lesson').append(calEvent.lesson_type);
+                        $('#modal-instructor').empty();
+                        $('#modal-instructor').append(calEvent.teacher);
+                        $('#modal-currentEnroll').empty();
+                        $('#modal-currentEnroll').append(calEvent.yourmomenroll);
+                        $('#modal-currentMax').empty();
+                        $('#modal-currentMax').append(calEvent.yourmomenrollmax);
+                        $('#modal-waitlistEnroll').empty();
+                        $('#modal-waitlistEnroll').append(calEvent.yourmomwaitlistenroll);
+                        $('#modal-waitlistMax').empty();
+                        $('#modal-waitlistMax').append(calEvent.yourmomwaitlistenrollmax);
                         $('#editSectionModal-Delete').show();
 
                         idToSend = calEvent.id;
@@ -621,12 +635,23 @@
             </div>
 
             <div class="modal-body">
-                <h4><p>- Section Information -</p></h4>
-                <p style="color:gray" id="modal-section"> section</p><br>
+                <!--h4><p>- Section Information -</p></h4>
+                <p style="color:gray" id="modal-section"> section</p-->
                 <h4><p>- Selected Date and Time -</p></h4>
-                <p style="color:gray" id="modal-date">date and time</p><br>
-                <h4><p>- Lesson Type Information -</p></h4>
-                <p style="color:gray" id="modal-lesson">lesson</p>
+                <p style="color:gray" id="modal-date">date and time</p>
+                <center><table>
+                <tr><td><center><h4><p>- Lesson Type -</p></h4>
+                <p style="color:gray" id="modal-lesson">lesson</p></center></td><td></td>
+                <td><center><h4><p>- Instructor -</p></h4>
+                <p style="color:gray" id="modal-instructor">instructor</p></center></td></tr>
+                <tr><td><center><h4><p>- Current Enrollment -</p></h4>
+                <p style="color:gray" id="modal-currentEnroll">0</p></center></td><td></td>
+                <td><center><h4><p>- Max Enrollment -</p></h4>
+                <p style="color:gray" id="modal-currentMax">0</p></center></td></tr>
+                <tr><td><center><h4><p>- Current Waitlist -</p></h4>
+                <p style="color:gray" id="modal-waitlistEnroll">0</p></center></td><td></td>
+                <td><center><h4><p>- Max Waitlist -</p></h4>
+                <p style="color:gray" id="modal-waitlistMax">0</p></center></td></tr></table></center>
             </div>
 
             <div class="modal-footer">
@@ -787,7 +812,7 @@
 
                     <div id="UsersView" class="alert alert-info">
                         <div id="UsersTable">
-                            <h3>Users Table here</h3>
+                            <h3>Users Table</h3>
                             <div id="sec-table"><table id="user-table" class='table'></table></div>
                         </div>
                     </div>
