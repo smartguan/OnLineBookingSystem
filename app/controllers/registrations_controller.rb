@@ -31,8 +31,8 @@ class RegistrationsController < ApplicationController
 
   #for students to register for sections
   def register
-    if cookies[:user_id] != nil
-      @student = Student.find_by_id(cookies[:user_id])
+    if cookies[:remember_token] != nil
+      @student = Student.find_by_remember_token(cookies[:remember_token])
     end
     @sec = Section.find_by_id(params[:section_id])
     
@@ -79,8 +79,8 @@ class RegistrationsController < ApplicationController
 
   #for students to drop a registered section
   def drop
-    if cookies[:user_id] != nil
-      @student = Student.find_by_id(cookies[:user_id])
+    if cookies[:remember_token] != nil
+      @student = Student.find_by_remember_token(cookies[:remember_token])
     end
     @sec = Section.find_by_id(params[:section_id])
     
@@ -123,8 +123,8 @@ class RegistrationsController < ApplicationController
 
   #for students to view his/her enrolled sections
   def getEnrolledSections
-    if cookies[:user_id] != nil
-      @student = Student.find_by_id(cookies[:user_id])
+    if cookies[:remember_token] != nil
+      @student = Student.find_by_remember_token(cookies[:remember_token])
     end
     
     respond_to do |format|
@@ -153,8 +153,8 @@ class RegistrationsController < ApplicationController
 
   # drop a section and get the rest enrolled sections
   def dropAndGetEnrolledSections
-    if cookies[:user_id] != nil
-      @student = Student.find_by_id(cookies[:user_id])
+    if cookies[:remember_token] != nil
+      @student = Student.find_by_remember_token(cookies[:remember_token])
     end
     @sec = Section.find_by_id(params[:section_id])
     

@@ -45,7 +45,7 @@ class AnonymousStudentsController < ApplicationController
       if user.save
         format.json { render json: { errCode: SUCCESS, 
                                      access_code: rand_five_digit } } 
-        cookies[:user_id] = user.id
+        cookies[:remember_token] = user.remember_token
       else 
         if user.errors.messages[:first] 
           format.json { render json: { errCode: FIRST_NOT_VALID } }

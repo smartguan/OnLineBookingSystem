@@ -25,25 +25,25 @@ class AdminController < ApplicationController
   DEFAULT = 999
   
   def init
-    respond_to do |format|
-      Admin.create(first: "first", last: "last", email: "admin@admin.org",
-                   password: "password", password_confirmation: "password",
-                   dob: "11/22/1234", zip: "12345", address: "123 a st.",
-                   city: "admin town", contact_one: "mom",
-                   contact_one_primary: "(111) 222-3333",
-                   contact_one_secondary: "(111) 222-3333",
-                   contact_two: "dad",
-                   contact_two_primary: "(111) 222-3333",
-                   contact_two_secondary: "(111) 222-3333",
-                   skill: "advanced", gender: "other", access_code: 0,
-                   extra: "", zip: "12345")
-    end
+    Admin.create(first: "first", last: "last", email: "admin@admin.org",
+                 password: "password", password_confirmation: "password",
+                 dob: "11/22/1234", zip: "12345", address: "123 a st.",
+                 city: "admin town", contact_one: "mom",
+                 contact_one_primary: "(111) 222-3333",
+                 contact_one_secondary: "(111) 222-3333",
+                 contact_two: "dad",
+                 contact_two_primary: "(111) 222-3333",
+                 contact_two_secondary: "(111) 222-3333",
+                 skill: "advanced", gender: "other", access_code: 0,
+                 extra: "", zip: "12345")
+    redirect_to "/"
+    return
   end
 
   def addInstructor
     respond_to do |format| 
-      if cookies.has_key?(:user_id)
-        user = User.find(cookies[:user_id])
+      if cookies.has_key?(:remember_token)
+        user = User.find_by_remember_token(cookies[:remember_token])
       else
         format.json { render json: { errCode: NOT_ADMIN } } 
       end
@@ -103,15 +103,15 @@ class AdminController < ApplicationController
           end
         end
       else
-        format.json { render json: { errCode: DEFAULT } }
+        format.json { render json: { errCode: NOT_ADMIN } }
       end
     end
   end
 
   def delete
     respond_to do |format| 
-      if cookies.has_key?(:user_id)
-        user = User.find(cookies[:user_id])
+      if cookies.has_key?(:remember_token)
+        user = User.find_by_remember_token(cookies[:remember_token])
       else
         format.json { render json: { errCode: NOT_ADMIN } } 
       end
@@ -130,8 +130,8 @@ class AdminController < ApplicationController
   end
 
   def exportUsers
-    if cookies.has_key?(:user_id)
-      user = User.find(cookies[:user_id])
+    if cookies.has_key?(:remember_token)
+      user = User.find_by_remember_token(cookies[:remember_token])
       if user.type == "Admin" 
         users = User.order(:type)
         database = users.to_csv
@@ -141,8 +141,8 @@ class AdminController < ApplicationController
   end
   
   def exportSections
-    if cookies.has_key?(:user_id)
-      user = User.find(cookies[:user_id])
+    if cookies.has_key?(:remember_token)
+      user = User.find_by_remember_token(cookies[:remember_token])
       if user.type == "Admin" 
         sections = Section.order(:start_date)
         database = sections.to_csv
