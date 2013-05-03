@@ -33,7 +33,7 @@ class UsersController < ApplicationController
         format.json { render json: { errCode: BAD_CREDENTIALS } }
       elsif user.authenticate(params[:password])
         format.json { render json: { errCode: SUCCESS, type: user.type } }
-        cookies[:user_id] = user.id
+        cookies[:remember_token] = user.remember_token
       else
         format.json { render json: { errCode: BAD_CREDENTIALS } }
       end
@@ -41,8 +41,8 @@ class UsersController < ApplicationController
   end
 
   def update
-    if cookies.has_key?(:user_id)
-      user = User.find(cookies[:user_id])
+    if cookies.has_key?(:remember_token)
+      user = User.find_by_remember_token(cookies[:remember_token])
     else
       user = nil
     end
@@ -163,8 +163,8 @@ class UsersController < ApplicationController
   end
 
   def updatePassword
-    if cookies.has_key?(:user_id)
-      user = User.find(cookies[:user_id])
+    if cookies.has_key?(:remember_token)
+      user = User.find_by_remember_token(cookies[:remember_token])
     else
       user = nil
     end
@@ -193,8 +193,8 @@ class UsersController < ApplicationController
   end
   
   def profile
-    if cookies.has_key?(:user_id)
-      user = User.find(cookies[:user_id])
+    if cookies.has_key?(:remember_token)
+      user = User.find_by_remember_token(cookies[:remember_token])
     else
       user = nil
     end
@@ -223,8 +223,8 @@ class UsersController < ApplicationController
 
   def logout  
     respond_to do |format|
-      if cookies.has_key?(:user_id)
-        cookies.delete(:user_id)
+      if cookies.has_key?(:remember_token)
+        cookies.delete(:remember_token)
         format.json { render json: { errCode: SUCCESS } }
       else
         format.json { render json: { errCode: BAD_CREDENTIALS } }
